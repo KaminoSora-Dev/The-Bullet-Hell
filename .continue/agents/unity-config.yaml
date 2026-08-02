@@ -1,0 +1,15 @@
+models:
+  - title: "Llama 3 70B (Groq - ตัวหลักฉลาดสุด)"
+    provider: "groq"
+    model: "llama3-70b-8192"
+    apiKey: "ใส่_API_Key_ที่ก๊อปมาจาก_Groq_ตรงนี้"
+    roles:
+      - chat
+      - edit
+      - apply
+
+tabAutocompleteModel:
+  title: "Llama 3 8B (Groq - ตัวช่วยเติมโค้ด)"
+  provider: "groq"
+  model: "llama3-8b-8192"
+  apiKey: "ใส่_API_Key_ที่ก๊อปมาจาก_Groq_ตรงนี้"

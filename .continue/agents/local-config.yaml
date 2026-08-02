@@ -1,0 +1,72 @@
+name: Local Config
+version: 1.0.0
+schema: v1
+
+models:
+  # Main AI Assistant
+  - name: Qwen
+    provider: ollama
+    model: qwen3.5:4b
+    apiBase: http://localhost:11434
+
+    roles:
+      - chat
+      - edit
+      - apply
+
+    defaultCompletionOptions:
+      contextLength: 8192
+      temperature: 0.7
+      maxTokens: 2048
+
+    requestOptions:
+      extraBodyProperties:
+        think: false
+
+
+  # Fast Autocomplete
+  - name: Llama
+    provider: ollama
+    model: llama3.2:latest
+    apiBase: http://localhost:11434
+
+    roles:
+      - autocomplete
+
+    autocompleteOptions:
+      debounceDelay: 250
+      maxPromptTokens: 1024
+      onlyMyCode: true
+      useCache: true
+
+    defaultCompletionOptions:
+      contextLength: 4096
+      temperature: 0.2
+
+
+  # Deep Analysis / Documentation
+  - name: Gemma
+    provider: ollama
+    model: gemma4:e4b
+    apiBase: http://localhost:11434
+
+    roles:
+      - chat
+      - edit
+      - summarize
+
+    defaultCompletionOptions:
+      contextLength: 8192
+      temperature: 0.6
+      maxTokens: 2048
+
+context:
+  - provider: file
+  - provider: folder
+  - provider: codebase
+  - provider: terminal
+  - provider: diff
+  - provider: problems
+  - provider: open
+  - provider: url
+  - provider: docs
