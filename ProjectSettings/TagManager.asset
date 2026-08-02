@@ -11,6 +11,8 @@ TagManager:
   - PlayerBullet
   - PlayerHeart
   - UIBorder
+  - HiddenBorder
+  - EnemyBorder
   layers:
   - Default
   - TransparentFX
@@ -47,6 +49,27 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 191808993
+    locked: 0
+  - name: PlayerBullet
+    uniqueID: 2760287147
+    locked: 0
+  - name: EnemyBullet
+    uniqueID: 954265293
+    locked: 0
+  - name: Enemy
+    uniqueID: 3141501637
+    locked: 0
+  - name: Player
+    uniqueID: 3883488617
+    locked: 0
+  - name: Effects
+    uniqueID: 522634395
+    locked: 0
+  - name: UI
+    uniqueID: 3091577503
     locked: 0
   m_RenderingLayers:
   - Default

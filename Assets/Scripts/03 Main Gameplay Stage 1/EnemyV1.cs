@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using PlayerSystem;
 
 namespace EnemySystem
 {
@@ -28,6 +29,7 @@ namespace EnemySystem
         public EaseType easeType = EaseType.Linear;
     }
 
+    [RequireComponent(typeof(Rigidbody2D))]
     public class EnemyV1 : MonoBehaviour
     {
         [Header("Health")]
@@ -57,6 +59,10 @@ namespace EnemySystem
         private Color originalColor;
         private bool isDead;
 
+        // Rigidbody2D จำเป็นแค่เพื่อให้เกิด OnTriggerEnter2D ตอนชน Player เท่านั้น
+        // (Player เอา Rigidbody2D ออกไปแล้ว - กฎ 2D Trigger ต้องมีฝั่งใดฝั่งหนึ่งมี Rigidbody2D)
+        private Rigidbody2D rb;
+
         // death blink state
         private float blinkTimer;
         private int blinksDone;
@@ -74,6 +80,15 @@ namespace EnemySystem
         void Awake()
         {
             currentHealth = maxHealth;
+
+            rb = GetComponent<Rigidbody2D>();
+            // Kinematic เหตุผลเดียวกับ EnemyBullet/PlayerBullet: ไม่ต้องการแรงจากภายนอกใดๆ
+            // Enemy เคลื่อนที่เองผ่าน transform.position ใน UpdateMovement() อยู่แล้ว
+            // ที่ต้องมี rb ตัวนี้คือเพื่อให้ trigger event เกิดขึ้นได้ตอนชน Player เท่านั้น
+            rb.bodyType = RigidbodyType2D.Kinematic;
+
+            // กันลืมติ๊ก isTrigger ใน Inspector - ถ้าไม่ใช่ trigger กระสุน/Player จะโดนดันแทนที่จะทะลุผ่าน
+            if (hitCollider != null) hitCollider.isTrigger = true;
 
             if (bodySprite != null)
                 originalColor = bodySprite.color;
@@ -197,6 +212,33 @@ namespace EnemySystem
 
                 default: // Linear
                     return t;
+            }
+        }
+
+        /// <summary>
+        /// ชนตัว Enemy โดยตรง (ไม่ใช่กระสุน) ก็ต้องทำให้ Player ตายด้วยเช่นกัน
+        /// ใช้ tag check ก่อนเหมือน EnemyBullet เพื่อไม่ต้องเสีย cost GetComponent กับทุกอย่างที่มาชน
+        /// </summary>
+        void OnTriggerEnter2D(Collider2D other)
+        {
+            // Enemy ตายไปแล้วแต่ collider ยังไม่ทัน disable ในเฟรมเดียวกัน - กันไว้ไม่ให้ยังฆ่า Player ซ้ำ
+            if (isDead) return;
+
+            if (other.CompareTag("EnemyBorder"))
+            {
+                // ใช้ tag แยกจาก HiddenBorder ของกระสุนโดยเฉพาะ เพราะ Enemy มักเกิด (spawn) จากนอกจอ
+                // แล้วค่อยเดินเข้ามา ถ้าใช้ tag เดียวกับกระสุน (ซึ่งมักครอบพื้นที่ใกล้จอ) จะโดน Destroy
+                // ทันทีตั้งแต่เพิ่ง spawn ก่อนจะทันได้เดินเข้าฉากเลยด้วยซ้ำ
+                // EnemyBorder จะถูกวางให้ไกลออกไปกว่านั้น (เลยจุด spawn) เพื่อเปิดพื้นที่ให้เดินเข้ามาได้ก่อน
+                Destroy(gameObject);
+                return;
+            }
+
+            if (!other.CompareTag("Player")) return;
+
+            if (other.TryGetComponent<PlayerControllerV1>(out var player))
+            {
+                player.Die();
             }
         }
 

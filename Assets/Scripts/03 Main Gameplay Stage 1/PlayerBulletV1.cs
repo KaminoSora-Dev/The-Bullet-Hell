@@ -41,6 +41,13 @@ namespace PlayerSystem
 
         void OnTriggerEnter2D(Collider2D other)
         {
+            if (other.CompareTag("HiddenBorder"))
+            {
+                // ออกนอกจอไปแล้ว - ปิดตัวไว้ก่อนแทนที่จะ Destroy เหมือนกับ EnemyBulletV1
+                gameObject.SetActive(false);
+                return;
+            }
+
             // เช็คทั้ง Enemy และ Boss เพราะทั้งคู่ใช้ระบบเลือดเดียวกัน (component Enemy)
             // ป้องกันไม่ให้กระสุนผู้เล่นไปโดน EnemyBullet หรือกระสุนตัวเอง เพราะเช็คเฉพาะ tag พวกนี้เท่านั้น
             if (!other.CompareTag("Enemy") && !other.CompareTag("Boss")) return;
@@ -50,7 +57,7 @@ namespace PlayerSystem
                 enemy.TakeDamage(damage);
             }
 
-            // TODO: เหมือน EnemyBullet - ทีหลังเปลี่ยนเป็นคืนกระสุนเข้า pool แทน Destroy
+            // TODO: เหมือน EnemyBullet - ทีหลังเปลี่ยนเป็น gameObject.SetActive(false) แทน Destroy
             Destroy(gameObject);
         }
     }

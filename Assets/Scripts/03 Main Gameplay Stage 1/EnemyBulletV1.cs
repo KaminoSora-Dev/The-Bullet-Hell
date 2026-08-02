@@ -50,6 +50,15 @@ namespace EnemySystem
 
         void OnTriggerEnter2D(Collider2D other)
         {
+            if (other.CompareTag("HiddenBorder"))
+            {
+                // ออกนอกจอไปแล้ว ไม่มีใครยิงโดนหรือชนอะไรทัน - ปิดตัวไว้ก่อนแทนที่จะ Destroy
+                // ไม่ reset ตำแหน่ง/ทิศทางตรงนี้ เพราะตอนถูกดึงกลับมาใช้ใหม่ (pool manager ที่จะทำทีหลัง)
+                // จะเป็นคนกำหนดตำแหน่ง/ทิศทางใหม่ให้เองอยู่แล้ว ปล่อยค้างไว้ตรงนี้ไม่มีผลอะไร
+                gameObject.SetActive(false);
+                return;
+            }
+
             // ใช้ CompareTag แทน GetComponent<PlayerController>() ตรงๆ
             // เพราะ CompareTag เร็วกว่า (ไม่ต้องเสิร์ช component) และเช็คได้ก่อนว่าเป็น Player จริงไหม
             // ก่อนจะเสีย cost ไป GetComponent ทีหลัง
@@ -61,8 +70,8 @@ namespace EnemySystem
                 player.Die();
             }
 
-            // TODO: ตอนนี้ Destroy ไปเลยก่อน ทีหลังพอทำ Object Pool แล้ว
-            // ให้เปลี่ยนตรงนี้เป็น "คืนกระสุนเข้า pool" แทน (SetActive(false) + return ให้ pool manager)
+            // TODO: ตอนนี้ Destroy ไปเลยก่อน ทีหลังพอทำ Object Pool เต็มระบบแล้ว
+            // ให้เปลี่ยนตรงนี้เป็น gameObject.SetActive(false) เหมือน HiddenBorder ด้านบนแทน
             // ไม่งั้น Destroy/Instantiate รัวๆ ตอนกระสุนเยอะๆ จะกิน performance หนักจาก GC
             Destroy(gameObject);
         }
