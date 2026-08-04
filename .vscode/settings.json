@@ -56,7 +56,7 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Unity Bullet Hell Learning 101.slnx",
+    "dotnet.defaultSolution": "Bullet Hell Project.slnx",
     "editor.suggestOnTriggerCharacters": true,
     "dotnet.preferCSharpExtension": true
 }

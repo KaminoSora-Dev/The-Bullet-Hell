@@ -1,4 +1,5 @@
 using UnityEngine;
+using PoolingSystem;
 
 namespace PlayerSystem
 {
@@ -81,6 +82,10 @@ namespace PlayerSystem
         private int blinksDone;
         private bool blinkIsColored; // สลับ true/false ทุกครึ่ง interval เพื่อทำให้กะพริบ
         private Color originalColor;
+
+        // เก็บผลจาก PlayerStatsManager.LoseLife() ตอนเริ่มตาย - ต้องรู้ล่วงหน้าตั้งแต่ตอนนี้ว่าจะ respawn ได้ไหม
+        // เพราะพอ fade out จบแล้ว (UpdateFadeOut) ถึงจะถึงจังหวะที่ต้องตัดสินใจว่า respawn หรือ Game Over
+        private bool canRespawnAfterThisDeath = true;
 
         // เวลาที่ยิงนัดต่อไปได้ - ใช้ Time.time เทียบตรงๆ แทนการนับ timer เอง
         // เพราะ Time.time เป็นค่าสะสมของ Unity อยู่แล้ว ไม่ต้อง += เองทุกเฟรมให้เสี่ยง error สะสม
@@ -234,9 +239,7 @@ namespace PlayerSystem
         {
             if (bulletPrefab == null || firePoint == null) return;
 
-            // TODO: ตอนนี้ Instantiate ตรงๆ ก่อน ทีหลังพอทำ Object Pool แล้วให้เปลี่ยนเป็นดึงจาก pool แทน
-            // เพราะกดยิงค้างรัวๆ ที่ fireRate สูง จะสร้าง/ทำลาย GameObject ถี่มาก กิน performance จาก GC หนักกว่ากระสุนศัตรูอีก
-            GameObject bulletObj = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+            GameObject bulletObj = PoolManager.Instance.Get(bulletPrefab, firePoint.position, firePoint.rotation);
 
             if (bulletObj.TryGetComponent<PlayerBulletV1>(out var bullet))
             {
@@ -246,7 +249,14 @@ namespace PlayerSystem
 
         private void Bomb()
         {
-            // TODO: เชื่อมกับระบบ Bomb ทีหลัง (เช่น ล้างกระสุนบนจอ + ป้องกันชั่วคราว)
+            // เช็คก่อนว่ามี spell เหลือไหม ไม่งั้นกดพลาดตอน spell = 0 จะเข้ามาถึงตรงนี้เฉยๆ โดยไม่มีอะไรเกิดขึ้น
+            // (ดีกว่าไม่เช็คเลยแล้วปล่อยให้เกิด "Bomb ฟรี" โดยไม่หัก resource)
+            if (PlayerStatsManager.Instance != null && !PlayerStatsManager.Instance.UseSpell())
+            {
+                return;
+            }
+
+            // TODO: เชื่อมกับระบบ Bomb จริงทีหลัง (เช่น ล้างกระสุนบนจอ + ป้องกันชั่วคราว)
             Debug.Log("Bomb!");
         }
 
@@ -267,6 +277,12 @@ namespace PlayerSystem
             // ปิด collider/hitbox visual ทันที กันโดนกระสุนซ้ำระหว่างตาย
             if (hitboxCollider != null) hitboxCollider.enabled = false;
             if (hitboxVisual != null) hitboxVisual.enabled = false;
+
+            // หักชีวิตทันทีตอนเริ่มตาย (ไม่ใช่ตอน respawn จริง) เพราะตามหลัก bullet hell ทั่วไป
+            // การเสียชีวิต 1 ครั้งควรหักทันทีที่โดน ไม่ใช่รอ visual sequence เล่นจบก่อนค่อยหัก
+            // ค่าที่ได้ (respawn ได้ไหม) เก็บไว้ใช้ตอน UpdateFadeOut() จบ เพราะตอนนั้นถึงจะถึงจังหวะตัดสินใจ
+            canRespawnAfterThisDeath = PlayerStatsManager.Instance == null
+                || PlayerStatsManager.Instance.LoseLife();
 
             // เริ่ม death sequence จากขั้นกะพริบก่อนเสมอ
             deathPhase = DeathVisualPhase.Blinking;
@@ -332,10 +348,20 @@ namespace PlayerSystem
 
             if (t >= 1f)
             {
-                // จางหายสนิทแล้ว -> ย้ายไปจุด spawn แล้วเริ่ม fade กลับเข้ามา
-                RespawnPosition();
-                deathPhase = DeathVisualPhase.FadingIn;
-                phaseTimer = 0f;
+                if (canRespawnAfterThisDeath)
+                {
+                    // จางหายสนิทแล้ว -> ย้ายไปจุด spawn แล้วเริ่ม fade กลับเข้ามา
+                    RespawnPosition();
+                    deathPhase = DeathVisualPhase.FadingIn;
+                    phaseTimer = 0f;
+                }
+                else
+                {
+                    // หมดชีวิตแล้ว - ไม่ respawn ต่อ ค้าง state ไว้ที่ Dead + จางหายไปตลอด
+                    // TODO: เชื่อมกับหน้าจอ Game Over / restart flow ทีหลัง ตอนนี้แค่หยุด sequence ไว้ตรงนี้ก่อน
+                    deathPhase = DeathVisualPhase.None;
+                    Debug.Log("PlayerControllerV1: Game Over");
+                }
             }
         }
 

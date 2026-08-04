@@ -1,18 +1,28 @@
 using UnityEngine;
 using EnemySystem;
+using PoolingSystem;
+using GameSystem;
 
 namespace PlayerSystem
 {
     /// <summary>
     /// กระสุนของผู้เล่น - โครงสร้างเหมือน EnemyBullet เกือบทั้งหมด
     /// ต่างกันที่ ทิศทางเริ่มต้น (ขึ้นบน) และเป้าหมายที่ตรวจจับ (Enemy/Boss แทน Player)
+    ///
+    /// สำคัญ: Prefab ของกระสุนนี้ต้องตั้ง Tag เป็น "PlayerBullet" ใน Inspector ด้วย
+    /// เพราะ EnemyV1.TakeDamage() เช็ค tag นี้เพื่อตัดสินว่าให้คะแนนตอนคิลไหม (ดูคอมเมนต์ใน EnemyV1.cs)
     /// </summary>
     [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(CircleCollider2D))]
-    public class PlayerBulletV1 : MonoBehaviour
+    public class PlayerBulletV1 : MonoBehaviour, IPoolable
     {
         [SerializeField] private float speed = 10f;
         [SerializeField] private int damage = 1;
+
+        [Header("Score")]
+        [Tooltip("คะแนนที่ได้ทุกครั้งที่ยิงโดนศัตรู (ไม่ว่าจะฆ่าได้หรือไม่ก็ตาม) - แยกก้อนกับคะแนนตอน \"ฆ่าได้\" ที่อยู่ใน EnemyV1.scoreValue " +
+                 "สองก้อนนี้บวกสะสมด้วยกันได้ ตั้งเป็น 0 ถ้าไม่อยากให้คะแนนตอนแค่โดน")]
+        [SerializeField] private int hitScoreValue = 10;
 
         private Vector2 direction = Vector2.up;
         private Rigidbody2D rb;
@@ -43,8 +53,7 @@ namespace PlayerSystem
         {
             if (other.CompareTag("HiddenBorder"))
             {
-                // ออกนอกจอไปแล้ว - ปิดตัวไว้ก่อนแทนที่จะ Destroy เหมือนกับ EnemyBulletV1
-                gameObject.SetActive(false);
+                PoolManager.Instance.Return(gameObject);
                 return;
             }
 
@@ -54,11 +63,27 @@ namespace PlayerSystem
 
             if (other.TryGetComponent<EnemyV1>(out var enemy))
             {
-                enemy.TakeDamage(damage);
+                // ส่ง gameObject ตัวเองเป็น attacker เพื่อให้ EnemyV1 เช็ค tag "PlayerBullet" ได้ตอนตัดสินให้คะแนน
+                enemy.TakeDamage(damage, gameObject);
+
+                // คะแนนตอน "ยิงโดน" ให้ทันทีตรงนี้เลย ไม่ต้องรอผลว่าศัตรูตายไหม
+                // เพราะเป็นคนละก้อนกับคะแนนตอน "ฆ่าได้" ซึ่งอยู่ใน EnemyV1.Die()
+                if (hitScoreValue != 0 && ScoreManager.Instance != null)
+                {
+                    ScoreManager.Instance.AddScore(hitScoreValue);
+                }
             }
 
-            // TODO: เหมือน EnemyBullet - ทีหลังเปลี่ยนเป็น gameObject.SetActive(false) แทน Destroy
-            Destroy(gameObject);
+            PoolManager.Instance.Return(gameObject);
+        }
+
+        public void OnSpawnFromPool()
+        {
+            direction = Vector2.up;
+        }
+
+        public void OnReturnToPool()
+        {
         }
     }
 }

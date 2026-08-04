@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/Scenes/02 My Main Menu/My Main Menu.unity
     guid: 4dabb38e645dfbb4b8b4c54d81c2921f
   - enabled: 1
-    path: Assets/Scenes/03 Main Gameplay Stage 1/Stage1.unity
+    path: Assets/Scenes/03 Main Gameplay Stage 1/StageTest1_V1.unity
     guid: 31bb9bd2704df114f87c3618a67e6db1
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}

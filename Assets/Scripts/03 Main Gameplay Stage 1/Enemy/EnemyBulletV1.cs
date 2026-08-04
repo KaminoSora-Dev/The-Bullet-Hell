@@ -1,5 +1,6 @@
 using UnityEngine;
 using PlayerSystem;
+using PoolingSystem;
 
 namespace EnemySystem
 {
@@ -10,7 +11,7 @@ namespace EnemySystem
     /// </summary>
     [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(CircleCollider2D))]
-    public class EnemyBulletV1 : MonoBehaviour
+    public class EnemyBulletV1 : MonoBehaviour, IPoolable
     {
         [SerializeField] private float speed = 6f;
 
@@ -52,10 +53,9 @@ namespace EnemySystem
         {
             if (other.CompareTag("HiddenBorder"))
             {
-                // ออกนอกจอไปแล้ว ไม่มีใครยิงโดนหรือชนอะไรทัน - ปิดตัวไว้ก่อนแทนที่จะ Destroy
-                // ไม่ reset ตำแหน่ง/ทิศทางตรงนี้ เพราะตอนถูกดึงกลับมาใช้ใหม่ (pool manager ที่จะทำทีหลัง)
-                // จะเป็นคนกำหนดตำแหน่ง/ทิศทางใหม่ให้เองอยู่แล้ว ปล่อยค้างไว้ตรงนี้ไม่มีผลอะไร
-                gameObject.SetActive(false);
+                // ออกนอกจอไปแล้ว ไม่มีใครยิงโดนหรือชนอะไรทัน - คืนกลับ pool แทน SetActive(false) เฉยๆ
+                // (SetActive(false) เฉยๆ จะทำให้ object นี้ "หาย" ไปจากทุก pool ไม่มีใครหยิบมันไปใช้ซ้ำได้อีก)
+                PoolManager.Instance.Return(gameObject);
                 return;
             }
 
@@ -70,10 +70,23 @@ namespace EnemySystem
                 player.Die();
             }
 
-            // TODO: ตอนนี้ Destroy ไปเลยก่อน ทีหลังพอทำ Object Pool เต็มระบบแล้ว
-            // ให้เปลี่ยนตรงนี้เป็น gameObject.SetActive(false) เหมือน HiddenBorder ด้านบนแทน
-            // ไม่งั้น Destroy/Instantiate รัวๆ ตอนกระสุนเยอะๆ จะกิน performance หนักจาก GC
-            Destroy(gameObject);
+            PoolManager.Instance.Return(gameObject);
+        }
+
+        /// <summary>
+        /// เรียกโดย PoolManager ทุกครั้งที่ดึงกระสุนนี้จาก pool มาใช้
+        /// reset direction กลับเป็นค่าเริ่มต้นไว้ก่อนเป็นการป้องกัน (defensive) - จริงๆ แล้ว Spawner
+        /// จะเรียก SetDirection() ทับอีกทีทันทีหลังจากนี้อยู่แล้วเสมอ แต่เผื่อวันหนึ่งมีจุดเรียกใช้ที่ลืมเซ็ตทิศทาง
+        /// จะได้เห็นกระสุนพุ่งไปทิศเริ่มต้นที่คาดเดาได้ (ลงล่าง) แทนที่จะพุ่งไปทิศเก่าจากการใช้งานรอบที่แล้วแบบงงๆ
+        /// </summary>
+        public void OnSpawnFromPool()
+        {
+            direction = Vector2.down;
+        }
+
+        public void OnReturnToPool()
+        {
+            // ไม่มี state อื่นที่ต้องเคลียร์ตอนคืน pool - direction จะถูก reset ใหม่ตอน OnSpawnFromPool() อยู่แล้ว
         }
     }
 }
