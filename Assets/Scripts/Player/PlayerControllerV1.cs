@@ -59,6 +59,15 @@ namespace PlayerSystem
         [Tooltip("จำนวนนัดต่อวินาที ตอนกด Z ค้าง")]
         [SerializeField] private float fireRate = 10f;
 
+        [Header("Spell / Bomb")]
+        [Tooltip("ลาก PlayerShieldV1 ที่วางเป็น child object ของ Player ไว้ล่วงหน้าใน Scene มาใส่ " +
+                 "(ปิด GameObject ไว้ก่อนก็ได้ เพราะ PlayerShieldV1.Awake() จะปิดให้เองอยู่แล้ว)")]
+        [SerializeField] private PlayerShieldV1 shield;
+        [Tooltip("รัศมีรอบตัวผู้เล่นที่จะเคลียร์กระสุนศัตรูตอนใช้ spell (world unit)")]
+        [SerializeField] private float bombClearRadius = 5f;
+        [Tooltip("ระยะเวลาที่โล่เปิดอยู่หลังใช้ spell (วินาที)")]
+        [SerializeField] private float shieldDuration = 2f;
+
         [Header("References")]
         [Tooltip("SpriteRenderer หลักของตัวละคร (ใช้กะพริบสี/fade alpha)")]
         [SerializeField] private SpriteRenderer bodySprite;
@@ -70,6 +79,15 @@ namespace PlayerSystem
         [Header("Play Area Border")]
         [Tooltip("ระยะเผื่อจากขอบกล่อง UIBorder (world unit) - ใส่ 0 ถ้าอยากให้ hitbox ชนขอบพอดีเป๊ะ")]
         [SerializeField] private float borderPadding = 0.1f;
+
+        [Header("Play Area Gizmo")]
+        [SerializeField] private bool showPlayAreaGizmo = true;
+
+        [Tooltip("เลื่อนตำแหน่ง Gizmo (ไม่กระทบพื้นที่เล่นจริง)")]
+        [SerializeField] private Vector2 gizmoPositionOffset = Vector2.zero;
+        
+        [Tooltip("เพิ่ม/ลดขนาด Gizmo (ไม่กระทบพื้นที่เล่นจริง)")]
+        [SerializeField] private Vector2 gizmoSizeOffset = Vector2.zero;
 
         private PlayerState currentState = PlayerState.Alive;
 
@@ -256,8 +274,35 @@ namespace PlayerSystem
                 return;
             }
 
-            // TODO: เชื่อมกับระบบ Bomb จริงทีหลัง (เช่น ล้างกระสุนบนจอ + ป้องกันชั่วคราว)
-            Debug.Log("Bomb!");
+            ClearBulletsInRadius(transform.position, bombClearRadius);
+
+            // ผู้เล่นยังคุมตัว/ยิงได้ปกติทันทีตามที่ออกแบบไว้ - ไม่มีการ lock input ระหว่างโล่เปิดอยู่
+            // เพราะฉะนั้นไม่ต้องมี state/timer เพิ่มฝั่ง PlayerControllerV1 เลย ปล่อยให้ PlayerShieldV1
+            // จัดการ lifetime ของตัวเองทั้งหมด (เปิด -> นับถอยหลัง -> ปิดตัวเอง)
+            if (shield != null)
+            {
+                shield.Activate(shieldDuration);
+            }
+            else
+            {
+                Debug.LogWarning("PlayerControllerV1: ไม่ได้ลาก PlayerShieldV1 ไว้ใน field \"shield\" - ใช้ spell ได้ แต่จะไม่มีโล่ขึ้น");
+            }
+        }
+
+        /// <summary>
+        /// เคลียร์กระสุนศัตรูทุกนัดที่อยู่ในรัศมี radius รอบจุด center ณ เฟรมนี้ (เอฟเฟกต์ครั้งเดียว ไม่ใช่ trigger ต่อเนื่อง)
+        /// ใช้ OverlapCircleAll แทนการรอ Collider2D ชนกันเอง เพราะนี่คือ "เหตุการณ์ทันที" ตอนกด Bomb เท่านั้น
+        /// ไม่ต้อง optimize เป็น NonAlloc เพราะ Bomb กดได้จำกัดตาม maxSpells ไม่ได้เรียกถี่แบบทุกเฟรม
+        /// </summary>
+        private void ClearBulletsInRadius(Vector2 center, float radius)
+        {
+            Collider2D[] hits = Physics2D.OverlapCircleAll(center, radius);
+
+            foreach (Collider2D hit in hits)
+            {
+                if (!hit.CompareTag("EnemyBullet")) continue;
+                PoolManager.Instance.Return(hit.gameObject);
+            }
         }
 
         /// <summary>
@@ -452,15 +497,24 @@ namespace PlayerSystem
             if (hitboxCollider != null)
             {
                 Gizmos.color = Color.red;
-                Gizmos.DrawWireSphere(transform.position + (Vector3)hitboxCollider.offset, hitboxCollider.radius);
+                Gizmos.DrawWireSphere(
+                    transform.position + (Vector3)hitboxCollider.offset,
+                    hitboxCollider.radius);
             }
 
-            // วาดกรอบขอบเขตที่เล่นได้ (สีเหลือง) - เห็นเฉพาะตอนกด Play เพราะ playAreaBounds cache ตอน Start()
-            // ใช้เช็คว่า UIBorder ที่หามาได้ตรงกับพื้นที่เล่นจริงไหม ถ้ากรอบเหลืองเพี้ยนไปคนละที่ = อ่าน bounds ผิดตัว/ผิดพิกัด
-            if (hasPlayArea)
+            if (showPlayAreaGizmo && hasPlayArea)
             {
                 Gizmos.color = Color.yellow;
-                Gizmos.DrawWireCube(playAreaBounds.center, playAreaBounds.size);
+
+                Vector3 center = playAreaBounds.center;
+                center.x += gizmoPositionOffset.x;
+                center.y += gizmoPositionOffset.y;
+
+                Vector3 size = playAreaBounds.size;
+                size.x += gizmoSizeOffset.x;
+                size.y += gizmoSizeOffset.y;
+
+                Gizmos.DrawWireCube(center, size);
             }
         }
     }
