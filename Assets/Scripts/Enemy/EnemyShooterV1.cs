@@ -29,7 +29,21 @@ namespace EnemySystem
 
         [Tooltip("หน่วงเวลาหลังยิงชุดนี้ ก่อนไปชุดถัดไป (วินาที)")]
         public float delayAfter = 0.5f;
+
+        [Header("ยิงซ้ำ (Repeat) - ลดจำนวน Element ที่ต้องสร้างซ้ำๆ กัน")]
+        [Tooltip("จำนวนครั้งที่ยิงซ้ำ pattern นี้ ก่อนจะหน่วงเวลาตาม Delay After แล้วไป Burst ถัดไป " +
+         "เช่นอยากยิงตรง 5 นัดรัวๆ ไม่ต้องสร้าง 5 Element เหมือนเดิม ตั้ง repeatCount = 5 ที่ Element เดียวพอ")]
+        public int repeatCount = 1;
+
+        [Tooltip("หน่วงเวลาระหว่างแต่ละนัดที่ยิงซ้ำ (ภายใน Burst เดียวกัน) - คนละตัวกับ Delay After " +
+         "ซึ่งหน่วงตอนยิงซ้ำครบทุกนัดของ Burst นี้แล้วเท่านั้น")]
+        public float repeatInterval = 0.1f;
+
+        [Tooltip("หมุนทิศทางศูนย์กลางเพิ่มทุกครั้งที่ยิงซ้ำ (องศา) - ใส่ค่าเช่น 9 จะได้กระสุนหมุนเป็นเกลียว (spiral) ไปเรื่อยๆ " +
+         "ปล่อย 0 ถ้าอยากให้ยิงซ้ำตรงทิศเดิมทุกนัด (เช่น ยิงตรงรัวๆ)")]
+        public float angleOffsetPerRepeat = 0f;
     }
+    
 
     /// <summary>
     /// 1 กลุ่มการยิง - มี pattern (ลิสต์ ShootBurst) และ timeline ของตัวเองแยกอิสระจากกลุ่มอื่นโดยสิ้นเชิง
@@ -38,6 +52,7 @@ namespace EnemySystem
     /// แนวคิด/โครงเดียวกับ SpawnGroup ใน StageSpawnerV1.cs
     /// </summary>
     [System.Serializable]
+    
     public class ShootGroup
     {
         [Tooltip("ชื่อกลุ่ม - ใช้แค่ให้อ่านง่ายใน Inspector เท่านั้น ไม่มีผลต่อการทำงานจริง")]
@@ -57,6 +72,9 @@ namespace EnemySystem
         [System.NonSerialized] public bool hasFiredCurrentBurst;
         [System.NonSerialized] public bool patternFinished; // true เมื่อ pattern ของกลุ่มนี้จบแล้วและไม่ loop - หยุดยิงถาวรเฉพาะกลุ่มนี้
 
+        // Runtime ของระบบ Repeat
+        [System.NonSerialized] public int currentRepeatIndex;
+        [System.NonSerialized] public float repeatTimer;
         /// <summary>รีเซ็ตกลุ่มนี้กลับไปเริ่มเล่นจาก Burst แรกใหม่ทั้งหมด</summary>
         public void ResetState()
         {
@@ -64,6 +82,8 @@ namespace EnemySystem
             delayTimer = 0f;
             hasFiredCurrentBurst = false;
             patternFinished = false;
+            currentRepeatIndex = 0;   // ← เพิ่ม
+            repeatTimer = 0f;
         }
     }
 
@@ -80,6 +100,8 @@ namespace EnemySystem
         // ถ้ามี EnemyV1 อยู่บน GameObject เดียวกัน จะถูก "คุม" การยิงตาม Movement Step ของมัน (ผ่าน CanShootNow/OnShootWindowOpened)
         // เป็น null ได้ปกติถ้า EnemyShooterV1 ตัวนี้ไม่มี EnemyV1 คู่กัน (เช่น ตัวยิงลอยๆ ไม่มี movement) - จะไม่ถูก gate เลย
         private EnemyV1 ownerEnemy;
+
+        
 
         void Awake()
         {
@@ -132,15 +154,40 @@ namespace EnemySystem
             if (group.pattern.Count == 0 || group.patternFinished) return;
 
             ShootBurst burst = group.pattern[group.currentBurstIndex];
+            int totalRepeats = Mathf.Max(burst.repeatCount, 1);
 
-            // ยิงทันทีตอนเพิ่งเข้าคิวชุดนี้ (ยังไม่เคยยิง) แล้วค่อยเริ่มนับเวลาหน่วง
+            // ยังไม่เคยยิงเลยตั้งแต่เข้าคิว Burst นี้ - ยิงนัดแรก (repeatIndex 0) ทันที
             if (!group.hasFiredCurrentBurst)
             {
-                FireBurst(burst);
+                FireBurst(burst, 0);
                 group.hasFiredCurrentBurst = true;
+                group.currentRepeatIndex = 0;
+                group.repeatTimer = 0f;
                 group.delayTimer = 0f;
+                return;
             }
 
+            bool stillRepeating = group.currentRepeatIndex < totalRepeats - 1;
+
+            if (stillRepeating)
+            {
+                // นับเวลาไปจนครบ repeatInterval แล้วยิงนัดถัดไป (พร้อมหมุนมุมตาม angleOffsetPerRepeat)
+                group.repeatTimer += Time.deltaTime;
+                while (group.repeatTimer >= burst.repeatInterval)
+                {
+                    group.repeatTimer -= burst.repeatInterval;
+
+                    group.currentRepeatIndex++;
+
+                    FireBurst(burst, group.currentRepeatIndex);
+
+                    if (group.currentRepeatIndex >= totalRepeats - 1)
+                        break;
+                }
+                return; // ยังยิงซ้ำไม่ครบ ยังไม่ต้องเริ่มนับ delayAfter
+            }
+
+            // ยิงซ้ำครบทุกนัดของ Burst นี้แล้ว (หรือ repeatCount = 1 ตั้งแต่ต้น) - นับ delayAfter ก่อนไป Burst ถัดไป
             group.delayTimer += Time.deltaTime;
             if (group.delayTimer >= burst.delayAfter)
             {
@@ -152,6 +199,8 @@ namespace EnemySystem
         {
             group.currentBurstIndex++;
             group.hasFiredCurrentBurst = false;
+            group.currentRepeatIndex = 0;
+            group.repeatTimer = 0f;     
 
             if (group.currentBurstIndex >= group.pattern.Count)
             {
@@ -179,19 +228,21 @@ namespace EnemySystem
             }
         }
 
-        private void FireBurst(ShootBurst burst)
+        private void FireBurst(ShootBurst burst, int repeatIndex)
         {
-            // กันลืมตั้ง bulletPrefab ไว้ในบาง Burst - ข้ามการยิงชุดนี้ไปเฉยๆ แทนที่จะ error
-            // (ต่างจาก firePoint ที่ error ได้เลยเพราะมี fallback เป็น transform ตัวเองอยู่แล้วใน Start())
             if (burst.bulletPrefab == null)
             {
                 Debug.LogWarning($"EnemyShooterV1 ({name}): มี Burst ที่ไม่ได้ตั้งค่า bulletPrefab ไว้ - ข้ามการยิงชุดนี้");
                 return;
             }
 
-            Vector2 centerDirection = burst.aimAtPlayer
+            Vector2 baseCenterDirection = burst.aimAtPlayer
                 ? GetDirectionToPlayer()
                 : burst.baseDirection.normalized;
+
+            // หมุนทิศทางศูนย์กลางเพิ่มตามจำนวนครั้งที่ยิงซ้ำไปแล้ว (repeatIndex) - ทำให้ยิงซ้ำแต่ละนัดหมุนไปเรื่อยๆ กลายเป็น pattern เกลียว
+            // repeatIndex = 0 (นัดแรก) จะไม่หมุนเลย ตรงกับพฤติกรรมเดิมถ้า angleOffsetPerRepeat = 0
+            Vector2 centerDirection = RotateVector(baseCenterDirection, burst.angleOffsetPerRepeat * repeatIndex);
 
             int count = Mathf.Max(burst.bulletCount, 1);
 

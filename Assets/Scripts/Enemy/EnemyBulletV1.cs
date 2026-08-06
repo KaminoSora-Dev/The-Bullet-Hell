@@ -43,8 +43,11 @@ namespace EnemySystem
 
         void FixedUpdate()
         {
-            // ยังใช้ MovePosition เหมือนเดิมสำหรับกระสุน เพราะกระสุนมี Rigidbody2D จริง
-            // (ต่างจาก Player ที่เอา Rigidbody2D ออกไปแล้ว)
+            // สำคัญ: ต้องขยับผ่าน rb.MovePosition() ใน FixedUpdate() เท่านั้น (ไม่ใช่ transform.position ใน Update())
+            // เพราะ Rigidbody2D เป็น Kinematic ที่มีไว้เพื่อให้ physics engine sync ตำแหน่ง collider ให้ตรงกับ
+            // ตำแหน่งจริงในจังหวะที่ physics step ทำงาน ถ้าแก้ transform.position ตรงๆ ใน Update() แทน
+            // จะทำให้ trigger detection (OnTriggerEnter2D) หลุดจังหวะ/เพี้ยนได้ โดยเฉพาะตอนเฟรมเรตไม่คงที่
+            // หรือกระสุนความเร็วสูง (อาจทะลุ collider โดยไม่ trigger เลย)
             Vector2 targetPosition = rb.position + direction * speed * Time.fixedDeltaTime;
             rb.MovePosition(targetPosition);
         }

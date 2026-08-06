@@ -3,6 +3,7 @@ using UnityEngine;
 using PlayerSystem;
 using PoolingSystem;
 using GameSystem;
+using CombatSystem;
 
 namespace EnemySystem
 {
@@ -36,7 +37,7 @@ namespace EnemySystem
     }
 
     [RequireComponent(typeof(Rigidbody2D))]
-    public class EnemyV1 : MonoBehaviour, IPoolable
+    public class EnemyV1 : MonoBehaviour, IPoolable, IDamageable
     {
         [Header("Health")]
         [SerializeField] private int maxHealth = 10;

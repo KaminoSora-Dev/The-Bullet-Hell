@@ -2,6 +2,7 @@ using UnityEngine;
 using EnemySystem;
 using PoolingSystem;
 using GameSystem;
+using CombatSystem;
 
 namespace PlayerSystem
 {
@@ -57,17 +58,20 @@ namespace PlayerSystem
                 return;
             }
 
-            // เช็คทั้ง Enemy และ Boss เพราะทั้งคู่ใช้ระบบเลือดเดียวกัน (component Enemy)
+            // เช็คทั้ง Enemy และ Boss เพราะทั้งคู่ต้องโดนกระสุนผู้เล่นได้เหมือนกัน
             // ป้องกันไม่ให้กระสุนผู้เล่นไปโดน EnemyBullet หรือกระสุนตัวเอง เพราะเช็คเฉพาะ tag พวกนี้เท่านั้น
             if (!other.CompareTag("Enemy") && !other.CompareTag("Boss")) return;
 
-            if (other.TryGetComponent<EnemyV1>(out var enemy))
+            // ใช้ IDamageable แทนการเช็ค EnemyV1 ตรงๆ เพราะตอนนี้มี BossV1 ที่เป็นคนละคลาสแยกจาก EnemyV1
+            // แต่ก็ต้องรับดาเมจจากกระสุนผู้เล่นได้เหมือนกัน - เช็ค interface เดียวจบ ไม่ต้องมาแก้ไฟล์นี้อีก
+            // ทุกครั้งที่โปรเจกต์เพิ่มศัตรู/บอสชนิดใหม่ในอนาคต
+            if (other.TryGetComponent<IDamageable>(out var damageable))
             {
-                // ส่ง gameObject ตัวเองเป็น attacker เพื่อให้ EnemyV1 เช็ค tag "PlayerBullet" ได้ตอนตัดสินให้คะแนน
-                enemy.TakeDamage(damage, gameObject);
+                // ส่ง gameObject ตัวเองเป็น attacker เพื่อให้ฝั่งที่โดนดาเมจเช็ค tag "PlayerBullet" ได้ตอนตัดสินให้คะแนน
+                damageable.TakeDamage(damage, gameObject);
 
-                // คะแนนตอน "ยิงโดน" ให้ทันทีตรงนี้เลย ไม่ต้องรอผลว่าศัตรูตายไหม
-                // เพราะเป็นคนละก้อนกับคะแนนตอน "ฆ่าได้" ซึ่งอยู่ใน EnemyV1.Die()
+                // คะแนนตอน "ยิงโดน" ให้ทันทีตรงนี้เลย ไม่ต้องรอผลว่าเป้าหมายตายไหม
+                // เพราะเป็นคนละก้อนกับคะแนนตอน "ฆ่าได้" ซึ่งอยู่ฝั่งเป้าหมายเอง (EnemyV1.Die() / BossV1.EndCurrentPhase())
                 if (hitScoreValue != 0 && ScoreManager.Instance != null)
                 {
                     ScoreManager.Instance.AddScore(hitScoreValue);
