@@ -1011,7 +1011,7 @@ GameObject:
   - component: {fileID: 327786129}
   - component: {fileID: 327786128}
   - component: {fileID: 327786127}
-  - component: {fileID: 327786126}
+  - component: {fileID: 327786131}
   m_Layer: 0
   m_Name: Enemy1Set1 (4)
   m_TagString: Enemy
@@ -1034,59 +1034,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 841565191}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &327786126
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 327786124}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b515a3e2443bdd74eaeac7d3b496453d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  firePoint: {fileID: 0}
-  groups:
-  - groupName: Set1
-    pattern:
-    - bulletPrefab: {fileID: 419377789}
-      bulletCount: 0
-      spreadAngle: 0
-      aimAtPlayer: 1
-      baseDirection: {x: 0, y: 0}
-      delayAfter: 5
-      repeatCount: 0
-      repeatInterval: 0
-      angleOffsetPerRepeat: 0
-    - bulletPrefab: {fileID: 419377789}
-      bulletCount: 8
-      spreadAngle: 360
-      aimAtPlayer: 1
-      baseDirection: {x: 0, y: 0}
-      delayAfter: 0
-      repeatCount: 60
-      repeatInterval: 0.1
-      angleOffsetPerRepeat: -10
-    - bulletPrefab: {fileID: 419377789}
-      bulletCount: 16
-      spreadAngle: 360
-      aimAtPlayer: 1
-      baseDirection: {x: 0, y: 0}
-      delayAfter: 0
-      repeatCount: 60
-      repeatInterval: 0.1
-      angleOffsetPerRepeat: -10
-    - bulletPrefab: {fileID: 419377789}
-      bulletCount: 16
-      spreadAngle: 360
-      aimAtPlayer: 1
-      baseDirection: {x: 0, y: 0}
-      delayAfter: 0
-      repeatCount: 60
-      repeatInterval: 0.1
-      angleOffsetPerRepeat: -10
-    loopPattern: 0
 --- !u!114 &327786127
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1110,11 +1057,11 @@ MonoBehaviour:
   - target: {fileID: 754828600}
     duration: 2
     easeType: 3
-    allowShoot: 1
+    allowShoot: 0
   - target: {fileID: 778667075}
     duration: 2
     easeType: 3
-    allowShoot: 1
+    allowShoot: 0
   - target: {fileID: 778667075}
     duration: 16
     easeType: 0
@@ -1122,7 +1069,7 @@ MonoBehaviour:
   - target: {fileID: 468453669}
     duration: 3
     easeType: 3
-    allowShoot: 1
+    allowShoot: 0
   bodySprite: {fileID: 327786130}
   hitCollider: {fileID: 327786128}
   dropsFragment: 1
@@ -1242,8 +1189,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1153465659
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 13ae908217555544cbda000cad6798ef, type: 3}
   m_Color: {r: 1, g: 0.15566039, b: 0.15566039, a: 1}
@@ -1256,6 +1203,141 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &327786131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 327786124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a164848a9a16d1419c5dfa36e157d4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patterns:
+  - groupName: Pattern 1
+    initialDelay: 0
+    bursts:
+    - name: Burst 1
+      repeatCount: 320
+      repeatInterval: 0.025
+      delayAfter: 0.5
+      bulletPrefab: {fileID: 1156615127}
+      bulletCount: 1
+      spawn:
+        mode: 2
+        offset: {x: 0, y: 0}
+        circleRadius: 10
+      direction:
+        mode: 6
+        angle: 90
+        spread: 10
+        rotationPerRepeat: -5
+      motion:
+        overrideInitialSpeed: 0
+        initialSpeed: 0
+        speedTimeline:
+        - targetSpeed: 50
+          duration: 1
+          easing: 3
+        - targetSpeed: 400
+          duration: 0.5
+          easing: 3
+        - targetSpeed: 100
+          duration: 1
+          easing: 3
+        - targetSpeed: 400
+          duration: 1
+          easing: 2
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    loopPattern: 1
+  - groupName: Pattern 2
+    initialDelay: 0
+    bursts:
+    - name: Burst 1
+      repeatCount: 24
+      repeatInterval: 0.1
+      delayAfter: 0.5
+      bulletPrefab: {fileID: 1156615127}
+      bulletCount: 1
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+      direction:
+        mode: 0
+        angle: 0
+        spread: 10
+        rotationPerRepeat: 0
+      motion:
+        overrideInitialSpeed: 0
+        initialSpeed: 0
+        speedTimeline: []
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    loopPattern: 0
+  - groupName: Pattern 3
+    initialDelay: 0.2
+    bursts:
+    - name: Burst 1
+      repeatCount: 320
+      repeatInterval: 0.025
+      delayAfter: 0.5
+      bulletPrefab: {fileID: 1156615127}
+      bulletCount: 1
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+      direction:
+        mode: 6
+        angle: 90
+        spread: 10
+        rotationPerRepeat: -5
+      motion:
+        overrideInitialSpeed: 0
+        initialSpeed: 0
+        speedTimeline:
+        - targetSpeed: 50
+          duration: 1
+          easing: 3
+        - targetSpeed: 400
+          duration: 0.5
+          easing: 3
+        - targetSpeed: 100
+          duration: 1
+          easing: 3
+        - targetSpeed: 400
+          duration: 1
+          easing: 3
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    loopPattern: 1
+  useFixedSeed: 0
+  randomSeed: 12345
 --- !u!1 &346583054
 GameObject:
   m_ObjectHideFlags: 0
@@ -1269,7 +1351,7 @@ GameObject:
   - component: {fileID: 346583059}
   - component: {fileID: 346583058}
   - component: {fileID: 346583057}
-  - component: {fileID: 346583056}
+  - component: {fileID: 346583061}
   m_Layer: 0
   m_Name: Enemy1Set1 (6)
   m_TagString: Enemy
@@ -1292,41 +1374,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 841565191}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &346583056
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 346583054}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b515a3e2443bdd74eaeac7d3b496453d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  firePoint: {fileID: 0}
-  groups:
-  - groupName: 
-    pattern:
-    - bulletPrefab: {fileID: 419377789}
-      bulletCount: 0
-      spreadAngle: 0
-      aimAtPlayer: 1
-      baseDirection: {x: 0, y: 0}
-      delayAfter: 5
-      repeatCount: 0
-      repeatInterval: 0
-      angleOffsetPerRepeat: 0
-    - bulletPrefab: {fileID: 419377789}
-      bulletCount: 1
-      spreadAngle: 0
-      aimAtPlayer: 1
-      baseDirection: {x: 0, y: 0}
-      delayAfter: 0
-      repeatCount: 5
-      repeatInterval: 0.1
-      angleOffsetPerRepeat: 0
-    loopPattern: 0
 --- !u!114 &346583057
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1350,11 +1397,11 @@ MonoBehaviour:
   - target: {fileID: 1086897954}
     duration: 2
     easeType: 3
-    allowShoot: 1
+    allowShoot: 0
   - target: {fileID: 2106124357}
     duration: 2
     easeType: 3
-    allowShoot: 1
+    allowShoot: 0
   - target: {fileID: 2106124357}
     duration: 2
     easeType: 0
@@ -1362,7 +1409,7 @@ MonoBehaviour:
   - target: {fileID: 1144768575}
     duration: 3
     easeType: 3
-    allowShoot: 1
+    allowShoot: 0
   bodySprite: {fileID: 346583060}
   hitCollider: {fileID: 346583058}
   dropsFragment: 1
@@ -1482,8 +1529,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1153465659
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 13ae908217555544cbda000cad6798ef, type: 3}
   m_Color: {r: 1, g: 0.15566039, b: 0.15566039, a: 1}
@@ -1496,6 +1543,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &346583061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 346583054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a164848a9a16d1419c5dfa36e157d4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patterns: []
+  useFixedSeed: 0
+  randomSeed: 12345
 --- !u!1 &380383822
 GameObject:
   m_ObjectHideFlags: 0
@@ -1664,7 +1726,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a450add5ef227dd4fbe6689490fcffef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 320
+  baseSpeed: 200
+  baseAcceleration: 4
+  baseMinSpeed: 100
+  baseMaxSpeed: 500
+  direction: {x: 0, y: -1}
+  currentSpeed: 0
+  currentAcceleration: 0
+  currentMinSpeed: 0
+  currentMaxSpeed: 0
+  rb: {fileID: 0}
 --- !u!58 &419377793
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1741,7 +1812,7 @@ GameObject:
   - component: {fileID: 453321818}
   - component: {fileID: 453321817}
   - component: {fileID: 453321816}
-  - component: {fileID: 453321815}
+  - component: {fileID: 453321820}
   m_Layer: 0
   m_Name: Enemy1Set1 (2)
   m_TagString: Enemy
@@ -1764,41 +1835,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 841565191}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &453321815
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 453321813}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b515a3e2443bdd74eaeac7d3b496453d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  firePoint: {fileID: 0}
-  groups:
-  - groupName: 
-    pattern:
-    - bulletPrefab: {fileID: 419377789}
-      bulletCount: 0
-      spreadAngle: 0
-      aimAtPlayer: 1
-      baseDirection: {x: 0, y: 0}
-      delayAfter: 5
-      repeatCount: 0
-      repeatInterval: 0
-      angleOffsetPerRepeat: 0
-    - bulletPrefab: {fileID: 419377789}
-      bulletCount: 1
-      spreadAngle: 0
-      aimAtPlayer: 1
-      baseDirection: {x: 0, y: 0}
-      delayAfter: 0
-      repeatCount: 5
-      repeatInterval: 0.1
-      angleOffsetPerRepeat: 0
-    loopPattern: 0
 --- !u!114 &453321816
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1822,11 +1858,11 @@ MonoBehaviour:
   - target: {fileID: 54025996}
     duration: 2
     easeType: 3
-    allowShoot: 1
+    allowShoot: 0
   - target: {fileID: 1939511982}
     duration: 2
     easeType: 3
-    allowShoot: 1
+    allowShoot: 0
   - target: {fileID: 1939511982}
     duration: 2
     easeType: 0
@@ -1834,7 +1870,7 @@ MonoBehaviour:
   - target: {fileID: 1461189865}
     duration: 3
     easeType: 3
-    allowShoot: 1
+    allowShoot: 0
   bodySprite: {fileID: 453321819}
   hitCollider: {fileID: 453321817}
   dropsFragment: 1
@@ -1954,8 +1990,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1153465659
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 13ae908217555544cbda000cad6798ef, type: 3}
   m_Color: {r: 1, g: 0.15566039, b: 0.15566039, a: 1}
@@ -1968,6 +2004,62 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &453321820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 453321813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a164848a9a16d1419c5dfa36e157d4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patterns:
+  - groupName: Pattern 1
+    initialDelay: 0
+    bursts:
+    - name: Burst 1
+      repeatCount: 2
+      repeatInterval: 0.05
+      delayAfter: 0.1
+      bulletPrefab: {fileID: 1156615127}
+      bulletCount: 4
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+      direction:
+        mode: 0
+        angle: 0
+        spread: 45
+        rotationPerRepeat: 0
+      motion:
+        overrideInitialSpeed: 0
+        initialSpeed: 0
+        speedTimeline:
+        - targetSpeed: 200
+          duration: 0.5
+          easing: 3
+        - targetSpeed: 600
+          duration: 0.5
+          easing: 3
+        - targetSpeed: 200
+          duration: 1
+          easing: 3
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    loopPattern: 1
+  useFixedSeed: 0
+  randomSeed: 12345
 --- !u!1 &468453668
 GameObject:
   m_ObjectHideFlags: 0
@@ -2797,9 +2889,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1010833389}
   - component: {fileID: 1010833388}
-  - component: {fileID: 1010833387}
   - component: {fileID: 1010833386}
   - component: {fileID: 1010833385}
+  - component: {fileID: 1010833390}
   m_Layer: 0
   m_Name: BossObject1
   m_TagString: Boss
@@ -2899,8 +2991,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1153465659
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 3625043607559282579, guid: 348aec0e3de796649b539c5e27efcd2c, type: 3}
   m_Color: {r: 0.3160377, g: 0.56252253, b: 1, a: 1}
@@ -2913,104 +3005,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1010833387
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1010833384}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9cdd124d0e4536445bc5fa12a848a407, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  phases:
-  - phaseName: Normal Circle Spread
-    isSpellCard: 0
-    phaseHP: 120
-    endCondition: 0
-    timeLimit: 0
-    patterns:
-    - groupName: Set1
-      pattern:
-      - bulletPrefab: {fileID: 419377789}
-        bulletCount: 18
-        spreadAngle: 360
-        aimAtPlayer: 1
-        baseDirection: {x: 0, y: 0}
-        delayAfter: 1
-        repeatCount: 1
-        repeatInterval: 0
-        angleOffsetPerRepeat: 0
-      loopPattern: 1
-    repositionTarget: {fileID: 1804644030}
-    repositionDuration: 2
-    repositionEase: 3
-    bonusScoreOnClear: 50000
-    bonusScoreOnCapture: 100000
-  - phaseName: Isometric Sign - S Circle
-    isSpellCard: 1
-    phaseHP: 200
-    endCondition: 2
-    timeLimit: 60
-    patterns:
-    - groupName: Set1
-      pattern:
-      - bulletPrefab: {fileID: 419377789}
-        bulletCount: 1
-        spreadAngle: 0
-        aimAtPlayer: 1
-        baseDirection: {x: 0, y: 0}
-        delayAfter: 0
-        repeatCount: 18
-        repeatInterval: 0.05
-        angleOffsetPerRepeat: 10
-      - bulletPrefab: {fileID: 419377789}
-        bulletCount: 1
-        spreadAngle: 0
-        aimAtPlayer: 1
-        baseDirection: {x: 0, y: 0}
-        delayAfter: 0
-        repeatCount: 18
-        repeatInterval: 0.05
-        angleOffsetPerRepeat: -10
-      - bulletPrefab: {fileID: 419377789}
-        bulletCount: 2
-        spreadAngle: 0
-        aimAtPlayer: 1
-        baseDirection: {x: 0, y: 0}
-        delayAfter: 0
-        repeatCount: 18
-        repeatInterval: 0.025
-        angleOffsetPerRepeat: 20
-      - bulletPrefab: {fileID: 419377789}
-        bulletCount: 2
-        spreadAngle: 0
-        aimAtPlayer: 1
-        baseDirection: {x: 0, y: 0}
-        delayAfter: 3
-        repeatCount: 18
-        repeatInterval: 0.025
-        angleOffsetPerRepeat: -20
-      loopPattern: 1
-    repositionTarget: {fileID: 1804644030}
-    repositionDuration: 2
-    repositionEase: 3
-    bonusScoreOnClear: 50000
-    bonusScoreOnCapture: 100000
-  firePoint: {fileID: 0}
-  entranceTarget: {fileID: 1804644030}
-  entranceDuration: 2
-  entranceEase: 2
-  transitionDuration: 1
-  blinkCount: 5
-  blinkInterval: 0.08
-  blinkColor: {r: 1, g: 0, b: 0, a: 1}
-  fragmentPrefab: {fileID: 1501471569}
-  fragmentDropCount: 10
-  bodySprite: {fileID: 1010833386}
-  hitCollider: {fileID: 1010833385}
 --- !u!50 &1010833388
 Rigidbody2D:
   serializedVersion: 5
@@ -3053,6 +3047,54 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2106394554}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1010833390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1010833384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cdd124d0e4536445bc5fa12a848a407, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  phases: []
+  entranceTarget: {fileID: 0}
+  entranceDuration: 2
+  entranceEase: 2
+  transitionDuration: 1
+  blinkCount: 5
+  blinkInterval: 0.08
+  blinkColor:
+    r: 1
+    g: 0
+    b: 0
+    a: 1
+  fragmentPrefab: {fileID: 1501471569}
+  fragmentDropCount: 10
+  bodySprite: {fileID: 0}
+  hitCollider: {fileID: 0}
+  state: 0
+  currentPhaseIndex: -1
+  playerTransform: {fileID: 0}
+  rb: {fileID: 0}
+  originalColor:
+    r: 0
+    g: 0
+    b: 0
+    a: 0
+  isDead: 0
+  moveStartPosition: {x: 0, y: 0, z: 0}
+  moveTarget: {fileID: 0}
+  moveDuration: 0
+  moveEase: 0
+  moveTimer: 0
+  transitionTimer: 0
+  captureCheckLives: 0
+  blinkTimer: 0
+  blinksDone: 0
+  blinkIsColored: 0
 --- !u!1 &1040590710
 GameObject:
   m_ObjectHideFlags: 0
@@ -3492,6 +3534,198 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1437160344}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1156615127
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1156615128}
+  - component: {fileID: 1156615133}
+  - component: {fileID: 1156615132}
+  - component: {fileID: 1156615131}
+  - component: {fileID: 1156615130}
+  - component: {fileID: 1156615129}
+  m_Layer: 0
+  m_Name: EnemyBulletV2
+  m_TagString: EnemyBullet
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1156615128
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1156615127}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -1, w: 0}
+  m_LocalPosition: {x: 200, y: -400, z: 0}
+  m_LocalScale: {x: 12, y: 12, z: 12}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 1861392040}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -180}
+--- !u!114 &1156615129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1156615127}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62c9ccc595811804aad5a92fb76e4163, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseSpeed: 400
+  baseAcceleration: 0
+  baseMinSpeed: 0
+  baseMaxSpeed: 50
+--- !u!114 &1156615130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1156615127}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a450add5ef227dd4fbe6689490fcffef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseSpeed: 200
+  baseAcceleration: 4
+  baseMinSpeed: 100
+  baseMaxSpeed: 500
+  direction: {x: 0, y: -1}
+  currentSpeed: 0
+  currentAcceleration: 0
+  currentMinSpeed: 0
+  currentMaxSpeed: 0
+  rb: {fileID: 0}
+--- !u!58 &1156615131
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1156615127}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 0.5
+--- !u!50 &1156615132
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1156615127}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!212 &1156615133
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1156615127}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 954265293
+  m_SortingLayer: 3
+  m_SortingOrder: 0
+  m_Sprite: {fileID: -2413806693520163455, guid: ca71f85a293d4c34b880fd3b0100fcf4, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
 --- !u!1 &1194907907
 GameObject:
   m_ObjectHideFlags: 0
@@ -3539,7 +3773,7 @@ GameObject:
   - component: {fileID: 1223526507}
   - component: {fileID: 1223526506}
   - component: {fileID: 1223526505}
-  - component: {fileID: 1223526504}
+  - component: {fileID: 1223526509}
   m_Layer: 0
   m_Name: Enemy1Set1 (5)
   m_TagString: Enemy
@@ -3562,41 +3796,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 841565191}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1223526504
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1223526502}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b515a3e2443bdd74eaeac7d3b496453d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  firePoint: {fileID: 0}
-  groups:
-  - groupName: 
-    pattern:
-    - bulletPrefab: {fileID: 419377789}
-      bulletCount: 0
-      spreadAngle: 0
-      aimAtPlayer: 1
-      baseDirection: {x: 0, y: 0}
-      delayAfter: 5
-      repeatCount: 0
-      repeatInterval: 0
-      angleOffsetPerRepeat: 0
-    - bulletPrefab: {fileID: 419377789}
-      bulletCount: 1
-      spreadAngle: 0
-      aimAtPlayer: 1
-      baseDirection: {x: 0, y: 0}
-      delayAfter: 0
-      repeatCount: 5
-      repeatInterval: 0.1
-      angleOffsetPerRepeat: 0
-    loopPattern: 0
 --- !u!114 &1223526505
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3620,11 +3819,11 @@ MonoBehaviour:
   - target: {fileID: 250703324}
     duration: 2
     easeType: 3
-    allowShoot: 1
+    allowShoot: 0
   - target: {fileID: 197524022}
     duration: 2
     easeType: 3
-    allowShoot: 1
+    allowShoot: 0
   - target: {fileID: 197524022}
     duration: 2
     easeType: 0
@@ -3632,7 +3831,7 @@ MonoBehaviour:
   - target: {fileID: 834010768}
     duration: 3
     easeType: 3
-    allowShoot: 1
+    allowShoot: 0
   bodySprite: {fileID: 1223526508}
   hitCollider: {fileID: 1223526506}
   dropsFragment: 1
@@ -3752,8 +3951,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1153465659
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 13ae908217555544cbda000cad6798ef, type: 3}
   m_Color: {r: 1, g: 0.15566039, b: 0.15566039, a: 1}
@@ -3766,6 +3965,25 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1223526509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1223526502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a164848a9a16d1419c5dfa36e157d4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patterns:
+  - groupName: Pattern 1
+    initialDelay: 0
+    bursts: []
+    loopPattern: 1
+  useFixedSeed: 0
+  randomSeed: 12345
 --- !u!1 &1258985106
 GameObject:
   m_ObjectHideFlags: 0
@@ -3819,7 +4037,7 @@ GameObject:
   - component: {fileID: 1283065305}
   - component: {fileID: 1283065304}
   - component: {fileID: 1283065303}
-  - component: {fileID: 1283065302}
+  - component: {fileID: 1283065307}
   m_Layer: 0
   m_Name: Enemy1Set1 (3)
   m_TagString: Enemy
@@ -3842,41 +4060,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 841565191}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1283065302
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1283065300}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b515a3e2443bdd74eaeac7d3b496453d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  firePoint: {fileID: 0}
-  groups:
-  - groupName: 
-    pattern:
-    - bulletPrefab: {fileID: 419377789}
-      bulletCount: 0
-      spreadAngle: 0
-      aimAtPlayer: 1
-      baseDirection: {x: 0, y: 0}
-      delayAfter: 5
-      repeatCount: 0
-      repeatInterval: 0
-      angleOffsetPerRepeat: 0
-    - bulletPrefab: {fileID: 419377789}
-      bulletCount: 1
-      spreadAngle: 0
-      aimAtPlayer: 1
-      baseDirection: {x: 0, y: 0}
-      delayAfter: 0
-      repeatCount: 5
-      repeatInterval: 0.1
-      angleOffsetPerRepeat: 0
-    loopPattern: 0
 --- !u!114 &1283065303
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3900,11 +4083,11 @@ MonoBehaviour:
   - target: {fileID: 308519017}
     duration: 2
     easeType: 3
-    allowShoot: 1
+    allowShoot: 0
   - target: {fileID: 1407352089}
     duration: 2
     easeType: 3
-    allowShoot: 1
+    allowShoot: 0
   - target: {fileID: 1407352089}
     duration: 2
     easeType: 0
@@ -3912,7 +4095,7 @@ MonoBehaviour:
   - target: {fileID: 1946865351}
     duration: 3
     easeType: 3
-    allowShoot: 1
+    allowShoot: 0
   bodySprite: {fileID: 1283065306}
   hitCollider: {fileID: 1283065304}
   dropsFragment: 1
@@ -4032,8 +4215,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1153465659
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 13ae908217555544cbda000cad6798ef, type: 3}
   m_Color: {r: 1, g: 0.15566039, b: 0.15566039, a: 1}
@@ -4046,6 +4229,93 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1283065307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1283065300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a164848a9a16d1419c5dfa36e157d4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patterns:
+  - groupName: Pattern 1
+    initialDelay: 0
+    bursts:
+    - name: Burst 1
+      repeatCount: 4
+      repeatInterval: 0.1
+      delayAfter: 0.1
+      bulletPrefab: {fileID: 1156615127}
+      bulletCount: 5
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+      direction:
+        mode: 6
+        angle: -90
+        spread: 20
+        rotationPerRepeat: -10
+      motion:
+        overrideInitialSpeed: 0
+        initialSpeed: 0
+        speedTimeline:
+        - targetSpeed: 200
+          duration: 0.5
+          easing: 3
+        - targetSpeed: 500
+          duration: 1
+          easing: 3
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    - name: Burst 2
+      repeatCount: 4
+      repeatInterval: 0.1
+      delayAfter: 0.1
+      bulletPrefab: {fileID: 1156615127}
+      bulletCount: 1
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+      direction:
+        mode: 6
+        angle: -90
+        spread: 20
+        rotationPerRepeat: 10
+      motion:
+        overrideInitialSpeed: 0
+        initialSpeed: 0
+        speedTimeline:
+        - targetSpeed: 200
+          duration: 0.5
+          easing: 3
+        - targetSpeed: 500
+          duration: 1
+          easing: 3
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    loopPattern: 1
+  useFixedSeed: 0
+  randomSeed: 12345
 --- !u!1 &1342210512
 GameObject:
   m_ObjectHideFlags: 0
@@ -4059,7 +4329,7 @@ GameObject:
   - component: {fileID: 1342210516}
   - component: {fileID: 1342210518}
   - component: {fileID: 1342210515}
-  - component: {fileID: 1342210514}
+  - component: {fileID: 1342210519}
   m_Layer: 0
   m_Name: Enemy1Set1 (1)
   m_TagString: Enemy
@@ -4082,41 +4352,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 841565191}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1342210514
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1342210512}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b515a3e2443bdd74eaeac7d3b496453d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  firePoint: {fileID: 0}
-  groups:
-  - groupName: 
-    pattern:
-    - bulletPrefab: {fileID: 419377789}
-      bulletCount: 0
-      spreadAngle: 0
-      aimAtPlayer: 1
-      baseDirection: {x: 0, y: 0}
-      delayAfter: 5
-      repeatCount: 0
-      repeatInterval: 0
-      angleOffsetPerRepeat: 0
-    - bulletPrefab: {fileID: 419377789}
-      bulletCount: 1
-      spreadAngle: 0
-      aimAtPlayer: 1
-      baseDirection: {x: 0, y: 0}
-      delayAfter: 0
-      repeatCount: 5
-      repeatInterval: 0.1
-      angleOffsetPerRepeat: 0
-    loopPattern: 0
 --- !u!114 &1342210515
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4140,11 +4375,11 @@ MonoBehaviour:
   - target: {fileID: 932772173}
     duration: 2
     easeType: 3
-    allowShoot: 1
+    allowShoot: 0
   - target: {fileID: 839046499}
     duration: 2
     easeType: 3
-    allowShoot: 1
+    allowShoot: 0
   - target: {fileID: 839046499}
     duration: 2
     easeType: 0
@@ -4152,7 +4387,7 @@ MonoBehaviour:
   - target: {fileID: 380797396}
     duration: 3
     easeType: 3
-    allowShoot: 1
+    allowShoot: 0
   bodySprite: {fileID: 1342210517}
   hitCollider: {fileID: 1342210518}
   dropsFragment: 1
@@ -4226,8 +4461,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1153465659
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 13ae908217555544cbda000cad6798ef, type: 3}
   m_Color: {r: 1, g: 0.15566039, b: 0.15566039, a: 1}
@@ -4286,6 +4521,53 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &1342210519
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1342210512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a164848a9a16d1419c5dfa36e157d4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patterns:
+  - groupName: Pattern 1
+    initialDelay: 0
+    bursts:
+    - name: Burst 1
+      repeatCount: 2
+      repeatInterval: 0.1
+      delayAfter: 0.5
+      bulletPrefab: {fileID: 1156615127}
+      bulletCount: 4
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+      direction:
+        mode: 0
+        angle: 0
+        spread: 45
+        rotationPerRepeat: 0
+      motion:
+        overrideInitialSpeed: 0
+        initialSpeed: 0
+        speedTimeline: []
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    loopPattern: 1
+  useFixedSeed: 0
+  randomSeed: 12345
 --- !u!1 &1377098211
 GameObject:
   m_ObjectHideFlags: 0
@@ -4346,8 +4628,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -411478679
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: ca71f85a293d4c34b880fd3b0100fcf4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -4968,6 +5250,8 @@ MonoBehaviour:
     prewarmCount: 100
   - prefab: {fileID: 419377789}
     prewarmCount: 800
+  - prefab: {fileID: 1156615127}
+    prewarmCount: 800
 --- !u!114 &1495925531
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5091,8 +5375,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1534680149
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -712631045867808456, guid: 8234efad8d18bd346a3f3dca03f0ea43, type: 3}
   m_Color: {r: 0.5660378, g: 0.4014192, b: 0.2322891, a: 1}
@@ -5222,9 +5506,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f959e61265d5ed46b82376d26e7b2c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 400
+  speed: 800
   damage: 1
-  hitScoreValue: 10
+  hitScoreValue: 1
 --- !u!58 &1556684545
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -6169,6 +6453,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 419377791}
+  - {fileID: 1156615128}
   - {fileID: 1556684543}
   - {fileID: 1501471571}
   m_Father: {fileID: 0}
@@ -6711,7 +6996,7 @@ GameObject:
   - component: {fileID: 2030359841}
   - component: {fileID: 2030359840}
   - component: {fileID: 2030359839}
-  - component: {fileID: 2030359838}
+  - component: {fileID: 2030359843}
   m_Layer: 0
   m_Name: Enemy1Set1 (7)
   m_TagString: Enemy
@@ -6734,41 +7019,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 841565191}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2030359838
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2030359836}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b515a3e2443bdd74eaeac7d3b496453d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  firePoint: {fileID: 0}
-  groups:
-  - groupName: 
-    pattern:
-    - bulletPrefab: {fileID: 419377789}
-      bulletCount: 0
-      spreadAngle: 0
-      aimAtPlayer: 1
-      baseDirection: {x: 0, y: 0}
-      delayAfter: 5
-      repeatCount: 0
-      repeatInterval: 0
-      angleOffsetPerRepeat: 0
-    - bulletPrefab: {fileID: 419377789}
-      bulletCount: 1
-      spreadAngle: 0
-      aimAtPlayer: 1
-      baseDirection: {x: 0, y: 0}
-      delayAfter: 0
-      repeatCount: 5
-      repeatInterval: 0.1
-      angleOffsetPerRepeat: 0
-    loopPattern: 0
 --- !u!114 &2030359839
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6792,11 +7042,11 @@ MonoBehaviour:
   - target: {fileID: 135708002}
     duration: 2
     easeType: 3
-    allowShoot: 1
+    allowShoot: 0
   - target: {fileID: 2144914000}
     duration: 2
     easeType: 3
-    allowShoot: 1
+    allowShoot: 0
   - target: {fileID: 2144914000}
     duration: 2
     easeType: 0
@@ -6804,7 +7054,7 @@ MonoBehaviour:
   - target: {fileID: 1632249422}
     duration: 3
     easeType: 3
-    allowShoot: 1
+    allowShoot: 0
   bodySprite: {fileID: 2030359842}
   hitCollider: {fileID: 2030359840}
   dropsFragment: 1
@@ -6924,8 +7174,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1153465659
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 13ae908217555544cbda000cad6798ef, type: 3}
   m_Color: {r: 1, g: 0.15566039, b: 0.15566039, a: 1}
@@ -6938,6 +7188,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &2030359843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2030359836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a164848a9a16d1419c5dfa36e157d4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patterns: []
+  useFixedSeed: 0
+  randomSeed: 12345
 --- !u!1 &2068763767
 GameObject:
   m_ObjectHideFlags: 0
