@@ -14,6 +14,8 @@ TagManager:
   - HiddenBorder
   - EnemyBorder
   - Graze
+  - BackgroundBorderSpawn
+  - BackgroundBorderEnd
   layers:
   - Default
   - TransparentFX
