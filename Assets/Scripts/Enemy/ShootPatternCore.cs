@@ -42,10 +42,41 @@ namespace EnemySystem
         PerShot
     }
 
+    /// <summary>
+    /// วิธีคำนวณทิศทางเป้าหมายของ Direction Redirect แต่ละจุดใน Direction Timeline
+    /// RelativeAngle = หมุนจากทิศตอนเริ่ม Redirect นี้ไปกี่องศา (รองรับเกิน 180 องศาสำหรับลาย spiral)
+    /// AimAtPlayer   = หมุนเข้าหาตำแหน่งผู้เล่น ณ ตอนเริ่ม Redirect นี้เท่านั้น (คำนวณครั้งเดียว ไม่ track ตามตลอด)
+    /// </summary>
+    public enum DirectionRedirectMode
+    {
+        RelativeAngle,
+        AimAtPlayer
+    }
+
     [Serializable]
     public class SpeedTransition
     {
-        [Min(0f)] public float targetSpeed = 8f;
+        [Tooltip("ความเร็วเป้าหมายของช่วงนี้ - ใส่ค่าติดลบได้ กระสุนจะเคลื่อนที่ถอยหลัง (สวนทาง Direction ที่ตั้งไว้)")]
+        public float targetSpeed = 8f;
+
+        [Min(0f)] public float duration = 1f;
+        public SpeedEasing easing = SpeedEasing.Linear;
+    }
+
+    /// <summary>
+    /// 1 จุดของ Direction Timeline - หมุนทิศทางกระสุนจากค่าปัจจุบัน ไปยังเป้าหมายภายใน Duration ที่กำหนด
+    /// ทำงานคู่ขนานไปกับ Speed Timeline (คนละ Timeline กัน ควบคุมคนละแกน)
+    /// </summary>
+    [Serializable]
+    public class DirectionTransition
+    {
+        [Tooltip("Relative Angle = หมุนจากทิศปัจจุบันไปกี่องศา | Aim At Player = หมุนเข้าหาผู้เล่น ณ ตอนเริ่ม Redirect นี้")]
+        public DirectionRedirectMode mode = DirectionRedirectMode.RelativeAngle;
+
+        [Tooltip("ใช้กับ Relative Angle เท่านั้น - องศาที่จะหมุนเพิ่มจากทิศปัจจุบัน (+ = ทวนเข็มนาฬิกา, - = ตามเข็มนาฬิกา) " +
+                 "ใส่เกิน 180 หรือติดลบเกิน -180 ได้ตามปกติ เพื่อทำลาย spiral")]
+        public float relativeAngle = 0f;
+
         [Min(0f)] public float duration = 1f;
         public SpeedEasing easing = SpeedEasing.Linear;
     }
@@ -56,11 +87,15 @@ namespace EnemySystem
         [Tooltip("ใช้ความเร็ว default จาก EnemyBulletV2 prefab ถ้าไม่ติ๊ก Override")]
         public bool overrideInitialSpeed = false;
 
-        [Min(0f)]
+        [Tooltip("ความเร็วเริ่มต้น - ใส่ค่าติดลบได้ กระสุนจะเริ่มเคลื่อนที่ถอยหลัง (สวนทาง Direction) ตั้งแต่ Spawn")]
         public float initialSpeed = 6f;
 
-        [Tooltip("เปลี่ยนความเร็วจากค่าปัจจุบันไป Target ภายใน Duration ตั้งแต่กระสุน Spawn")]
+        [Tooltip("เปลี่ยนความเร็วจากค่าปัจจุบันไป Target ภายใน Duration ตั้งแต่กระสุน Spawn - Target Speed ใส่ค่าติดลบได้ " +
+                 "เพื่อให้กระสุนกลับทิศ (เคลื่อนที่สวนทาง Direction เดิม)")]
         public List<SpeedTransition> speedTimeline = new List<SpeedTransition>();
+
+        [Tooltip("เปลี่ยนทิศทางกระสุนตามเวลา ตั้งแต่กระสุน Spawn - ทำงานคู่ขนานไปกับ Speed Timeline คนละแกนกัน")]
+        public List<DirectionTransition> directionTimeline = new List<DirectionTransition>();
     }
 
     [Serializable]
@@ -468,7 +503,8 @@ namespace EnemySystem
                 bullet.ConfigureMotion(
                     usePatternSpeed,
                     initialSpeed,
-                    burst.motion.speedTimeline);
+                    burst.motion.speedTimeline,
+                    burst.motion.directionTimeline);
             }
         }
 

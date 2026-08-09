@@ -1250,6 +1250,7 @@ MonoBehaviour:
         - targetSpeed: 400
           duration: 1
           easing: 2
+        directionTimeline: []
       modifiers:
         randomAngle:
           enabled: 0
@@ -1282,6 +1283,7 @@ MonoBehaviour:
         overrideInitialSpeed: 0
         initialSpeed: 0
         speedTimeline: []
+        directionTimeline: []
       modifiers:
         randomAngle:
           enabled: 0
@@ -1326,6 +1328,7 @@ MonoBehaviour:
         - targetSpeed: 400
           duration: 1
           easing: 3
+        directionTimeline: []
       modifiers:
         randomAngle:
           enabled: 0
@@ -1726,16 +1729,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a450add5ef227dd4fbe6689490fcffef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseSpeed: 200
-  baseAcceleration: 4
-  baseMinSpeed: 100
-  baseMaxSpeed: 500
-  direction: {x: 0, y: -1}
-  currentSpeed: 0
-  currentAcceleration: 0
-  currentMinSpeed: 0
-  currentMaxSpeed: 0
-  rb: {fileID: 0}
 --- !u!58 &419377793
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -2048,6 +2041,7 @@ MonoBehaviour:
         - targetSpeed: 200
           duration: 1
           easing: 3
+        directionTimeline: []
       modifiers:
         randomAngle:
           enabled: 0
@@ -3056,45 +3050,157 @@ MonoBehaviour:
   m_GameObject: {fileID: 1010833384}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9cdd124d0e4536445bc5fa12a848a407, type: 3}
+  m_Script: {fileID: 11500000, guid: 8e07e46517dae0243851c1fc767756ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  phases: []
-  entranceTarget: {fileID: 0}
-  entranceDuration: 2
-  entranceEase: 2
-  transitionDuration: 1
-  blinkCount: 5
+  entryTargetPoint: {fileID: 1804644030}
+  entryDuration: 2
+  entryEase: 2
+  phases:
+  - phaseName: Circle
+    phaseHealth: 120
+    isSpellCard: 0
+    spellCardName: 
+    spellCardTimeLimit: 0
+    transitionTargetPoint: {fileID: 0}
+    transitionDuration: 0
+    transitionEase: 3
+    movementPath: []
+    loopMovement: 1
+    patterns:
+    - groupName: Circle
+      initialDelay: 0
+      bursts:
+      - name: Burst 1
+        repeatCount: 72
+        repeatInterval: 0.01
+        delayAfter: 2
+        bulletPrefab: {fileID: 1156615127}
+        bulletCount: 1
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+        direction:
+          mode: 6
+          angle: 0
+          spread: 0
+          rotationPerRepeat: -5
+        motion:
+          overrideInitialSpeed: 0
+          initialSpeed: 0
+          speedTimeline:
+          - targetSpeed: 400
+            duration: 0.2
+            easing: 0
+          - targetSpeed: 0
+            duration: 0.5
+            easing: 0
+          - targetSpeed: 0
+            duration: 3
+            easing: 0
+          - targetSpeed: 600
+            duration: 1
+            easing: 0
+          directionTimeline: []
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+      loopPattern: 1
+  - phaseName: Isometric Sign - The Backwards
+    phaseHealth: 100
+    isSpellCard: 1
+    spellCardName: Isometric Sign - The Backwards
+    spellCardTimeLimit: 60
+    transitionTargetPoint: {fileID: 778667075}
+    transitionDuration: 1
+    transitionEase: 3
+    movementPath:
+    - target: {fileID: 839046499}
+      duration: 1
+      easeType: 3
+      allowShoot: 0
+    - target: {fileID: 2144914000}
+      duration: 3
+      easeType: 0
+      allowShoot: 1
+    - target: {fileID: 778667075}
+      duration: 1
+      easeType: 3
+      allowShoot: 0
+    - target: {fileID: 778667075}
+      duration: 5
+      easeType: 3
+      allowShoot: 0
+    loopMovement: 1
+    patterns:
+    - groupName: Up & Down
+      initialDelay: 0
+      bursts:
+      - name: Up & Down
+        repeatCount: 60
+        repeatInterval: 0.025
+        delayAfter: 0.1
+        bulletPrefab: {fileID: 1156615127}
+        bulletCount: 1
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+        direction:
+          mode: 1
+          angle: 90
+          spread: 40
+          rotationPerRepeat: 0
+        motion:
+          overrideInitialSpeed: 0
+          initialSpeed: 0
+          speedTimeline:
+          - targetSpeed: 150
+            duration: 1
+            easing: 2
+          - targetSpeed: 0
+            duration: 0.5
+            easing: 3
+          - targetSpeed: 0
+            duration: 3
+            easing: 0
+          - targetSpeed: 400
+            duration: 1
+            easing: 2
+          directionTimeline:
+          - mode: 0
+            relativeAngle: 0
+            duration: 4
+            easing: 0
+          - mode: 0
+            relativeAngle: 180
+            duration: 1
+            easing: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+      loopPattern: 1
+  phaseTransitionDuration: 1.2
+  clearBulletsOnPhaseTransition: 1
+  blinkCount: 6
   blinkInterval: 0.08
-  blinkColor:
-    r: 1
-    g: 0
-    b: 0
-    a: 1
-  fragmentPrefab: {fileID: 1501471569}
-  fragmentDropCount: 10
-  bodySprite: {fileID: 0}
-  hitCollider: {fileID: 0}
-  state: 0
-  currentPhaseIndex: -1
-  playerTransform: {fileID: 0}
-  rb: {fileID: 0}
-  originalColor:
-    r: 0
-    g: 0
-    b: 0
-    a: 0
-  isDead: 0
-  moveStartPosition: {x: 0, y: 0, z: 0}
-  moveTarget: {fileID: 0}
-  moveDuration: 0
-  moveEase: 0
-  moveTimer: 0
-  transitionTimer: 0
-  captureCheckLives: 0
-  blinkTimer: 0
-  blinksDone: 0
-  blinkIsColored: 0
+  blinkColor: {r: 1, g: 1, b: 1, a: 1}
+  scoreValueOnDefeat: 1000
+  bodySprite: {fileID: 1010833386}
+  hitCollider: {fileID: 1010833385}
 --- !u!1 &1040590710
 GameObject:
   m_ObjectHideFlags: 0
@@ -3565,7 +3671,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -1, w: 0}
   m_LocalPosition: {x: 200, y: -400, z: 0}
-  m_LocalScale: {x: 12, y: 12, z: 12}
+  m_LocalScale: {x: 20, y: 20, z: 20}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1861392040}
@@ -3598,16 +3704,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a450add5ef227dd4fbe6689490fcffef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseSpeed: 200
-  baseAcceleration: 4
-  baseMinSpeed: 100
-  baseMaxSpeed: 500
-  direction: {x: 0, y: -1}
-  currentSpeed: 0
-  currentAcceleration: 0
-  currentMinSpeed: 0
-  currentMaxSpeed: 0
-  rb: {fileID: 0}
 --- !u!58 &1156615131
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -4270,6 +4366,7 @@ MonoBehaviour:
         - targetSpeed: 500
           duration: 1
           easing: 3
+        directionTimeline: []
       modifiers:
         randomAngle:
           enabled: 0
@@ -4304,6 +4401,7 @@ MonoBehaviour:
         - targetSpeed: 500
           duration: 1
           easing: 3
+        directionTimeline: []
       modifiers:
         randomAngle:
           enabled: 0
@@ -4556,6 +4654,7 @@ MonoBehaviour:
         overrideInitialSpeed: 0
         initialSpeed: 0
         speedTimeline: []
+        directionTimeline: []
       modifiers:
         randomAngle:
           enabled: 0
@@ -5181,7 +5280,7 @@ MonoBehaviour:
       spawnPoint: {fileID: 327786125}
       movementOverride: []
   - groupName: Boss1
-    groupStartTime: 12
+    groupStartTime: 20
     entries:
     - spawnTime: 0
       enemyPrefab: {fileID: 1010833384}

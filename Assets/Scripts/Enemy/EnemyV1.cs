@@ -189,7 +189,7 @@ namespace EnemySystem
 
             // Reset EnemyShooterV1 ทุกตัวที่ติดอยู่บน GameObject นี้ (รองรับกรณีมีหลายตัวพร้อมกันเพื่อยิงหลาย pattern ทีเดียว)
             // ให้เริ่มเล่น pattern จากนัดแรกเสมอทุกครั้งที่ Enemy ถูกดึงจาก pool มาใช้ใหม่
-            var shooters = GetComponents<EnemyShooterV1>();
+            var shooters = GetComponents<EnemyBulletPatternV2>();
             for (int i = 0; i < shooters.Length; i++)
             {
                 shooters[i].ResetAllGroups();

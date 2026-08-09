@@ -431,7 +431,10 @@ namespace EnemySystem
             {
                 EditorGUILayout.PropertyField(
                     motion.FindPropertyRelative(
-                        "initialSpeed"));
+                        "initialSpeed"),
+                    new GUIContent(
+                        "Initial Speed",
+                        "ใส่ค่าติดลบได้ - กระสุนจะเคลื่อนที่ถอยหลัง (สวนทาง Direction) ตั้งแต่ Spawn"));
             }
             else
             {
@@ -443,6 +446,10 @@ namespace EnemySystem
             DrawSpeedTimeline(
                 motion.FindPropertyRelative(
                     "speedTimeline"));
+
+            DrawDirectionTimeline(
+                motion.FindPropertyRelative(
+                    "directionTimeline"));
         }
 
         private void DrawSpeedTimeline(
@@ -485,7 +492,10 @@ namespace EnemySystem
 
                 EditorGUILayout.PropertyField(
                     transition.FindPropertyRelative(
-                        "targetSpeed"));
+                        "targetSpeed"),
+                    new GUIContent(
+                        "Target Speed",
+                        "ใส่ค่าติดลบได้ - กระสุนจะกลับทิศ (เคลื่อนที่สวนทาง Direction เดิม)"));
 
                 EditorGUILayout.PropertyField(
                     transition.FindPropertyRelative(
@@ -514,6 +524,117 @@ namespace EnemySystem
                 transition.FindPropertyRelative(
                     "targetSpeed").floatValue =
                     8f;
+
+                transition.FindPropertyRelative(
+                    "duration").floatValue =
+                    1f;
+
+                transition.FindPropertyRelative(
+                    "easing").enumValueIndex =
+                    (int)SpeedEasing.Linear;
+            }
+        }
+
+        // ============================================================
+        // DIRECTION TIMELINE (Redirect)
+        // ============================================================
+
+        private void DrawDirectionTimeline(
+            SerializedProperty timeline)
+        {
+            EditorGUILayout.Space(2);
+
+            EditorGUILayout.LabelField(
+                "Direction Timeline",
+                EditorStyles.boldLabel);
+
+            for (int i = 0;
+                 i < timeline.arraySize;
+                 i++)
+            {
+                SerializedProperty transition =
+                    timeline.GetArrayElementAtIndex(i);
+
+                EditorGUILayout.BeginVertical(
+                    EditorStyles.helpBox);
+
+                EditorGUILayout.BeginHorizontal();
+
+                EditorGUILayout.LabelField(
+                    $"Redirect {i + 1}",
+                    EditorStyles.boldLabel);
+
+                if (GUILayout.Button(
+                    "X",
+                    GUILayout.Width(24)))
+                {
+                    timeline.DeleteArrayElementAtIndex(i);
+
+                    EditorGUILayout.EndHorizontal();
+                    EditorGUILayout.EndVertical();
+                    break;
+                }
+
+                EditorGUILayout.EndHorizontal();
+
+                SerializedProperty mode =
+                    transition.FindPropertyRelative(
+                        "mode");
+
+                EditorGUILayout.PropertyField(mode);
+
+                DirectionRedirectMode redirectMode =
+                    (DirectionRedirectMode)
+                        mode.enumValueIndex;
+
+                if (redirectMode ==
+                    DirectionRedirectMode.RelativeAngle)
+                {
+                    EditorGUILayout.PropertyField(
+                        transition.FindPropertyRelative(
+                            "relativeAngle"),
+                        new GUIContent(
+                            "Relative Angle",
+                            "หมุนจากทิศตอนเริ่ม Redirect นี้ไปกี่องศา (+ = ทวนเข็ม, - = ตามเข็ม) รองรับเกิน 180° สำหรับลาย spiral"));
+                }
+                else
+                {
+                    EditorGUILayout.HelpBox(
+                        "หมุนเข้าหาผู้เล่น ณ ตำแหน่งตอนเริ่ม Redirect นี้เท่านั้น (คำนวณครั้งเดียว ไม่ Track ตามตลอดเวลา)",
+                        MessageType.None);
+                }
+
+                EditorGUILayout.PropertyField(
+                    transition.FindPropertyRelative(
+                        "duration"));
+
+                EditorGUILayout.PropertyField(
+                    transition.FindPropertyRelative(
+                        "easing"));
+
+                EditorGUILayout.EndVertical();
+            }
+
+            if (GUILayout.Button(
+                "+ Add Direction Redirect"))
+            {
+                int index =
+                    timeline.arraySize;
+
+                timeline.InsertArrayElementAtIndex(
+                    index);
+
+                SerializedProperty transition =
+                    timeline.GetArrayElementAtIndex(
+                        index);
+
+                transition.FindPropertyRelative(
+                    "mode").enumValueIndex =
+                    (int)DirectionRedirectMode.RelativeAngle;
+
+                transition.FindPropertyRelative(
+                    "relativeAngle").floatValue =
+                    45f;
 
                 transition.FindPropertyRelative(
                     "duration").floatValue =
