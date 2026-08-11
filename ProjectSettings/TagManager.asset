@@ -14,8 +14,9 @@ TagManager:
   - HiddenBorder
   - EnemyBorder
   - Graze
-  - BackgroundBorderSpawn
-  - BackgroundBorderEnd
+  - Fragment
+  - Life
+  - Spell
   layers:
   - Default
   - TransparentFX

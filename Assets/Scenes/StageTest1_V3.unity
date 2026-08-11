@@ -1558,7 +1558,64 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a164848a9a16d1419c5dfa36e157d4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  patterns: []
+  patterns:
+  - groupName: Pattern 1
+    initialDelay: 0
+    bursts:
+    - name: Burst 1
+      repeatCount: 120
+      repeatInterval: 0.025
+      delayAfter: 0.5
+      bulletPrefab: {fileID: 1156615127}
+      bulletCount: 1
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+      direction:
+        mode: 2
+        angle: 20
+        spread: 20
+        rotationPerRepeat: 0
+      motion:
+        overrideInitialSpeed: 0
+        initialSpeed: 0
+        speedTimeline:
+        - targetSpeed: -200
+          duration: 0.4
+          easing: 3
+        - targetSpeed: 100
+          duration: 0.4
+          easing: 3
+        - targetSpeed: 800
+          duration: 1
+          easing: 3
+        - targetSpeed: 400
+          duration: 1
+          easing: 3
+        directionTimeline:
+        - mode: 0
+          relativeAngle: 180
+          duration: 1
+          easing: 0
+        - mode: 0
+          relativeAngle: 360
+          duration: 1
+          easing: 0
+        - mode: 1
+          relativeAngle: 45
+          duration: 1
+          easing: 0
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    loopPattern: 1
   useFixedSeed: 0
   randomSeed: 12345
 --- !u!1 &380383822
@@ -4076,7 +4133,48 @@ MonoBehaviour:
   patterns:
   - groupName: Pattern 1
     initialDelay: 0
-    bursts: []
+    bursts:
+    - name: Burst 1
+      repeatCount: 120
+      repeatInterval: 0.05
+      delayAfter: 2
+      bulletPrefab: {fileID: 1156615127}
+      bulletCount: 4
+      spawn:
+        mode: 2
+        offset: {x: 0, y: 0}
+        circleRadius: 20
+      direction:
+        mode: 5
+        angle: 0
+        spread: 360
+        rotationPerRepeat: 0
+      motion:
+        overrideInitialSpeed: 0
+        initialSpeed: 0
+        speedTimeline:
+        - targetSpeed: 200
+          duration: 0.4
+          easing: 3
+        - targetSpeed: 0
+          duration: 0.4
+          easing: 3
+        - targetSpeed: 0
+          duration: 1
+          easing: 0
+        - targetSpeed: 400
+          duration: 0.4
+          easing: 3
+        directionTimeline: []
+      modifiers:
+        randomAngle:
+          enabled: 1
+          range: 20
+          scope: 0
+        randomSpeed:
+          enabled: 1
+          range: 40
+          scope: 0
     loopPattern: 1
   useFixedSeed: 0
   randomSeed: 12345
@@ -7299,7 +7397,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a164848a9a16d1419c5dfa36e157d4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  patterns: []
+  patterns:
+  - groupName: Pattern 1
+    initialDelay: 0
+    bursts:
+    - name: Burst 1
+      repeatCount: 120
+      repeatInterval: 0.025
+      delayAfter: 0.5
+      bulletPrefab: {fileID: 1156615127}
+      bulletCount: 1
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+      direction:
+        mode: 3
+        angle: 0
+        spread: 10
+        rotationPerRepeat: 0
+      motion:
+        overrideInitialSpeed: 0
+        initialSpeed: 0
+        speedTimeline:
+        - targetSpeed: 400
+          duration: 4
+          easing: 0
+        directionTimeline:
+        - mode: 0
+          relativeAngle: 180
+          duration: 1
+          easing: 3
+        - mode: 1
+          relativeAngle: 45
+          duration: 1
+          easing: 3
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    loopPattern: 1
   useFixedSeed: 0
   randomSeed: 12345
 --- !u!1 &2068763767

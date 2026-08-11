@@ -1,42 +1,35 @@
+using System;
 using UnityEngine;
 using PoolingSystem;
 
 namespace PlayerSystem
 {
-    /// <summary>
-    /// สถานะหลักของผู้เล่น - ใช้คุมว่ารับ input ได้หรือไม่
-    /// </summary>
     public enum PlayerState
     {
         Alive,
         Dead
     }
 
-    /// <summary>
-    /// ขั้นตอนย่อยระหว่างตาย - แยกออกจาก PlayerState เพราะเป็นเรื่อง "ภาพ" ล้วนๆ
-    /// ไม่เกี่ยวกับ gameplay logic (PlayerState.Dead พอสำหรับบล็อค input)
-    /// </summary>
     public enum DeathVisualPhase
     {
         None,
-        Blinking,   // กะพริบสีแดง 3 ครั้ง
-        FadingOut,  // จางหายไป
-        FadingIn    // จางกลับมาหลัง respawn
+        Blinking,
+        FadingOut,
+        FadingIn
     }
 
     public class PlayerControllerV1 : MonoBehaviour
     {
         [Header("Movement")]
         [SerializeField] private float moveSpeed = 5f;
-        [SerializeField] private float slowMoveSpeed = 2f; // ความเร็วตอนกด Shift (Focus/Slow mode)
+        [SerializeField] private float slowMoveSpeed = 2f;
 
         [Header("Respawn")]
-        [Tooltip("ลาก Transform ของจุด Spawn (Empty GameObject ที่วางไว้ใน Scene) มาใส่")]
         [SerializeField] private Transform spawnPoint;
 
         [Header("Death Visual - Blink")]
-        [SerializeField] private int blinkCount = 3;           // กะพริบกี่ครั้งก่อนตาย
-        [SerializeField] private float blinkInterval = 0.1f;   // สลับสีทุกกี่วินาที
+        [SerializeField] private int blinkCount = 3;
+        [SerializeField] private float blinkInterval = 0.1f;
         [SerializeField] private Color blinkColor = Color.red;
 
         [Header("Death Visual - Fade")]
@@ -44,49 +37,31 @@ namespace PlayerSystem
         [SerializeField] private float fadeInDuration = 0.4f;
 
         [Header("Invincibility (อมตะหลัง Respawn)")]
-        [Tooltip("ระยะเวลาที่ผู้เล่นอมตะหลังเกิดใหม่ (วินาที) - ตั้งเป็น 0 ถ้าไม่อยากให้มีช่วงอมตะเลย")]
         [SerializeField] private float invincibleDuration = 2f;
-        [Tooltip("ความถี่การกะพริบสีฟ้าระหว่างอมตะ (วินาที)")]
         [SerializeField] private float invincibleBlinkInterval = 0.1f;
-        [Tooltip("สีที่ใช้กะพริบระหว่างอมตะ (ค่าเริ่มต้น = ฟ้าอ่อน)")]
         [SerializeField] private Color invincibleColor = new Color(0.4f, 0.8f, 1f);
 
         [Header("Shooting")]
-        [Tooltip("Prefab ของ PlayerBullet")]
         [SerializeField] private GameObject bulletPrefab;
-        [Tooltip("จุดที่กระสุนจะ spawn ออกมา (ควรอยู่หัวเรือ/หัวตัวละคร)")]
         [SerializeField] private Transform firePoint;
-        [Tooltip("จำนวนนัดต่อวินาที ตอนกด Z ค้าง")]
         [SerializeField] private float fireRate = 10f;
 
         [Header("Spell / Bomb")]
-        [Tooltip("ลาก PlayerShieldV1 ที่วางเป็น child object ของ Player ไว้ล่วงหน้าใน Scene มาใส่ " +
-                 "(ปิด GameObject ไว้ก่อนก็ได้ เพราะ PlayerShieldV1.Awake() จะปิดให้เองอยู่แล้ว)")]
         [SerializeField] private PlayerShieldV1 shield;
-        [Tooltip("รัศมีรอบตัวผู้เล่นที่จะเคลียร์กระสุนศัตรูตอนใช้ spell (world unit)")]
         [SerializeField] private float bombClearRadius = 5f;
-        [Tooltip("ระยะเวลาที่โล่เปิดอยู่หลังใช้ spell (วินาที)")]
         [SerializeField] private float shieldDuration = 2f;
 
         [Header("References")]
-        [Tooltip("SpriteRenderer หลักของตัวละคร (ใช้กะพริบสี/fade alpha)")]
         [SerializeField] private SpriteRenderer bodySprite;
-        [Tooltip("Collider จริงที่ใช้ตรวจจับกระสุนศัตรู ต้องติ๊ก isTrigger และตั้ง radius ให้เล็กกว่า sprite มาก")]
         [SerializeField] private CircleCollider2D hitboxCollider;
-        [Tooltip("จุดเล็กๆ ที่โชว์ให้ผู้เล่นเห็นตำแหน่ง hitbox จริง (โชว์เฉพาะตอน Slow mode)")]
         [SerializeField] private SpriteRenderer hitboxVisual;
 
         [Header("Play Area Border")]
-        [Tooltip("ระยะเผื่อจากขอบกล่อง UIBorder (world unit) - ใส่ 0 ถ้าอยากให้ hitbox ชนขอบพอดีเป๊ะ")]
         [SerializeField] private float borderPadding = 0.1f;
 
         [Header("Play Area Gizmo")]
         [SerializeField] private bool showPlayAreaGizmo = true;
-
-        [Tooltip("เลื่อนตำแหน่ง Gizmo (ไม่กระทบพื้นที่เล่นจริง)")]
         [SerializeField] private Vector2 gizmoPositionOffset = Vector2.zero;
-        
-        [Tooltip("เพิ่ม/ลดขนาด Gizmo (ไม่กระทบพื้นที่เล่นจริง)")]
         [SerializeField] private Vector2 gizmoSizeOffset = Vector2.zero;
 
         private PlayerState currentState = PlayerState.Alive;
@@ -94,32 +69,44 @@ namespace PlayerSystem
         private Vector2 moveInput;
         private bool isSlowMode;
 
-        // ตัวแปรคุม death sequence ทั้งหมด - เก็บเป็น field เพราะต้องอ่านค่าต่อเนื่องข้าม Update หลายเฟรม
         private DeathVisualPhase deathPhase = DeathVisualPhase.None;
         private float phaseTimer;
         private int blinksDone;
-        private bool blinkIsColored; // สลับ true/false ทุกครึ่ง interval เพื่อทำให้กะพริบ
+        private bool blinkIsColored;
         private Color originalColor;
 
-        // เก็บผลจาก PlayerStatsManager.LoseLife() ตอนเริ่มตาย - ต้องรู้ล่วงหน้าตั้งแต่ตอนนี้ว่าจะ respawn ได้ไหม
-        // เพราะพอ fade out จบแล้ว (UpdateFadeOut) ถึงจะถึงจังหวะที่ต้องตัดสินใจว่า respawn หรือ Game Over
         private bool canRespawnAfterThisDeath = true;
 
-        // เวลาที่ยิงนัดต่อไปได้ - ใช้ Time.time เทียบตรงๆ แทนการนับ timer เอง
-        // เพราะ Time.time เป็นค่าสะสมของ Unity อยู่แล้ว ไม่ต้อง += เองทุกเฟรมให้เสี่ยง error สะสม
         private float nextFireTime;
 
-        // สถานะอมตะ - แยก timer/blink ออกจากชุดของ death sequence เพราะทำงานตอน Alive
-        // (death blink สีแดงทำงานตอน Dead เท่านั้น ไม่มีทางชนกัน)
         private bool isInvincible;
         private float invincibleTimer;
         private float invincibleBlinkTimer;
         private bool invincibleBlinkOn;
 
-        // ขอบเขตที่ผู้เล่นเดินได้ - หามาครั้งเดียวตอน Start แล้ว cache ไว้ ไม่ต้องหาใหม่ทุกเฟรม
-        // (เหมือน playerTransform cache ใน EnemyShooterV1 - หลักการเดียวกัน: หาของที่ไม่ขยับทุกเฟรมแค่ครั้งเดียวพอ)
         private Bounds playAreaBounds;
         private bool hasPlayArea;
+
+        // ============================================================
+        // เพิ่มใหม่: hook สำหรับ AudioSystem / AnimationSystem แยกไฟล์
+        // ============================================================
+
+        /// <summary>อ่านค่า input การเคลื่อนที่ปัจจุบัน (สำหรับ AnimationController ใช้ตัดสิน Idle/Move + ทิศ)</summary>
+        public Vector2 CurrentMoveInput => moveInput;
+
+        public bool IsSlowMode => isSlowMode;
+
+        /// <summary>ยิงทุกครั้งที่ผู้เล่นยิงกระสุนสำเร็จ (ผ่าน rate limit แล้ว)</summary>
+        public event Action OnShoot;
+
+        /// <summary>ยิงตอน Die() เริ่มทำงาน (ก่อน blink visual ใดๆ)</summary>
+        public event Action OnDied;
+
+        /// <summary>ยิงตอนใช้ Spell (Bomb) สำเร็จเท่านั้น (มี resource พอ)</summary>
+        public event Action OnBombUsed;
+
+        /// <summary>ยิงตอน death sequence จบและผู้เล่นควบคุมตัวได้อีกครั้ง (จบ FadingIn)</summary>
+        public event Action OnRespawned;
 
         void Awake()
         {
@@ -132,13 +119,6 @@ namespace PlayerSystem
             CachePlayAreaBounds();
         }
 
-        /// <summary>
-        /// หา GameObject ทุกตัวที่ tag "UIBorder" ในฉาก แล้วรวม Bounds ของ Collider2D ทุกตัวเข้าด้วยกัน
-        /// รองรับทั้งกรณีทำเป็นกล่องเดียวครอบพื้นที่เล่น หรือแยกเป็นกำแพง 4 ด้าน (Left/Right/Top/Bottom)
-        /// ที่ tag เดียวกันหมด - ถ้าวางกำแพงให้ขอบในตรงกับพื้นที่เล่นจริง ผลรวม bounds จะเท่ากับกรอบพื้นที่เล่นพอดี
-        /// ไม่ต้องพึ่ง physics trigger เลย เพราะแค่ต้องการ "กรอบตัวเลข" มา clamp ตำแหน่งเท่านั้น
-        /// (ถ้ากล่อง UIBorder ขยับ/ปรับขนาดกลางเกม ต้องเรียกฟังก์ชันนี้ใหม่ - ตอนนี้ยังไม่รองรับ เพราะกรอบจอปกติควรอยู่นิ่ง)
-        /// </summary>
         private void CachePlayAreaBounds()
         {
             GameObject[] borderObjs = GameObject.FindGameObjectsWithTag("UIBorder");
@@ -157,8 +137,6 @@ namespace PlayerSystem
 
                 if (!boundsStarted)
                 {
-                    // เริ่มจาก bounds ของชิ้นแรกที่เจอ Collider2D ก่อน แทนที่จะเริ่มจาก Bounds ว่างเปล่า (0,0,0)
-                    // เพราะถ้าเริ่มจากค่าว่างแล้ว Encapsulate จะดึงจุด (0,0,0) เข้ามาปนด้วยเสมอ ทำให้ bounds เพี้ยน
                     combined = col.bounds;
                     boundsStarted = true;
                 }
@@ -191,15 +169,12 @@ namespace PlayerSystem
             }
             else
             {
-                // ตายอยู่ -> ไม่รับ input เคลื่อนที่/ยิงเลย แต่ต้องอัปเดต visual sequence ต่อไป
                 UpdateDeathSequence();
             }
         }
 
         private void ReadMovementInput()
         {
-            // ปุ่มลูกศรตามที่ต้องการตอนนี้ ทีหลังจะสลับเป็น WASD ได้ง่ายๆ
-            // แค่เปลี่ยนตรงนี้เป็นอ่านจากตัวแปร/Settings แทนการ hardcode KeyCode
             float h = 0f;
             float v = 0f;
 
@@ -208,27 +183,22 @@ namespace PlayerSystem
             if (Input.GetKey(KeyCode.UpArrow)) v += 1f;
             if (Input.GetKey(KeyCode.DownArrow)) v -= 1f;
 
-            // normalized กันเดินทแยงมุมเร็วกว่าเดินตรง (จาก Pythagoras: (1,1) ยาวกว่า (1,0))
             moveInput = new Vector2(h, v).normalized;
 
             isSlowMode = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
 
-            // โชว์ hitbox visual เฉพาะตอน Slow mode ตาม convention บูลเลตเฮลทั่วไป
             if (hitboxVisual != null)
                 hitboxVisual.enabled = isSlowMode;
         }
 
         private void HandleActionInput()
         {
-            // Shoot ใช้ GetKey (ไม่ใช่ GetKeyDown) เพราะต้องการให้ยิงต่อเนื่องตอนกดค้าง
-            // คุมอัตรายิงด้วย nextFireTime แทน ไม่งั้นจะยิงถี่ระดับเฟรมเรท (60+ นัด/วิ) ซึ่งเร็วเกินไปและกิน performance
             if (Input.GetKey(KeyCode.Z) && Time.time >= nextFireTime)
             {
                 Shoot();
                 nextFireTime = Time.time + (1f / fireRate);
             }
 
-            // Bomb ใช้ GetKeyDown เพราะต้องการจับ "จังหวะกดครั้งแรก" เท่านั้น ไม่ใช่ทุกเฟรมที่กดค้าง
             if (Input.GetKeyDown(KeyCode.X))
             {
                 Bomb();
@@ -239,13 +209,10 @@ namespace PlayerSystem
         {
             float speed = isSlowMode ? slowMoveSpeed : moveSpeed;
 
-            // ไม่มี Rigidbody2D แล้ว เลยแก้ transform.position ตรงๆ ผ่าน Time.deltaTime
             Vector3 nextPosition = transform.position + (Vector3)(moveInput * speed * Time.deltaTime);
 
             if (hasPlayArea)
             {
-                // Clamp แยกแกน x และ y อิสระจากกัน - นี่คือจุดสำคัญที่ทำให้ได้ฟีลแบบ Touhou:
-                // ชนขอบบน (y ถูกบีบ) แต่ยังกดซ้าย-ขวาไถลไปตามขอบได้ (x ไม่ถูกบีบ) ในเฟรมเดียวกัน
                 nextPosition.x = Mathf.Clamp(nextPosition.x, playAreaBounds.min.x + borderPadding, playAreaBounds.max.x - borderPadding);
                 nextPosition.y = Mathf.Clamp(nextPosition.y, playAreaBounds.min.y + borderPadding, playAreaBounds.max.y - borderPadding);
             }
@@ -263,12 +230,12 @@ namespace PlayerSystem
             {
                 bullet.SetDirection(Vector2.up);
             }
+
+            OnShoot?.Invoke(); // เพิ่มใหม่
         }
 
         private void Bomb()
         {
-            // เช็คก่อนว่ามี spell เหลือไหม ไม่งั้นกดพลาดตอน spell = 0 จะเข้ามาถึงตรงนี้เฉยๆ โดยไม่มีอะไรเกิดขึ้น
-            // (ดีกว่าไม่เช็คเลยแล้วปล่อยให้เกิด "Bomb ฟรี" โดยไม่หัก resource)
             if (PlayerStatsManager.Instance != null && !PlayerStatsManager.Instance.UseSpell())
             {
                 return;
@@ -276,9 +243,6 @@ namespace PlayerSystem
 
             ClearBulletsInRadius(transform.position, bombClearRadius);
 
-            // ผู้เล่นยังคุมตัว/ยิงได้ปกติทันทีตามที่ออกแบบไว้ - ไม่มีการ lock input ระหว่างโล่เปิดอยู่
-            // เพราะฉะนั้นไม่ต้องมี state/timer เพิ่มฝั่ง PlayerControllerV1 เลย ปล่อยให้ PlayerShieldV1
-            // จัดการ lifetime ของตัวเองทั้งหมด (เปิด -> นับถอยหลัง -> ปิดตัวเอง)
             if (shield != null)
             {
                 shield.Activate(shieldDuration);
@@ -287,13 +251,10 @@ namespace PlayerSystem
             {
                 Debug.LogWarning("PlayerControllerV1: ไม่ได้ลาก PlayerShieldV1 ไว้ใน field \"shield\" - ใช้ spell ได้ แต่จะไม่มีโล่ขึ้น");
             }
+
+            OnBombUsed?.Invoke(); // เพิ่มใหม่
         }
 
-        /// <summary>
-        /// เคลียร์กระสุนศัตรูทุกนัดที่อยู่ในรัศมี radius รอบจุด center ณ เฟรมนี้ (เอฟเฟกต์ครั้งเดียว ไม่ใช่ trigger ต่อเนื่อง)
-        /// ใช้ OverlapCircleAll แทนการรอ Collider2D ชนกันเอง เพราะนี่คือ "เหตุการณ์ทันที" ตอนกด Bomb เท่านั้น
-        /// ไม่ต้อง optimize เป็น NonAlloc เพราะ Bomb กดได้จำกัดตาม maxSpells ไม่ได้เรียกถี่แบบทุกเฟรม
-        /// </summary>
         private void ClearBulletsInRadius(Vector2 center, float radius)
         {
             Collider2D[] hits = Physics2D.OverlapCircleAll(center, radius);
@@ -301,45 +262,50 @@ namespace PlayerSystem
             foreach (Collider2D hit in hits)
             {
                 if (!hit.CompareTag("EnemyBullet")) continue;
-                PoolManager.Instance.Return(hit.gameObject);
+
+                // เพิ่มใหม่: ใช้ RequestDestroy() แทน Return() ตรงๆ เพื่อให้เล่น Death Animation ได้ถ้ามีผูกไว้
+                if (hit.TryGetComponent<EnemySystem.EnemyBulletV2>(out var bulletV2))
+                    bulletV2.RequestDestroy();
+                else
+                    PoolManager.Instance.Return(hit.gameObject);
             }
         }
 
-        /// <summary>
-        /// เรียกจากภายนอก เช่น EnemyBullet.cs ตอน OnTriggerEnter2D เจอผู้เล่น
-        /// </summary>
         public void Die()
         {
-            // กันเคสโดนกระสุนหลายลูกพร้อมกันในเฟรมเดียว หรือโดนซ้ำระหว่าง death sequence
             if (currentState == PlayerState.Dead) return;
-
-            // อมตะอยู่ (ช่วงหลัง Respawn) - เพิกเฉยต่อการโดนโจมตีทุกแบบ ไม่ว่าจะเป็น EnemyBullet หรือชน Enemy ตัวเนื้อ
-            // เช็คจุดเดียวตรงนี้พอ เพราะทั้ง EnemyBulletV1 และ EnemyV1 ต่างก็เรียก Die() ผ่านทางนี้เหมือนกันหมด
             if (isInvincible) return;
 
             currentState = PlayerState.Dead;
 
-            // ปิด collider/hitbox visual ทันที กันโดนกระสุนซ้ำระหว่างตาย
-            if (hitboxCollider != null) hitboxCollider.enabled = false;
-            if (hitboxVisual != null) hitboxVisual.enabled = false;
+            OnDied?.Invoke();
 
-            // หักชีวิตทันทีตอนเริ่มตาย (ไม่ใช่ตอน respawn จริง) เพราะตามหลัก bullet hell ทั่วไป
-            // การเสียชีวิต 1 ครั้งควรหักทันทีที่โดน ไม่ใช่รอ visual sequence เล่นจบก่อนค่อยหัก
-            // ค่าที่ได้ (respawn ได้ไหม) เก็บไว้ใช้ตอน UpdateFadeOut() จบ เพราะตอนนั้นถึงจะถึงจังหวะตัดสินใจ
-            canRespawnAfterThisDeath = PlayerStatsManager.Instance == null
-                || PlayerStatsManager.Instance.LoseLife();
+            if (hitboxCollider != null)
+                hitboxCollider.enabled = false;
 
-            // เริ่ม death sequence จากขั้นกะพริบก่อนเสมอ
+            if (hitboxVisual != null)
+                hitboxVisual.enabled = false;
+
+            // PlayerStatsManager เป็นตัวตัดสินว่า
+            // หลังเสีย Life แล้ว Player ยัง Respawn ได้หรือไม่
+            if (PlayerStatsManager.Instance != null)
+            {
+                canRespawnAfterThisDeath =
+                    PlayerStatsManager.Instance.LoseLife();
+            }
+            else
+            {
+                // Fallback: ถ้าไม่มี Stats Manager
+                // ให้ถือว่ายัง Respawn ได้ เพื่อไม่ให้เกิด NullReferenceException
+                canRespawnAfterThisDeath = true;
+            }
+
             deathPhase = DeathVisualPhase.Blinking;
             phaseTimer = 0f;
             blinksDone = 0;
             blinkIsColored = false;
         }
 
-        /// <summary>
-        /// ตัวขับเคลื่อน death sequence ทั้งหมด เรียกทุกเฟรมตอน currentState == Dead
-        /// ไล่ผ่าน 3 phase ตามลำดับ: Blinking -> FadingOut -> (respawn ตำแหน่ง) -> FadingIn -> จบ
-        /// </summary>
         private void UpdateDeathSequence()
         {
             phaseTimer += Time.deltaTime;
@@ -364,24 +330,21 @@ namespace PlayerSystem
         {
             if (phaseTimer < blinkInterval) return;
 
-            // ครบ 1 interval แล้ว -> สลับสี และรีเซ็ต timer สำหรับรอบถัดไป
             phaseTimer = 0f;
             blinkIsColored = !blinkIsColored;
 
             if (bodySprite != null)
                 bodySprite.color = blinkIsColored ? blinkColor : originalColor;
 
-            // นับ 1 "ครั้ง" ตอนกลับมาสีปกติ (คือครบ 1 รอบ แดง->ปกติ)
             if (!blinkIsColored)
             {
                 blinksDone++;
                 if (blinksDone >= blinkCount)
                 {
-                    // กะพริบครบแล้ว -> เข้าสู่ phase จางหาย
                     deathPhase = DeathVisualPhase.FadingOut;
                     phaseTimer = 0f;
                     if (bodySprite != null)
-                        bodySprite.color = originalColor; // กันสีค้างเป็นแดงตอนเริ่ม fade
+                        bodySprite.color = originalColor;
                 }
             }
         }
@@ -395,15 +358,12 @@ namespace PlayerSystem
             {
                 if (canRespawnAfterThisDeath)
                 {
-                    // จางหายสนิทแล้ว -> ย้ายไปจุด spawn แล้วเริ่ม fade กลับเข้ามา
                     RespawnPosition();
                     deathPhase = DeathVisualPhase.FadingIn;
                     phaseTimer = 0f;
                 }
                 else
                 {
-                    // หมดชีวิตแล้ว - ไม่ respawn ต่อ ค้าง state ไว้ที่ Dead + จางหายไปตลอด
-                    // TODO: เชื่อมกับหน้าจอ Game Over / restart flow ทีหลัง ตอนนี้แค่หยุด sequence ไว้ตรงนี้ก่อน
                     deathPhase = DeathVisualPhase.None;
                     Debug.Log("PlayerControllerV1: Game Over");
                 }
@@ -417,15 +377,15 @@ namespace PlayerSystem
 
             if (t >= 1f)
             {
-                // จบ sequence ทั้งหมด -> คืนสิทธิ์ควบคุมให้ผู้เล่น
                 SetAlpha(1f);
                 if (hitboxCollider != null) hitboxCollider.enabled = true;
 
                 deathPhase = DeathVisualPhase.None;
                 currentState = PlayerState.Alive;
 
-                // เกิดใหม่เสร็จ -> เริ่มช่วงอมตะทันที กันโดนซ้ำตอนเพิ่งคุมตัวได้
                 StartInvincibility();
+
+                OnRespawned?.Invoke(); // เพิ่มใหม่
             }
         }
 
@@ -437,10 +397,6 @@ namespace PlayerSystem
             invincibleBlinkOn = false;
         }
 
-        /// <summary>
-        /// เรียกทุกเฟรมตอน Alive + isInvincible เท่านั้น (ดูใน Update())
-        /// โครงเดียวกับ UpdateBlinking() ตอนตาย ต่างกันแค่สีที่สลับ และเงื่อนไขจบคือครบเวลา ไม่ใช่ครบจำนวนครั้ง
-        /// </summary>
         private void UpdateInvincibility()
         {
             invincibleTimer += Time.deltaTime;
@@ -465,7 +421,6 @@ namespace PlayerSystem
         {
             isInvincible = false;
 
-            // กันสีค้างเป็นฟ้าอยู่ ถ้า duration ดันหมดพอดีตอนกำลังกะพริบเป็นสีฟ้าอยู่
             if (bodySprite != null)
                 bodySprite.color = originalColor;
         }
@@ -480,7 +435,6 @@ namespace PlayerSystem
 
         private void RespawnPosition()
         {
-            // กันลืมลาก spawnPoint ใน Inspector - ไม่งั้นจะ error กลางเกมตอนตายครั้งแรกโดยไม่รู้สาเหตุ
             if (spawnPoint == null)
             {
                 Debug.LogWarning("PlayerControllerV1: ไม่ได้กำหนด spawnPoint ไว้ - จะไม่ย้ายตำแหน่งตอน respawn");
@@ -491,7 +445,6 @@ namespace PlayerSystem
             transform.rotation = spawnPoint.rotation;
         }
 
-        // วาด hitbox ใน Scene view แม้ไม่ได้กด Play เพื่อเช็คขนาด/ตำแหน่งง่ายๆ ตอนจัดฉาก
         void OnDrawGizmosSelected()
         {
             if (hitboxCollider != null)
