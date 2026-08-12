@@ -17,6 +17,25 @@ namespace UISystem
         [SerializeField] private CanvasGroup canvasGroup;
         [SerializeField] private RectTransform textRect;
         [SerializeField] private TMP_Text spellNameText;
+        [SerializeField] private SpriteRenderer backgroundSpriteRenderer;
+
+        [Header("Visual (Optional)")]
+        [Tooltip(
+            "ใส่ได้ไม่บังคับ - เป็น RectTransform ของ UI Image/GameObject ที่อยาก Spawn " +
+            "เคลื่อนที่และ Fade ไปพร้อมกับ Text (ใช้ตำแหน่ง Start/Center/End เดียวกันด้านล่าง)\n" +
+            "แนะนำให้เป็น UI Image (ไม่ใช่ SpriteRenderer) เพราะ CanvasGroup.alpha จะ Fade ให้อัตโนมัติ " +
+            "ถ้าเป็น SpriteRenderer ต้องทำ Fade เอง อยู่นอกเหนือ Component นี้"
+        )]
+        [SerializeField] private RectTransform visualRect;
+
+        [Tooltip(
+            "ใส่ได้ไม่บังคับ - Animator ของ Object ในช่อง Visual Rect ด้านบน " +
+            "ถ้ามีและมี Trigger ชื่อตรงกับ Visual Play Trigger จะถูกเรียกตอน Play() " +
+            "ถ้าไม่ใส่ หรือไม่มี Trigger ชื่อนี้ จะข้ามไปเฉยๆ ไม่มี Error"
+        )]
+        [SerializeField] private Animator visualAnimator;
+
+        [SerializeField] private string visualPlayTriggerName = "Play";
 
         [Header("Positions (Anchored Position ของ textRect)")]
         [SerializeField] private Vector2 startPosition = new Vector2(0f, -600f);
@@ -42,6 +61,37 @@ namespace UISystem
         {
             SetVisualState(startPosition, 0f);
             gameObject.SetActive(true); // ตัว GameObject เปิดค้างไว้เสมอ ใช้ CanvasGroup.alpha คุมการมองเห็นแทน
+        }
+
+        /// <summary>เรียก Animator Trigger ของ Visual ถ้ามีทั้ง Animator และ Trigger ชื่อตรงกัน - ไม่มีก็ข้ามเงียบๆ (opt-in)</summary>
+        private void TriggerVisualPlayAnimation()
+        {
+            if (visualAnimator == null)
+                return;
+
+            if (!HasTriggerParameter(visualAnimator, visualPlayTriggerName))
+                return;
+
+            visualAnimator.SetTrigger(visualPlayTriggerName);
+        }
+
+        private static bool HasTriggerParameter(Animator animator, string paramName)
+        {
+            if (string.IsNullOrEmpty(paramName))
+                return false;
+
+            AnimatorControllerParameter[] parameters = animator.parameters;
+
+            for (int i = 0; i < parameters.Length; i++)
+            {
+                if (parameters[i].type == AnimatorControllerParameterType.Trigger &&
+                    parameters[i].name == paramName)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private void OnEnable()
@@ -71,6 +121,8 @@ namespace UISystem
             currentPhase = Phase.FadeIn;
             phaseTimer = 0f;
             SetVisualState(startPosition, 0f);
+
+            TriggerVisualPlayAnimation();
         }
 
         private void Update()
@@ -139,6 +191,11 @@ namespace UISystem
         {
             if (textRect != null)
                 textRect.anchoredPosition = anchoredPosition;
+
+            // Visual (ถ้ามี) เคลื่อนที่ไปพร้อม Text บนเส้นทางเดียวกัน
+            // ไม่ต้อง Fade เองแยก เพราะอยู่ใต้ canvasGroup เดียวกัน (ถ้าเป็น UI Image)
+            if (visualRect != null)
+                visualRect.anchoredPosition = anchoredPosition;
 
             if (canvasGroup != null)
                 canvasGroup.alpha = alpha;

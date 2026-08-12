@@ -58,6 +58,27 @@ namespace EnemySystem
         private bool directionTimelineActive;
         private bool useDirectionTimeline;
 
+        // ============================================================
+        // เพิ่มใหม่: Burst Timeline - จุดเวลาที่จะ Spawn Pattern ใหม่
+        // ออกจากตำแหน่งจริงของกระสุนตัวนี้เอง (คนละระบบกับ Speed/Direction Timeline ด้านบน)
+        // ============================================================
+        private List<BulletBurstTrigger> burstTimeline;
+        private bool[] burstTriggerFired;
+        private float burstTimelineClock;
+        private readonly List<BulletPatternV2Executor> activeBurstExecutors =
+            new List<BulletPatternV2Executor>();
+
+        [Header("Visual Rotation (Optional)")]
+        [Tooltip(
+            "ติ๊กถ้าอยากให้กระสุนหมุนหันไปตามทิศทางที่กำลังเคลื่อนที่อยู่ " +
+            "(อัปเดตทุกครั้งที่ทิศเปลี่ยน เช่นจาก Direction Timeline หรือ Redirect)\n" +
+            "ไม่ติ๊ก = กระสุนไม่หมุน เหมือนพฤติกรรมเดิมทุกประการ (เหมาะกับกระสุนวงกลม/สมมาตรที่ไม่ต้องหันทิศ)"
+        )]
+        [SerializeField] private bool rotateToFaceDirection = false;
+
+        [Tooltip("มุมชดเชย Sprite - ถ้า Sprite วาดหันขึ้นด้านบนอยู่แล้วให้ใส่ -90, ถ้าวาดหันขวาอยู่แล้วใส่ 0")]
+        [SerializeField] private float spriteAngleOffset = -90f;
+
         private Transform cachedPlayerTransform;
 
         public float CurrentSpeed => currentSpeed;
@@ -97,6 +118,26 @@ namespace EnemySystem
                 Time.fixedDeltaTime;
 
             rb.MovePosition(targetPosition);
+
+            // เพิ่มใหม่: หันหัวกระสุนตามทิศที่กำลังเคลื่อนที่ (Optional)
+            if (rotateToFaceDirection)
+                UpdateFacingRotation();
+        }
+
+        private void UpdateFacingRotation()
+        {
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            rb.MoveRotation(angle + spriteAngleOffset);
+        }
+
+        private void Update()
+        {
+            // เพิ่มใหม่: Burst Timeline - แยก Loop จาก FixedUpdate เพราะไม่เกี่ยวกับ Physics โดยตรง
+            // (เหมือนที่ EnemyBulletPatternV2/BossV2 Tick Pattern Executor ของตัวเองใน Update)
+            if (isDying) return;
+
+            UpdateBurstTimeline(Time.deltaTime);
+            TickActiveBurstExecutors(Time.deltaTime);
         }
 
         private void UpdateSpeed()
@@ -171,7 +212,8 @@ namespace EnemySystem
             bool overrideInitialSpeed,
             float initialSpeed,
             List<SpeedTransition> timeline,
-            List<DirectionTransition> newDirectionTimeline = null)
+            List<DirectionTransition> newDirectionTimeline = null,
+            List<BulletBurstTrigger> newBurstTimeline = null)
         {
             currentSpeed = overrideInitialSpeed ? initialSpeed : baseSpeed;
 
@@ -194,6 +236,14 @@ namespace EnemySystem
 
             directionTimelineActive = directionTimeline != null && directionTimeline.Count > 0;
             useDirectionTimeline = directionTimelineActive;
+
+            // เพิ่มใหม่: Reset Burst Timeline ทุกครั้งที่กระสุนถูก Configure ใหม่ (ตอน Spawn)
+            burstTimeline = newBurstTimeline;
+            burstTimelineClock = 0f;
+            activeBurstExecutors.Clear();
+
+            int triggerCount = burstTimeline != null ? burstTimeline.Count : 0;
+            burstTriggerFired = triggerCount > 0 ? new bool[triggerCount] : null;
         }
 
         private void UpdateSpeedTimeline(float deltaTime)
@@ -376,6 +426,83 @@ namespace EnemySystem
             }
         }
 
+        // เพิ่มใหม่: Burst Timeline - จุดเวลาที่จะสั่งยิง Pattern ใหม่จากตำแหน่งกระสุนตัวนี้เอง
+        //
+        // สำคัญ: trigger.pattern เป็น Reference เดียวกันกับที่ Boss/Enemy ทุกตัวที่ยิง Burst นี้ใช้ร่วมกัน
+        // (เก็บอยู่บน BulletMotionSettings ของ Config ต้นทาง ไม่ใช่ต่อกระสุน) ถ้ากระสุนหลายตัวที่มาจาก Burst
+        // เดียวกัน Trigger พร้อมกัน แล้วใช้ trigger.pattern ตรงๆ โดยไม่ Clone ก่อน จะเกิดปัญหาแย่ง
+        // currentBurst/timer กันเอง (Pattern เพี้ยน) เพราะ BulletPatternGroup/BulletBurstV2 มี Field แบบ
+        // [NonSerialized] เก็บ Runtime State อยู่บนตัวมันเอง - ต้อง Clone() ก่อนสร้าง Executor เสมอ
+
+        private void UpdateBurstTimeline(float dt)
+        {
+            if (burstTimeline == null || burstTimeline.Count == 0)
+                return;
+
+            burstTimelineClock += dt;
+
+            for (int i = 0; i < burstTimeline.Count; i++)
+            {
+                if (burstTriggerFired[i]) continue;
+
+                BulletBurstTrigger trigger = burstTimeline[i];
+
+                if (trigger == null)
+                {
+                    burstTriggerFired[i] = true;
+                    continue;
+                }
+
+                if (burstTimelineClock < trigger.time) continue;
+
+                burstTriggerFired[i] = true;
+                FireBurstTrigger(trigger);
+
+                // trigger นี้อาจสั่ง RequestDestroy() ตัวเอง (destroySelfAfterFire) -
+                // ถ้าตายแล้ว isDying จะเป็น true และ Update() รอบถัดไปจะหยุด Tick ต่อเองอยู่แล้ว
+                if (isDying) return;
+            }
+        }
+
+        private void FireBurstTrigger(BulletBurstTrigger trigger)
+        {
+            if (trigger.pattern != null && trigger.pattern.Count > 0)
+            {
+                List<BulletPatternGroup> clonedGroups =
+                    new List<BulletPatternGroup>(trigger.pattern.Count);
+
+                for (int i = 0; i < trigger.pattern.Count; i++)
+                {
+                    BulletPatternGroup source = trigger.pattern[i];
+                    if (source != null)
+                        clonedGroups.Add(source.Clone());
+                }
+
+                BulletPatternV2Executor executor =
+                    new BulletPatternV2Executor(
+                        clonedGroups,
+                        transform,
+                        () => cachedPlayerTransform);
+
+                // ยิงนัดแรกทันที ไม่ต้องรอ Update รอบหน้า - "ขยับออกพร้อมกัน" ตอนถึงจุดนี้จริงๆ
+                executor.Tick(0f);
+
+                if (!trigger.destroySelfAfterFire)
+                    activeBurstExecutors.Add(executor);
+            }
+
+            if (trigger.destroySelfAfterFire)
+                RequestDestroy();
+        }
+
+        private void TickActiveBurstExecutors(float dt)
+        {
+            if (activeBurstExecutors.Count == 0) return;
+
+            for (int i = 0; i < activeBurstExecutors.Count; i++)
+                activeBurstExecutors[i].Tick(dt);
+        }
+
         private void ResetMotionToPrefabDefaults()
         {
             direction = Vector2.down;
@@ -398,6 +525,12 @@ namespace EnemySystem
             directionSegmentInitialized = false;
             directionTimelineActive = false;
             useDirectionTimeline = false;
+
+            // เพิ่มใหม่: reset Burst Timeline ตอนกลับไปเป็นค่า default ของ prefab (ก่อน Configure ใหม่)
+            burstTimeline = null;
+            burstTriggerFired = null;
+            burstTimelineClock = 0f;
+            activeBurstExecutors.Clear();
         }
 
         public void OnSpawnFromPool()
@@ -429,6 +562,11 @@ namespace EnemySystem
             directionTimeline = null;
             directionTimelineActive = false;
             useDirectionTimeline = false;
+
+            // เพิ่มใหม่: เคลียร์ Burst Timeline ทันทีตอนคืนเข้า Pool กัน Executor ค้างยิงจากตำแหน่งเก่า
+            burstTimeline = null;
+            burstTriggerFired = null;
+            activeBurstExecutors.Clear();
 
             isDying = false; // เพิ่มใหม่
         }

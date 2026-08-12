@@ -96,6 +96,37 @@ namespace EnemySystem
 
         [Tooltip("เปลี่ยนทิศทางกระสุนตามเวลา ตั้งแต่กระสุน Spawn - ทำงานคู่ขนานไปกับ Speed Timeline คนละแกนกัน")]
         public List<DirectionTransition> directionTimeline = new List<DirectionTransition>();
+
+        [Tooltip(
+            "จุดเวลา (นับจากตอนกระสุนนี้ Spawn) ที่จะสั่งยิง Pattern ใหม่ออกจากตำแหน่งกระสุนตัวนี้เอง " +
+            "(ไม่ใช่ตำแหน่ง Boss/Enemy) - แก้ปัญหาคาดเดาตำแหน่งกระสุนกลางอากาศไม่ได้\n" +
+            "เป็นคนละระบบกับ Speed/Direction Timeline ด้านบน ใช้ร่วมกันได้"
+        )]
+        public List<BulletBurstTrigger> burstTimeline = new List<BulletBurstTrigger>();
+    }
+
+    /// <summary>
+    /// 1 จุดใน Burst Timeline ของกระสุน - พอถึงเวลาที่กำหนด จะสั่งยิง Pattern ที่ผูกไว้
+    /// ออกจากตำแหน่งจริงของกระสุนตัวนี้ ณ ตอนนั้น (ใช้ระบบ Group/Burst เดิมทุกอย่าง)
+    /// </summary>
+    [Serializable]
+    public class BulletBurstTrigger
+    {
+        [Tooltip("ชื่อ - ใช้แค่ให้อ่านง่ายใน Inspector")]
+        public string name = "Burst Trigger";
+
+        [Tooltip("เวลานับจากตอนกระสุนนี้ Spawn (วินาที) ที่จะสั่งยิง Pattern ด้านล่างออกจากตำแหน่งกระสุนตัวนี้")]
+        [Min(0f)]
+        public float time = 0.5f;
+
+        [Tooltip("Pattern ที่จะยิงออกมา - ใช้ระบบ Group/Burst เดิมทั้งหมด ออกแบบเหมือน Pattern ปกติของ Boss/Enemy ได้เลย")]
+        public List<BulletPatternGroup> pattern = new List<BulletPatternGroup>();
+
+        [Tooltip(
+            "ติ๊ก = ทำลายกระสุนตัวนี้ (ตัวแม่) ทันทีหลังยิง Pattern ออกไป (RequestDestroy)\n" +
+            "ไม่ติ๊ก = กระสุนตัวนี้เดินตาม Speed/Direction Timeline ต่อตามปกติ Pattern ที่ยิงไปก็ยัง Loop ต่อได้ถ้าตั้งไว้"
+        )]
+        public bool destroySelfAfterFire = false;
     }
 
     [Serializable]
@@ -189,6 +220,29 @@ namespace EnemySystem
             delayTimer = 0f;
             fired = false;
         }
+
+        /// <summary>
+        /// ใช้ตอนกระสุนตัวหนึ่งจะยิง Pattern จาก Burst Timeline ของตัวเอง (ดู EnemyBulletV2)
+        /// Config ทั้งหมด (spawn/direction/motion/modifiers) แชร์ Reference เดิมได้เลย เพราะ Executor
+        /// ไม่เคยเขียนทับค่าพวกนี้ - สิ่งเดียวที่ต้องแยกคือ Field ที่มี [NonSerialized] Runtime State ด้านบน
+        /// เพื่อกันกระสุนหลายตัวที่ใช้ Pattern เดียวกัน มาแย่ง currentRepeat/timer กันเอง
+        /// </summary>
+        public BulletBurstV2 Clone()
+        {
+            return new BulletBurstV2
+            {
+                name = name,
+                repeatCount = repeatCount,
+                repeatInterval = repeatInterval,
+                delayAfter = delayAfter,
+                bulletPrefab = bulletPrefab,
+                bulletCount = bulletCount,
+                spawn = spawn,
+                direction = direction,
+                motion = motion,
+                modifiers = modifiers
+            };
+        }
     }
 
     [Serializable]
@@ -219,6 +273,31 @@ namespace EnemySystem
             if (bursts == null) return;
             for (int i = 0; i < bursts.Count; i++)
                 bursts[i].ResetRuntime();
+        }
+
+        /// <summary>
+        /// Deep copy เฉพาะส่วนที่มี Runtime State (ตัวเองกับ Bursts ข้างใน)
+        /// ใช้ตอนกระสุนแต่ละตัวยิง Pattern เดียวกันจาก Burst Timeline พร้อมกันหลายตัว
+        /// กัน currentBurst/timer ของ Group เดียวกันโดนเขียนทับข้ามกระสุน
+        /// </summary>
+        public BulletPatternGroup Clone()
+        {
+            BulletPatternGroup clone = new BulletPatternGroup
+            {
+                groupName = groupName,
+                initialDelay = initialDelay,
+                loopPattern = loopPattern,
+                bursts = new List<BulletBurstV2>()
+            };
+
+            if (bursts != null)
+            {
+                for (int i = 0; i < bursts.Count; i++)
+                    clone.bursts.Add(bursts[i]?.Clone());
+            }
+
+            clone.ResetRuntime();
+            return clone;
         }
     }
 
@@ -504,7 +583,8 @@ namespace EnemySystem
                     usePatternSpeed,
                     initialSpeed,
                     burst.motion.speedTimeline,
-                    burst.motion.directionTimeline);
+                    burst.motion.directionTimeline,
+                    burst.motion.burstTimeline);
             }
         }
 

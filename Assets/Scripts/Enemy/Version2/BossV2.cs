@@ -20,9 +20,23 @@ namespace BossSystem
         public int phaseHealth = 100;
 
         [Header("Spell Card")]
+        [Tooltip(
+            "ติ๊กถ้าอยากให้ Phase นี้นับเป็นสถิติ Spell Card Capture " +
+            "(ยิง OnAnySpellCardResult และธง spell card ใน OnPhaseCleared)\n" +
+            "ไม่ติ๊กก็ยังตั้งชื่อ Banner และ Time Limit ได้ปกติ แค่ไม่ถูกนับสถิติ Capture"
+        )]
         public bool isSpellCard = false;
+
+        [Tooltip(
+            "ชื่อที่โชว์เป็น Banner ตอนเข้า Phase นี้ (ผ่าน OnAnySpellCardStarted)\n" +
+            "เว้นว่างไว้ = ไม่โชว์ Banner ไม่ว่าจะติ๊ก Is Spell Card หรือไม่"
+        )]
         public string spellCardName = "";
 
+        [Tooltip(
+            "เวลาจำกัดของ Phase นี้ (วินาที) - หมดเวลาแล้วยังไม่ตายจะถือว่าจบ Phase แบบ Timeout " +
+            "ทำงานไม่ว่าจะติ๊ก Is Spell Card หรือไม่\n0 = ไม่จำกัดเวลา (ต้องตี HP ให้หมดอย่างเดียว)"
+        )]
         [Min(0f)]
         public float spellCardTimeLimit = 0f;
 
@@ -347,8 +361,9 @@ namespace BossSystem
             if (canShootNow)
                 phase.executor?.Tick(dt);
 
-            if (phase.isSpellCard &&
-                phase.spellCardTimeLimit > 0f)
+            // Timer ทำงานตาม spellCardTimeLimit ล้วนๆ ไม่ต้องพึ่ง isSpellCard แล้ว
+            // (กันเคส Phase ธรรมดาที่ Pattern ค้าง ไม่จบ Phase สักที ก็ยังตั้งเวลาบังคับจบได้)
+            if (phase.spellCardTimeLimit > 0f)
             {
                 phase.phaseTimer += dt;
 
@@ -515,7 +530,9 @@ namespace BossSystem
 
             OnPhaseStarted?.Invoke(CurrentPhaseIndex);
 
-            if (phase.isSpellCard)
+            // Banner ทำงานตามชื่อ ไม่ใช่ตาม isSpellCard แล้ว
+            // isSpellCard เก็บไว้คุมแค่สถิติ Capture (ดู EndCurrentPhase)
+            if (!string.IsNullOrWhiteSpace(phase.spellCardName))
                 OnAnySpellCardStarted?.Invoke(
                     phase.spellCardName
                 );

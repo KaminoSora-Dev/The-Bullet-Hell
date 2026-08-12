@@ -25,8 +25,9 @@ namespace BossSystem
         private SerializedProperty blinkInterval;
         private SerializedProperty blinkColor;
 
-        // ---- Score / References ----
+        // ---- Score / Item Drop / References ----
         private SerializedProperty scoreValueOnDefeat;
+        private SerializedProperty itemDrop;
         private SerializedProperty bodySprite;
         private SerializedProperty hitCollider;
 
@@ -46,6 +47,7 @@ namespace BossSystem
             blinkColor = serializedObject.FindProperty("blinkColor");
 
             scoreValueOnDefeat = serializedObject.FindProperty("scoreValueOnDefeat");
+            itemDrop = serializedObject.FindProperty("itemDrop");
             bodySprite = serializedObject.FindProperty("bodySprite");
             hitCollider = serializedObject.FindProperty("hitCollider");
         }
@@ -153,18 +155,26 @@ namespace BossSystem
             EditorGUILayout.PropertyField(phase.FindPropertyRelative("phaseHealth"));
 
             EditorGUILayout.Space(3);
+            EditorGUILayout.LabelField("Spell Card / Banner", EditorStyles.boldLabel);
 
-            SerializedProperty isSpellCard = phase.FindPropertyRelative("isSpellCard");
-            EditorGUILayout.PropertyField(isSpellCard, new GUIContent("Is Spell Card"));
+            // ชื่อกับ Timer โชว์เสมอ ไม่ต้องพึ่ง Is Spell Card แล้ว - ใช้ได้กับทุก Phase
+            EditorGUILayout.PropertyField(
+                phase.FindPropertyRelative("spellCardName"),
+                new GUIContent("Name (Banner)", "ชื่อที่โชว์เป็น Banner ตอนเข้า Phase นี้ - เว้นว่าง = ไม่โชว์ Banner"));
 
-            if (isSpellCard.boolValue)
-            {
-                EditorGUILayout.PropertyField(phase.FindPropertyRelative("spellCardName"));
+            EditorGUILayout.PropertyField(
+                phase.FindPropertyRelative("spellCardTimeLimit"),
+                new GUIContent(
+                    "Time Limit",
+                    "0 = ไม่จำกัดเวลา (ต้องตี HP ให้หมดอย่างเดียว)\nทำงานไม่ว่าจะติ๊ก Is Spell Card หรือไม่"));
 
-                EditorGUILayout.PropertyField(
-                    phase.FindPropertyRelative("spellCardTimeLimit"),
-                    new GUIContent("Time Limit", "0 = ไม่จำกัดเวลา (ต้องตี HP ให้หมดอย่างเดียว)"));
-            }
+            EditorGUILayout.PropertyField(
+                phase.FindPropertyRelative("isSpellCard"),
+                new GUIContent(
+                    "Counts As Spell Card (สถิติ)",
+                    "ติ๊กถ้าอยากให้ Phase นี้นับสถิติ Spell Card Capture " +
+                    "(OnAnySpellCardResult / ธง spell card ใน OnPhaseCleared)\n" +
+                    "ไม่ติ๊ก = Banner กับ Timer ด้านบนยังทำงานปกติ แค่ไม่นับสถิติ"));
 
             EditorGUILayout.Space(6);
             EditorGUILayout.PropertyField(phase.FindPropertyRelative("transitionTargetPoint"));
@@ -402,6 +412,78 @@ namespace BossSystem
 
             DrawSpeedTimeline(motion.FindPropertyRelative("speedTimeline"));
             DrawDirectionTimeline(motion.FindPropertyRelative("directionTimeline"));
+            DrawBurstTimeline(motion.FindPropertyRelative("burstTimeline"));
+        }
+
+        private void DrawBurstTimeline(SerializedProperty burstTimeline)
+        {
+            EditorGUILayout.Space(2);
+            EditorGUILayout.LabelField("Burst Timeline (Spawn Pattern จากตำแหน่งกระสุน)", EditorStyles.boldLabel);
+            EditorGUILayout.HelpBox(
+                "พอกระสุนเดินทางมาถึงเวลาที่กำหนด จะยิง Pattern ที่ตั้งไว้ออกจากตำแหน่งจริงของกระสุนตัวนี้ " +
+                "(ไม่ใช่ตำแหน่ง Boss/Enemy) - คนละระบบกับ Speed/Direction Timeline ด้านบน ใช้ร่วมกันได้",
+                MessageType.None);
+
+            for (int i = 0; i < burstTimeline.arraySize; i++)
+            {
+                SerializedProperty trigger = burstTimeline.GetArrayElementAtIndex(i);
+                SerializedProperty name = trigger.FindPropertyRelative("name");
+
+                string title = string.IsNullOrWhiteSpace(name.stringValue)
+                    ? $"Trigger {i + 1}"
+                    : name.stringValue;
+
+                EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+                EditorGUILayout.BeginHorizontal();
+
+                trigger.isExpanded = EditorGUILayout.Foldout(trigger.isExpanded, title, true);
+
+                if (GUILayout.Button("X", GUILayout.Width(24)))
+                {
+                    burstTimeline.DeleteArrayElementAtIndex(i);
+
+                    EditorGUILayout.EndHorizontal();
+                    EditorGUILayout.EndVertical();
+                    break;
+                }
+
+                EditorGUILayout.EndHorizontal();
+
+                if (trigger.isExpanded)
+                {
+                    EditorGUILayout.PropertyField(name, new GUIContent("Name"));
+
+                    EditorGUILayout.PropertyField(
+                        trigger.FindPropertyRelative("time"),
+                        new GUIContent("Time", "เวลานับจากตอนกระสุนนี้ Spawn (วินาที)"));
+
+                    EditorGUILayout.PropertyField(
+                        trigger.FindPropertyRelative("destroySelfAfterFire"),
+                        new GUIContent(
+                            "Destroy Self After Fire",
+                            "ติ๊ก = ทำลายกระสุนตัวนี้ทันทีหลังยิง Pattern ออกไป\nไม่ติ๊ก = เดินตาม Speed/Direction Timeline ต่อตามปกติ"));
+
+                    EditorGUILayout.Space(2);
+                    DrawPatterns(trigger.FindPropertyRelative("pattern"));
+                }
+
+                EditorGUILayout.EndVertical();
+            }
+
+            EditorGUILayout.Space(2);
+
+            if (GUILayout.Button("+ Add Burst Trigger"))
+            {
+                int index = burstTimeline.arraySize;
+                burstTimeline.InsertArrayElementAtIndex(index);
+
+                SerializedProperty trigger = burstTimeline.GetArrayElementAtIndex(index);
+
+                trigger.FindPropertyRelative("name").stringValue = $"Trigger {index + 1}";
+                trigger.FindPropertyRelative("time").floatValue = 0.5f;
+                trigger.FindPropertyRelative("destroySelfAfterFire").boolValue = false;
+                trigger.FindPropertyRelative("pattern").arraySize = 0;
+            }
         }
 
         private void DrawSpeedTimeline(SerializedProperty timeline)
@@ -556,6 +638,20 @@ namespace BossSystem
             EditorGUILayout.Space(8);
             EditorGUILayout.LabelField("SCORE", EditorStyles.boldLabel);
             EditorGUILayout.PropertyField(scoreValueOnDefeat);
+
+            EditorGUILayout.Space(8);
+            EditorGUILayout.LabelField("ITEM DROP", EditorStyles.boldLabel);
+
+            EditorGUILayout.PropertyField(
+                itemDrop.FindPropertyRelative("itemPrefab"),
+                new GUIContent(
+                    "Item Prefab",
+                    "Prefab ของ ItemDropPickup - Tag ต้องเป็น Life, Spell หรือ Fragment\n" +
+                    "เว้นว่างไว้ = Boss ตัวนี้ไม่ดรอปอะไรเลยตอนตาย"));
+
+            EditorGUILayout.PropertyField(
+                itemDrop.FindPropertyRelative("count"),
+                new GUIContent("Count", "จำนวน Item ที่ดรอปตอน Boss ตายครบทุก Phase"));
 
             EditorGUILayout.Space(8);
             EditorGUILayout.LabelField("REFERENCES", EditorStyles.boldLabel);
