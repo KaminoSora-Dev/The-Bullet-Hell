@@ -7,9 +7,11 @@ namespace EnemySystem
     /// <summary>
     /// Main Enemy bullet-pattern component for V2.
     ///
-    /// Replace EnemyShooterV1 on an Enemy with this component.
-    /// Pattern data is stored directly on this GameObject, so there is no
-    /// separate ScriptableObject/Runner setup required for this first V2.
+    /// IMPORTANT:
+    /// This component is the owner/runner of the serialized pattern list.
+    /// Nested Burst Trigger execution belongs to BulletPatternV2Executor,
+    /// so this file deliberately keeps the serialized field layout unchanged.
+    /// Existing Inspector/prefab data therefore remains compatible.
     /// </summary>
     public class EnemyBulletPatternV2 : MonoBehaviour
     {
@@ -17,8 +19,6 @@ namespace EnemySystem
         [SerializeField]
         private List<BulletPatternGroup> patterns =
             new List<BulletPatternGroup>();
-
-        
 
         [Header("Random")]
         [SerializeField]
@@ -34,34 +34,30 @@ namespace EnemySystem
         private void Awake()
         {
             ownerEnemy = GetComponent<EnemyV1>();
-
             CachePlayer();
 
-            executor =
-                new BulletPatternV2Executor(
-                    patterns,
-                    transform,
-                    () => playerTransform);
+            executor = new BulletPatternV2Executor(
+                patterns,
+                transform,
+                () => playerTransform);
 
             ApplyRandomSeed();
 
             if (ownerEnemy != null)
-                ownerEnemy.OnShootWindowOpened +=
-                    ResetAllGroups;
+                ownerEnemy.OnShootWindowOpened += ResetAllGroups;
         }
 
         private void Start()
         {
-            // Some setups spawn Player after the Enemy.
-            // Cache once again without doing a scene search every frame.
+            // Player may be spawned after this Enemy.
+            // Cache once again instead of searching every frame.
             CachePlayer();
         }
 
         private void OnDestroy()
         {
             if (ownerEnemy != null)
-                ownerEnemy.OnShootWindowOpened -=
-                    ResetAllGroups;
+                ownerEnemy.OnShootWindowOpened -= ResetAllGroups;
         }
 
         private void Update()
@@ -69,8 +65,7 @@ namespace EnemySystem
             if (executor == null)
                 return;
 
-            if (ownerEnemy != null &&
-                !ownerEnemy.CanShootNow)
+            if (ownerEnemy != null && !ownerEnemy.CanShootNow)
                 return;
 
             executor.Tick(Time.deltaTime);
@@ -79,8 +74,7 @@ namespace EnemySystem
         private void CachePlayer()
         {
             GameObject playerObject =
-                GameObject.FindGameObjectWithTag(
-                    "Player");
+                GameObject.FindGameObjectWithTag("Player");
 
             playerTransform =
                 playerObject != null
@@ -123,13 +117,11 @@ namespace EnemySystem
                 : 0;
     }
 
-    // Compatibility shim for the existing EnemyV1 source.
-    // It is hidden from Add Component and should not be added manually.
-    // New enemies should use EnemyBulletPatternV2.
+    // Compatibility shim for existing EnemyV1 source.
+    // Hidden from Add Component; new enemies should use EnemyBulletPatternV2.
     [AddComponentMenu("")]
     [Obsolete("Use EnemyBulletPatternV2 instead.")]
-    public class EnemyShooterV1 :
-        EnemyBulletPatternV2
+    public class EnemyShooterV1 : EnemyBulletPatternV2
     {
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using GameFlowSystem;
 using PlayerSystem;
 using PoolingSystem;
 using GameSystem;
@@ -144,6 +145,16 @@ namespace BossSystem
             "ปล่อย Item Prefab ว่างไว้ = ไม่ดรอป"
         )]
         [SerializeField] private BossItemDropData itemDrop;
+
+        [Header("Scene Flow")]
+        [Tooltip("ติ๊กเพื่อให้ Boss ตัวนี้ เมื่อตายครบทุก Phase แล้ว ไป Scene ถัดไปอัตโนมัติ")]
+        [SerializeField] private bool loadNextSceneOnDefeat = false;
+
+        [Tooltip("ใช้กับ Boss ใน Scene สุดท้าย ถ้าติ๊กจะ Fade จอดำเพื่อจบเกมแทนการไป Scene ถัดไป")]
+        [SerializeField] private bool fadeOnFinalScene = false;
+
+        public bool LoadNextSceneOnDefeat => loadNextSceneOnDefeat;
+        public bool FadeOnFinalScene => fadeOnFinalScene;
 
         [Header("References")]
         [SerializeField] private SpriteRenderer bodySprite;
@@ -611,6 +622,11 @@ namespace BossSystem
 
             OnAnyBossDefeatedAny?.Invoke();
             OnAnyBossNameHide?.Invoke();
+
+            // Boss ไม่โหลด Scene เองโดยตรง แต่แจ้ง GameFlowManager
+            // เพื่อให้ Loading / Final Fade ถูกจัดการจากจุดกลางเดียว
+            if (loadNextSceneOnDefeat && GameFlowManager.Instance != null)
+                GameFlowManager.Instance.HandleBossDefeated(fadeOnFinalScene);
         }
 
         /// <summary>

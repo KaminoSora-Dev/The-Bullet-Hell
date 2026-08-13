@@ -5,96 +5,151 @@ using PoolingSystem;
 namespace AnimationSystem
 {
     /// <summary>
-    /// วางไว้บน GameObject/Prefab เดียวกับ EnemyV1 (component แยก ไม่แก้ไฟล์ EnemyV1 เลย)
-    /// ฟัง event OnSpawnedFromPool / OnDied ที่ EnemyV1 เพิ่ม hook ไว้ให้แล้ว
+    /// เสียบ Animator ให้ Enemy (Optional Component - ไม่ต้องใส่ก็ได้)
     ///
-    /// FALLBACK: ถ้าไม่ได้ลาก Animator ไว้ - component นี้จะไม่ทำอะไรเลย และ EnemyV1 จะ Blink สีแดง + คืน Pool เอง
-    /// เหมือนเดิมทุกประการ (SuppressBuiltInDeathVisual จะไม่ถูกตั้งเป็น true เลยถ้าไม่มี Animator)
+    /// ไม่ต้องแก้ EnemyV1.cs เลย - Component นี้แค่ฟัง event ที่ EnemyV1 มีอยู่แล้ว
+    /// (OnDied) แล้วสั่ง Animator เอาเอง
     ///
-    /// ถ้ามี Animator -> component นี้ "ยึด" การจัดการ Death Visual + การคืน Pool ไปทำเองทั้งหมด
-    /// ต้องไปวาง Animation Event ที่เฟรมสุดท้ายของคลิปตาย เรียก OnDeathAnimationComplete() (เหมือน EnemyBulletV2)
+    /// --- Idle ---
+    /// ปล่อยให้เป็น Default State ของ Animator Controller เอง ไม่มีการสั่ง Trigger ใดๆ
+    /// ตอน Spawn ถ้า Animator Controller ไม่ได้ตั้ง Idle Animation ไว้ Enemy จะโชว์เป็น
+    /// Sprite นิ่ง ๆ ตามปกติ (ไม่ error อะไร)
+    ///
+    /// --- Death ---
+    /// Play With Blink = true  -> เล่น Death Animation ควบคู่ไปกับระบบกระพริบแดง (Blink) เดิม
+    ///                             ตัว Enemy จะถูก Return เข้า Pool ตอน Blink ครบรอบเหมือนเดิมทุกอย่าง
+    ///
+    /// Play With Blink = false -> Animator คุมจังหวะตายเองทั้งหมด (ไม่กระพริบ)
+    ///                             ตัว Enemy จะถูก Return เข้า Pool หลังจากผ่านไป
+    ///                             Death Anim Duration วินาที ต้องตั้งเลขนี้ให้ตรงกับ
+    ///                             ความยาว Clip Death จริง ๆ ใน Animator
+    ///
+    /// ถ้าไม่ลาก Animator ใส่ในช่อง -> EnemyV1 จะทำงานแบบเดิมทุกอย่าง (Blink อย่างเดียว
+    /// เหมือนก่อนมี Component นี้)
+    ///
+    /// --- Movement ---
+    /// เช็คว่า Enemy "ขยับจริง" ไปทางซ้าย/ขวาไหม โดยเทียบตำแหน่งจริงระหว่าง 2 เฟรม
+    /// (แพทเทิร์นเดียวกับ Player/BossAnimationController) แล้วสั่ง Bool Parameter (IsMovingLeft / IsMovingRight)
+    /// เผื่อ Enemy มีท่าเอียงตอนเคลื่อนที่ตาม Waypoint/Path
+    ///
+    /// หมายเหตุเฉพาะ Enemy: ต่างจาก Player/Boss ตรงที่ Enemy ถูก "เทเลพอร์ต" ไปตำแหน่ง Spawn ใหม่
+    /// ทุกครั้งที่ดึงจาก Pool มาใช้ซ้ำ (ไม่ใช่แค่ครั้งแรกตอนสร้าง) ถ้าจับตำแหน่งเริ่มต้นแค่ตอน Start()
+    /// (ซึ่งรันครั้งเดียวตลอดอายุ Object) จะเกิด Delta ก้อนใหญ่ผิดปกติ 1 เฟรมตอน Spawn รอบถัดๆ ไป
+    /// เพราะเทียบตำแหน่งเก่าก่อนถูก Return เข้า Pool กับตำแหน่ง Spawn ใหม่ - โค้ดนี้เลย reset ใน OnEnable()
+    /// แทน (รันทุกครั้งที่ Object ถูกเปิดใช้งานใหม่จาก Pool) กัน Bool กระพริบผิดจังหวะตอน Spawn
     /// </summary>
     [RequireComponent(typeof(EnemyV1))]
     public class EnemyAnimationController : MonoBehaviour
     {
-        [Header("References")]
-        [Tooltip("ปล่อยว่างไว้ได้ถ้า Enemy ตัวนี้ยังไม่มีแอนิเมชัน - จะ fallback ไปใช้ Blink เดิมของ EnemyV1 อัตโนมัติ")]
+        [Header("Animator (ไม่ใส่ก็ได้)")]
+        [Tooltip(
+            "ลาก Animator ของ Enemy ตัวนี้มาใส่\n" +
+            "ถ้าปล่อยว่างไว้ - จะไม่มีผลอะไรเลย EnemyV1 ใช้ระบบ Blink เดิม"
+        )]
         [SerializeField] private Animator animator;
 
-        [Header("Animator Parameter Names")]
-        [SerializeField] private string isMovingParam = "IsMoving";
+        [Header("Death")]
+        [Tooltip("ชื่อ Trigger ใน Animator Controller ที่จะสั่งตอน Enemy ตาย")]
+        [SerializeField] private string deathTrigger = "Death";
 
-        [Tooltip("ตอนนี้ตามที่ต้องการ ใส่ไว้ 2 แบบก่อน - ระบบจะสุ่มเลือก 1 ใน 2 ทุกครั้งที่ Enemy ตัวนี้ตาย")]
-        [SerializeField] private string[] deathTriggers = { "Death1", "Death2" };
+        [Tooltip(
+            "ติ๊ก = เล่น Death Animation ควบคู่กับ Blink กระพริบเดิม (Blink เป็นคนคุมเวลา Return เข้า Pool)\n" +
+            "ไม่ติ๊ก = ให้ Animator คุมจังหวะตายเองทั้งหมด (ไม่กระพริบ)"
+        )]
+        [SerializeField] private bool playWithBlink = true;
+
+        [Tooltip(
+            "ใช้ตอน Play With Blink = false เท่านั้น\n" +
+            "เวลา (วินาที) ที่จะรอ ก่อน Return Enemy ตัวนี้กลับเข้า Pool\n" +
+            "ตั้งให้ตรงกับความยาว Clip ของ Death Animation จริง ๆ"
+        )]
+        [SerializeField] private float deathAnimDuration = 1f;
+
+        [Header("Movement")]
+        [SerializeField] private string movingLeftParam = "IsMovingLeft";
+        [SerializeField] private string movingRightParam = "IsMovingRight";
+
+        [Tooltip(
+            "ระยะที่ตำแหน่ง X ต้องเปลี่ยนไปต่อเฟรม (หน่วย Unity Unit) ถึงจะนับว่า \"ขยับจริง\"\n" +
+            "ตั้งไว้กันความสั่นเล็กน้อยจาก Floating Point ไม่ให้เด้ง True/False สลับถี่ๆ ตอนยืนนิ่ง\n" +
+            "ค่ายิ่งสูง ยิ่งต้องขยับเร็ว/ไกลกว่าเดิมถึงจะติด Moving (ปรับได้ถ้ารู้สึกไวไปหรือช้าไป)"
+        )]
+        [SerializeField] private float moveThreshold = 0.001f;
 
         private EnemyV1 enemy;
+        private bool isPlayingDeath;
+        private float deathTimer;
+        private Vector3 lastPosition;
 
         private void Awake()
         {
             enemy = GetComponent<EnemyV1>();
-
-            if (animator == null)
-                Debug.Log($"EnemyAnimationController ({name}): ไม่ได้ลาก Animator ไว้ - ใช้ Blink เดิมของ EnemyV1 ต่อไป");
         }
 
         private void OnEnable()
         {
-            enemy.OnSpawnedFromPool += HandleSpawned;
             enemy.OnDied += HandleDied;
+
+            // เพิ่มใหม่: reset ตำแหน่งอ้างอิงตอนถูกเปิดใช้งาน (ทั้งครั้งแรกตอนสร้าง และทุกครั้งที่ดึงจาก Pool มาใช้ซ้ำ)
+            // กัน Delta ก้อนใหญ่ผิดปกติจากการเทเลพอร์ตไป Spawn Point ใหม่
+            lastPosition = transform.position;
         }
 
         private void OnDisable()
         {
-            enemy.OnSpawnedFromPool -= HandleSpawned;
             enemy.OnDied -= HandleDied;
-        }
-
-        private void Update()
-        {
-            if (animator == null) return;
-
-            // CurrentMovementStepIndex >= 0 หมายถึงกำลังเดินตาม path อยู่ (ดูคอมเมนต์ใน EnemyV1.cs)
-            animator.SetBool(isMovingParam, enemy.CurrentMovementStepIndex >= 0);
-        }
-
-        private void HandleSpawned()
-        {
-            if (animator == null) return;
-
-            // กัน Animator ค้าง state "ตาย" จากรอบก่อนหน้า (Enemy ถูกดึงจาก Pool มาใช้ซ้ำ)
-            animator.Rebind();
-            animator.Update(0f);
         }
 
         private void HandleDied()
         {
-            if (animator == null) return; // ไม่มี Animator -> ปล่อยให้ EnemyV1.UpdateDeathBlink() ทำงานตามปกติ
+            isPlayingDeath = false;
 
-            enemy.SuppressBuiltInDeathVisual = true; // เพิ่มใหม่ใน EnemyV1: ปิด Blink built-in ทั้งหมด รวมถึงการคืน Pool อัตโนมัติ
+            // ไม่ได้เสียบ Animator ไว้ -> ไม่ยุ่งอะไร ปล่อยให้ Blink เดิมทำงานตามปกติ
+            if (animator == null)
+                return;
 
-            string trigger = PickRandomDeathTrigger();
-            if (!string.IsNullOrEmpty(trigger))
-                animator.SetTrigger(trigger);
-            else
-                OnDeathAnimationComplete(); // กันเคสลืมตั้งชื่อ trigger ไว้ - อย่างน้อยก็ยังคืน Pool ได้ ไม่ค้าง
+            animator.SetTrigger(deathTrigger);
+
+            if (!playWithBlink)
+            {
+                enemy.SuppressBuiltInDeathVisual = true;
+                isPlayingDeath = true;
+                deathTimer = 0f;
+            }
         }
 
-        private string PickRandomDeathTrigger()
+        private void Update()
         {
-            if (deathTriggers == null || deathTriggers.Length == 0) return null;
-            int index = Random.Range(0, deathTriggers.Length);
-            return deathTriggers[index];
+            if (!isPlayingDeath)
+                return;
+
+            deathTimer += Time.deltaTime;
+
+            if (deathTimer >= deathAnimDuration)
+            {
+                isPlayingDeath = false;
+
+                if (PoolManager.Instance != null)
+                    PoolManager.Instance.Return(gameObject);
+            }
         }
 
-        /// <summary>
-        /// ผูกกับ Animation Event ที่เฟรมสุดท้ายของคลิปตายทั้ง 2 แบบ (Death1 กับ Death2 ก็ชี้มาที่ฟังก์ชันเดียวกันนี้ได้เลย)
-        /// </summary>
-        public void OnDeathAnimationComplete()
+        private void LateUpdate()
         {
-            if (PoolManager.Instance != null)
-                PoolManager.Instance.Return(gameObject);
-            else
-                gameObject.SetActive(false);
+            // ใช้ LateUpdate เพราะต้องรอให้ EnemyV1 ขยับตัวจริงใน Update()/FixedUpdate() ก่อน
+            // แล้วค่อยมาอ่านตำแหน่งล่าสุด ไม่งั้นค่าที่ได้จะช้าไปหนึ่งเฟรม
+            if (animator == null) return;
+            if (isPlayingDeath) return; // เพิ่มใหม่: กำลังเล่น Death Animation อยู่ ไม่ต้องอัพเดต Movement Bool ต่อ
+
+            float deltaX = transform.position.x - lastPosition.x;
+
+            bool movingLeft = deltaX < -moveThreshold;
+            bool movingRight = deltaX > moveThreshold;
+
+            animator.SetBool(movingLeftParam, movingLeft);
+            animator.SetBool(movingRightParam, movingRight);
+
+            lastPosition = transform.position;
         }
     }
 }

@@ -89,6 +89,26 @@ namespace GameFlowSystem
 
         public bool IsLoading => state != LoadingState.Idle;
 
+        /// <summary>โหลด Scene โดยใช้ Loading Screen กลาง</summary>
+        public void LoadScene(Scene scene)
+        {
+            LoadScene(scene.name);
+        }
+
+        /// <summary>โหลด Scene จาก Build Index โดยใช้ Loading Screen กลาง</summary>
+        public void LoadScene(int buildIndex)
+        {
+            if (buildIndex < 0 || buildIndex >= SceneManager.sceneCountInBuildSettings)
+            {
+                Debug.LogError($"LoadingScreenManager.LoadScene: Build Index {buildIndex} ไม่ถูกต้อง");
+                return;
+            }
+
+            string path = SceneUtility.GetScenePathByBuildIndex(buildIndex);
+            string sceneName = System.IO.Path.GetFileNameWithoutExtension(path);
+            LoadScene(sceneName);
+        }
+
         /// <summary>ยิงทันทีที่เริ่มกระบวนการเปลี่ยน Scene (ก่อน Fade In / ก่อนเริ่มโหลดจริง) - ใช้เปลี่ยนเพลง/หยุดเสียงได้</summary>
         public event Action OnSceneEnter;
 

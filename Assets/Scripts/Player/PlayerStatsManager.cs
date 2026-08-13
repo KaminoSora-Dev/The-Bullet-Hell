@@ -46,10 +46,17 @@ namespace PlayerSystem
         [Min(0)]
         [SerializeField] private int maxPower = 128;
 
+        [Header("Power Stage Thresholds (สำหรับระบบยิงหลายลูก - เพิ่มใหม่)")]
+        [Tooltip("ค่า currentPower ขั้นต่ำที่ต้องถึงเพื่อขึ้น Power Stage 1,2,3,4,5 ตามลำดับ " +
+                 "(index 0 = เกณฑ์ขึ้น Stage 1, index 1 = เกณฑ์ขึ้น Stage 2 ... ) ต้องเรียงค่าจากน้อยไปมาก " +
+                 "ค่าเริ่มต้นแบ่งเท่า ๆ กันจาก maxPower เริ่มต้น (128) ปรับได้อิสระใน Inspector")]
+        [SerializeField] private int[] powerStageThresholds = { 16, 32, 64, 96, 128 };
+
         private int currentLives;
         private int currentBombs;
         private int currentPower;
         private int currentGraze;
+        private int currentPowerStage;
 
         private bool hasSavedPosition;
         private Vector3 savedPlayerPosition;
@@ -71,6 +78,13 @@ namespace PlayerSystem
         // Compatibility names used by existing UI/debug code
         public int CurrentSpells => currentBombs;
         public int CurrentPowerLevel => currentPower;
+
+        /// <summary>
+        /// Power Stage แบบ Discrete (0-5) แปลงมาจาก currentPower ผ่าน powerStageThresholds
+        /// ใช้โดย PlayerControllerV1 เพื่อตัดสินรูปแบบการยิง (จำนวนกระสุน/มุม/Homing)
+        /// คนละตัวกับ CurrentPowerLevel ด้านบนซึ่งเป็น raw power value (compat เดิม) - ตั้งชื่อแยกกันเจตนา
+        /// </summary>
+        public int CurrentPowerStage => currentPowerStage;
 
         public int MaxLives => maxLives;
         public int MaxBombs => maxBombs;
@@ -94,9 +108,48 @@ namespace PlayerSystem
         public event Action<int> OnGrazeChanged;
 
         /// <summary>
+        /// ยิงเฉพาะตอน Power Stage (0-5) เปลี่ยนค่าจริงเท่านั้น (ไม่ยิงทุกครั้งที่ currentPower ขยับ)
+        /// เหมาะกับ UI ไอคอน Power Level หรือ PlayerControllerV1 ที่อยากรู้ตอนขึ้น Stage แบบ event-driven
+        /// แทนที่จะอ่าน CurrentPowerStage ทุกเฟรม
+        /// </summary>
+        public event Action<int> OnPowerStageChanged;
+
+        /// <summary>
         /// ยิงเมื่อชีวิตหมดและการตายครั้งนั้นทำให้เข้าสู่ Game Over
         /// </summary>
         public event Action OnGameOver;
+
+#if UNITY_EDITOR
+        /// <summary>
+        /// เพิ่มใหม่: ป้องกันบัค Power Stage กระโดดข้ามหลาย Stage ทีเดียว
+        /// สาเหตุที่พบบ่อย: เวลาลาก resize ขนาด array ใน Inspector Unity จะ copy ค่าตัวสุดท้ายไปใส่ช่องใหม่ให้อัตโนมัติ
+        /// (เช่นได้ {16,16,16,16,16} หรือ {1,1,2,3,4} โดยไม่ตั้งใจ) พอมีค่าเท่ากัน/ไม่เรียงจากน้อยไปมาก
+        /// ComputePowerStage() จะข้าม Stage กลางไปเลยตอน currentPower แตะค่านั้นพอดี
+        /// ฟังก์ชันนี้บังคับให้เรียงจากน้อยไปมากเสมอ ถ้าเจอค่าซ้ำ/ค่าลดลงจะบวกเพิ่มให้อัตโนมัติ + เตือนใน Console
+        /// </summary>
+        private void OnValidate()
+        {
+            if (powerStageThresholds == null || powerStageThresholds.Length == 0)
+                return;
+
+            bool wasFixed = false;
+
+            for (int i = 1; i < powerStageThresholds.Length; i++)
+            {
+                if (powerStageThresholds[i] <= powerStageThresholds[i - 1])
+                {
+                    powerStageThresholds[i] = powerStageThresholds[i - 1] + 1;
+                    wasFixed = true;
+                }
+            }
+
+            if (wasFixed)
+            {
+                Debug.LogWarning("PlayerStatsManager: powerStageThresholds ต้องเรียงจากน้อยไปมากเท่านั้น (ห้ามค่าเท่ากันหรือค่าลดลง) " +
+                    "- ระบบแก้ให้อัตโนมัติแล้ว ถ้าตัวเลขที่ได้ไม่ตรงกับที่ต้องการ กรุณาปรับค่าใน Inspector อีกครั้งให้เรียงน้อยไปมากเอง");
+            }
+        }
+#endif
 
         private void Awake()
         {
@@ -302,6 +355,37 @@ namespace PlayerSystem
         {
             OnPowerChanged?.Invoke(currentPower);
             OnPowerLevelChanged?.Invoke(currentPower);
+
+            int newStage = ComputePowerStage(currentPower);
+            if (newStage != currentPowerStage)
+            {
+                currentPowerStage = newStage;
+                OnPowerStageChanged?.Invoke(currentPowerStage);
+
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+                // เพิ่มใหม่: log ไว้ debug ว่า Power Stage เปลี่ยนตอน currentPower เท่าไหร่
+                // ถ้าเห็นมันกระโดดข้าม Stage (เช่น 0 -> 3 ทีเดียว) ให้เช็ค powerStageThresholds ใน Inspector ก่อน
+                Debug.Log($"PlayerStatsManager: Power Stage เปลี่ยนเป็น {currentPowerStage} (currentPower = {currentPower})");
+#endif
+            }
+        }
+
+        /// <summary>
+        /// แปลง currentPower (raw) ให้เป็น Power Stage 0-5 ตาม powerStageThresholds
+        /// Stage 0 = ต่ำกว่าเกณฑ์แรกทั้งหมด, Stage N = ผ่านเกณฑ์ index (N-1) มาแล้ว
+        /// Clamp ไว้ที่ 0-5 เผื่อ Inspector ใส่ threshold มาเกิน 5 ค่า
+        /// </summary>
+        private int ComputePowerStage(int power)
+        {
+            int stage = 0;
+
+            for (int i = 0; i < powerStageThresholds.Length; i++)
+            {
+                if (power >= powerStageThresholds[i])
+                    stage = i + 1;
+            }
+
+            return Mathf.Clamp(stage, 0, 5);
         }
 
         // ============================================================
@@ -319,6 +403,26 @@ namespace PlayerSystem
 
             currentGraze += amount;
             OnGrazeChanged?.Invoke(currentGraze);
+        }
+
+        // ============================================================
+        // GAME LOSE / CONTINUE RESET
+        // ============================================================
+
+        /// <summary>
+        /// Reset ค่าสถานะสำหรับ Continue จาก Game Lose:
+        /// Lives = ค่าเริ่มต้น, Spells/Bombs = ค่าเริ่มต้น, Power = MaxPower
+        /// ไม่แตะ Score หรือสถิติสะสม
+        /// </summary>
+        public void ResetForGameLoseContinue()
+        {
+            currentLives = Mathf.Clamp(startingLives, 0, maxLives);
+            currentBombs = Mathf.Clamp(startingBombs, 0, maxBombs);
+            currentPower = maxPower;
+
+            OnLivesChanged?.Invoke(currentLives);
+            InvokeSpellChanged();
+            InvokePowerChanged();
         }
 
         // ============================================================
