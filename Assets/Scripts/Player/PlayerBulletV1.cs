@@ -148,6 +148,7 @@ namespace PlayerSystem
                 deathAnimator.Rebind();
                 deathAnimator.Update(0f);
             }
+            
         }
 
         public void OnReturnToPool()

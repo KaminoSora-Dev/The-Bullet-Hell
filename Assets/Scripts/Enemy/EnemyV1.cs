@@ -104,10 +104,10 @@ namespace EnemySystem
 
         [Header("SFX (Optional)")]
         [Tooltip("เสียงตอน Enemy ตัวนี้ spawn ออกมา")]
-        [SerializeField] private AudioClip spawnSfx;
+        [SerializeField] private AudioSource spawnSfx;
 
         [Tooltip("เสียงตอน Enemy ตัวนี้ตาย")]
-        [SerializeField] private AudioClip deathSfx;
+        [SerializeField] private AudioSource deathSfx;
 
         [Header("Item Drop")]
         [Tooltip(
@@ -225,8 +225,8 @@ namespace EnemySystem
 
             OnSpawnedFromPool?.Invoke();
 
-            if (spawnSfx != null)
-                OnAnyEnemySpawnSfx?.Invoke(spawnSfx);
+            if (spawnSfx != null && spawnSfx.clip != null)
+                OnAnyEnemySpawnSfx?.Invoke(spawnSfx.clip);
         }
 
         public void OnReturnToPool()
@@ -410,8 +410,8 @@ namespace EnemySystem
 
             OnDied?.Invoke();
 
-            if (deathSfx != null)
-                OnAnyEnemyDeathSfx?.Invoke(deathSfx);
+            if (deathSfx != null && deathSfx.clip != null)
+                OnAnyEnemyDeathSfx?.Invoke(deathSfx.clip);
 
             if (hitCollider != null)
                 hitCollider.enabled = false;

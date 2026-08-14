@@ -38,6 +38,7 @@ namespace AudioSystem
 
         private bool isCrossfading;
         private float crossfadeTimer;
+        private bool isPaused;
 
         private void Awake()
         {
@@ -99,10 +100,15 @@ namespace AudioSystem
         /// </summary>
         public void CrossfadeTo(AudioClip clip)
         {
-            if (clip == null) return;
-            if (activeSource.clip == clip && activeSource.isPlaying) return;
+            if (isPaused)
+                return;
 
-            // สลับตัวที่ inactive ให้กลายเป็นตัวเล่นเพลงใหม่ แล้วเริ่ม fade
+            if (clip == null)
+                return;
+
+            if (activeSource.clip == clip && activeSource.isPlaying)
+                return;
+
             AudioSource newSource = inactiveSource;
             AudioSource oldSource = activeSource;
 
@@ -120,6 +126,49 @@ namespace AudioSystem
         public void SetMusicVolume(float volume01)
         {
             musicVolume = Mathf.Clamp01(volume01);
+        }
+
+        public void PauseMusic()
+        {
+            if (isPaused)
+                return;
+
+            isPaused = true;
+
+            if (sourceA != null && sourceA.isPlaying)
+                sourceA.Pause();
+
+            if (sourceB != null && sourceB.isPlaying)
+                sourceB.Pause();
+        }
+
+        public void ResumeMusic()
+        {
+            if (!isPaused)
+                return;
+
+            isPaused = false;
+
+            if (sourceA != null)
+                sourceA.UnPause();
+
+            if (sourceB != null)
+                sourceB.UnPause();
+        }
+        public void StopMusic()
+        {
+            if (sourceA != null)
+                sourceA.Stop();
+
+            if (sourceB != null)
+                sourceB.Stop();
+
+            sourceA.volume = 0f;
+            sourceB.volume = 0f;
+
+            isCrossfading = false;
+            crossfadeTimer = 0f;
+            isPaused = false;
         }
     }
 }

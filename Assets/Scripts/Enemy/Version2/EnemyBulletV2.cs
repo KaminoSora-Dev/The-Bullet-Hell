@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using PlayerSystem;
@@ -17,24 +16,42 @@ namespace EnemySystem
         [SerializeField, HideInInspector] private float baseMinSpeed = 0f;
         [SerializeField, HideInInspector] private float baseMaxSpeed = 50f;
 
-        // ============================================================
-        // เพิ่มใหม่: Death Animation (Optional) + Spawn SFX (Optional)
-        // ============================================================
         [Header("Death Animation (Optional)")]
-        [Tooltip("ถ้าลากมาใส่ - ตอนกระสุนถูกทำลาย (ไม่นับ HiddenBorder) จะเล่นแอนิเมชันนี้ก่อนค่อยกลับ Pool จริง " +
-                 "ถ้าไม่ใส่ไว้ กระสุนจะกลับ Pool ทันทีเหมือนพฤติกรรมเดิมทุกประการ")]
+        [Tooltip(
+            "ถ้าลากมาใส่ - ตอนกระสุนถูกทำลาย (ไม่นับ HiddenBorder) จะเล่นแอนิเมชันนี้ก่อนค่อยกลับ Pool จริง " +
+            "ถ้าไม่ใส่ไว้ กระสุนจะกลับ Pool ทันทีเหมือนพฤติกรรมเดิมทุกประการ"
+        )]
         [SerializeField] private Animator deathAnimator;
+
         [Tooltip("ชื่อ Trigger parameter บน Animator ที่จะสั่งตอนกระสุนถูกทำลาย")]
         [SerializeField] private string deathTrigger = "Death";
 
         [Header("Spawn SFX (Optional)")]
-        [Tooltip("เสียงตอนกระสุนนี้ spawn (ยิงออกมา) - ปล่อยว่างไว้ถ้าไม่ต้องการเสียง")]
-        [SerializeField] private AudioClip spawnSfx;
+        [Tooltip(
+            "AudioSource สำหรับเสียงตอนกระสุนนี้ Spawn " +
+            "สามารถกำหนด AudioClip และ AudioMixerGroup ของกระสุนแต่ละชนิดแยกกันได้"
+        )]
+        [SerializeField] private AudioSource spawnSfx;
+
+        [Header("Visual Rotation (Optional)")]
+        [Tooltip(
+            "ติ๊กถ้าอยากให้กระสุนหมุนหันไปตามทิศทางที่กำลังเคลื่อนที่อยู่ " +
+            "(อัปเดตทุกครั้งที่ทิศเปลี่ยน เช่นจาก Direction Timeline หรือ Redirect)\n" +
+            "ไม่ติ๊ก = กระสุนไม่หมุน"
+        )]
+        [SerializeField] private bool rotateToFaceDirection = false;
+
+        [Tooltip(
+            "มุมชดเชย Sprite - ถ้า Sprite วาดหันขึ้นด้านบนอยู่แล้วให้ใส่ -90, " +
+            "ถ้าวาดหันขวาอยู่แล้วใส่ 0"
+        )]
+        [SerializeField] private float spriteAngleOffset = -90f;
 
         private CircleCollider2D col;
+        private Rigidbody2D rb;
+
         private bool isDying;
 
-        private Rigidbody2D rb;
         private Vector2 direction = Vector2.down;
 
         private float currentSpeed;
@@ -58,26 +75,12 @@ namespace EnemySystem
         private bool directionTimelineActive;
         private bool useDirectionTimeline;
 
-        // ============================================================
-        // เพิ่มใหม่: Burst Timeline - จุดเวลาที่จะ Spawn Pattern ใหม่
-        // ออกจากตำแหน่งจริงของกระสุนตัวนี้เอง (คนละระบบกับ Speed/Direction Timeline ด้านบน)
-        // ============================================================
         private List<BulletBurstTrigger> burstTimeline;
         private bool[] burstTriggerFired;
         private float burstTimelineClock;
+
         private readonly List<BulletPatternV2Executor> activeBurstExecutors =
             new List<BulletPatternV2Executor>();
-
-        [Header("Visual Rotation (Optional)")]
-        [Tooltip(
-            "ติ๊กถ้าอยากให้กระสุนหมุนหันไปตามทิศทางที่กำลังเคลื่อนที่อยู่ " +
-            "(อัปเดตทุกครั้งที่ทิศเปลี่ยน เช่นจาก Direction Timeline หรือ Redirect)\n" +
-            "ไม่ติ๊ก = กระสุนไม่หมุน เหมือนพฤติกรรมเดิมทุกประการ (เหมาะกับกระสุนวงกลม/สมมาตรที่ไม่ต้องหันทิศ)"
-        )]
-        [SerializeField] private bool rotateToFaceDirection = false;
-
-        [Tooltip("มุมชดเชย Sprite - ถ้า Sprite วาดหันขึ้นด้านบนอยู่แล้วให้ใส่ -90, ถ้าวาดหันขวาอยู่แล้วใส่ 0")]
-        [SerializeField] private float spriteAngleOffset = -90f;
 
         private Transform cachedPlayerTransform;
 
@@ -85,19 +88,15 @@ namespace EnemySystem
         public Vector2 Direction => direction;
         public float DefaultSpeed => baseSpeed;
 
-        /// <summary>
-        /// เพิ่มใหม่: static event - AudioManager ฟังตัวนี้ตัวเดียว ไม่ต้องรู้จักกระสุนทีละ instance
-        /// ยิงทุกครั้งที่กระสุนที่มี spawnSfx ผูกไว้ถูกดึงจาก Pool มาใช้
-        /// </summary>
-        public static event Action<AudioClip> OnAnyBulletSpawnSfx;
-
         private void Awake()
         {
             rb = GetComponent<Rigidbody2D>();
             rb.bodyType = RigidbodyType2D.Kinematic;
 
             col = GetComponent<CircleCollider2D>();
-            if (col != null) col.isTrigger = true;
+
+            if (col != null)
+                col.isTrigger = true;
 
             ResetMotionToPrefabDefaults();
             CachePlayer();
@@ -105,8 +104,8 @@ namespace EnemySystem
 
         private void FixedUpdate()
         {
-            // เพิ่มใหม่: หยุดขยับระหว่างเล่น Death Animation
-            if (isDying) return;
+            if (isDying)
+                return;
 
             UpdateSpeed();
             UpdateDirection();
@@ -119,25 +118,26 @@ namespace EnemySystem
 
             rb.MovePosition(targetPosition);
 
-            // เพิ่มใหม่: หันหัวกระสุนตามทิศที่กำลังเคลื่อนที่ (Optional)
             if (rotateToFaceDirection)
                 UpdateFacingRotation();
         }
 
-        private void UpdateFacingRotation()
-        {
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            rb.MoveRotation(angle + spriteAngleOffset);
-        }
-
         private void Update()
         {
-            // เพิ่มใหม่: Burst Timeline - แยก Loop จาก FixedUpdate เพราะไม่เกี่ยวกับ Physics โดยตรง
-            // (เหมือนที่ EnemyBulletPatternV2/BossV2 Tick Pattern Executor ของตัวเองใน Update)
-            if (isDying) return;
+            if (isDying)
+                return;
 
             UpdateBurstTimeline(Time.deltaTime);
             TickActiveBurstExecutors(Time.deltaTime);
+        }
+
+        private void UpdateFacingRotation()
+        {
+            float angle =
+                Mathf.Atan2(direction.y, direction.x) *
+                Mathf.Rad2Deg;
+
+            rb.MoveRotation(angle + spriteAngleOffset);
         }
 
         private void UpdateSpeed()
@@ -150,8 +150,15 @@ namespace EnemySystem
 
             if (Mathf.Abs(currentAcceleration) > 0.000001f)
             {
-                currentSpeed += currentAcceleration * Time.fixedDeltaTime;
-                currentSpeed = Mathf.Clamp(currentSpeed, currentMinSpeed, currentMaxSpeed);
+                currentSpeed +=
+                    currentAcceleration *
+                    Time.fixedDeltaTime;
+
+                currentSpeed = Mathf.Clamp(
+                    currentSpeed,
+                    currentMinSpeed,
+                    currentMaxSpeed
+                );
             }
         }
 
@@ -166,7 +173,8 @@ namespace EnemySystem
             if (cachedPlayerTransform != null)
                 return;
 
-            GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+            GameObject playerObject =
+                GameObject.FindGameObjectWithTag("Player");
 
             if (playerObject != null)
                 cachedPlayerTransform = playerObject.transform;
@@ -195,11 +203,15 @@ namespace EnemySystem
             segmentStartSpeed = currentSpeed;
         }
 
-        public void SetAcceleration(float newAcceleration, float newMinSpeed, float newMaxSpeed)
+        public void SetAcceleration(
+            float newAcceleration,
+            float newMinSpeed,
+            float newMaxSpeed)
         {
             currentAcceleration = newAcceleration;
             currentMinSpeed = Mathf.Max(0f, newMinSpeed);
-            currentMaxSpeed = Mathf.Max(currentMinSpeed, newMaxSpeed);
+            currentMaxSpeed =
+                Mathf.Max(currentMinSpeed, newMaxSpeed);
 
             useSpeedTimeline = false;
             speedTimeline = null;
@@ -215,7 +227,10 @@ namespace EnemySystem
             List<DirectionTransition> newDirectionTimeline = null,
             List<BulletBurstTrigger> newBurstTimeline = null)
         {
-            currentSpeed = overrideInitialSpeed ? initialSpeed : baseSpeed;
+            currentSpeed =
+                overrideInitialSpeed
+                    ? initialSpeed
+                    : baseSpeed;
 
             currentAcceleration = 0f;
             currentMinSpeed = 0f;
@@ -226,7 +241,10 @@ namespace EnemySystem
             speedTransitionTimer = 0f;
             segmentStartSpeed = currentSpeed;
 
-            speedTimelineActive = speedTimeline != null && speedTimeline.Count > 0;
+            speedTimelineActive =
+                speedTimeline != null &&
+                speedTimeline.Count > 0;
+
             useSpeedTimeline = speedTimelineActive;
 
             directionTimeline = newDirectionTimeline;
@@ -234,21 +252,32 @@ namespace EnemySystem
             directionTransitionTimer = 0f;
             directionSegmentInitialized = false;
 
-            directionTimelineActive = directionTimeline != null && directionTimeline.Count > 0;
+            directionTimelineActive =
+                directionTimeline != null &&
+                directionTimeline.Count > 0;
+
             useDirectionTimeline = directionTimelineActive;
 
-            // เพิ่มใหม่: Reset Burst Timeline ทุกครั้งที่กระสุนถูก Configure ใหม่ (ตอน Spawn)
             burstTimeline = newBurstTimeline;
             burstTimelineClock = 0f;
             activeBurstExecutors.Clear();
 
-            int triggerCount = burstTimeline != null ? burstTimeline.Count : 0;
-            burstTriggerFired = triggerCount > 0 ? new bool[triggerCount] : null;
+            int triggerCount =
+                burstTimeline != null
+                    ? burstTimeline.Count
+                    : 0;
+
+            burstTriggerFired =
+                triggerCount > 0
+                    ? new bool[triggerCount]
+                    : null;
         }
 
         private void UpdateSpeedTimeline(float deltaTime)
         {
-            if (!speedTimelineActive || speedTimeline == null || speedTimeline.Count == 0)
+            if (!speedTimelineActive ||
+                speedTimeline == null ||
+                speedTimeline.Count == 0)
             {
                 speedTimelineActive = false;
                 useSpeedTimeline = false;
@@ -257,9 +286,12 @@ namespace EnemySystem
 
             int safety = 0;
 
-            while (speedTransitionIndex < speedTimeline.Count && safety++ < speedTimeline.Count + 2)
+            while (
+                speedTransitionIndex < speedTimeline.Count &&
+                safety++ < speedTimeline.Count + 2)
             {
-                SpeedTransition transition = speedTimeline[speedTransitionIndex];
+                SpeedTransition transition =
+                    speedTimeline[speedTransitionIndex];
 
                 if (transition == null)
                 {
@@ -269,7 +301,8 @@ namespace EnemySystem
                     continue;
                 }
 
-                float duration = Mathf.Max(0f, transition.duration);
+                float duration =
+                    Mathf.Max(0f, transition.duration);
 
                 if (duration <= 0f)
                 {
@@ -282,10 +315,20 @@ namespace EnemySystem
 
                 speedTransitionTimer += deltaTime;
 
-                float t = Mathf.Clamp01(speedTransitionTimer / duration);
-                float eased = ApplyEase(t, transition.easing);
+                float t =
+                    Mathf.Clamp01(
+                        speedTransitionTimer / duration
+                    );
 
-                currentSpeed = Mathf.Lerp(segmentStartSpeed, transition.targetSpeed, eased);
+                float eased =
+                    ApplyEase(t, transition.easing);
+
+                currentSpeed =
+                    Mathf.Lerp(
+                        segmentStartSpeed,
+                        transition.targetSpeed,
+                        eased
+                    );
 
                 if (speedTransitionTimer >= duration)
                 {
@@ -309,7 +352,9 @@ namespace EnemySystem
 
         private void UpdateDirectionTimeline(float deltaTime)
         {
-            if (!directionTimelineActive || directionTimeline == null || directionTimeline.Count == 0)
+            if (!directionTimelineActive ||
+                directionTimeline == null ||
+                directionTimeline.Count == 0)
             {
                 directionTimelineActive = false;
                 useDirectionTimeline = false;
@@ -318,9 +363,12 @@ namespace EnemySystem
 
             int safety = 0;
 
-            while (directionTransitionIndex < directionTimeline.Count && safety++ < directionTimeline.Count + 2)
+            while (
+                directionTransitionIndex < directionTimeline.Count &&
+                safety++ < directionTimeline.Count + 2)
             {
-                DirectionTransition transition = directionTimeline[directionTransitionIndex];
+                DirectionTransition transition =
+                    directionTimeline[directionTransitionIndex];
 
                 if (transition == null)
                 {
@@ -332,16 +380,28 @@ namespace EnemySystem
 
                 if (!directionSegmentInitialized)
                 {
-                    directionSegmentStartAngle = VectorToAngle(direction);
-                    directionSegmentTargetAngle = CalculateTargetAngle(transition, directionSegmentStartAngle);
+                    directionSegmentStartAngle =
+                        VectorToAngle(direction);
+
+                    directionSegmentTargetAngle =
+                        CalculateTargetAngle(
+                            transition,
+                            directionSegmentStartAngle
+                        );
+
                     directionSegmentInitialized = true;
                 }
 
-                float duration = Mathf.Max(0f, transition.duration);
+                float duration =
+                    Mathf.Max(0f, transition.duration);
 
                 if (duration <= 0f)
                 {
-                    direction = AngleToVector(directionSegmentTargetAngle);
+                    direction =
+                        AngleToVector(
+                            directionSegmentTargetAngle
+                        );
+
                     directionTransitionIndex++;
                     directionTransitionTimer = 0f;
                     directionSegmentInitialized = false;
@@ -350,15 +410,30 @@ namespace EnemySystem
 
                 directionTransitionTimer += deltaTime;
 
-                float t = Mathf.Clamp01(directionTransitionTimer / duration);
-                float eased = ApplyEase(t, transition.easing);
+                float t =
+                    Mathf.Clamp01(
+                        directionTransitionTimer / duration
+                    );
 
-                float currentAngle = Mathf.Lerp(directionSegmentStartAngle, directionSegmentTargetAngle, eased);
+                float eased =
+                    ApplyEase(t, transition.easing);
+
+                float currentAngle =
+                    Mathf.Lerp(
+                        directionSegmentStartAngle,
+                        directionSegmentTargetAngle,
+                        eased
+                    );
+
                 direction = AngleToVector(currentAngle);
 
                 if (directionTransitionTimer >= duration)
                 {
-                    direction = AngleToVector(directionSegmentTargetAngle);
+                    direction =
+                        AngleToVector(
+                            directionSegmentTargetAngle
+                        );
+
                     directionTransitionIndex++;
                     directionTransitionTimer = 0f;
                     directionSegmentInitialized = false;
@@ -376,12 +451,21 @@ namespace EnemySystem
             }
         }
 
-        private float CalculateTargetAngle(DirectionTransition transition, float startAngle)
+        private float CalculateTargetAngle(
+            DirectionTransition transition,
+            float startAngle)
         {
             if (transition.mode == DirectionRedirectMode.AimAtPlayer)
             {
-                float aimAngle = VectorToAngle(DirectionToPlayer());
-                float delta = Mathf.DeltaAngle(startAngle, aimAngle);
+                float aimAngle =
+                    VectorToAngle(DirectionToPlayer());
+
+                float delta =
+                    Mathf.DeltaAngle(
+                        startAngle,
+                        aimAngle
+                    );
+
                 return startAngle + delta;
             }
 
@@ -393,23 +477,35 @@ namespace EnemySystem
             if (cachedPlayerTransform == null)
                 return direction;
 
-            Vector2 result = (Vector2)cachedPlayerTransform.position - rb.position;
+            Vector2 result =
+                (Vector2)cachedPlayerTransform.position -
+                rb.position;
 
-            return result.sqrMagnitude < 0.000001f ? direction : result.normalized;
+            return result.sqrMagnitude < 0.000001f
+                ? direction
+                : result.normalized;
         }
 
         private static float VectorToAngle(Vector2 v)
         {
-            return Mathf.Atan2(v.y, v.x) * Mathf.Rad2Deg;
+            return Mathf.Atan2(v.y, v.x) *
+                   Mathf.Rad2Deg;
         }
 
         private static Vector2 AngleToVector(float degrees)
         {
-            float radians = degrees * Mathf.Deg2Rad;
-            return new Vector2(Mathf.Cos(radians), Mathf.Sin(radians));
+            float radians =
+                degrees * Mathf.Deg2Rad;
+
+            return new Vector2(
+                Mathf.Cos(radians),
+                Mathf.Sin(radians)
+            );
         }
 
-        private static float ApplyEase(float t, SpeedEasing easing)
+        private static float ApplyEase(
+            float t,
+            SpeedEasing easing)
         {
             t = Mathf.Clamp01(t);
 
@@ -417,35 +513,41 @@ namespace EnemySystem
             {
                 case SpeedEasing.EaseIn:
                     return t * t;
+
                 case SpeedEasing.EaseOut:
-                    return 1f - (1f - t) * (1f - t);
+                    return 1f -
+                           (1f - t) *
+                           (1f - t);
+
                 case SpeedEasing.EaseInOut:
-                    return t < 0.5f ? 2f * t * t : 1f - Mathf.Pow(-2f * t + 2f, 2f) / 2f;
+                    return t < 0.5f
+                        ? 2f * t * t
+                        : 1f -
+                          Mathf.Pow(
+                              -2f * t + 2f,
+                              2f
+                          ) / 2f;
+
                 default:
                     return t;
             }
         }
 
-        // เพิ่มใหม่: Burst Timeline - จุดเวลาที่จะสั่งยิง Pattern ใหม่จากตำแหน่งกระสุนตัวนี้เอง
-        //
-        // สำคัญ: trigger.pattern เป็น Reference เดียวกันกับที่ Boss/Enemy ทุกตัวที่ยิง Burst นี้ใช้ร่วมกัน
-        // (เก็บอยู่บน BulletMotionSettings ของ Config ต้นทาง ไม่ใช่ต่อกระสุน) ถ้ากระสุนหลายตัวที่มาจาก Burst
-        // เดียวกัน Trigger พร้อมกัน แล้วใช้ trigger.pattern ตรงๆ โดยไม่ Clone ก่อน จะเกิดปัญหาแย่ง
-        // currentBurst/timer กันเอง (Pattern เพี้ยน) เพราะ BulletPatternGroup/BulletBurstV2 มี Field แบบ
-        // [NonSerialized] เก็บ Runtime State อยู่บนตัวมันเอง - ต้อง Clone() ก่อนสร้าง Executor เสมอ
-
         private void UpdateBurstTimeline(float dt)
         {
-            if (burstTimeline == null || burstTimeline.Count == 0)
+            if (burstTimeline == null ||
+                burstTimeline.Count == 0)
                 return;
 
             burstTimelineClock += dt;
 
             for (int i = 0; i < burstTimeline.Count; i++)
             {
-                if (burstTriggerFired[i]) continue;
+                if (burstTriggerFired[i])
+                    continue;
 
-                BulletBurstTrigger trigger = burstTimeline[i];
+                BulletBurstTrigger trigger =
+                    burstTimeline[i];
 
                 if (trigger == null)
                 {
@@ -453,27 +555,36 @@ namespace EnemySystem
                     continue;
                 }
 
-                if (burstTimelineClock < trigger.time) continue;
+                if (burstTimelineClock < trigger.time)
+                    continue;
 
                 burstTriggerFired[i] = true;
+
                 FireBurstTrigger(trigger);
 
-                // trigger นี้อาจสั่ง RequestDestroy() ตัวเอง (destroySelfAfterFire) -
-                // ถ้าตายแล้ว isDying จะเป็น true และ Update() รอบถัดไปจะหยุด Tick ต่อเองอยู่แล้ว
-                if (isDying) return;
+                if (isDying)
+                    return;
             }
         }
 
-        private void FireBurstTrigger(BulletBurstTrigger trigger)
+        private void FireBurstTrigger(
+            BulletBurstTrigger trigger)
         {
-            if (trigger.pattern != null && trigger.pattern.Count > 0)
+            if (trigger.pattern != null &&
+                trigger.pattern.Count > 0)
             {
                 List<BulletPatternGroup> clonedGroups =
-                    new List<BulletPatternGroup>(trigger.pattern.Count);
+                    new List<BulletPatternGroup>(
+                        trigger.pattern.Count
+                    );
 
-                for (int i = 0; i < trigger.pattern.Count; i++)
+                for (int i = 0;
+                     i < trigger.pattern.Count;
+                     i++)
                 {
-                    BulletPatternGroup source = trigger.pattern[i];
+                    BulletPatternGroup source =
+                        trigger.pattern[i];
+
                     if (source != null)
                         clonedGroups.Add(source.Clone());
                 }
@@ -482,9 +593,9 @@ namespace EnemySystem
                     new BulletPatternV2Executor(
                         clonedGroups,
                         transform,
-                        () => cachedPlayerTransform);
+                        () => cachedPlayerTransform
+                    );
 
-                // ยิงนัดแรกทันที ไม่ต้องรอ Update รอบหน้า - "ขยับออกพร้อมกัน" ตอนถึงจุดนี้จริงๆ
                 executor.Tick(0f);
 
                 if (!trigger.destroySelfAfterFire)
@@ -497,10 +608,15 @@ namespace EnemySystem
 
         private void TickActiveBurstExecutors(float dt)
         {
-            if (activeBurstExecutors.Count == 0) return;
+            if (activeBurstExecutors.Count == 0)
+                return;
 
-            for (int i = 0; i < activeBurstExecutors.Count; i++)
+            for (int i = 0;
+                 i < activeBurstExecutors.Count;
+                 i++)
+            {
                 activeBurstExecutors[i].Tick(dt);
+            }
         }
 
         private void ResetMotionToPrefabDefaults()
@@ -510,7 +626,11 @@ namespace EnemySystem
             currentSpeed = baseSpeed;
             currentAcceleration = baseAcceleration;
             currentMinSpeed = Mathf.Max(0f, baseMinSpeed);
-            currentMaxSpeed = Mathf.Max(currentMinSpeed, baseMaxSpeed);
+            currentMaxSpeed =
+                Mathf.Max(
+                    currentMinSpeed,
+                    baseMaxSpeed
+                );
 
             speedTimeline = null;
             speedTransitionIndex = 0;
@@ -526,7 +646,6 @@ namespace EnemySystem
             directionTimelineActive = false;
             useDirectionTimeline = false;
 
-            // เพิ่มใหม่: reset Burst Timeline ตอนกลับไปเป็นค่า default ของ prefab (ก่อน Configure ใหม่)
             burstTimeline = null;
             burstTriggerFired = null;
             burstTimelineClock = 0f;
@@ -537,9 +656,10 @@ namespace EnemySystem
         {
             ResetMotionToPrefabDefaults();
 
-            // เพิ่มใหม่: reset สถานะตาย + เปิด collider กลับ + rebind Animator กันค้าง state เดิม
             isDying = false;
-            if (col != null) col.enabled = true;
+
+            if (col != null)
+                col.enabled = true;
 
             if (deathAnimator != null)
             {
@@ -549,8 +669,16 @@ namespace EnemySystem
 
             CachePlayer();
 
-            if (spawnSfx != null)
-                OnAnyBulletSpawnSfx?.Invoke(spawnSfx);
+            PlaySpawnSfx();
+        }
+
+        private void PlaySpawnSfx()
+        {
+            if (spawnSfx == null ||
+                spawnSfx.clip == null)
+                return;
+
+            spawnSfx.PlayOneShot(spawnSfx.clip);
         }
 
         public void OnReturnToPool()
@@ -563,23 +691,17 @@ namespace EnemySystem
             directionTimelineActive = false;
             useDirectionTimeline = false;
 
-            // เพิ่มใหม่: เคลียร์ Burst Timeline ทันทีตอนคืนเข้า Pool กัน Executor ค้างยิงจากตำแหน่งเก่า
             burstTimeline = null;
             burstTriggerFired = null;
             activeBurstExecutors.Clear();
 
-            isDying = false; // เพิ่มใหม่
+            isDying = false;
         }
 
-        /// <summary>
-        /// เพิ่มใหม่: เรียกจุดนี้แทน PoolManager.Instance.Return(gameObject) ตรงๆ ทุกที่ที่ต้อง "ทำลาย" กระสุนนี้
-        /// (ยกเว้นตอนชน HiddenBorder ที่ยัง Return ตรงๆ เหมือนเดิม เพราะเป็นการหายออกนอกจอ ไม่ใช่ถูกทำลาย)
-        /// มี deathAnimator ผูกไว้ -> เล่นแอนิเมชันก่อน แล้วรอ Animation Event เรียก OnDeathAnimationComplete()
-        /// ไม่มี deathAnimator -> Return ทันทีเหมือนพฤติกรรมเดิม (กระสุนที่ไม่ได้ผูกแอนิเมชันไว้ไม่พัง)
-        /// </summary>
         public void RequestDestroy()
         {
-            if (isDying) return;
+            if (isDying)
+                return;
 
             if (deathAnimator == null)
             {
@@ -588,15 +710,13 @@ namespace EnemySystem
             }
 
             isDying = true;
-            if (col != null) col.enabled = false;
+
+            if (col != null)
+                col.enabled = false;
 
             deathAnimator.SetTrigger(deathTrigger);
         }
 
-        /// <summary>
-        /// ผูกกับ Animation Event ที่เฟรมสุดท้ายของคลิป Death ใน Animator
-        /// (เปิด Animation clip -> คลิกเฟรมสุดท้าย -> Add Event -> เลือกฟังก์ชันนี้)
-        /// </summary>
         public void OnDeathAnimationComplete()
         {
             ReturnToPoolNow();
@@ -612,23 +732,25 @@ namespace EnemySystem
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (isDying) return; // เพิ่มใหม่: กำลังเล่น Death Animation อยู่ (collider ปิดไปแล้วด้วยปกติ)
+            if (isDying)
+                return;
 
             if (other.CompareTag("HiddenBorder"))
             {
-                ReturnToPoolNow(); // หายนอกจอ ไม่ใช่ถูกทำลาย - ไม่เล่นแอนิเมชัน
+                ReturnToPoolNow();
                 return;
             }
 
             if (!other.CompareTag("Player"))
                 return;
 
-            if (other.TryGetComponent<PlayerControllerV1>(out var player))
+            if (other.TryGetComponent<PlayerControllerV1>(
+                    out var player))
             {
                 player.Die();
             }
 
-            RequestDestroy(); // เปลี่ยนจาก Return() ตรงๆ
+            RequestDestroy();
         }
     }
 }

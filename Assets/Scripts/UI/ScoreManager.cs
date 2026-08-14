@@ -20,17 +20,29 @@ namespace GameSystem
     {
         public static ScoreManager Instance { get; private set; }
 
+        // เพิ่มใหม่: Key สำหรับเก็บ HiScore ถาวรใน PlayerPrefs (อยู่ข้าม Session/ปิดเกมแล้วเปิดใหม่)
+        // แยกต่างหากจาก hiScore ตัวเดิมด้านล่างโดยตั้งใจ - hiScore เดิมเป็นแค่ "HiScore ของ Run นี้"
+        // (รีเซ็ตเป็น 0 ทุกครั้งที่ ResetScore() ถูกเรียก) ส่วนตัวใหม่นี้คือสถิติสูงสุดตลอดกาลของเครื่อง
+        private const string PersistentHiScorePrefsKey = "BulletHell_PersistentHiScore";
+
         private int currentScore;
         private int hiScore;
+        private int persistentHiScore; // เพิ่มใหม่
 
         public int CurrentScore => currentScore;
         public int HiScore => hiScore;
+
+        /// <summary>เพิ่มใหม่: HiScore ถาวรตลอดกาลของเครื่องนี้ (โหลดจาก PlayerPrefs)</summary>
+        public int PersistentHiScore => persistentHiScore;
 
         /// <summary>ยิงทุกครั้งที่ CurrentScore เปลี่ยน</summary>
         public event Action<int> OnScoreChanged;
 
         /// <summary>ยิงเมื่อ HiScore เปลี่ยน</summary>
         public event Action<int> OnHiScoreChanged;
+
+        /// <summary>เพิ่มใหม่: ยิงเมื่อ PersistentHiScore ถูกบันทึกค่าใหม่ (สำหรับ UI หน้าเมนูในอนาคต)</summary>
+        public event Action<int> OnPersistentHiScoreChanged;
 
         private void Awake()
         {
@@ -42,6 +54,9 @@ namespace GameSystem
 
             Instance = this;
             DontDestroyOnLoad(gameObject);
+
+            // เพิ่มใหม่: โหลด HiScore ถาวรจากเครื่อง (ถ้าไม่เคยมีมาก่อนจะได้ 0)
+            persistentHiScore = PlayerPrefs.GetInt(PersistentHiScorePrefsKey, 0);
         }
 
         /// <summary>
@@ -73,11 +88,38 @@ namespace GameSystem
         /// </summary>
         public void ResetScore()
         {
+            // บันทึก High Score ถาวรก่อนรีเซ็ตคะแนน
+            SavePersistentHiScoreIfHigher();
+
             currentScore = 0;
             hiScore = 0;
 
             OnScoreChanged?.Invoke(currentScore);
             OnHiScoreChanged?.Invoke(hiScore);
+        }
+
+        /// <summary>
+        /// เพิ่มใหม่: เช็คว่า CurrentScore ตอนนี้สูงกว่า PersistentHiScore เดิมไหม
+        /// ถ้าสูงกว่า จะบันทึกลง PlayerPrefs ทันที
+        ///
+        /// สำคัญ: ต้องเรียกฟังก์ชันนี้ "ก่อน" ResetScore() เสมอ ไม่งั้นคะแนนจะถูกรีเซ็ตเป็น 0
+        /// ไปแล้วก่อนที่จะมาเช็ค ทำให้ไม่มีทางบันทึก HiScore ใหม่ได้เลย
+        /// </summary>
+        public void SavePersistentHiScoreIfHigher()
+        {
+            if (currentScore <= persistentHiScore)
+            {
+                Debug.Log($"ScoreManager: Score ปัจจุบัน ({currentScore}) ไม่สูงกว่า PersistentHiScore เดิม ({persistentHiScore}) - ไม่บันทึกใหม่");
+                return;
+            }
+
+            persistentHiScore = currentScore;
+            PlayerPrefs.SetInt(PersistentHiScorePrefsKey, persistentHiScore);
+            PlayerPrefs.Save();
+
+            OnPersistentHiScoreChanged?.Invoke(persistentHiScore);
+
+            Debug.Log($"ScoreManager: บันทึก PersistentHiScore ใหม่ = {persistentHiScore} (เซฟลง PlayerPrefs แล้ว)");
         }
     }
 }

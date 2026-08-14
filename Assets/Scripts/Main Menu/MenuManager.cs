@@ -10,12 +10,6 @@ using UnityEditor;
 
 namespace MenuSystemV1
 {
-    /// <summary>
-    /// หน้าเมนูหลัก - เหลือแค่ Start กับ Exit ตามที่ต้องการ
-    /// Start จะรีเซ็ตคะแนน/สถิติ/ทรัพยากรผู้เล่นกลับเป็นค่าเริ่มต้น (เริ่มเกมใหม่)
-    /// แล้วเรียก LoadingScreenManager.Instance.LoadScene() แทนการ SceneManager.LoadScene ตรงๆ
-    /// เพื่อให้ผ่านหน้าโหลด + Fade ตามระบบที่ตั้งไว้
-    /// </summary>
     public class MenuManager : MonoBehaviour
     {
         [Header("Buttons")]
@@ -34,8 +28,7 @@ namespace MenuSystemV1
 
         public void OnStartClicked()
         {
-            // เพิ่มใหม่: รีเซ็ตคะแนน/ชีวิต/บอมบ์/พาวเวอร์/สถิติ กลับเป็นค่าเริ่มต้นทุกครั้งที่เริ่มเกมใหม่จากเมนู
-            // (ถ้าไม่รีเซ็ต ค่าจากรอบเล่นก่อนหน้าจะค้างอยู่ เพราะ ScoreManager/PlayerStatsManager เป็น DontDestroyOnLoad)
+
             if (ScoreManager.Instance != null)
                 ScoreManager.Instance.ResetScore();
 

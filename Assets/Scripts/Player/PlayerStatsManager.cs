@@ -15,14 +15,41 @@ namespace PlayerSystem
         public string stageId;
         public int clearCount;
         public int highScore;
+
+        // สถิติของด่านล่าสุดที่ผ่านสำเร็จ
+        public int deathCount;
+        public int spellUsedCount;
+        public float timeSpentSeconds;
     }
 
     /// <summary>
-    /// Singleton ถาวร (DontDestroyOnLoad) - เก็บสถานะผู้เล่นที่ต้องคงอยู่ข้าม Scene
-    /// รวมถึง Lives, Spells, Power และสถิติสะสม
+    /// สรุปผลของ 1 การเล่นจบ (1 Run)
     ///
-    /// ชื่อ API เดิมและ API ที่ UI/PlayerController รุ่นเก่าใช้อยู่ถูกเก็บไว้
-    /// เพื่อให้ระบบต่าง ๆ compile ร่วมกันได้โดยไม่ต้องแก้ทุก consumer พร้อมกัน
+    /// completed = true
+    ///     จบเกมสำเร็จ
+    ///
+    /// completed = false
+    ///     Game Over และผู้เล่นเลือกไม่ Continue
+    ///
+    /// เก็บใน RAM เท่านั้นในปัจจุบัน
+    /// </summary>
+    [Serializable]
+    public class RunSummaryRecord
+    {
+        public int finalScore;
+        public float totalTimeSeconds;
+        public int deathCount;
+        public int spellUsedCount;
+        public int stagesCleared;
+        public bool completed;
+        public string timestampUtc;
+    }
+
+    /// <summary>
+    /// Singleton ถาวร (DontDestroyOnLoad)
+    ///
+    /// เก็บสถานะผู้เล่นที่ต้องคงอยู่ข้าม Scene:
+    /// Lives, Spells, Power และสถิติต่าง ๆ
     /// </summary>
     public class PlayerStatsManager : MonoBehaviour
     {
@@ -46,11 +73,14 @@ namespace PlayerSystem
         [Min(0)]
         [SerializeField] private int maxPower = 128;
 
-        [Header("Power Stage Thresholds (สำหรับระบบยิงหลายลูก - เพิ่มใหม่)")]
-        [Tooltip("ค่า currentPower ขั้นต่ำที่ต้องถึงเพื่อขึ้น Power Stage 1,2,3,4,5 ตามลำดับ " +
-                 "(index 0 = เกณฑ์ขึ้น Stage 1, index 1 = เกณฑ์ขึ้น Stage 2 ... ) ต้องเรียงค่าจากน้อยไปมาก " +
-                 "ค่าเริ่มต้นแบ่งเท่า ๆ กันจาก maxPower เริ่มต้น (128) ปรับได้อิสระใน Inspector")]
-        [SerializeField] private int[] powerStageThresholds = { 16, 32, 64, 96, 128 };
+        [Header("Power Stage Thresholds")]
+        [Tooltip(
+            "ค่า currentPower ขั้นต่ำที่ต้องถึงเพื่อขึ้น Power Stage 1,2,3,4,5 ตามลำดับ\n" +
+            "(index 0 = เกณฑ์ขึ้น Stage 1, index 1 = เกณฑ์ขึ้น Stage 2 ...)\n" +
+            "ต้องเรียงค่าจากน้อยไปมาก"
+        )]
+        [SerializeField] private int[] powerStageThresholds =
+            { 16, 32, 64, 96, 128 };
 
         private int currentLives;
         private int currentBombs;
@@ -67,7 +97,45 @@ namespace PlayerSystem
         private int missCount;
         private int bombsUsedCount;
 
-        private readonly List<StageProgressRecord> stageRecords = new List<StageProgressRecord>();
+        private readonly List<StageProgressRecord> stageRecords =
+            new List<StageProgressRecord>();
+
+        // ============================================================
+        // RUN / STAGE TIMER
+        // ============================================================
+
+        private float currentRunTimer;
+        private float currentStageTimer;
+
+        private int stageStartMissCount;
+        private int stageStartBombsUsedCount;
+
+        // ============================================================
+        // RUN HISTORY
+        // ============================================================
+
+        private readonly List<RunSummaryRecord> runHistory =
+            new List<RunSummaryRecord>();
+
+        /// <summary>
+        /// สำคัญ:
+        /// ป้องกัน RecordRunFinished() ถูกเรียกซ้ำใน Run เดียวกัน
+        ///
+        /// ตัวอย่างบั๊กที่ป้องกัน:
+        ///
+        /// Update()
+        ///   -> UpdateFinalFade()
+        ///      -> FinishFinalFade()
+        ///         -> RecordRunFinished()
+        ///
+        /// ถ้า FinishFinalFade ถูกเรียกหลาย Frame
+        /// จะไม่สร้าง Run #1, #2, #3, ... ซ้ำอีก
+        /// </summary>
+        private bool hasRecordedCurrentRun;
+
+        // ============================================================
+        // PROPERTIES
+        // ============================================================
 
         public int CurrentLives => currentLives;
         public int CurrentBombs => currentBombs;
@@ -75,15 +143,10 @@ namespace PlayerSystem
         public int CurrentPower => currentPower;
         public int CurrentGraze => currentGraze;
 
-        // Compatibility names used by existing UI/debug code
+        // Compatibility
         public int CurrentSpells => currentBombs;
         public int CurrentPowerLevel => currentPower;
 
-        /// <summary>
-        /// Power Stage แบบ Discrete (0-5) แปลงมาจาก currentPower ผ่าน powerStageThresholds
-        /// ใช้โดย PlayerControllerV1 เพื่อตัดสินรูปแบบการยิง (จำนวนกระสุน/มุม/Homing)
-        /// คนละตัวกับ CurrentPowerLevel ด้านบนซึ่งเป็น raw power value (compat เดิม) - ตั้งชื่อแยกกันเจตนา
-        /// </summary>
         public int CurrentPowerStage => currentPowerStage;
 
         public int MaxLives => maxLives;
@@ -96,41 +159,44 @@ namespace PlayerSystem
         public int MissCount => missCount;
         public int BombsUsedCount => bombsUsedCount;
 
-        public IReadOnlyList<StageProgressRecord> AllStageRecords => stageRecords;
+        public IReadOnlyList<StageProgressRecord> AllStageRecords =>
+            stageRecords;
+
+        public float CurrentRunTimeSeconds => currentRunTimer;
+        public float CurrentStageTimeSeconds => currentStageTimer;
+
+        public IReadOnlyList<RunSummaryRecord> RunHistory =>
+            runHistory;
+
+        // ============================================================
+        // EVENTS
+        // ============================================================
 
         public event Action<int> OnLivesChanged;
         public event Action<int> OnBombsChanged;
         public event Action<int> OnPowerChanged;
 
-        // Compatibility events for existing UI/debug scripts.
+        // Compatibility events
         public event Action<int> OnSpellsChanged;
         public event Action<int> OnPowerLevelChanged;
         public event Action<int> OnGrazeChanged;
 
-        /// <summary>
-        /// ยิงเฉพาะตอน Power Stage (0-5) เปลี่ยนค่าจริงเท่านั้น (ไม่ยิงทุกครั้งที่ currentPower ขยับ)
-        /// เหมาะกับ UI ไอคอน Power Level หรือ PlayerControllerV1 ที่อยากรู้ตอนขึ้น Stage แบบ event-driven
-        /// แทนที่จะอ่าน CurrentPowerStage ทุกเฟรม
-        /// </summary>
         public event Action<int> OnPowerStageChanged;
 
         /// <summary>
-        /// ยิงเมื่อชีวิตหมดและการตายครั้งนั้นทำให้เข้าสู่ Game Over
+        /// ยิงเมื่อชีวิตหมดและเข้าสู่ Game Over
         /// </summary>
         public event Action OnGameOver;
 
 #if UNITY_EDITOR
-        /// <summary>
-        /// เพิ่มใหม่: ป้องกันบัค Power Stage กระโดดข้ามหลาย Stage ทีเดียว
-        /// สาเหตุที่พบบ่อย: เวลาลาก resize ขนาด array ใน Inspector Unity จะ copy ค่าตัวสุดท้ายไปใส่ช่องใหม่ให้อัตโนมัติ
-        /// (เช่นได้ {16,16,16,16,16} หรือ {1,1,2,3,4} โดยไม่ตั้งใจ) พอมีค่าเท่ากัน/ไม่เรียงจากน้อยไปมาก
-        /// ComputePowerStage() จะข้าม Stage กลางไปเลยตอน currentPower แตะค่านั้นพอดี
-        /// ฟังก์ชันนี้บังคับให้เรียงจากน้อยไปมากเสมอ ถ้าเจอค่าซ้ำ/ค่าลดลงจะบวกเพิ่มให้อัตโนมัติ + เตือนใน Console
-        /// </summary>
+
         private void OnValidate()
         {
-            if (powerStageThresholds == null || powerStageThresholds.Length == 0)
+            if (powerStageThresholds == null ||
+                powerStageThresholds.Length == 0)
+            {
                 return;
+            }
 
             bool wasFixed = false;
 
@@ -138,18 +204,27 @@ namespace PlayerSystem
             {
                 if (powerStageThresholds[i] <= powerStageThresholds[i - 1])
                 {
-                    powerStageThresholds[i] = powerStageThresholds[i - 1] + 1;
+                    powerStageThresholds[i] =
+                        powerStageThresholds[i - 1] + 1;
+
                     wasFixed = true;
                 }
             }
 
             if (wasFixed)
             {
-                Debug.LogWarning("PlayerStatsManager: powerStageThresholds ต้องเรียงจากน้อยไปมากเท่านั้น (ห้ามค่าเท่ากันหรือค่าลดลง) " +
-                    "- ระบบแก้ให้อัตโนมัติแล้ว ถ้าตัวเลขที่ได้ไม่ตรงกับที่ต้องการ กรุณาปรับค่าใน Inspector อีกครั้งให้เรียงน้อยไปมากเอง");
+                Debug.LogWarning(
+                    "PlayerStatsManager: powerStageThresholds ต้องเรียงจากน้อยไปมาก " +
+                    "- ระบบแก้ให้อัตโนมัติแล้ว"
+                );
             }
         }
+
 #endif
+
+        // ============================================================
+        // UNITY LIFECYCLE
+        // ============================================================
 
         private void Awake()
         {
@@ -160,19 +235,37 @@ namespace PlayerSystem
             }
 
             Instance = this;
+
             DontDestroyOnLoad(gameObject);
 
             ResetRun();
 
-            EnemyV1.OnAnyEnemyDefeatedByPlayer += HandleEnemyDefeated;
-            BossV2.OnAnyBossDefeatedAny += HandleBossDefeated;
-            BossV2.OnAnySpellCardResult += HandleSpellCardResult;
+            EnemyV1.OnAnyEnemyDefeatedByPlayer +=
+                HandleEnemyDefeated;
+
+            BossV2.OnAnyBossDefeatedAny +=
+                HandleBossDefeated;
+
+            BossV2.OnAnySpellCardResult +=
+                HandleSpellCardResult;
         }
 
         private void Start()
         {
             if (LoadingScreenManager.Instance != null)
-                LoadingScreenManager.Instance.OnSceneEnter += CaptureCurrentPlayerPosition;
+            {
+                LoadingScreenManager.Instance.OnSceneEnter +=
+                    CaptureCurrentPlayerPosition;
+
+                LoadingScreenManager.Instance.OnSceneEnter +=
+                    HandleStageStarted;
+            }
+        }
+
+        private void Update()
+        {
+            currentRunTimer += Time.deltaTime;
+            currentStageTimer += Time.deltaTime;
         }
 
         private void OnDestroy()
@@ -180,12 +273,23 @@ namespace PlayerSystem
             if (Instance != this)
                 return;
 
-            EnemyV1.OnAnyEnemyDefeatedByPlayer -= HandleEnemyDefeated;
-            BossV2.OnAnyBossDefeatedAny -= HandleBossDefeated;
-            BossV2.OnAnySpellCardResult -= HandleSpellCardResult;
+            EnemyV1.OnAnyEnemyDefeatedByPlayer -=
+                HandleEnemyDefeated;
+
+            BossV2.OnAnyBossDefeatedAny -=
+                HandleBossDefeated;
+
+            BossV2.OnAnySpellCardResult -=
+                HandleSpellCardResult;
 
             if (LoadingScreenManager.Instance != null)
-                LoadingScreenManager.Instance.OnSceneEnter -= CaptureCurrentPlayerPosition;
+            {
+                LoadingScreenManager.Instance.OnSceneEnter -=
+                    CaptureCurrentPlayerPosition;
+
+                LoadingScreenManager.Instance.OnSceneEnter -=
+                    HandleStageStarted;
+            }
 
             Instance = null;
         }
@@ -196,11 +300,31 @@ namespace PlayerSystem
 
         public void ResetRun()
         {
-            // Clamp ค่าเริ่มต้นด้วย Max เพื่อป้องกัน Inspector ตั้ง starting > max
-            currentLives = Mathf.Clamp(startingLives, 0, maxLives);
-            currentBombs = Mathf.Clamp(startingBombs, 0, maxBombs);
-            currentPower = Mathf.Clamp(startingPower, 0, maxPower);
+            currentLives =
+                Mathf.Clamp(
+                    startingLives,
+                    0,
+                    maxLives
+                );
+
+            currentBombs =
+                Mathf.Clamp(
+                    startingBombs,
+                    0,
+                    maxBombs
+                );
+
+            currentPower =
+                Mathf.Clamp(
+                    startingPower,
+                    0,
+                    maxPower
+                );
+
             currentGraze = 0;
+
+            currentPowerStage =
+                ComputePowerStage(currentPower);
 
             hasSavedPosition = false;
             savedPlayerPosition = Vector3.zero;
@@ -211,11 +335,28 @@ namespace PlayerSystem
             missCount = 0;
             bombsUsedCount = 0;
 
+            currentRunTimer = 0f;
+            currentStageTimer = 0f;
+
+            stageStartMissCount = 0;
+            stageStartBombsUsedCount = 0;
+
             stageRecords.Clear();
 
+            // สำคัญ:
+            // เมื่อเริ่ม Run ใหม่ ต้องอนุญาตให้ RecordRunFinished()
+            // บันทึกผลของ Run นี้ได้อีกครั้ง
+            hasRecordedCurrentRun = false;
+
+            // runHistory ไม่ Clear
+            // เพื่อเก็บประวัติ Run ก่อนหน้าใน Session เดียวกัน
+
             OnLivesChanged?.Invoke(currentLives);
+
             InvokeSpellChanged();
+
             InvokePowerChanged();
+
             OnGrazeChanged?.Invoke(currentGraze);
         }
 
@@ -223,13 +364,14 @@ namespace PlayerSystem
         // LIVES
         // ============================================================
 
-        /// <summary>
-        /// ลดชีวิต 1 และคืน true ถ้ายังสามารถ Respawn/Continue ได้
-        /// คืน false เมื่อชีวิตหมดและควรเข้าสู่ Game Over
-        /// </summary>
         public bool LoseLife()
         {
-            currentLives = Mathf.Max(0, currentLives - 1);
+            currentLives =
+                Mathf.Max(
+                    0,
+                    currentLives - 1
+                );
+
             missCount++;
 
             OnLivesChanged?.Invoke(currentLives);
@@ -242,10 +384,6 @@ namespace PlayerSystem
             return canContinue;
         }
 
-        /// <summary>
-        /// เพิ่มชีวิต แต่จะไม่เกิน MaxLives
-        /// ถ้าค่าเต็มอยู่แล้ว จะไม่ยิง OnLivesChanged เพราะค่าจริงไม่เปลี่ยน
-        /// </summary>
         public void AddLife(int amount = 1)
         {
             if (amount <= 0)
@@ -253,10 +391,11 @@ namespace PlayerSystem
 
             int oldValue = currentLives;
 
-            currentLives = Mathf.Min(
-                currentLives + amount,
-                maxLives
-            );
+            currentLives =
+                Mathf.Min(
+                    currentLives + amount,
+                    maxLives
+                );
 
             if (currentLives != oldValue)
                 OnLivesChanged?.Invoke(currentLives);
@@ -275,21 +414,15 @@ namespace PlayerSystem
             bombsUsedCount++;
 
             InvokeSpellChanged();
+
             return true;
         }
 
-        /// <summary>
-        /// Compatibility API ที่ PlayerControllerV1 ใช้อยู่
-        /// UseSpell() = ใช้ Spell/Bomb 1 ลูก
-        /// </summary>
         public bool UseSpell()
         {
             return TryUseBomb();
         }
 
-        /// <summary>
-        /// เพิ่ม Spell/Bomb แต่จะไม่เกิน MaxBombs
-        /// </summary>
         public void AddBomb(int amount = 1)
         {
             if (amount <= 0)
@@ -297,18 +430,16 @@ namespace PlayerSystem
 
             int oldValue = currentBombs;
 
-            currentBombs = Mathf.Min(
-                currentBombs + amount,
-                maxBombs
-            );
+            currentBombs =
+                Mathf.Min(
+                    currentBombs + amount,
+                    maxBombs
+                );
 
             if (currentBombs != oldValue)
                 InvokeSpellChanged();
         }
 
-        /// <summary>
-        /// Compatibility API สำหรับ UI/ระบบที่เรียกเพิ่ม Spell โดยตรง
-        /// </summary>
         public void AddSpell(int amount = 1)
         {
             AddBomb(amount);
@@ -324,9 +455,6 @@ namespace PlayerSystem
         // POWER
         // ============================================================
 
-        /// <summary>
-        /// เพิ่ม Power จาก Fragment แต่จะไม่เกิน MaxPower
-        /// </summary>
         public void AddFragment(int amount = 1)
         {
             if (amount <= 0)
@@ -334,18 +462,16 @@ namespace PlayerSystem
 
             int oldValue = currentPower;
 
-            currentPower = Mathf.Min(
-                currentPower + amount,
-                maxPower
-            );
+            currentPower =
+                Mathf.Min(
+                    currentPower + amount,
+                    maxPower
+                );
 
             if (currentPower != oldValue)
                 InvokePowerChanged();
         }
 
-        /// <summary>
-        /// Compatibility API สำหรับระบบที่เรียกเพิ่ม Power โดยตรง
-        /// </summary>
         public void AddPower(int amount = 1)
         {
             AddFragment(amount);
@@ -356,30 +482,39 @@ namespace PlayerSystem
             OnPowerChanged?.Invoke(currentPower);
             OnPowerLevelChanged?.Invoke(currentPower);
 
-            int newStage = ComputePowerStage(currentPower);
+            int newStage =
+                ComputePowerStage(currentPower);
+
             if (newStage != currentPowerStage)
             {
                 currentPowerStage = newStage;
-                OnPowerStageChanged?.Invoke(currentPowerStage);
+
+                OnPowerStageChanged?.Invoke(
+                    currentPowerStage
+                );
 
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
-                // เพิ่มใหม่: log ไว้ debug ว่า Power Stage เปลี่ยนตอน currentPower เท่าไหร่
-                // ถ้าเห็นมันกระโดดข้าม Stage (เช่น 0 -> 3 ทีเดียว) ให้เช็ค powerStageThresholds ใน Inspector ก่อน
-                Debug.Log($"PlayerStatsManager: Power Stage เปลี่ยนเป็น {currentPowerStage} (currentPower = {currentPower})");
+
+                Debug.Log(
+                    $"PlayerStatsManager: Power Stage เปลี่ยนเป็น " +
+                    $"{currentPowerStage} " +
+                    $"(currentPower = {currentPower})"
+                );
+
 #endif
             }
         }
 
-        /// <summary>
-        /// แปลง currentPower (raw) ให้เป็น Power Stage 0-5 ตาม powerStageThresholds
-        /// Stage 0 = ต่ำกว่าเกณฑ์แรกทั้งหมด, Stage N = ผ่านเกณฑ์ index (N-1) มาแล้ว
-        /// Clamp ไว้ที่ 0-5 เผื่อ Inspector ใส่ threshold มาเกิน 5 ค่า
-        /// </summary>
         private int ComputePowerStage(int power)
         {
             int stage = 0;
 
-            for (int i = 0; i < powerStageThresholds.Length; i++)
+            if (powerStageThresholds == null)
+                return stage;
+
+            for (int i = 0;
+                 i < powerStageThresholds.Length;
+                 i++)
             {
                 if (power >= powerStageThresholds[i])
                     stage = i + 1;
@@ -392,16 +527,13 @@ namespace PlayerSystem
         // GRAZE
         // ============================================================
 
-        /// <summary>
-        /// เพิ่มจำนวน Graze
-        /// แยกจาก ScoreManager เพราะ Graze เป็นสถิติของผู้เล่น
-        /// </summary>
         public void AddGraze(int amount = 1)
         {
             if (amount <= 0)
                 return;
 
             currentGraze += amount;
+
             OnGrazeChanged?.Invoke(currentGraze);
         }
 
@@ -409,19 +541,28 @@ namespace PlayerSystem
         // GAME LOSE / CONTINUE RESET
         // ============================================================
 
-        /// <summary>
-        /// Reset ค่าสถานะสำหรับ Continue จาก Game Lose:
-        /// Lives = ค่าเริ่มต้น, Spells/Bombs = ค่าเริ่มต้น, Power = MaxPower
-        /// ไม่แตะ Score หรือสถิติสะสม
-        /// </summary>
         public void ResetForGameLoseContinue()
         {
-            currentLives = Mathf.Clamp(startingLives, 0, maxLives);
-            currentBombs = Mathf.Clamp(startingBombs, 0, maxBombs);
+            currentLives =
+                Mathf.Clamp(
+                    startingLives,
+                    0,
+                    maxLives
+                );
+
+            currentBombs =
+                Mathf.Clamp(
+                    startingBombs,
+                    0,
+                    maxBombs
+                );
+
             currentPower = maxPower;
 
             OnLivesChanged?.Invoke(currentLives);
+
             InvokeSpellChanged();
+
             InvokePowerChanged();
         }
 
@@ -431,19 +572,25 @@ namespace PlayerSystem
 
         private void CaptureCurrentPlayerPosition()
         {
-            GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+            GameObject playerObject =
+                GameObject.FindGameObjectWithTag("Player");
+
             if (playerObject == null)
                 return;
 
-            savedPlayerPosition = playerObject.transform.position;
+            savedPlayerPosition =
+                playerObject.transform.position;
+
             hasSavedPosition = true;
         }
 
-        public bool TryConsumeSavedPosition(out Vector3 position)
+        public bool TryConsumeSavedPosition(
+            out Vector3 position)
         {
             position = savedPlayerPosition;
 
             bool result = hasSavedPosition;
+
             hasSavedPosition = false;
 
             return result;
@@ -462,10 +609,9 @@ namespace PlayerSystem
         {
             totalBossesDefeated++;
 
-            // หมายเหตุ:
-            // ตอนนี้ยังคงพฤติกรรมเดิมไว้เพื่อไม่เปลี่ยน gameplay ก่อนสร้าง
-            // StageFlow/GameFlow อย่างเป็นทางการ
-            RecordStageCleared(SceneManager.GetActiveScene().name);
+            RecordStageCleared(
+                SceneManager.GetActiveScene().name
+            );
         }
 
         private void HandleSpellCardResult(bool captured)
@@ -484,14 +630,17 @@ namespace PlayerSystem
                 return;
 
             StageProgressRecord record =
-                stageRecords.Find(r => r.stageId == stageId);
+                stageRecords.Find(
+                    r => r.stageId == stageId
+                );
 
             if (record == null)
             {
-                record = new StageProgressRecord
-                {
-                    stageId = stageId
-                };
+                record =
+                    new StageProgressRecord
+                    {
+                        stageId = stageId
+                    };
 
                 stageRecords.Add(record);
             }
@@ -505,11 +654,132 @@ namespace PlayerSystem
 
             if (scoreNow > record.highScore)
                 record.highScore = scoreNow;
+
+            record.deathCount =
+                missCount - stageStartMissCount;
+
+            record.spellUsedCount =
+                bombsUsedCount - stageStartBombsUsedCount;
+
+            record.timeSpentSeconds =
+                currentStageTimer;
+
+            Debug.Log(
+                $"PlayerStatsManager: ผ่านด่าน '{stageId}' " +
+                $"(ครั้งที่ {record.clearCount}) | " +
+                $"Score={scoreNow} (Best={record.highScore}) | " +
+                $"ตายในด่านนี้={record.deathCount} | " +
+                $"ใช้ Spell={record.spellUsedCount} | " +
+                $"เวลาในด่านนี้={record.timeSpentSeconds:F1}s"
+            );
         }
 
-        public StageProgressRecord GetStageRecord(string stageId)
+        public StageProgressRecord GetStageRecord(
+            string stageId)
         {
-            return stageRecords.Find(r => r.stageId == stageId);
+            return stageRecords.Find(
+                r => r.stageId == stageId
+            );
+        }
+
+        private void HandleStageStarted()
+        {
+            currentStageTimer = 0f;
+
+            stageStartMissCount = missCount;
+
+            stageStartBombsUsedCount =
+                bombsUsedCount;
+
+            Debug.Log(
+                $"PlayerStatsManager: เริ่มด่าน " +
+                $"'{SceneManager.GetActiveScene().name}' - " +
+                "รีเซ็ตตัวจับเวลาด่าน และ snapshot สถิติเริ่มด่านแล้ว"
+            );
+        }
+
+        // ============================================================
+        // RUN SUMMARY
+        // ============================================================
+
+        /// <summary>
+        /// บันทึกผลการเล่น 1 Run
+        ///
+        /// สำคัญ:
+        /// ฟังก์ชันนี้อาจถูกเรียกจาก GameFlowManager มากกว่า 1 ครั้ง
+        /// เช่น Final Fade ถูก Update ซ้ำหลาย Frame
+        ///
+        /// hasRecordedCurrentRun จะทำหน้าที่เป็น Guard
+        /// ทำให้ Run เดียวถูกบันทึกได้เพียงครั้งเดียว
+        /// </summary>
+        public void RecordRunFinished(bool completed)
+        {
+            // ========================================================
+            // DUPLICATE RUN GUARD
+            // ========================================================
+            //
+            // ถ้า Run นี้ถูกบันทึกไปแล้ว:
+            // ไม่สร้าง RunSummaryRecord ใหม่
+            // และไม่เพิ่ม Run #2, #3, #4...
+            //
+            if (hasRecordedCurrentRun)
+            {
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+
+                Debug.LogWarning(
+                    "PlayerStatsManager: RecordRunFinished() " +
+                    "ถูกเรียกซ้ำใน Run เดิม - ข้ามการบันทึกครั้งนี้"
+                );
+
+#endif
+
+                return;
+            }
+
+            // ล็อกทันที ก่อนสร้าง Record
+            // เพื่อป้องกันกรณีที่มี callback / event อื่น
+            // เรียกซ้ำในระหว่างกระบวนการเดียวกัน
+            hasRecordedCurrentRun = true;
+
+            var record =
+                new RunSummaryRecord
+                {
+                    finalScore =
+                        ScoreManager.Instance != null
+                            ? ScoreManager.Instance.CurrentScore
+                            : 0,
+
+                    totalTimeSeconds =
+                        currentRunTimer,
+
+                    deathCount =
+                        missCount,
+
+                    spellUsedCount =
+                        bombsUsedCount,
+
+                    stagesCleared =
+                        totalBossesDefeated,
+
+                    completed =
+                        completed,
+
+                    timestampUtc =
+                        DateTime.UtcNow.ToString("u")
+                };
+
+            runHistory.Add(record);
+
+            Debug.Log(
+                $"PlayerStatsManager: จบการเล่น " +
+                $"(Run #{runHistory.Count}) | " +
+                $"{(completed ? "ผ่านจบเกม" : "จบก่อน (Game Over)")} | " +
+                $"Score={record.finalScore} | " +
+                $"เวลาเล่นรวม={record.totalTimeSeconds:F1}s | " +
+                $"ตายทั้งหมด={record.deathCount} ครั้ง | " +
+                $"ใช้ Spell={record.spellUsedCount} ครั้ง | " +
+                $"ผ่านไป {record.stagesCleared} ด่าน"
+            );
         }
     }
 }

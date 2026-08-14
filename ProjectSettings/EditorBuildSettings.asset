@@ -11,6 +11,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/StageTest1_V4.unity
     guid: ae2eb8d0bd4612e46bf7b76c9afa065b
+  - enabled: 1
+    path: Assets/Scenes/BlankSceneGoBackMenu.unity
+    guid: a879a45986a21cf47aa1f79f8b6166f7
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

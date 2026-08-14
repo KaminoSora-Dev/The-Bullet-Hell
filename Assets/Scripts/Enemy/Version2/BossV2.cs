@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+
 using GameFlowSystem;
 using PlayerSystem;
 using PoolingSystem;
@@ -78,9 +79,6 @@ namespace BossSystem
 
     /// <summary>
     /// Configuration สำหรับ Item Drop ของ Boss
-    ///
-    /// itemPrefab ควรเป็น prefab ที่มี ItemDropPickup และใช้ Tag:
-    /// Life / Spell / Fragment
     /// </summary>
     [Serializable]
     public class BossItemDropData
@@ -108,6 +106,10 @@ namespace BossSystem
             Defeated
         }
 
+        // ============================================================
+        // IDENTITY
+        // ============================================================
+
         [Header("Identity")]
         [Tooltip(
             "ชื่อบอสที่จะโชว์บน UI ตอนเจอบอส " +
@@ -117,26 +119,50 @@ namespace BossSystem
 
         public string BossName => bossName;
 
+        // ============================================================
+        // ENTRY
+        // ============================================================
+
         [Header("Entry")]
         [SerializeField] private Transform entryTargetPoint;
         [SerializeField] private float entryDuration = 2f;
         [SerializeField] private EaseType entryEase = EaseType.EaseOut;
 
+        // ============================================================
+        // PHASES
+        // ============================================================
+
         [Header("Phases")]
         [SerializeField] private List<BossPhaseData> phases =
             new List<BossPhaseData>();
 
+        // ============================================================
+        // PHASE TRANSITION
+        // ============================================================
+
         [Header("Phase Transition (Default)")]
         [SerializeField] private float phaseTransitionDuration = 1.2f;
         [SerializeField] private bool clearBulletsOnPhaseTransition = true;
+
+        // ============================================================
+        // DEATH VISUAL
+        // ============================================================
 
         [Header("Death Visual")]
         [SerializeField] private int blinkCount = 6;
         [SerializeField] private float blinkInterval = 0.08f;
         [SerializeField] private Color blinkColor = Color.white;
 
+        // ============================================================
+        // SCORE
+        // ============================================================
+
         [Header("Score")]
         [SerializeField] private int scoreValueOnDefeat = 1000;
+
+        // ============================================================
+        // ITEM DROP
+        // ============================================================
 
         [Header("Item Drop")]
         [Tooltip(
@@ -146,19 +172,17 @@ namespace BossSystem
         )]
         [SerializeField] private BossItemDropData itemDrop;
 
-        [Header("Scene Flow")]
-        [Tooltip("ติ๊กเพื่อให้ Boss ตัวนี้ เมื่อตายครบทุก Phase แล้ว ไป Scene ถัดไปอัตโนมัติ")]
-        [SerializeField] private bool loadNextSceneOnDefeat = false;
-
-        [Tooltip("ใช้กับ Boss ใน Scene สุดท้าย ถ้าติ๊กจะ Fade จอดำเพื่อจบเกมแทนการไป Scene ถัดไป")]
-        [SerializeField] private bool fadeOnFinalScene = false;
-
-        public bool LoadNextSceneOnDefeat => loadNextSceneOnDefeat;
-        public bool FadeOnFinalScene => fadeOnFinalScene;
+        // ============================================================
+        // REFERENCES
+        // ============================================================
 
         [Header("References")]
         [SerializeField] private SpriteRenderer bodySprite;
         [SerializeField] private Collider2D hitCollider;
+
+        // ============================================================
+        // RUNTIME
+        // ============================================================
 
         private Rigidbody2D rb;
         private Transform playerTransform;
@@ -182,6 +206,13 @@ namespace BossSystem
         private int blinksDone;
         private bool blinkIsColored;
 
+        // ป้องกัน event Boss Defeated ถูกยิงซ้ำ
+        private bool defeatEventSent;
+
+        // ============================================================
+        // STATE
+        // ============================================================
+
         public BossState CurrentState { get; private set; } =
             BossState.Inactive;
 
@@ -198,6 +229,10 @@ namespace BossSystem
              CurrentPhaseIndex < phases.Count)
                 ? phases[CurrentPhaseIndex]
                 : null;
+
+        // ============================================================
+        // EVENTS
+        // ============================================================
 
         public event Action<int> OnPhaseStarted;
         public event Action<int, bool> OnPhaseCleared;
@@ -221,6 +256,40 @@ namespace BossSystem
         /// </summary>
         public bool SuppressBuiltInDeathVisual { get; set; }
 
+        // ============================================================
+        // COMPATIBILITY
+        // ============================================================
+
+        // ------------------------------------------------------------
+        // หมายเหตุ:
+        // property พวกนี้ถูกเก็บไว้เพื่อไม่ให้ Script เก่าที่อ้างชื่อ
+        // compile พัง แต่ไม่มี Scene Flow อีกแล้ว
+        //
+        // BossV2 ไม่ได้ใช้ property เหล่านี้ในการเปลี่ยน Scene
+        // ------------------------------------------------------------
+
+        [Obsolete(
+            "BossV2 no longer controls Scene Flow. " +
+            "Use GameFlowManager instead."
+        )]
+        public bool LoadNextSceneOnDefeat => false;
+
+        [Obsolete(
+            "BossV2 no longer controls Scene Flow. " +
+            "Use GameFlowManager instead."
+        )]
+        public string NextSceneName => null;
+
+        [Obsolete(
+            "BossV2 no longer controls Scene Flow. " +
+            "Use GameFlowManager instead."
+        )]
+        public bool FadeOnFinalScene => false;
+
+        // ============================================================
+        // UNITY
+        // ============================================================
+
         private void Awake()
         {
             rb = GetComponent<Rigidbody2D>();
@@ -239,6 +308,10 @@ namespace BossSystem
             Activate();
         }
 
+        // ============================================================
+        // POOLING
+        // ============================================================
+
         public void OnSpawnFromPool()
         {
             CachePlayer();
@@ -248,12 +321,18 @@ namespace BossSystem
 
             entryTimer = 0f;
             phaseTransitionTimer = 0f;
+
             currentMovementStepIndex = -1;
+            movementStepTimer = 0f;
+
             canShootNow = true;
 
             blinkTimer = 0f;
             blinksDone = 0;
             blinkIsColored = false;
+
+            defeatEventSent = false;
+
             SuppressBuiltInDeathVisual = false;
 
             if (bodySprite != null)
@@ -272,6 +351,10 @@ namespace BossSystem
         {
         }
 
+        // ============================================================
+        // PLAYER
+        // ============================================================
+
         private void CachePlayer()
         {
             GameObject playerObject =
@@ -283,6 +366,10 @@ namespace BossSystem
                     : null;
         }
 
+        // ============================================================
+        // ACTIVATE
+        // ============================================================
+
         public void Activate()
         {
             if (CurrentState != BossState.Inactive)
@@ -290,11 +377,16 @@ namespace BossSystem
 
             entryStartPosition = transform.position;
             entryTimer = 0f;
+
             CurrentState = BossState.Entering;
 
             OnAnyBossActivated?.Invoke();
             OnAnyBossNameReveal?.Invoke(bossName);
         }
+
+        // ============================================================
+        // UPDATE
+        // ============================================================
 
         private void Update()
         {
@@ -320,6 +412,10 @@ namespace BossSystem
             }
         }
 
+        // ============================================================
+        // ENTRY
+        // ============================================================
+
         private void UpdateEntering(float dt)
         {
             if (entryTargetPoint == null)
@@ -331,7 +427,8 @@ namespace BossSystem
             entryTimer += dt;
 
             float t = Mathf.Clamp01(
-                entryTimer / Mathf.Max(entryDuration, 0.0001f)
+                entryTimer /
+                Mathf.Max(entryDuration, 0.0001f)
             );
 
             float eased = ApplyEase(t, entryEase);
@@ -345,6 +442,10 @@ namespace BossSystem
             if (t >= 1f)
                 StartPhase(0);
         }
+
+        // ============================================================
+        // PHASE ACTIVE
+        // ============================================================
 
         private void UpdatePhaseActive(float dt)
         {
@@ -361,7 +462,9 @@ namespace BossSystem
                 currentMovementStepIndex < phase.movementPath.Count)
             {
                 currentAllowShoot =
-                    phase.movementPath[currentMovementStepIndex].allowShoot;
+                    phase.movementPath[
+                        currentMovementStepIndex
+                    ].allowShoot;
             }
 
             if (currentAllowShoot && !canShootNow)
@@ -372,8 +475,7 @@ namespace BossSystem
             if (canShootNow)
                 phase.executor?.Tick(dt);
 
-            // Timer ทำงานตาม spellCardTimeLimit ล้วนๆ ไม่ต้องพึ่ง isSpellCard แล้ว
-            // (กันเคส Phase ธรรมดาที่ Pattern ค้าง ไม่จบ Phase สักที ก็ยังตั้งเวลาบังคับจบได้)
+            // Timer ทำงานตาม spellCardTimeLimit
             if (phase.spellCardTimeLimit > 0f)
             {
                 phase.phaseTimer += dt;
@@ -382,6 +484,10 @@ namespace BossSystem
                     EndCurrentPhase(captured: true);
             }
         }
+
+        // ============================================================
+        // MOVEMENT
+        // ============================================================
 
         private void UpdatePhaseMovement(
             float dt,
@@ -394,7 +500,9 @@ namespace BossSystem
             }
 
             MovementStep step =
-                phase.movementPath[currentMovementStepIndex];
+                phase.movementPath[
+                    currentMovementStepIndex
+                ];
 
             if (step.target == null)
             {
@@ -405,7 +513,8 @@ namespace BossSystem
             movementStepTimer += dt;
 
             float t = Mathf.Clamp01(
-                movementStepTimer / Mathf.Max(step.duration, 0.0001f)
+                movementStepTimer /
+                Mathf.Max(step.duration, 0.0001f)
             );
 
             float eased = ApplyEase(t, step.easeType);
@@ -420,18 +529,27 @@ namespace BossSystem
                 AdvanceMovementStep(phase);
         }
 
-        private void AdvanceMovementStep(BossPhaseData phase)
+        private void AdvanceMovementStep(
+            BossPhaseData phase)
         {
             movementSegmentStartPosition = transform.position;
+
             currentMovementStepIndex++;
             movementStepTimer = 0f;
 
-            if (currentMovementStepIndex >= phase.movementPath.Count)
+            if (currentMovementStepIndex >=
+                phase.movementPath.Count)
             {
                 currentMovementStepIndex =
-                    phase.loopMovement ? 0 : -1;
+                    phase.loopMovement
+                        ? 0
+                        : -1;
             }
         }
+
+        // ============================================================
+        // PHASE TRANSITION
+        // ============================================================
 
         private void UpdatePhaseTransition(float dt)
         {
@@ -441,11 +559,17 @@ namespace BossSystem
             {
                 float t = Mathf.Clamp01(
                     phaseTransitionTimer /
-                    Mathf.Max(currentTransitionDuration, 0.0001f)
+                    Mathf.Max(
+                        currentTransitionDuration,
+                        0.0001f
+                    )
                 );
 
                 float eased =
-                    ApplyEase(t, currentTransitionEase);
+                    ApplyEase(
+                        t,
+                        currentTransitionEase
+                    );
 
                 transform.position = Vector3.LerpUnclamped(
                     transitionStartPosition,
@@ -454,9 +578,18 @@ namespace BossSystem
                 );
             }
 
-            if (phaseTransitionTimer >= currentTransitionDuration)
-                StartPhase(CurrentPhaseIndex + 1);
+            if (phaseTransitionTimer >=
+                currentTransitionDuration)
+            {
+                StartPhase(
+                    CurrentPhaseIndex + 1
+                );
+            }
         }
+
+        // ============================================================
+        // DEATH VISUAL
+        // ============================================================
 
         private void UpdateDefeated(float dt)
         {
@@ -474,7 +607,9 @@ namespace BossSystem
             if (bodySprite != null)
             {
                 bodySprite.color =
-                    blinkIsColored ? blinkColor : originalColor;
+                    blinkIsColored
+                        ? blinkColor
+                        : originalColor;
             }
 
             if (!blinkIsColored)
@@ -484,10 +619,18 @@ namespace BossSystem
                 if (blinksDone >= blinkCount)
                 {
                     if (PoolManager.Instance != null)
-                        PoolManager.Instance.Return(gameObject);
+                    {
+                        PoolManager.Instance.Return(
+                            gameObject
+                        );
+                    }
                 }
             }
         }
+
+        // ============================================================
+        // START PHASE
+        // ============================================================
 
         private void StartPhase(int index)
         {
@@ -502,7 +645,9 @@ namespace BossSystem
             BossPhaseData phase =
                 phases[CurrentPhaseIndex];
 
-            phase.currentHealth = phase.phaseHealth;
+            phase.currentHealth =
+                phase.phaseHealth;
+
             phase.phaseTimer = 0f;
 
             if (phase.executor == null)
@@ -526,6 +671,7 @@ namespace BossSystem
             {
                 currentMovementStepIndex = 0;
                 movementStepTimer = 0f;
+
                 movementSegmentStartPosition =
                     transform.position;
 
@@ -537,21 +683,31 @@ namespace BossSystem
                 currentMovementStepIndex = -1;
             }
 
-            CurrentState = BossState.PhaseActive;
+            CurrentState =
+                BossState.PhaseActive;
 
-            OnPhaseStarted?.Invoke(CurrentPhaseIndex);
+            OnPhaseStarted?.Invoke(
+                CurrentPhaseIndex
+            );
 
-            // Banner ทำงานตามชื่อ ไม่ใช่ตาม isSpellCard แล้ว
-            // isSpellCard เก็บไว้คุมแค่สถิติ Capture (ดู EndCurrentPhase)
-            if (!string.IsNullOrWhiteSpace(phase.spellCardName))
+            if (!string.IsNullOrWhiteSpace(
+                phase.spellCardName))
+            {
                 OnAnySpellCardStarted?.Invoke(
                     phase.spellCardName
                 );
+            }
         }
 
-        private void EndCurrentPhase(bool captured)
+        // ============================================================
+        // END PHASE
+        // ============================================================
+
+        private void EndCurrentPhase(
+            bool captured)
         {
-            BossPhaseData phase = CurrentPhase;
+            BossPhaseData phase =
+                CurrentPhase;
 
             if (phase == null)
                 return;
@@ -562,10 +718,15 @@ namespace BossSystem
             );
 
             if (phase.isSpellCard)
-                OnAnySpellCardResult?.Invoke(captured);
+            {
+                OnAnySpellCardResult?.Invoke(
+                    captured
+                );
+            }
 
             bool isLastPhase =
-                CurrentPhaseIndex >= phases.Count - 1;
+                CurrentPhaseIndex >=
+                phases.Count - 1;
 
             if (isLastPhase)
             {
@@ -573,12 +734,17 @@ namespace BossSystem
             }
             else
             {
-                CurrentState = BossState.PhaseTransition;
+                CurrentState =
+                    BossState.PhaseTransition;
+
                 phaseTransitionTimer = 0f;
-                transitionStartPosition = transform.position;
+                transitionStartPosition =
+                    transform.position;
 
                 BossPhaseData nextPhase =
-                    phases[CurrentPhaseIndex + 1];
+                    phases[
+                        CurrentPhaseIndex + 1
+                    ];
 
                 currentTransitionDuration =
                     nextPhase.transitionDuration > 0f
@@ -596,9 +762,20 @@ namespace BossSystem
             }
         }
 
+        // ============================================================
+        // BOSS DEFEATED
+        // ============================================================
+
         private void BeginDefeated()
         {
-            CurrentState = BossState.Defeated;
+            // ป้องกันการเรียกซ้ำจาก edge case
+            if (defeatEventSent)
+                return;
+
+            defeatEventSent = true;
+
+            CurrentState =
+                BossState.Defeated;
 
             if (hitCollider != null)
                 hitCollider.enabled = false;
@@ -611,29 +788,43 @@ namespace BossSystem
             blinkIsColored = false;
 
             if (ScoreManager.Instance != null)
+            {
                 ScoreManager.Instance.AddScore(
                     scoreValueOnDefeat
                 );
+            }
 
             // Boss ดรอป Item ครั้งเดียวหลังจบทุก Phase
             SpawnItemDrop();
 
+            // Event เฉพาะ instance
             OnBossDefeated?.Invoke();
 
+            // Event global
+            //
+            // GameFlowManager ฟัง event นี้
+            // แล้วเป็นผู้ตัดสินใจเรื่อง Scene
             OnAnyBossDefeatedAny?.Invoke();
+
             OnAnyBossNameHide?.Invoke();
 
-            // Boss ไม่โหลด Scene เองโดยตรง แต่แจ้ง GameFlowManager
-            // เพื่อให้ Loading / Final Fade ถูกจัดการจากจุดกลางเดียว
-            if (loadNextSceneOnDefeat && GameFlowManager.Instance != null)
-                GameFlowManager.Instance.HandleBossDefeated(fadeOnFinalScene);
+            // ========================================================
+            // ไม่มี Scene Flow ที่นี่อีกแล้ว
+            // ========================================================
+            //
+            // ห้าม:
+            // - LoadScene
+            // - บอก Next Scene
+            // - ตัดสิน Final Scene
+            //
+            // Boss มีหน้าที่เพียง "ตาย"
+            // GameFlowManager มีหน้าที่ "จัดการ Flow หลัง Boss ตาย"
         }
 
-        /// <summary>
-        /// Spawn ItemDropPickup ผ่าน Pool
-        /// Boss จะไม่สนใจว่า Item เป็น Life / Spell / Fragment
-        /// เพราะ ItemDropPickup อ่าน Tag ของ prefab เอง
-        /// </summary>
+        // ============================================================
+        // ITEM DROP
+        // ============================================================
+
         private void SpawnItemDrop()
         {
             if (itemDrop == null ||
@@ -646,7 +837,9 @@ namespace BossSystem
             if (PoolManager.Instance == null)
                 return;
 
-            for (int i = 0; i < itemDrop.count; i++)
+            for (int i = 0;
+                 i < itemDrop.count;
+                 i++)
             {
                 PoolManager.Instance.Get(
                     itemDrop.itemPrefab,
@@ -656,6 +849,10 @@ namespace BossSystem
             }
         }
 
+        // ============================================================
+        // BULLET CLEAR
+        // ============================================================
+
         private void ClearAllEnemyBulletsOnScreen()
         {
             if (PoolManager.Instance == null)
@@ -664,9 +861,17 @@ namespace BossSystem
             EnemyBulletV2[] bullets =
                 FindObjectsOfType<EnemyBulletV2>();
 
-            for (int i = 0; i < bullets.Length; i++)
+            for (int i = 0;
+                 i < bullets.Length;
+                 i++)
+            {
                 bullets[i].RequestDestroy();
+            }
         }
+
+        // ============================================================
+        // DAMAGE
+        // ============================================================
 
         public void TakeDamage(
             int amount,
@@ -675,7 +880,8 @@ namespace BossSystem
             if (IsInvulnerable)
                 return;
 
-            BossPhaseData phase = CurrentPhase;
+            BossPhaseData phase =
+                CurrentPhase;
 
             if (phase == null)
                 return;
@@ -685,14 +891,25 @@ namespace BossSystem
             if (phase.currentHealth <= 0)
             {
                 phase.currentHealth = 0;
-                EndCurrentPhase(captured: false);
+
+                EndCurrentPhase(
+                    captured: false
+                );
             }
         }
 
-        private void OnTriggerEnter2D(Collider2D other)
+        // ============================================================
+        // PLAYER COLLISION
+        // ============================================================
+
+        private void OnTriggerEnter2D(
+            Collider2D other)
         {
-            if (CurrentState == BossState.Defeated)
+            if (CurrentState ==
+                BossState.Defeated)
+            {
                 return;
+            }
 
             if (!other.CompareTag("Player"))
                 return;
@@ -703,6 +920,10 @@ namespace BossSystem
                 player.Die();
             }
         }
+
+        // ============================================================
+        // EASE
+        // ============================================================
 
         private static float ApplyEase(
             float t,
@@ -716,13 +937,19 @@ namespace BossSystem
                     return t * t;
 
                 case EaseType.EaseOut:
-                    return 1f - (1f - t) * (1f - t);
+                    return
+                        1f -
+                        (1f - t) *
+                        (1f - t);
 
                 case EaseType.EaseInOut:
                     return t < 0.5f
                         ? 2f * t * t
                         : 1f -
-                          Mathf.Pow(-2f * t + 2f, 2f) / 2f;
+                          Mathf.Pow(
+                              -2f * t + 2f,
+                              2f
+                          ) / 2f;
 
                 default:
                     return t;
