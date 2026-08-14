@@ -212,6 +212,15 @@ private float nextFireTime;
 
         private void HandleActionInput()
         {
+            // ช่วง Boss Defeat Delay ล็อกเฉพาะ Action
+            // แต่ยังอนุญาตให้ผู้เล่นขยับได้ตามระบบเดิม
+            bool actionLocked =
+                GameFlowManager.Instance != null &&
+                GameFlowManager.Instance.IsPlayerActionLocked;
+
+            if (actionLocked)
+                return;
+
             if (Input.GetKey(KeyCode.Z) && Time.time >= nextFireTime)
             {
                 Shoot();

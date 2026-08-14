@@ -52,6 +52,12 @@ namespace EnemySystem
 
         private bool isDying;
 
+        // สำคัญสำหรับ Object Pool:
+        // RequestDestroy() อาจ Return เข้า Pool ระหว่าง UpdateBurstTimeline()
+        // ดังนั้นต้องรู้ว่า object ถูกคืน Pool ไปแล้ว แม้ isDying จะถูก reset
+        // กลับเป็น false ใน OnReturnToPool()
+        private bool returnedToPool;
+
         private Vector2 direction = Vector2.down;
 
         private float currentSpeed;
@@ -104,7 +110,7 @@ namespace EnemySystem
 
         private void FixedUpdate()
         {
-            if (isDying)
+            if (isDying || returnedToPool)
                 return;
 
             UpdateSpeed();
@@ -124,10 +130,14 @@ namespace EnemySystem
 
         private void Update()
         {
-            if (isDying)
+            if (isDying || returnedToPool)
                 return;
 
             UpdateBurstTimeline(Time.deltaTime);
+
+            if (isDying || returnedToPool)
+                return;
+
             TickActiveBurstExecutors(Time.deltaTime);
         }
 
@@ -227,6 +237,9 @@ namespace EnemySystem
             List<DirectionTransition> newDirectionTimeline = null,
             List<BulletBurstTrigger> newBurstTimeline = null)
         {
+            returnedToPool = false;
+            isDying = false;
+
             currentSpeed =
                 overrideInitialSpeed
                     ? initialSpeed
@@ -535,14 +548,54 @@ namespace EnemySystem
 
         private void UpdateBurstTimeline(float dt)
         {
-            if (burstTimeline == null ||
-                burstTimeline.Count == 0)
+            if (returnedToPool ||
+                !isActiveAndEnabled)
+            {
                 return;
+            }
+
+            if (burstTimeline == null ||
+                burstTimeline.Count == 0 ||
+                burstTriggerFired == null)
+            {
+                return;
+            }
+
+            // Defensive guard:
+            // ป้องกันกรณี List ถูกเปลี่ยนจำนวนหลัง ConfigureMotion()
+            // จน bool[] มีขนาดไม่ตรงกับ Timeline
+            if (burstTriggerFired.Length < burstTimeline.Count)
+            {
+                bool[] resized =
+                    new bool[burstTimeline.Count];
+
+                System.Array.Copy(
+                    burstTriggerFired,
+                    resized,
+                    burstTriggerFired.Length
+                );
+
+                burstTriggerFired = resized;
+            }
 
             burstTimelineClock += dt;
 
             for (int i = 0; i < burstTimeline.Count; i++)
             {
+                // RequestDestroy() จาก FireBurstTrigger() สามารถ
+                // Return object เข้า Pool ได้ทันที
+                // ดังนั้นต้องเช็ค lifecycle ทุกครั้งหลัง FireBurstTrigger()
+                if (returnedToPool ||
+                    !isActiveAndEnabled ||
+                    burstTimeline == null ||
+                    burstTriggerFired == null)
+                {
+                    return;
+                }
+
+                if (i >= burstTriggerFired.Length)
+                    return;
+
                 if (burstTriggerFired[i])
                     continue;
 
@@ -562,14 +615,27 @@ namespace EnemySystem
 
                 FireBurstTrigger(trigger);
 
-                if (isDying)
+                // สำคัญมาก:
+                // FireBurstTrigger() อาจเรียก RequestDestroy()
+                // และ RequestDestroy() อาจ ReturnToPoolNow()
+                // ซึ่ง OnReturnToPool() จะล้าง burstTimeline และ
+                // burstTriggerFired ทันที
+                if (returnedToPool ||
+                    !isActiveAndEnabled ||
+                    burstTimeline == null ||
+                    burstTriggerFired == null)
+                {
                     return;
+                }
             }
         }
 
         private void FireBurstTrigger(
             BulletBurstTrigger trigger)
         {
+            if (returnedToPool || isDying)
+                return;
+
             if (trigger.pattern != null &&
                 trigger.pattern.Count > 0)
             {
@@ -589,6 +655,9 @@ namespace EnemySystem
                         clonedGroups.Add(source.Clone());
                 }
 
+                if (returnedToPool || isDying)
+                    return;
+
                 BulletPatternV2Executor executor =
                     new BulletPatternV2Executor(
                         clonedGroups,
@@ -598,8 +667,12 @@ namespace EnemySystem
 
                 executor.Tick(0f);
 
-                if (!trigger.destroySelfAfterFire)
+                if (!trigger.destroySelfAfterFire &&
+                    !returnedToPool &&
+                    !isDying)
+                {
                     activeBurstExecutors.Add(executor);
+                }
             }
 
             if (trigger.destroySelfAfterFire)
@@ -608,13 +681,20 @@ namespace EnemySystem
 
         private void TickActiveBurstExecutors(float dt)
         {
-            if (activeBurstExecutors.Count == 0)
+            if (returnedToPool ||
+                isDying ||
+                activeBurstExecutors.Count == 0)
+            {
                 return;
+            }
 
             for (int i = 0;
                  i < activeBurstExecutors.Count;
                  i++)
             {
+                if (returnedToPool || isDying)
+                    return;
+
                 activeBurstExecutors[i].Tick(dt);
             }
         }
@@ -654,6 +734,8 @@ namespace EnemySystem
 
         public void OnSpawnFromPool()
         {
+            returnedToPool = false;
+
             ResetMotionToPrefabDefaults();
 
             isDying = false;
@@ -683,6 +765,11 @@ namespace EnemySystem
 
         public void OnReturnToPool()
         {
+            // ตั้ง flag ก่อนล้าง state เพื่อให้ method ที่กำลังทำงานอยู่
+            // (เช่น UpdateBurstTimeline -> FireBurstTrigger -> RequestDestroy)
+            // รู้ทันทีว่า object ถูกคืน Pool ไปแล้ว
+            returnedToPool = true;
+
             speedTimeline = null;
             speedTimelineActive = false;
             useSpeedTimeline = false;
@@ -700,7 +787,7 @@ namespace EnemySystem
 
         public void RequestDestroy()
         {
-            if (isDying)
+            if (isDying || returnedToPool)
                 return;
 
             if (deathAnimator == null)
@@ -719,20 +806,29 @@ namespace EnemySystem
 
         public void OnDeathAnimationComplete()
         {
+            if (returnedToPool)
+                return;
+
             ReturnToPoolNow();
         }
 
         private void ReturnToPoolNow()
         {
+            if (returnedToPool)
+                return;
+
             if (PoolManager.Instance != null)
                 PoolManager.Instance.Return(gameObject);
             else
+            {
+                returnedToPool = true;
                 gameObject.SetActive(false);
+            }
         }
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (isDying)
+            if (isDying || returnedToPool)
                 return;
 
             if (other.CompareTag("HiddenBorder"))

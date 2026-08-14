@@ -57,6 +57,7 @@ namespace GameSystem
 
             // เพิ่มใหม่: โหลด HiScore ถาวรจากเครื่อง (ถ้าไม่เคยมีมาก่อนจะได้ 0)
             persistentHiScore = PlayerPrefs.GetInt(PersistentHiScorePrefsKey, 0);
+            hiScore = persistentHiScore;
         }
 
         /// <summary>
@@ -81,6 +82,7 @@ namespace GameSystem
                 hiScore = currentScore;
                 OnHiScoreChanged?.Invoke(hiScore);
             }
+
         }
 
         /// <summary>
@@ -92,7 +94,21 @@ namespace GameSystem
             SavePersistentHiScoreIfHigher();
 
             currentScore = 0;
-            hiScore = 0;
+            hiScore = persistentHiScore;
+
+            OnScoreChanged?.Invoke(currentScore);
+            OnHiScoreChanged?.Invoke(hiScore);
+        }
+
+        /// <summary>
+        /// ตั้ง CurrentScore สำหรับระบบ Checkpoint/Restore โดยไม่แตะ PersistentHiScore
+        /// </summary>
+        public void SetCurrentScore(int value)
+        {
+            currentScore = Mathf.Max(0, value);
+
+            if (currentScore > hiScore)
+                hiScore = currentScore;
 
             OnScoreChanged?.Invoke(currentScore);
             OnHiScoreChanged?.Invoke(hiScore);

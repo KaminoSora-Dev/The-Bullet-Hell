@@ -45,6 +45,16 @@ namespace PlayerSystem
         public string timestampUtc;
     }
 
+    [Serializable]
+    public class RunCheckpointRecord
+    {
+        public int lives;
+        public int bombs;
+        public int power;
+        public int score;
+        public bool valid;
+    }
+
     /// <summary>
     /// Singleton ถาวร (DontDestroyOnLoad)
     ///
@@ -132,6 +142,10 @@ namespace PlayerSystem
         /// จะไม่สร้าง Run #1, #2, #3, ... ซ้ำอีก
         /// </summary>
         private bool hasRecordedCurrentRun;
+
+        // Checkpoint ล่าสุดจาก Boss ที่ผ่านแล้ว ใช้เป็นจุดย้อนกลับสำหรับ Restart
+        private readonly RunCheckpointRecord lastStageCheckpoint =
+            new RunCheckpointRecord();
 
         // ============================================================
         // PROPERTIES
@@ -348,6 +362,12 @@ namespace PlayerSystem
             // บันทึกผลของ Run นี้ได้อีกครั้ง
             hasRecordedCurrentRun = false;
 
+            lastStageCheckpoint.lives = currentLives;
+            lastStageCheckpoint.bombs = currentBombs;
+            lastStageCheckpoint.power = currentPower;
+            lastStageCheckpoint.score = 0;
+            lastStageCheckpoint.valid = false;
+
             // runHistory ไม่ Clear
             // เพื่อเก็บประวัติ Run ก่อนหน้าใน Session เดียวกัน
 
@@ -358,6 +378,55 @@ namespace PlayerSystem
             InvokePowerChanged();
 
             OnGrazeChanged?.Invoke(currentGraze);
+        }
+
+        // ============================================================
+        // RUN CHECKPOINT
+        // ============================================================
+
+        /// <summary>
+        /// บันทึกสถานะหลัง Boss ของด่านนี้ถูกกำจัดแล้ว
+        /// </summary>
+        public void SaveStageCheckpoint()
+        {
+            lastStageCheckpoint.lives = currentLives;
+            lastStageCheckpoint.bombs = currentBombs;
+            lastStageCheckpoint.power = currentPower;
+            lastStageCheckpoint.score = ScoreManager.Instance != null
+                ? ScoreManager.Instance.CurrentScore
+                : 0;
+            lastStageCheckpoint.valid = true;
+        }
+
+        /// <summary>
+        /// คืนสถานะล่าสุดจาก Boss ที่ผ่านแล้ว
+        /// </summary>
+        public bool RestoreLastStageCheckpoint()
+        {
+            if (!lastStageCheckpoint.valid)
+                return false;
+
+            currentLives = Mathf.Clamp(lastStageCheckpoint.lives, 0, maxLives);
+            currentBombs = Mathf.Clamp(lastStageCheckpoint.bombs, 0, maxBombs);
+            currentPower = Mathf.Clamp(lastStageCheckpoint.power, 0, maxPower);
+            currentPowerStage = ComputePowerStage(currentPower);
+
+            OnLivesChanged?.Invoke(currentLives);
+            InvokeSpellChanged();
+            InvokePowerChanged();
+
+            if (ScoreManager.Instance != null)
+                ScoreManager.Instance.SetCurrentScore(lastStageCheckpoint.score);
+
+            return true;
+        }
+
+        /// <summary>
+        /// ล้าง Checkpoint เมื่อเริ่ม Run ใหม่จริงๆ
+        /// </summary>
+        public void ClearStageCheckpoint()
+        {
+            lastStageCheckpoint.valid = false;
         }
 
         // ============================================================

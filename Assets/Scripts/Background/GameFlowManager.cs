@@ -16,12 +16,10 @@ namespace GameFlowSystem
     /// - Pause / Resume
     /// - Game Lose
     /// - Boss Defeat -> Scene Transition
-    /// - Final Fade
+    /// - Final Fade -> Main Menu
     ///
-    /// สำคัญ:
-    /// BossV2 จะไม่เป็นคนกำหนด Scene อีกต่อไป
-    /// Boss เพียงประกาศว่า "Boss ถูกกำจัดแล้ว"
-    /// แล้ว GameFlowManager เป็นผู้ตัดสินใจทั้งหมด
+    /// GameFlowManager เป็น Persistent Manager
+    /// จึงอยู่ข้าม Scene แต่ UI ของ Main Menu ไม่ควรอยู่ข้าม Scene
     /// </summary>
     public class GameFlowManager : MonoBehaviour
     {
@@ -33,11 +31,7 @@ namespace GameFlowSystem
             Paused,
             PendingGameLose,
             GameLost,
-
-            // รอช่วงพักหลัง Boss ตายก่อนเปลี่ยน Scene
             PendingBossTransition,
-
-            // กำลัง Fade เพื่อจบเกม
             Ending
         }
 
@@ -66,13 +60,13 @@ namespace GameFlowSystem
         [Min(0f)]
         [Tooltip(
             "เวลาพักหลัง Boss ตายก่อนเริ่มเปลี่ยน Scene\n" +
-            "ใช้ Unscaled Time เพื่อให้ทำงานได้แม้ Time.timeScale ถูก Freeze"
+            "ใช้ Unscaled Time"
         )]
         [SerializeField] private float bossDefeatDelay = 1.5f;
 
         [Tooltip(
             "ถ้า Boss อยู่ Scene สุดท้ายและเปิดไว้ " +
-            "จะ Fade จอดำเพื่อจบเกมแทนการโหลด Scene ถัดไป"
+            "จะ Fade จอดำแล้วกลับ Main Menu"
         )]
         [SerializeField] private bool fadeOnFinalScene = true;
 
@@ -109,9 +103,6 @@ namespace GameFlowSystem
         // ============================================================
 
         [Header("Pause Input")]
-        [Tooltip(
-            "ปุ่มที่ใช้ Toggle Pause (กดซ้ำเพื่อ Resume) - ใช้ Input Manager เดิม"
-        )]
         [SerializeField] private KeyCode pauseKey = KeyCode.Escape;
 
         // ============================================================
@@ -119,10 +110,6 @@ namespace GameFlowSystem
         // ============================================================
 
         [Header("Game Lose Delay")]
-        [Tooltip(
-            "หน่วงเวลา (วินาที) หลังผู้เล่นตายก่อนขึ้นจอ Game Lose จริง " +
-            "เพื่อให้ Death Animation/Effect เล่นจบก่อน"
-        )]
         [Min(0f)]
         [SerializeField] private float gameLoseDelay = 1.5f;
 
@@ -146,6 +133,13 @@ namespace GameFlowSystem
             CurrentState == FlowState.PendingBossTransition;
 
         public bool IsEnding =>
+            CurrentState == FlowState.Ending;
+
+        /// <summary>
+        /// ล็อกการยิง/Spell ระหว่าง Boss Defeat Delay และ Final Ending
+        /// </summary>
+        public bool IsPlayerActionLocked =>
+            CurrentState == FlowState.PendingBossTransition ||
             CurrentState == FlowState.Ending;
 
         // ============================================================
@@ -188,16 +182,11 @@ namespace GameFlowSystem
 
             SetCanvasVisible(pauseCanvas, false);
             SetCanvasVisible(gameLoseCanvas, false);
-
-            if (finalFadeCanvasGroup != null)
-            {
-                finalFadeCanvasGroup.alpha = 0f;
-                finalFadeCanvasGroup.blocksRaycasts = false;
-                finalFadeCanvasGroup.interactable = false;
-            }
+            ResetFinalFadeVisual();
 
             finalFadeFinished = false;
             runFinishRecorded = false;
+            Time.timeScale = 1f;
         }
 
         private void OnEnable()
@@ -216,7 +205,6 @@ namespace GameFlowSystem
                 return;
 
             BossV2.OnAnyBossDefeatedAny -= HandleAnyBossDefeated;
-
             UnsubscribeFromPlayerStats();
 
             Instance = null;
@@ -345,7 +333,6 @@ namespace GameFlowSystem
 
         private void UpdatePendingGameLose()
         {
-            // ใช้ Unscaled Time เพื่อให้ delay นี้ไม่ขึ้นกับ Time.timeScale
             gameLoseTimer += Time.unscaledDeltaTime;
 
             if (gameLoseTimer >= gameLoseDelay)
@@ -425,12 +412,6 @@ namespace GameFlowSystem
         // BOSS DEFEAT
         // ============================================================
 
-        /// <summary>
-        /// รับ event จาก BossV2 เมื่อ Boss ถูกกำจัดครบทุก Phase
-        ///
-        /// Boss ไม่ได้บอกว่าจะไป Scene ไหน
-        /// GameFlowManager เป็นคนตัดสินใจเองทั้งหมด
-        /// </summary>
         private void HandleAnyBossDefeated()
         {
             if (!transitionOnBossDefeated)
@@ -442,12 +423,16 @@ namespace GameFlowSystem
                 return;
             }
 
-            // ถ้ากำลัง Game Lose อยู่ ไม่ควรให้ Boss flow มาแทรก
             if (CurrentState == FlowState.GameLost ||
                 CurrentState == FlowState.PendingGameLose)
             {
                 return;
             }
+
+            // BossV2 เพิ่ม Score ก่อนยิง Event นี้
+            // จึง Save checkpoint หลัง Score ล่าสุดถูกเพิ่มแล้ว
+            PlayerStatsManager.Instance?.SaveStageCheckpoint();
+            ScoreManager.Instance?.SavePersistentHiScoreIfHigher();
 
             BeginPendingBossTransition();
         }
@@ -457,12 +442,6 @@ namespace GameFlowSystem
             CurrentState = FlowState.PendingBossTransition;
             bossDefeatTimer = 0f;
 
-            // สำคัญ:
-            // ยังไม่ Freeze เกมตรงนี้
-            //
-            // เพื่อให้ Death Visual ของ Boss,
-            // Item Drop และ Effect ต่างๆ มีเวลาเล่น
-            // ก่อน LoadingScreenManager จะ Freeze เกม
             Time.timeScale = 1f;
 
             SetCanvasVisible(pauseCanvas, false);
@@ -484,29 +463,15 @@ namespace GameFlowSystem
             if (CurrentState != FlowState.PendingBossTransition)
                 return;
 
-            // --------------------------------------------------------
-            // Scene สุดท้าย
-            // --------------------------------------------------------
-
             if (IsFinalScene())
             {
                 if (fadeOnFinalScene)
-                {
                     BeginFinalFade();
-                }
                 else
-                {
-                    // ถ้าไม่ใช้ Fade ก็ถือว่าจบ Run ทันที
                     FinishGameWithoutFade();
-                }
 
                 return;
             }
-
-            // --------------------------------------------------------
-            // Scene ปกติ
-            // GameFlowManager เป็นคนหา Scene ถัดไปเอง
-            // --------------------------------------------------------
 
             if (TryGetNextSceneName(out string nextSceneName))
             {
@@ -534,10 +499,18 @@ namespace GameFlowSystem
             if (CurrentState == FlowState.GameLost)
                 RecordRunAsFinished(false);
 
-            if (ScoreManager.Instance != null)
+            // Restart = กลับ Checkpoint ล่าสุดจาก Boss ก่อนหน้า
+            if (PlayerStatsManager.Instance != null)
             {
-                ScoreManager.Instance.SavePersistentHiScoreIfHigher();
-                ScoreManager.Instance.ResetScore();
+                if (!PlayerStatsManager.Instance.RestoreLastStageCheckpoint())
+                {
+                    PlayerStatsManager.Instance.ResetRun();
+                    ScoreManager.Instance?.ResetScore();
+                }
+            }
+            else
+            {
+                ScoreManager.Instance?.ResetScore();
             }
 
             ResetEndingRuntimeState();
@@ -555,6 +528,9 @@ namespace GameFlowSystem
             if (CurrentState == FlowState.GameLost)
                 RecordRunAsFinished(false);
 
+            PlayerStatsManager.Instance?.ResetRun();
+            ScoreManager.Instance?.ResetScore();
+
             ResetEndingRuntimeState();
 
             BeginSceneTransition(firstSceneName);
@@ -568,17 +544,14 @@ namespace GameFlowSystem
             if (CurrentState == FlowState.GameLost)
                 RecordRunAsFinished(false);
 
+            PlayerStatsManager.Instance?.ResetRun();
+            ScoreManager.Instance?.ResetScore();
+
             ResetEndingRuntimeState();
 
             BeginSceneTransition(mainMenuSceneName);
         }
 
-        /// <summary>
-        /// Compatibility API สำหรับ Script เก่าที่อาจยังเรียก method นี้
-        ///
-        /// Parameter เดิมจะถูก Ignore
-        /// เพราะตั้งแต่เวอร์ชันนี้ GameFlowManager เป็นผู้ควบคุม Scene เอง
-        /// </summary>
         public void HandleBossDefeated(
             string ignoredNextSceneName,
             bool ignoredFadeOnFinalScene)
@@ -586,22 +559,11 @@ namespace GameFlowSystem
             HandleBossDefeated();
         }
 
-        /// <summary>
-        /// Compatibility overload เดิม
-        /// </summary>
-        public void HandleBossDefeated(
-            bool ignoredFadeOnFinalScene)
+        public void HandleBossDefeated(bool ignoredFadeOnFinalScene)
         {
             HandleBossDefeated();
         }
 
-        /// <summary>
-        /// API ใหม่:
-        /// แจ้ง GameFlowManager ว่า Boss จบแล้ว
-        ///
-        /// โดยปกติไม่จำเป็นต้องเรียกเอง เพราะ BossV2
-        /// ยิง OnAnyBossDefeatedAny อยู่แล้ว
-        /// </summary>
         public void HandleBossDefeated()
         {
             HandleAnyBossDefeated();
@@ -611,8 +573,7 @@ namespace GameFlowSystem
         {
             if (string.IsNullOrWhiteSpace(sceneName))
             {
-                Debug.LogError(
-                    "GameFlowManager: Scene name ว่าง");
+                Debug.LogError("GameFlowManager: Scene name ว่าง");
                 return;
             }
 
@@ -632,10 +593,15 @@ namespace GameFlowSystem
             SetCanvasVisible(pauseCanvas, false);
             SetCanvasVisible(gameLoseCanvas, false);
 
+            // ถ้าเพิ่งออกจาก Final Fade ต้องเอา Overlay สีดำออก
+            // ไม่อย่างนั้นมันจะ Persist ไปทับ Main Menu
+            ResetFinalFadeVisual();
+
             AudioManager.Instance?.StopAllSFX();
             MusicManager.Instance?.StopMusic();
 
             CurrentState = FlowState.Playing;
+            Time.timeScale = 1f;
 
             if (LoadingScreenManager.Instance == null)
             {
@@ -644,44 +610,35 @@ namespace GameFlowSystem
                     "- ต้องมี LoadingScreenManager อยู่ใน Scene แรกสุด " +
                     "ที่เกมบูตขึ้นมา (เช่น MainMenu)");
 
-                Time.timeScale = 1f;
                 return;
             }
 
-            // LoadingScreenManager จะ Freeze เกมและจัดการ Async Load
             LoadingScreenManager.Instance.LoadScene(sceneName);
         }
 
-        private bool TryGetNextSceneName(
-            out string sceneName)
+        private bool TryGetNextSceneName(out string sceneName)
         {
             int currentIndex =
                 SceneManager.GetActiveScene().buildIndex;
 
             int nextIndex = currentIndex + 1;
 
-            if (nextIndex >=
-                SceneManager.sceneCountInBuildSettings)
+            if (nextIndex >= SceneManager.sceneCountInBuildSettings)
             {
                 sceneName = null;
                 return false;
             }
 
             string path =
-                SceneUtility.GetScenePathByBuildIndex(
-                    nextIndex
-                );
+                SceneUtility.GetScenePathByBuildIndex(nextIndex);
 
             sceneName =
-                System.IO.Path.GetFileNameWithoutExtension(
-                    path
-                );
+                System.IO.Path.GetFileNameWithoutExtension(path);
 
             return !string.IsNullOrWhiteSpace(sceneName);
         }
 
-        private bool IsSceneInBuildSettings(
-            string sceneName)
+        private bool IsSceneInBuildSettings(string sceneName)
         {
             if (string.IsNullOrWhiteSpace(sceneName))
                 return false;
@@ -694,9 +651,7 @@ namespace GameFlowSystem
                     SceneUtility.GetScenePathByBuildIndex(i);
 
                 string buildSceneName =
-                    System.IO.Path.GetFileNameWithoutExtension(
-                        path
-                    );
+                    System.IO.Path.GetFileNameWithoutExtension(path);
 
                 if (string.Equals(
                     buildSceneName,
@@ -736,13 +691,10 @@ namespace GameFlowSystem
                 return;
 
             CurrentState = FlowState.Ending;
-
             finalFadeTimer = 0f;
-
-            // Reset เพื่อป้องกัน state จาก Run ก่อนหน้า
             finalFadeFinished = false;
 
-            // ตอน Fade จบแล้วเกมจะถูก Freeze อย่างถาวร
+            // ใช้ Unscaled Time ใน UpdateFinalFade()
             Time.timeScale = 0f;
 
             if (finalFadeCanvasGroup == null)
@@ -761,7 +713,6 @@ namespace GameFlowSystem
             if (finalFadeFinished)
                 return;
 
-            // ห้ามใช้ Time.deltaTime เพราะ Time.timeScale = 0
             finalFadeTimer += Time.unscaledDeltaTime;
 
             float t =
@@ -786,18 +737,19 @@ namespace GameFlowSystem
 
             finalFadeFinished = true;
 
-            Time.timeScale = 0f;
-
-            if (finalFadeCanvasGroup != null)
-            {
-                finalFadeCanvasGroup.alpha = 1f;
-                finalFadeCanvasGroup.blocksRaycasts = true;
-                finalFadeCanvasGroup.interactable = true;
-            }
-
+            // Run จบแล้ว: HiScore ถูกบันทึกไว้ก่อนหน้านี้แล้ว
+            // และ RecordRunAsFinished() จะบันทึกประวัติ Run
             RecordRunAsFinished(true);
 
             OnGameEnded?.Invoke();
+
+            // สำคัญ:
+            // อย่าปล่อย GameFlowManager ค้างอยู่บน Final Fade
+            // เพราะ GameFlowManager เป็น DontDestroyOnLoad
+            //
+            // หลัง Fade เสร็จ ให้กลับ Main Menu อัตโนมัติ
+            // และ Reset Run ก่อนเริ่ม Run ใหม่
+            GoBackToMenu();
         }
 
         private void FinishGameWithoutFade()
@@ -807,13 +759,11 @@ namespace GameFlowSystem
 
             finalFadeFinished = true;
 
-            Time.timeScale = 0f;
-
             RecordRunAsFinished(true);
-
             OnGameEnded?.Invoke();
 
-            CurrentState = FlowState.Ending;
+            // จบ Run แล้วกลับ Main Menu เช่นเดียวกับ Final Fade
+            GoBackToMenu();
         }
 
         // ============================================================
@@ -839,15 +789,20 @@ namespace GameFlowSystem
             finalFadeTimer = 0f;
             bossDefeatTimer = 0f;
 
-            if (finalFadeCanvasGroup != null)
-            {
-                finalFadeCanvasGroup.alpha = 0f;
-                finalFadeCanvasGroup.blocksRaycasts = false;
-                finalFadeCanvasGroup.interactable = false;
-            }
+            ResetFinalFadeVisual();
 
             Time.timeScale = 1f;
             CurrentState = FlowState.Playing;
+        }
+
+        private void ResetFinalFadeVisual()
+        {
+            if (finalFadeCanvasGroup == null)
+                return;
+
+            finalFadeCanvasGroup.alpha = 0f;
+            finalFadeCanvasGroup.blocksRaycasts = false;
+            finalFadeCanvasGroup.interactable = false;
         }
 
         // ============================================================
@@ -886,9 +841,6 @@ namespace GameFlowSystem
         }
     }
 
-    /// <summary>
-    /// Contract สำหรับ Player ที่สามารถ Respawn ได้
-    /// </summary>
     public interface IPlayerRespawnable
     {
         void Respawn();
