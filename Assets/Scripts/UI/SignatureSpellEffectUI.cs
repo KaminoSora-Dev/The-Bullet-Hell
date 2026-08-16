@@ -1,3 +1,5 @@
+using System;
+using System.Reflection;
 using UnityEngine;
 using TMPro;
 using BossSystem;
@@ -5,209 +7,456 @@ using BossSystem;
 namespace UISystem
 {
     /// <summary>
-    /// เอฟเฟกต์แบนเนอร์ Signature Spell แบบ Touhou:
-    /// เริ่มที่จุดล่างจอ (Opacity 0) -> เลื่อนขึ้นไปจุดกลางจอ (Opacity 100, Ease In-Out) -> ค้างไว้ -> เลื่อนต่อขึ้นบนจนหาย (Opacity 0, Ease In-Out)
-    ///
-    /// เรียกเองได้ตรงๆ ผ่าน Play("ชื่อ Spell") หรือจะให้ผูกอัตโนมัติกับ Boss Spell Card ทุกตัว
-    /// ผ่าน static event ของ BossV2 ก็ได้ (ติ๊ก autoPlayOnBossSpellCard ไว้)
+    /// Signature Spell Banner:
+    /// - Spell BG เปิดเฉพาะช่วงที่ Boss อยู่ใน Spell Card
+    /// - Text และ Diamond เคลื่อนแยกกันได้
+    /// - เลือก Linear / EaseIn / EaseOut / EaseInOut แยก Enter/Exit
+    /// - Fade ไปพร้อม movement
+    /// - รองรับ Child ที่ SetActive(false) ไว้ใน Inspector
+    /// - ส่ง Spell SFX ผ่าน BossV2 event เพื่อให้ AudioSystem รับต่อได้
     /// </summary>
     public class SignatureSpellEffectUI : MonoBehaviour
     {
+        public enum MotionEase
+        {
+            Linear,
+            EaseIn,
+            EaseOut,
+            EaseInOut
+        }
+
+        private enum EffectPhase
+        {
+            Idle,
+            Enter,
+            Hold,
+            Exit
+        }
+
         [Header("References")]
         [SerializeField] private CanvasGroup canvasGroup;
         [SerializeField] private RectTransform textRect;
         [SerializeField] private TMP_Text spellNameText;
+
+        [Tooltip("SpriteRenderer ของ Diamond Banner")]
         [SerializeField] private SpriteRenderer backgroundSpriteRenderer;
 
-        [Header("Visual (Optional)")]
+        [Header("Spell Background")]
         [Tooltip(
-            "ใส่ได้ไม่บังคับ - เป็น RectTransform ของ UI Image/GameObject ที่อยาก Spawn " +
-            "เคลื่อนที่และ Fade ไปพร้อมกับ Text (ใช้ตำแหน่ง Start/Center/End เดียวกันด้านล่าง)\n" +
-            "แนะนำให้เป็น UI Image (ไม่ใช่ SpriteRenderer) เพราะ CanvasGroup.alpha จะ Fade ให้อัตโนมัติ " +
-            "ถ้าเป็น SpriteRenderer ต้องทำ Fade เอง อยู่นอกเหนือ Component นี้"
+            "BG พิเศษของ Spell Card เท่านั้น\n" +
+            "แนะนำให้ SetActive(false) ไว้ใน Inspector"
         )]
-        [SerializeField] private RectTransform visualRect;
+        [SerializeField] private GameObject spellBackgroundObject;
 
-        [Tooltip(
-            "ใส่ได้ไม่บังคับ - Animator ของ Object ในช่อง Visual Rect ด้านบน " +
-            "ถ้ามีและมี Trigger ชื่อตรงกับ Visual Play Trigger จะถูกเรียกตอน Play() " +
-            "ถ้าไม่ใส่ หรือไม่มี Trigger ชื่อนี้ จะข้ามไปเฉยๆ ไม่มี Error"
-        )]
-        [SerializeField] private Animator visualAnimator;
+        [Tooltip("Optional - CanvasGroup ของ Spell BG สำหรับ Fade")]
+        [SerializeField] private CanvasGroup spellBackgroundCanvasGroup;
 
-        [SerializeField] private string visualPlayTriggerName = "Play";
+        [SerializeField] private bool controlSpellBackgroundActiveState = true;
 
-        [Header("Positions (Anchored Position ของ textRect)")]
-        [SerializeField] private Vector2 startPosition = new Vector2(0f, -600f);
-        [SerializeField] private Vector2 centerPosition = Vector2.zero;
-        [SerializeField] private Vector2 endPosition = new Vector2(0f, 600f);
+        [Header("Text Motion")]
+        [SerializeField] private Vector2 textStartPosition = new Vector2(-700f, 0f);
+        [SerializeField] private Vector2 textCenterPosition = Vector2.zero;
+        [SerializeField] private Vector2 textEndPosition = new Vector2(700f, 0f);
+
+        [Header("Diamond Motion")]
+        [Tooltip("RectTransform ที่ครอบ SpriteRenderer ของ Diamond")]
+        [SerializeField] private RectTransform diamondRect;
+
+        [SerializeField] private Vector2 diamondStartPosition = new Vector2(700f, 0f);
+        [SerializeField] private Vector2 diamondCenterPosition = Vector2.zero;
+        [SerializeField] private Vector2 diamondEndPosition = new Vector2(-700f, 0f);
 
         [Header("Timing")]
-        [Min(0f)] [SerializeField] private float fadeInDuration = 0.6f;
-        [Min(0f)] [SerializeField] private float holdDuration = 1.2f;
-        [Min(0f)] [SerializeField] private float fadeOutDuration = 0.6f;
+        [Min(0f)]
+        [SerializeField] private float enterDuration = 0.6f;
+
+        [Min(0f)]
+        [SerializeField] private float holdDuration = 1.2f;
+
+        [Min(0f)]
+        [SerializeField] private float exitDuration = 0.6f;
+
+        [Header("Movement Ease")]
+        [SerializeField] private MotionEase textEnterEase = MotionEase.EaseInOut;
+        [SerializeField] private MotionEase diamondEnterEase = MotionEase.EaseInOut;
+        [SerializeField] private MotionEase textExitEase = MotionEase.EaseInOut;
+        [SerializeField] private MotionEase diamondExitEase = MotionEase.EaseInOut;
+
+        [Header("Fade")]
+        [Range(0f, 1f)]
+        [SerializeField] private float bannerMaxAlpha = 1f;
+
+        [Tooltip("ปกติ Fade ใช้ progress เดียวกับ Text Movement")]
+        [SerializeField] private bool useSeparateFadeEase = false;
+
+        [SerializeField] private MotionEase fadeEnterEase = MotionEase.EaseInOut;
+        [SerializeField] private MotionEase fadeExitEase = MotionEase.EaseInOut;
+
+        [Header("Audio")]
+        [Tooltip(
+            "เสียง Signature Spell Card เดียวของเกม\n" +
+            "จะส่งผ่าน BossV2.OnAnySpellCardSfxRequested ให้ AudioSystem เล่น"
+        )]
+        [SerializeField] private AudioClip spellCardSfx;
+
+        [SerializeField] private bool requestSpellCardSfx = true;
 
         [Header("Auto Play")]
-        [Tooltip("ติ๊กไว้ - Effect นี้จะเล่นอัตโนมัติทุกครั้งที่ Boss ตัวไหนก็ตามเข้า Phase ที่เป็น Spell Card " +
-                 "(ฟัง static event ของ BossV2 - ไม่ต้องผูก Boss ตัวใดตัวหนึ่งเอง)")]
         [SerializeField] private bool autoPlayOnBossSpellCard = true;
 
-        private enum Phase { Idle, FadeIn, Hold, FadeOut }
-
-        private Phase currentPhase = Phase.Idle;
+        private EffectPhase currentPhase = EffectPhase.Idle;
         private float phaseTimer;
 
         private void Awake()
         {
-            SetVisualState(startPosition, 0f);
-            gameObject.SetActive(true); // ตัว GameObject เปิดค้างไว้เสมอ ใช้ CanvasGroup.alpha คุมการมองเห็นแทน
-        }
+            SetBannerVisual(
+                textStartPosition,
+                diamondStartPosition,
+                0f
+            );
 
-        /// <summary>เรียก Animator Trigger ของ Visual ถ้ามีทั้ง Animator และ Trigger ชื่อตรงกัน - ไม่มีก็ข้ามเงียบๆ (opt-in)</summary>
-        private void TriggerVisualPlayAnimation()
-        {
-            if (visualAnimator == null)
-                return;
+            if (spellBackgroundCanvasGroup != null)
+                spellBackgroundCanvasGroup.alpha = 0f;
 
-            if (!HasTriggerParameter(visualAnimator, visualPlayTriggerName))
-                return;
+            // Root ต้องเปิดอยู่เพื่อรับ Boss static event
+            gameObject.SetActive(true);
 
-            visualAnimator.SetTrigger(visualPlayTriggerName);
-        }
+            // Child visual สามารถ inactive จาก Inspector ได้
+            SetObjectActive(
+                textRect != null ? textRect.gameObject : null,
+                false
+            );
 
-        private static bool HasTriggerParameter(Animator animator, string paramName)
-        {
-            if (string.IsNullOrEmpty(paramName))
-                return false;
+            SetObjectActive(
+                diamondRect != null ? diamondRect.gameObject : null,
+                false
+            );
 
-            AnimatorControllerParameter[] parameters = animator.parameters;
-
-            for (int i = 0; i < parameters.Length; i++)
-            {
-                if (parameters[i].type == AnimatorControllerParameterType.Trigger &&
-                    parameters[i].name == paramName)
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            HideSpellBackground();
         }
 
         private void OnEnable()
         {
-            if (autoPlayOnBossSpellCard)
-                BossV2.OnAnySpellCardStarted += HandleBossSpellCardStarted;
+            if (!autoPlayOnBossSpellCard)
+                return;
+
+            BossV2.OnAnySpellCardPhaseStarted += HandleSpellCardStarted;
+            BossV2.OnAnySpellCardPhaseEnded += HandleSpellCardEnded;
         }
 
         private void OnDisable()
         {
-            BossV2.OnAnySpellCardStarted -= HandleBossSpellCardStarted;
+            BossV2.OnAnySpellCardPhaseStarted -= HandleSpellCardStarted;
+            BossV2.OnAnySpellCardPhaseEnded -= HandleSpellCardEnded;
         }
 
-        private void HandleBossSpellCardStarted(string spellCardName)
+        private void HandleSpellCardStarted(string spellCardName)
         {
-            // Spell Card บางเฟสอาจไม่ได้ตั้งชื่อไว้ (spellCardName ว่าง) - เล่นเฉพาะตอนมีชื่อจริงๆ เท่านั้น
-            if (string.IsNullOrWhiteSpace(spellCardName)) return;
-            Play(spellCardName);
+            // BG ต้องเปิดทุก Spell Card
+            ShowSpellBackground();
+
+            // Banner จะเล่น Text/Movement เฉพาะเมื่อมีชื่อ
+            if (!string.IsNullOrWhiteSpace(spellCardName))
+                Play(spellCardName);
+
+            if (requestSpellCardSfx && spellCardSfx != null)
+                BossV2.RequestSpellCardSfx(spellCardSfx);
         }
 
-        /// <summary>เริ่มเล่นแบนเนอร์ด้วยข้อความที่กำหนด - เรียกซ้ำระหว่างกำลังเล่นอยู่จะรีสตาร์ทตั้งแต่ต้น</summary>
+        private void HandleSpellCardEnded(bool captured)
+        {
+            // StopImmediate() ครอบคลุม HideSpellBackground() อยู่แล้ว
+            // และตัดจบ Banner (Enter/Hold/Exit) ทันที ป้องกัน Text/Diamond
+            // เล่นค้างต่อลอยๆ หลัง BG หายไปแล้ว เช่นตอนบอสตายกลาง Spell Card
+            StopImmediate();
+        }
+
+        /// <summary>
+        /// เล่น Banner โดยตรงจากภายนอก
+        /// </summary>
         public void Play(string text)
         {
             if (spellNameText != null)
                 spellNameText.text = text;
 
-            currentPhase = Phase.FadeIn;
-            phaseTimer = 0f;
-            SetVisualState(startPosition, 0f);
+            ActivateBannerObjects();
 
-            TriggerVisualPlayAnimation();
+            currentPhase = EffectPhase.Enter;
+            phaseTimer = 0f;
+
+            SetBannerVisual(
+                textStartPosition,
+                diamondStartPosition,
+                0f
+            );
         }
 
         private void Update()
         {
-            if (currentPhase == Phase.Idle) return;
-
-            phaseTimer += Time.deltaTime;
-
             switch (currentPhase)
             {
-                case Phase.FadeIn:
-                    UpdateFadeIn();
+                case EffectPhase.Enter:
+                    UpdateEnter();
                     break;
 
-                case Phase.Hold:
+                case EffectPhase.Hold:
                     UpdateHold();
                     break;
 
-                case Phase.FadeOut:
-                    UpdateFadeOut();
+                case EffectPhase.Exit:
+                    UpdateExit();
                     break;
             }
         }
 
-        private void UpdateFadeIn()
+        private void UpdateEnter()
         {
-            float t = Mathf.Clamp01(phaseTimer / Mathf.Max(fadeInDuration, 0.0001f));
-            float eased = ApplyEaseInOut(t);
+            phaseTimer += Time.deltaTime;
 
-            Vector2 pos = Vector2.LerpUnclamped(startPosition, centerPosition, eased);
-            SetVisualState(pos, eased);
+            float t = NormalizeTime(
+                phaseTimer,
+                enterDuration
+            );
+
+            float textT = EvaluateEase(t, textEnterEase);
+            float diamondT = EvaluateEase(t, diamondEnterEase);
+
+            float fadeT = useSeparateFadeEase
+                ? EvaluateEase(t, fadeEnterEase)
+                : textT;
+
+            SetBannerVisual(
+                Vector2.LerpUnclamped(
+                    textStartPosition,
+                    textCenterPosition,
+                    textT
+                ),
+                Vector2.LerpUnclamped(
+                    diamondStartPosition,
+                    diamondCenterPosition,
+                    diamondT
+                ),
+                fadeT * bannerMaxAlpha
+            );
 
             if (t >= 1f)
             {
-                currentPhase = Phase.Hold;
+                currentPhase = EffectPhase.Hold;
                 phaseTimer = 0f;
-                SetVisualState(centerPosition, 1f);
+
+                SetBannerVisual(
+                    textCenterPosition,
+                    diamondCenterPosition,
+                    bannerMaxAlpha
+                );
             }
         }
 
         private void UpdateHold()
         {
+            phaseTimer += Time.deltaTime;
+
             if (phaseTimer >= holdDuration)
             {
-                currentPhase = Phase.FadeOut;
+                currentPhase = EffectPhase.Exit;
                 phaseTimer = 0f;
             }
         }
 
-        private void UpdateFadeOut()
+        private void UpdateExit()
         {
-            float t = Mathf.Clamp01(phaseTimer / Mathf.Max(fadeOutDuration, 0.0001f));
-            float eased = ApplyEaseInOut(t);
+            phaseTimer += Time.deltaTime;
 
-            Vector2 pos = Vector2.LerpUnclamped(centerPosition, endPosition, eased);
-            SetVisualState(pos, 1f - eased);
+            float t = NormalizeTime(
+                phaseTimer,
+                exitDuration
+            );
+
+            float textT = EvaluateEase(t, textExitEase);
+            float diamondT = EvaluateEase(t, diamondExitEase);
+
+            float fadeT = useSeparateFadeEase
+                ? EvaluateEase(t, fadeExitEase)
+                : textT;
+
+            SetBannerVisual(
+                Vector2.LerpUnclamped(
+                    textCenterPosition,
+                    textEndPosition,
+                    textT
+                ),
+                Vector2.LerpUnclamped(
+                    diamondCenterPosition,
+                    diamondEndPosition,
+                    diamondT
+                ),
+                (1f - fadeT) * bannerMaxAlpha
+            );
 
             if (t >= 1f)
             {
-                currentPhase = Phase.Idle;
-                SetVisualState(startPosition, 0f); // เตรียมพร้อมสำหรับรอบถัดไป
+                currentPhase = EffectPhase.Idle;
+                phaseTimer = 0f;
+
+                SetBannerVisual(
+                    textStartPosition,
+                    diamondStartPosition,
+                    0f
+                );
+
+                DeactivateBannerObjects();
             }
         }
 
-        private void SetVisualState(Vector2 anchoredPosition, float alpha)
+        private void SetBannerVisual(
+            Vector2 textPosition,
+            Vector2 diamondPosition,
+            float alpha)
         {
             if (textRect != null)
-                textRect.anchoredPosition = anchoredPosition;
+                textRect.anchoredPosition = textPosition;
 
-            // Visual (ถ้ามี) เคลื่อนที่ไปพร้อม Text บนเส้นทางเดียวกัน
-            // ไม่ต้อง Fade เองแยก เพราะอยู่ใต้ canvasGroup เดียวกัน (ถ้าเป็น UI Image)
-            if (visualRect != null)
-                visualRect.anchoredPosition = anchoredPosition;
+            if (diamondRect != null)
+                diamondRect.anchoredPosition = diamondPosition;
+
+            alpha = Mathf.Clamp01(alpha);
 
             if (canvasGroup != null)
                 canvasGroup.alpha = alpha;
+
+            // CanvasGroup ไม่คุม SpriteRenderer
+            // จึงต้องปรับ alpha ของ Diamond เอง
+            if (backgroundSpriteRenderer != null)
+            {
+                Color color =
+                    backgroundSpriteRenderer.color;
+
+                color.a = alpha;
+                backgroundSpriteRenderer.color = color;
+            }
         }
 
-        /// <summary>สูตร Ease In-Out เดียวกับที่ใช้ใน EnemyV1/BossV2 (ช้า-เร็ว-ช้า) - ก็อปมาเองเพื่อไม่ผูก UI เข้ากับ EnemySystem</summary>
-        private static float ApplyEaseInOut(float t)
+        private void ActivateBannerObjects()
+        {
+            SetObjectActive(
+                textRect != null ? textRect.gameObject : null,
+                true
+            );
+
+            SetObjectActive(
+                diamondRect != null ? diamondRect.gameObject : null,
+                true
+            );
+        }
+
+        private void DeactivateBannerObjects()
+        {
+            SetObjectActive(
+                textRect != null ? textRect.gameObject : null,
+                false
+            );
+
+            SetObjectActive(
+                diamondRect != null ? diamondRect.gameObject : null,
+                false
+            );
+        }
+
+        private void ShowSpellBackground()
+        {
+            if (spellBackgroundObject != null &&
+                controlSpellBackgroundActiveState)
+            {
+                spellBackgroundObject.SetActive(true);
+            }
+
+            if (spellBackgroundCanvasGroup != null)
+                spellBackgroundCanvasGroup.alpha = 1f;
+        }
+
+        private void HideSpellBackground()
+        {
+            if (spellBackgroundCanvasGroup != null)
+                spellBackgroundCanvasGroup.alpha = 0f;
+
+            if (spellBackgroundObject != null &&
+                controlSpellBackgroundActiveState)
+            {
+                spellBackgroundObject.SetActive(false);
+            }
+        }
+
+        private static void SetObjectActive(
+            GameObject target,
+            bool value)
+        {
+            if (target == null)
+                return;
+
+            if (target.activeSelf != value)
+                target.SetActive(value);
+        }
+
+        private static float NormalizeTime(
+            float timer,
+            float duration)
+        {
+            if (duration <= 0f)
+                return 1f;
+
+            return Mathf.Clamp01(
+                timer / duration
+            );
+        }
+
+        private static float EvaluateEase(
+            float t,
+            MotionEase ease)
         {
             t = Mathf.Clamp01(t);
-            return t < 0.5f
-                ? 2f * t * t
-                : 1f - Mathf.Pow(-2f * t + 2f, 2f) / 2f;
+
+            switch (ease)
+            {
+                case MotionEase.EaseIn:
+                    return t * t;
+
+                case MotionEase.EaseOut:
+                    return 1f -
+                           (1f - t) *
+                           (1f - t);
+
+                case MotionEase.EaseInOut:
+                    return t < 0.5f
+                        ? 2f * t * t
+                        : 1f -
+                          Mathf.Pow(
+                              -2f * t + 2f,
+                              2f
+                          ) / 2f;
+
+                default:
+                    return t;
+            }
         }
+
+        /// <summary>
+        /// หยุด Effect ทันที เช่นตอน Scene กำลังเปลี่ยน
+        /// </summary>
+        public void StopImmediate()
+        {
+            currentPhase = EffectPhase.Idle;
+            phaseTimer = 0f;
+
+            SetBannerVisual(
+                textStartPosition,
+                diamondStartPosition,
+                0f
+            );
+
+            DeactivateBannerObjects();
+            HideSpellBackground();
+        }
+
+        public AudioClip SpellCardSfx => spellCardSfx;
     }
 }

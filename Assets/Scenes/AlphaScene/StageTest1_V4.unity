@@ -946,6 +946,7 @@ GameObject:
   - component: {fileID: 141114418}
   - component: {fileID: 141114420}
   - component: {fileID: 141114419}
+  - component: {fileID: 141114421}
   m_Layer: 5
   m_Name: SignatureSpellEffectUI
   m_TagString: Untagged
@@ -1012,6 +1013,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 141114417}
   m_CullTransparentMesh: 1
+--- !u!225 &141114421
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 141114417}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &174051642
 GameObject:
   m_ObjectHideFlags: 0
@@ -5643,7 +5656,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &926989377
 Transform:
   m_ObjectHideFlags: 0
@@ -7483,8 +7496,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8d9de0ed22c79d4c9ef22a5b101a58d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvasGroup: {fileID: 2068993567}
-  textRect: {fileID: 1590423057}
+  canvasGroup: {fileID: 141114421}
+  textRect: {fileID: 141114418}
   spellNameText: {fileID: 1590423058}
   backgroundSpriteRenderer: {fileID: 926989378}
   visualRect: {fileID: 0}

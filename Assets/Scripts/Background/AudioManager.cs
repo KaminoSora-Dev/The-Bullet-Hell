@@ -42,6 +42,11 @@ namespace AudioSystem
 
             Instance = this;
 
+            // Manager ทุกตัวในโปรเจกต์ต้อง DontDestroyOnLoad
+            // ไม่งั้นพอเปลี่ยน Scene แล้ว Instance จะถูกทำลายทิ้ง
+            // ทำให้ระบบที่เรียก AudioManager.Instance จาก Scene อื่นพัง
+            DontDestroyOnLoad(gameObject);
+
             ApplySfxVolume();
         }
 

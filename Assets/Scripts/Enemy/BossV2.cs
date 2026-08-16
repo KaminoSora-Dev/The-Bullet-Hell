@@ -240,6 +240,35 @@ namespace BossSystem
 
         public static event Action<string> OnAnyBossNameReveal;
         public static event Action OnAnyBossNameHide;
+
+        /// <summary>
+        /// ยิงเมื่อ Phase ที่เป็น Spell Card เริ่มจริง
+        /// ยิงแม้ spellCardName จะว่าง เพื่อให้ UI/FX รู้สถานะ Spell โดยตรง
+        /// </summary>
+        public static event Action<string> OnAnySpellCardPhaseStarted;
+
+        /// <summary>
+        /// ยิงเมื่อ Phase ที่เป็น Spell Card จบลง
+        /// </summary>
+        public static event Action<bool> OnAnySpellCardPhaseEnded;
+
+        /// <summary>
+        /// Hook สำหรับ AudioSystem ให้เล่น Signature Spell SFX
+        /// โดย BossV2 ไม่ต้องรู้จัก implementation ของ AudioManager
+        /// </summary>
+        public static event Action<AudioClip> OnAnySpellCardSfxRequested;
+
+        /// <summary>
+        /// C# event เรียก Invoke() ได้เฉพาะจากภายใน class ที่ประกาศเท่านั้น
+        /// class ภายนอก (เช่น SignatureSpellEffectUI) ต้องขอผ่าน method นี้แทน
+        /// การเรียก BossV2.OnAnySpellCardSfxRequested?.Invoke(...) ตรงๆ จากนอก class
+        /// จะ compile error: "can only appear on the left hand side of += or -="
+        /// </summary>
+        public static void RequestSpellCardSfx(AudioClip clip)
+        {
+            OnAnySpellCardSfxRequested?.Invoke(clip);
+        }
+
         public static event Action<string> OnAnySpellCardStarted;
         public static event Action OnAnyBossActivated;
         public static event Action OnAnyBossDefeatedAny;
@@ -349,6 +378,13 @@ namespace BossSystem
 
         public void OnReturnToPool()
         {
+            // ล้าง instance event ทุกครั้งที่กลับเข้า Pool
+            // ป้องกัน subscriber จากไฟต์ก่อนหน้า (เช่น UI เฉพาะไฟต์นั้น)
+            // ค้างอยู่แล้วโดนเรียกซ้ำตอน Boss ตัวเดียวกันถูกเอาไป
+            // สร้างไฟต์ใหม่จาก StageSpawner
+            OnPhaseStarted = null;
+            OnPhaseCleared = null;
+            OnBossDefeated = null;
         }
 
         // ============================================================
@@ -690,6 +726,16 @@ namespace BossSystem
                 CurrentPhaseIndex
             );
 
+            // State event: ยิงตาม isSpellCard โดยตรง
+            // ทำให้ Spell BG เปิดได้แม้ไม่ได้ตั้งชื่อ Banner
+            if (phase.isSpellCard)
+            {
+                OnAnySpellCardPhaseStarted?.Invoke(
+                    phase.spellCardName
+                );
+            }
+
+            // Legacy Banner event: ไม่มีชื่อ = ไม่โชว์ Text Banner
             if (!string.IsNullOrWhiteSpace(
                 phase.spellCardName))
             {
@@ -720,6 +766,10 @@ namespace BossSystem
             if (phase.isSpellCard)
             {
                 OnAnySpellCardResult?.Invoke(
+                    captured
+                );
+
+                OnAnySpellCardPhaseEnded?.Invoke(
                     captured
                 );
             }
