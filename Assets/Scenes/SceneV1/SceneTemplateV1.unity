@@ -1130,11 +1130,11 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1487121054}
-  m_Father: {fileID: 1091129828}
+  m_Father: {fileID: 1027635899}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 960, y: 540}
   m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &174051644
@@ -6256,7 +6256,10 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1367961568}
+  - {fileID: 1663121584}
+  - {fileID: 174051643}
   m_Father: {fileID: 1495925527}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1027635900
@@ -6792,40 +6795,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &1091129827
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1091129828}
-  m_Layer: 0
-  m_Name: PauseLoseCanvas
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1091129828
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1091129827}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 960, y: 540, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1367961568}
-  - {fileID: 1663121584}
-  - {fileID: 174051643}
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1115570482
 GameObject:
   m_ObjectHideFlags: 0
@@ -6894,15 +6863,29 @@ MonoBehaviour:
   textRect: {fileID: 1590423057}
   spellNameText: {fileID: 1590423058}
   backgroundSpriteRenderer: {fileID: 926989378}
-  visualRect: {fileID: 0}
-  visualAnimator: {fileID: 0}
-  visualPlayTriggerName: Play
-  startPosition: {x: 600, y: -60}
-  centerPosition: {x: 600, y: 540}
-  endPosition: {x: 600, y: 1200}
-  fadeInDuration: 0.6
+  spellBackgroundObject: {fileID: 0}
+  spellBackgroundCanvasGroup: {fileID: 0}
+  controlSpellBackgroundActiveState: 1
+  textStartPosition: {x: -700, y: 0}
+  textCenterPosition: {x: 0, y: 0}
+  textEndPosition: {x: 700, y: 0}
+  diamondRect: {fileID: 0}
+  diamondStartPosition: {x: 700, y: 0}
+  diamondCenterPosition: {x: 0, y: 0}
+  diamondEndPosition: {x: -700, y: 0}
+  enterDuration: 0.6
   holdDuration: 1.2
-  fadeOutDuration: 0.6
+  exitDuration: 0.6
+  textEnterEase: 3
+  diamondEnterEase: 3
+  textExitEase: 3
+  diamondExitEase: 3
+  bannerMaxAlpha: 1
+  useSeparateFadeEase: 0
+  fadeEnterEase: 3
+  fadeExitEase: 3
+  spellCardSfx: {fileID: 0}
+  requestSpellCardSfx: 1
   autoPlayOnBossSpellCard: 1
 --- !u!1 &1141111681
 GameObject:
@@ -8750,7 +8733,7 @@ RectTransform:
   - {fileID: 562379421}
   - {fileID: 861789628}
   - {fileID: 1805440469}
-  m_Father: {fileID: 1091129828}
+  m_Father: {fileID: 1027635899}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -11645,7 +11628,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1663121580}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
@@ -11654,11 +11637,11 @@ RectTransform:
   - {fileID: 1879300677}
   - {fileID: 1064323936}
   - {fileID: 1178555735}
-  m_Father: {fileID: 1091129828}
+  m_Father: {fileID: 1027635899}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -960, y: -540}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
 --- !u!1 &1700594704
@@ -14745,7 +14728,6 @@ SceneRoots:
   - {fileID: 1062541081}
   - {fileID: 1785608660}
   - {fileID: 1495925527}
-  - {fileID: 1091129828}
   - {fileID: 1617909145}
   - {fileID: 1913460266}
   - {fileID: 621389127}

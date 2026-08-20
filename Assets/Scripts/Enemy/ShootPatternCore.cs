@@ -112,21 +112,45 @@ namespace EnemySystem
     [Serializable]
     public class BulletBurstTrigger
     {
-        [Tooltip("ชื่อ - ใช้แค่ให้อ่านง่ายใน Inspector")]
+        [Tooltip("ชื่อ Trigger สำหรับอ่านง่ายใน Inspector")]
         public string name = "Burst Trigger";
 
-        [Tooltip("เวลานับจากตอนกระสุนนี้ Spawn (วินาที) ที่จะสั่งยิง Pattern ด้านล่างออกจากตำแหน่งกระสุนตัวนี้")]
+        [Tooltip("เวลานับจากตอนกระสุนตัวนี้ Spawn (วินาที)")]
         [Min(0f)]
         public float time = 0.5f;
 
-        [Tooltip("Pattern ที่จะยิงออกมา - ใช้ระบบ Group/Burst เดิมทั้งหมด ออกแบบเหมือน Pattern ปกติของ Boss/Enemy ได้เลย")]
-        public List<BulletPatternGroup> pattern = new List<BulletPatternGroup>();
+        [Tooltip(
+            "Pattern ที่จะยิงเมื่อ Trigger ทำงาน\n" +
+            "ลาก GameObject ที่มี BulletCustomPattern มาใส่โดยตรง\n" +
+            "ห้ามอ้าง Pattern เดิมใน Call Chain ซ้ำ"
+        )]
+        public BulletCustomPattern pattern;
 
         [Tooltip(
-            "ติ๊ก = ทำลายกระสุนตัวนี้ (ตัวแม่) ทันทีหลังยิง Pattern ออกไป (RequestDestroy)\n" +
-            "ไม่ติ๊ก = กระสุนตัวนี้เดินตาม Speed/Direction Timeline ต่อตามปกติ Pattern ที่ยิงไปก็ยัง Loop ต่อได้ถ้าตั้งไว้"
+            "ติ๊ก = ทำลายกระสุนตัวนี้ทันทีหลังเรียก Pattern\n" +
+            "ไม่ติ๊ก = กระสุนตัวนี้เดินต่อและ Pattern ที่เรียกจะทำงานต่อเอง"
         )]
         public bool destroySelfAfterFire = false;
+    }
+
+    [Serializable]
+    public class BulletPatternSchedule
+    {
+        [Tooltip("BulletCustomPattern ที่จะถูกเรียกใช้")]
+        public BulletCustomPattern pattern;
+
+        [Tooltip(
+            "เวลารอก่อนเริ่ม Pattern นี้ (วินาที)\n" +
+            "Enemy/Boss เป็นผู้ควบคุม Timing ส่วนรายละเอียดกระสุนอยู่ใน BCP"
+        )]
+        [Min(0f)]
+        public float startDelay = 0f;
+
+        [Tooltip(
+            "เปิด = อนุญาตให้ Group ที่ตั้ง Loop ใน BCP วนต่อ\n" +
+            "ปิด = บังคับทุก Group ให้จบครั้งเดียว"
+        )]
+        public bool loop = true;
     }
 
     [Serializable]
@@ -310,6 +334,7 @@ namespace EnemySystem
         private readonly List<BulletPatternGroup> groups;
         private readonly Transform owner;
         private readonly Func<Transform> playerProvider;
+        private readonly HashSet<BulletCustomPattern> patternCallChain;
 
         private System.Random random;
 
@@ -320,11 +345,17 @@ namespace EnemySystem
         public BulletPatternV2Executor(
             List<BulletPatternGroup> groups,
             Transform owner,
-            Func<Transform> playerProvider)
+            Func<Transform> playerProvider,
+            IEnumerable<BulletCustomPattern> patternCallChain = null)
         {
             this.groups = groups;
             this.owner = owner;
             this.playerProvider = playerProvider;
+            this.patternCallChain =
+                patternCallChain != null
+                    ? new HashSet<BulletCustomPattern>(patternCallChain)
+                    : new HashSet<BulletCustomPattern>();
+
             ResetAllGroups();
         }
 
@@ -584,7 +615,8 @@ namespace EnemySystem
                     initialSpeed,
                     burst.motion.speedTimeline,
                     burst.motion.directionTimeline,
-                    burst.motion.burstTimeline);
+                    burst.motion.burstTimeline,
+                    patternCallChain);
             }
         }
 

@@ -56,9 +56,9 @@ namespace BossSystem
 
         public bool loopMovement = true;
 
-        [Header("Bullet Pattern")]
-        public List<BulletPatternGroup> patterns =
-            new List<BulletPatternGroup>();
+        [Header("Bullet Pattern Timing")]
+        public BulletPatternSchedule bulletPattern =
+            new BulletPatternSchedule();
 
         [NonSerialized]
         public int currentHealth;
@@ -67,12 +67,19 @@ namespace BossSystem
         public float phaseTimer;
 
         [NonSerialized]
+        public float bulletPatternDelayTimer;
+
+        [NonSerialized]
         public BulletPatternV2Executor executor;
 
         public void ResetRuntime()
         {
             currentHealth = phaseHealth;
             phaseTimer = 0f;
+            bulletPatternDelayTimer =
+                bulletPattern != null
+                    ? Mathf.Max(0f, bulletPattern.startDelay)
+                    : 0f;
             executor?.ResetAllGroups();
         }
     }
@@ -504,7 +511,13 @@ namespace BossSystem
             }
 
             if (currentAllowShoot && !canShootNow)
+            {
                 phase.executor?.ResetAllGroups();
+                phase.bulletPatternDelayTimer =
+                    phase.bulletPattern != null
+                        ? Mathf.Max(0f, phase.bulletPattern.startDelay)
+                        : 0f;
+            }
 
             canShootNow = currentAllowShoot;
 
@@ -686,19 +699,12 @@ namespace BossSystem
 
             phase.phaseTimer = 0f;
 
-            if (phase.executor == null)
-            {
-                phase.executor =
-                    new BulletPatternV2Executor(
-                        phase.patterns,
-                        transform,
-                        () => playerTransform
-                    );
-            }
-            else
-            {
-                phase.executor.ResetAllGroups();
-            }
+            phase.executor = CreatePhaseExecutor(phase);
+
+            phase.bulletPatternDelayTimer =
+                phase.bulletPattern != null
+                    ? Mathf.Max(0f, phase.bulletPattern.startDelay)
+                    : 0f;
 
             canShootNow = true;
 
@@ -743,6 +749,45 @@ namespace BossSystem
                     phase.spellCardName
                 );
             }
+        }
+
+        private BulletPatternV2Executor CreatePhaseExecutor(
+            BossPhaseData phase)
+        {
+            if (phase == null ||
+                phase.bulletPattern == null ||
+                phase.bulletPattern.pattern == null)
+            {
+                return null;
+            }
+
+            List<BulletPatternGroup> groups =
+                phase.bulletPattern.pattern.CloneGroups();
+
+            if (!phase.bulletPattern.loop)
+            {
+                for (int i = 0; i < groups.Count; i++)
+                {
+                    if (groups[i] != null)
+                        groups[i].loopPattern = false;
+                }
+            }
+
+            if (groups.Count == 0)
+                return null;
+
+            var patternCallChain =
+                new HashSet<BulletCustomPattern>
+                {
+                    phase.bulletPattern.pattern
+                };
+
+            return new BulletPatternV2Executor(
+                groups,
+                transform,
+                () => playerTransform,
+                patternCallChain
+            );
         }
 
         // ============================================================

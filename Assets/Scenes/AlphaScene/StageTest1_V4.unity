@@ -6414,41 +6414,7 @@ MonoBehaviour:
           burstTimeline:
           - name: Trigger1
             time: 0.5
-            pattern:
-            - groupName: Burst 4 Bullet
-              initialDelay: 0
-              bursts:
-              - name: Burst 1
-                repeatCount: 5
-                repeatInterval: 0.25
-                delayAfter: 0.5
-                bulletPrefab: {fileID: 1156615127}
-                bulletCount: 4
-                spawn:
-                  mode: 0
-                  offset: {x: 0, y: 0}
-                  circleRadius: 0
-                direction:
-                  mode: 6
-                  angle: 0
-                  spread: 360
-                  rotationPerRepeat: 0
-                motion:
-                  overrideInitialSpeed: 0
-                  initialSpeed: 0
-                  speedTimeline: []
-                  directionTimeline: []
-                  burstTimeline: []
-                modifiers:
-                  randomAngle:
-                    enabled: 0
-                    range: 0
-                    scope: 0
-                  randomSpeed:
-                    enabled: 0
-                    range: 0
-                    scope: 0
-              loopPattern: 1
+            patternIndex: -1
             destroySelfAfterFire: 0
         modifiers:
           randomAngle:
@@ -6514,62 +6480,7 @@ MonoBehaviour:
           burstTimeline:
           - name: Burst 64
             time: 2.5
-            pattern:
-            - groupName: 8x8
-              initialDelay: 0
-              bursts:
-              - name: 8x8
-                repeatCount: 1
-                repeatInterval: 0.1
-                delayAfter: 0.5
-                bulletPrefab: {fileID: 1156615127}
-                bulletCount: 8
-                spawn:
-                  mode: 0
-                  offset: {x: 0, y: 0}
-                  circleRadius: 0
-                direction:
-                  mode: 2
-                  angle: -90
-                  spread: 360
-                  rotationPerRepeat: 0
-                motion:
-                  overrideInitialSpeed: 0
-                  initialSpeed: 0
-                  speedTimeline:
-                  - targetSpeed: 100
-                    duration: 1
-                    easing: 3
-                  - targetSpeed: 400
-                    duration: 1
-                    easing: 3
-                  - targetSpeed: 200
-                    duration: 1
-                    easing: 3
-                  directionTimeline:
-                  - mode: 0
-                    relativeAngle: -90
-                    duration: 1
-                    easing: 0
-                  - mode: 1
-                    relativeAngle: 45
-                    duration: 0.5
-                    easing: 3
-                  - mode: 1
-                    relativeAngle: 45
-                    duration: 0.5
-                    easing: 3
-                  burstTimeline: []
-                modifiers:
-                  randomAngle:
-                    enabled: 0
-                    range: 0
-                    scope: 0
-                  randomSpeed:
-                    enabled: 0
-                    range: 0
-                    scope: 0
-              loopPattern: 1
+            patternIndex: -1
             destroySelfAfterFire: 1
         modifiers:
           randomAngle:
@@ -6616,62 +6527,7 @@ MonoBehaviour:
           burstTimeline:
           - name: Burst 64
             time: 2.5
-            pattern:
-            - groupName: 8x8
-              initialDelay: 0
-              bursts:
-              - name: 8x8
-                repeatCount: 1
-                repeatInterval: 0.1
-                delayAfter: 0.5
-                bulletPrefab: {fileID: 1506226973}
-                bulletCount: 8
-                spawn:
-                  mode: 0
-                  offset: {x: 0, y: 0}
-                  circleRadius: 0
-                direction:
-                  mode: 2
-                  angle: -90
-                  spread: 360
-                  rotationPerRepeat: 0
-                motion:
-                  overrideInitialSpeed: 0
-                  initialSpeed: 0
-                  speedTimeline:
-                  - targetSpeed: 100
-                    duration: 1
-                    easing: 3
-                  - targetSpeed: 400
-                    duration: 1
-                    easing: 3
-                  - targetSpeed: 200
-                    duration: 1
-                    easing: 3
-                  directionTimeline:
-                  - mode: 0
-                    relativeAngle: -90
-                    duration: 1
-                    easing: 0
-                  - mode: 1
-                    relativeAngle: 45
-                    duration: 0.5
-                    easing: 3
-                  - mode: 1
-                    relativeAngle: 45
-                    duration: 0.5
-                    easing: 3
-                  burstTimeline: []
-                modifiers:
-                  randomAngle:
-                    enabled: 0
-                    range: 0
-                    scope: 0
-                  randomSpeed:
-                    enabled: 0
-                    range: 0
-                    scope: 0
-              loopPattern: 1
+            patternIndex: -1
             destroySelfAfterFire: 1
         modifiers:
           randomAngle:
@@ -7500,15 +7356,29 @@ MonoBehaviour:
   textRect: {fileID: 141114418}
   spellNameText: {fileID: 1590423058}
   backgroundSpriteRenderer: {fileID: 926989378}
-  visualRect: {fileID: 0}
-  visualAnimator: {fileID: 0}
-  visualPlayTriggerName: Play
-  startPosition: {x: 600, y: -60}
-  centerPosition: {x: 600, y: 540}
-  endPosition: {x: 600, y: 1200}
-  fadeInDuration: 0.6
+  spellBackgroundObject: {fileID: 0}
+  spellBackgroundCanvasGroup: {fileID: 0}
+  controlSpellBackgroundActiveState: 1
+  textStartPosition: {x: -700, y: 0}
+  textCenterPosition: {x: 0, y: 0}
+  textEndPosition: {x: 700, y: 0}
+  diamondRect: {fileID: 0}
+  diamondStartPosition: {x: 700, y: 0}
+  diamondCenterPosition: {x: 0, y: 0}
+  diamondEndPosition: {x: -700, y: 0}
+  enterDuration: 0.6
   holdDuration: 1.2
-  fadeOutDuration: 0.6
+  exitDuration: 0.6
+  textEnterEase: 3
+  diamondEnterEase: 3
+  textExitEase: 3
+  diamondExitEase: 3
+  bannerMaxAlpha: 1
+  useSeparateFadeEase: 0
+  fadeEnterEase: 3
+  fadeExitEase: 3
+  spellCardSfx: {fileID: 0}
+  requestSpellCardSfx: 1
   autoPlayOnBossSpellCard: 1
 --- !u!1 &1141111681
 GameObject:

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using PlayerSystem;
 using PoolingSystem;
@@ -82,6 +83,7 @@ namespace EnemySystem
         private bool useDirectionTimeline;
 
         private List<BulletBurstTrigger> burstTimeline;
+        private IEnumerable<BulletCustomPattern> patternCallChain;
         private bool[] burstTriggerFired;
         private float burstTimelineClock;
 
@@ -235,7 +237,8 @@ namespace EnemySystem
             float initialSpeed,
             List<SpeedTransition> timeline,
             List<DirectionTransition> newDirectionTimeline = null,
-            List<BulletBurstTrigger> newBurstTimeline = null)
+            List<BulletBurstTrigger> newBurstTimeline = null,
+            IEnumerable<BulletCustomPattern> newPatternCallChain = null)
         {
             returnedToPool = false;
             isDying = false;
@@ -272,6 +275,7 @@ namespace EnemySystem
             useDirectionTimeline = directionTimelineActive;
 
             burstTimeline = newBurstTimeline;
+            patternCallChain = newPatternCallChain;
             burstTimelineClock = 0f;
             activeBurstExecutors.Clear();
 
@@ -633,45 +637,58 @@ namespace EnemySystem
         private void FireBurstTrigger(
             BulletBurstTrigger trigger)
         {
-            if (returnedToPool || isDying)
+            if (returnedToPool || isDying || trigger == null)
                 return;
 
-            if (trigger.pattern != null &&
-                trigger.pattern.Count > 0)
+            BulletCustomPattern targetPattern = trigger.pattern;
+
+            if (targetPattern != null)
             {
-                List<BulletPatternGroup> clonedGroups =
-                    new List<BulletPatternGroup>(
-                        trigger.pattern.Count
-                    );
+                bool recursive =
+                    patternCallChain != null &&
+                    patternCallChain.Contains(targetPattern);
 
-                for (int i = 0;
-                     i < trigger.pattern.Count;
-                     i++)
+                if (recursive)
                 {
-                    BulletPatternGroup source =
-                        trigger.pattern[i];
-
-                    if (source != null)
-                        clonedGroups.Add(source.Clone());
+                    Debug.LogWarning(
+                        $"EnemyBulletV2: Burst Trigger '{trigger.name}' skipped because Pattern '{targetPattern.DisplayName}' is already in the current Pattern Call Chain.",
+                        gameObject);
                 }
-
-                if (returnedToPool || isDying)
-                    return;
-
-                BulletPatternV2Executor executor =
-                    new BulletPatternV2Executor(
-                        clonedGroups,
-                        transform,
-                        () => cachedPlayerTransform
-                    );
-
-                executor.Tick(0f);
-
-                if (!trigger.destroySelfAfterFire &&
-                    !returnedToPool &&
-                    !isDying)
+                else
                 {
-                    activeBurstExecutors.Add(executor);
+                    List<BulletPatternGroup> clonedGroups =
+                        targetPattern.CloneGroups();
+
+                    if (clonedGroups.Count > 0)
+                    {
+                        var nextChain =
+                            patternCallChain != null
+                                ? new HashSet<BulletCustomPattern>(patternCallChain)
+                                : new HashSet<BulletCustomPattern>();
+
+                        nextChain.Add(targetPattern);
+
+                        if (returnedToPool || isDying)
+                            return;
+
+                        BulletPatternV2Executor executor =
+                            new BulletPatternV2Executor(
+                                clonedGroups,
+                                transform,
+                                () => cachedPlayerTransform,
+                                nextChain);
+
+                        // Execute the first frame immediately so a zero-delay
+                        // first Burst behaves the same as the main Pattern.
+                        executor.Tick(0f);
+
+                        if (!trigger.destroySelfAfterFire &&
+                            !returnedToPool &&
+                            !isDying)
+                        {
+                            activeBurstExecutors.Add(executor);
+                        }
+                    }
                 }
             }
 
@@ -727,6 +744,7 @@ namespace EnemySystem
             useDirectionTimeline = false;
 
             burstTimeline = null;
+            patternCallChain = null;
             burstTriggerFired = null;
             burstTimelineClock = 0f;
             activeBurstExecutors.Clear();
@@ -779,6 +797,7 @@ namespace EnemySystem
             useDirectionTimeline = false;
 
             burstTimeline = null;
+            patternCallChain = null;
             burstTriggerFired = null;
             activeBurstExecutors.Clear();
 
