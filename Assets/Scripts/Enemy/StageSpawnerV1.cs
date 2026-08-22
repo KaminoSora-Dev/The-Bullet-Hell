@@ -50,6 +50,18 @@ namespace StageSystem
     /// </summary>
     public class StageSpawnerV1 : MonoBehaviour
     {
+        // ============================================================
+        // SINGLETON (เพิ่มใหม่)
+        // ============================================================
+        //
+        // ให้ระบบอื่น เช่น SceneDialogueV1 อ่าน StageTimer และสั่ง
+        // PauseTimer()/ResumeTimer() ได้ โดยไม่ต้องลาก Reference
+        // ผ่าน Inspector ทุกจุด (สมมติว่ามี StageSpawnerV1 แค่ 1 ตัว
+        // ต่อ Stage/Scene เหมือนที่ใช้งานอยู่ปัจจุบัน)
+        //
+        public static StageSpawnerV1 Instance { get; private set; }
+
+
         [Header("Spawn Groups")]
         [Tooltip("แต่ละกลุ่มมี Timeline ของตัวเอง")]
         [SerializeField]
@@ -85,21 +97,72 @@ namespace StageSystem
 
 
         // ============================================================
+        // TIMER PAUSE (เพิ่มใหม่)
+        // ============================================================
+        //
+        // ใช้โดย SceneDialogueV1 (หรือระบบอื่นในอนาคต เช่น Cutscene)
+        // เพื่อหยุด StageTimer ไม่ให้เดิน และหยุด Spawn Timeline ชั่วคราว
+        // โดยไม่ต้องยุ่งกับ Time.timeScale (ผู้เล่น/ศัตรูอื่นยังขยับได้
+        // ตามปกติถ้าระบบนั้นไม่ได้ผูกกับ StageTimer โดยตรง)
+        //
+        [Header("Timer Pause (ควบคุมโดยระบบภายนอก เช่น SceneDialogueV1)")]
+        [SerializeField]
+        private bool isTimerPaused = false;
+
+        public bool IsTimerPaused => isTimerPaused;
+
+        public void PauseTimer()
+        {
+            isTimerPaused = true;
+        }
+
+        public void ResumeTimer()
+        {
+            isTimerPaused = false;
+        }
+
+
+        // ============================================================
         // UNITY LIFECYCLE
         // ============================================================
 
         private void Awake()
         {
+            if (Instance != null && Instance != this)
+            {
+                Debug.LogWarning(
+                    "StageSpawnerV1: พบ StageSpawnerV1 มากกว่า 1 ตัวใน Scene " +
+                    "- Instance จะถูกแทนที่ด้วยตัวล่าสุด"
+                );
+            }
+
+            Instance = this;
+
             // ทุกครั้งที่ StageSpawner ถูกสร้างขึ้น
             // Timer ของ Stage นี้เริ่มจาก 0
             stageTimer = 0f;
+            isTimerPaused = false;
 
             ResetSpawnStates();
         }
 
 
+        private void OnDestroy()
+        {
+            if (Instance == this)
+                Instance = null;
+        }
+
+
         private void Update()
         {
+            // --------------------------------------------------------
+            // Stage Timer (ถูก Pause อยู่ เช่นระหว่าง Dialogue)
+            // --------------------------------------------------------
+            if (isTimerPaused)
+                return;
+
+
             // --------------------------------------------------------
             // Stage Timer
             // --------------------------------------------------------
@@ -180,6 +243,7 @@ namespace StageSystem
         public void ResetStageTimer()
         {
             stageTimer = 0f;
+            isTimerPaused = false;
 
             ResetSpawnStates();
         }

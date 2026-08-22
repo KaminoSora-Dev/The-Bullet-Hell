@@ -6,6 +6,7 @@ using PlayerSystem;
 using AudioSystem;
 using GameSystem;
 using BossSystem;
+using UISystem;
 
 namespace GameFlowSystem
 {
@@ -99,6 +100,23 @@ namespace GameFlowSystem
         [SerializeField] private GameObject gameLoseCanvas;
 
         // ============================================================
+        // KEYBOARD NAVIGATION
+        // ============================================================
+
+        [Header("Keyboard Navigation")]
+        [Tooltip(
+            "KeyboardMenuNavigator ที่แปะอยู่บน pauseCanvas (ไม่ใส่ก็ได้ ถ้าไม่ต้องการเลือกด้วยคีย์บอร์ด)\n" +
+            "Component นี้ทำงาน Auto ตาม pauseCanvas.SetActive() อยู่แล้ว - ใส่ Reference ไว้เพื่อ Validate เท่านั้น"
+        )]
+        [SerializeField] private KeyboardMenuNavigator pauseMenuNavigator;
+
+        [Tooltip(
+            "KeyboardMenuNavigator ที่แปะอยู่บน gameLoseCanvas (ไม่ใส่ก็ได้ ถ้าไม่ต้องการเลือกด้วยคีย์บอร์ด)\n" +
+            "Component นี้ทำงาน Auto ตาม gameLoseCanvas.SetActive() อยู่แล้ว - ใส่ Reference ไว้เพื่อ Validate เท่านั้น"
+        )]
+        [SerializeField] private KeyboardMenuNavigator gameLoseMenuNavigator;
+
+        // ============================================================
         // PAUSE
         // ============================================================
 
@@ -179,6 +197,7 @@ namespace GameFlowSystem
             DontDestroyOnLoad(gameObject);
 
             ValidateCanvasHierarchy();
+            ValidateKeyboardNavigators();
 
             SetCanvasVisible(pauseCanvas, false);
             SetCanvasVisible(gameLoseCanvas, false);
@@ -828,6 +847,34 @@ namespace GameFlowSystem
                     "GameFlowManager: gameLoseCanvas ไม่ได้เป็นลูกของ " +
                     "GameFlowManager GameObject - " +
                     "ย้ายเข้าไปเป็น Child ใน Hierarchy ก่อน",
+                    this);
+            }
+        }
+
+        /// <summary>
+        /// เช็คว่า KeyboardMenuNavigator (ถ้าใส่ Reference ไว้) อยู่เป็นลูกของ Canvas ที่มันควรควบคุมจริง
+        /// เพื่อให้ OnEnable/OnDisable ของ Navigator ทำงานสอดคล้องกับตอน Canvas ถูก SetActive
+        /// (ตัว Navigator เองไม่ต้องมีใครสั่ง Enable/Disable - มันอ่านสถานะ Active ของ GameObject ตัวเองโดยตรง)
+        /// </summary>
+        private void ValidateKeyboardNavigators()
+        {
+            if (pauseMenuNavigator != null && pauseCanvas != null &&
+                !pauseMenuNavigator.transform.IsChildOf(pauseCanvas.transform))
+            {
+                Debug.LogError(
+                    "GameFlowManager: pauseMenuNavigator ไม่ได้เป็นลูกของ " +
+                    "pauseCanvas - ต้องเป็นลูก (หรืออยู่บน GameObject เดียวกัน) " +
+                    "เพื่อให้เปิด/ปิดพร้อมกับ pauseCanvas อัตโนมัติ",
+                    this);
+            }
+
+            if (gameLoseMenuNavigator != null && gameLoseCanvas != null &&
+                !gameLoseMenuNavigator.transform.IsChildOf(gameLoseCanvas.transform))
+            {
+                Debug.LogError(
+                    "GameFlowManager: gameLoseMenuNavigator ไม่ได้เป็นลูกของ " +
+                    "gameLoseCanvas - ต้องเป็นลูก (หรืออยู่บน GameObject เดียวกัน) " +
+                    "เพื่อให้เปิด/ปิดพร้อมกับ gameLoseCanvas อัตโนมัติ",
                     this);
             }
         }

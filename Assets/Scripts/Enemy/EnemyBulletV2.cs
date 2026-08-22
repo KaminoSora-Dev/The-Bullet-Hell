@@ -7,7 +7,6 @@ using PoolingSystem;
 namespace EnemySystem
 {
     [RequireComponent(typeof(Rigidbody2D))]
-    [RequireComponent(typeof(CircleCollider2D))]
     public class EnemyBulletV2 : MonoBehaviour, IPoolable
     {
         [Header("Default Motion")]
@@ -48,7 +47,11 @@ namespace EnemySystem
         )]
         [SerializeField] private float spriteAngleOffset = -90f;
 
-        private CircleCollider2D col;
+        // เปลี่ยนจาก CircleCollider2D -> Collider2D (base class)
+        // เพื่อรองรับกระสุนหลายทรง (Box, Polygon, Capsule, ฯลฯ)
+        // โค้ดในคลาสนี้ใช้แค่ .isTrigger กับ .enabled ซึ่งเป็นของ Collider2D
+        // อยู่แล้ว ไม่จำเป็นต้องผูกกับ CircleCollider2D โดยเฉพาะ
+        private Collider2D col;
         private Rigidbody2D rb;
 
         private bool isDying;
@@ -101,10 +104,16 @@ namespace EnemySystem
             rb = GetComponent<Rigidbody2D>();
             rb.bodyType = RigidbodyType2D.Kinematic;
 
-            col = GetComponent<CircleCollider2D>();
+            // ดึง Collider2D แบบไหนก็ได้ที่ติดอยู่บน GameObject นี้
+            // (Circle, Box, Polygon, Capsule ฯลฯ) แทนการบังคับ Circle อย่างเดียว
+            col = GetComponent<Collider2D>();
 
             if (col != null)
                 col.isTrigger = true;
+            else
+                Debug.LogWarning(
+                    $"EnemyBulletV2 บน '{gameObject.name}' ไม่มี Collider2D ติดอยู่ - กระสุนจะไม่ชนอะไรเลย",
+                    gameObject);
 
             ResetMotionToPrefabDefaults();
             CachePlayer();

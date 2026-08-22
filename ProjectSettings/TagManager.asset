@@ -75,5 +75,8 @@ TagManager:
   - name: UI
     uniqueID: 3091577503
     locked: 0
+  - name: TransitionBox
+    uniqueID: 3051689417
+    locked: 0
   m_RenderingLayers:
   - Default
