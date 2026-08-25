@@ -201,7 +201,12 @@ namespace UISystem
 
             // จำลองการกดปุ่มเดียวกับตอนคลิกเมาส์ - ใช้ onClick เดิมของปุ่มทุกอย่าง
             if (target != null && target.interactable)
+            {
                 target.onClick.Invoke();
+
+                // ปิด Selector Indicator ทันทีที่กดยืนยันปุ่ม (กันไม่ให้ค้างอยู่ระหว่าง Transition ไปหน้าอื่น)
+                HideSelector();
+            }
         }
 
         // ============================================================

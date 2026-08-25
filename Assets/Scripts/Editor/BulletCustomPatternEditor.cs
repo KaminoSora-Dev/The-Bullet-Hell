@@ -90,7 +90,9 @@ namespace EnemySystem
 
                     EditorGUILayout.EndHorizontal();
                     EditorGUILayout.EndVertical();
-                    break;
+
+                    serializedObject.ApplyModifiedProperties();
+                    GUIUtility.ExitGUI();
                 }
 
                 EditorGUILayout.EndHorizontal();
@@ -116,6 +118,9 @@ namespace EnemySystem
                 group.FindPropertyRelative("initialDelay").floatValue = 0f;
                 group.FindPropertyRelative("loopPattern").boolValue = true;
                 group.FindPropertyRelative("bursts").arraySize = 0;
+
+                serializedObject.ApplyModifiedProperties();
+                GUIUtility.ExitGUI();
             }
         }
 
@@ -180,7 +185,9 @@ namespace EnemySystem
 
                     EditorGUILayout.EndHorizontal();
                     EditorGUILayout.EndVertical();
-                    break;
+
+                    serializedObject.ApplyModifiedProperties();
+                    GUIUtility.ExitGUI();
                 }
 
                 EditorGUILayout.EndHorizontal();
@@ -208,6 +215,9 @@ namespace EnemySystem
                 burst.FindPropertyRelative("delayAfter").floatValue = 0.5f;
                 burst.FindPropertyRelative("bulletPrefab").objectReferenceValue = null;
                 burst.FindPropertyRelative("bulletCount").intValue = 1;
+
+                serializedObject.ApplyModifiedProperties();
+                GUIUtility.ExitGUI();
             }
         }
 
@@ -390,7 +400,9 @@ namespace EnemySystem
 
                     EditorGUILayout.EndHorizontal();
                     EditorGUILayout.EndVertical();
-                    break;
+
+                    serializedObject.ApplyModifiedProperties();
+                    GUIUtility.ExitGUI();
                 }
 
                 EditorGUILayout.EndHorizontal();
@@ -423,6 +435,9 @@ namespace EnemySystem
                 transition.FindPropertyRelative("duration").floatValue = 1f;
                 transition.FindPropertyRelative("easing").enumValueIndex =
                     (int)SpeedEasing.Linear;
+
+                serializedObject.ApplyModifiedProperties();
+                GUIUtility.ExitGUI();
             }
         }
 
@@ -457,7 +472,9 @@ namespace EnemySystem
 
                     EditorGUILayout.EndHorizontal();
                     EditorGUILayout.EndVertical();
-                    break;
+
+                    serializedObject.ApplyModifiedProperties();
+                    GUIUtility.ExitGUI();
                 }
 
                 EditorGUILayout.EndHorizontal();
@@ -517,6 +534,9 @@ namespace EnemySystem
 
                 transition.FindPropertyRelative("easing").enumValueIndex =
                     (int)SpeedEasing.Linear;
+
+                serializedObject.ApplyModifiedProperties();
+                GUIUtility.ExitGUI();
             }
         }
 
@@ -566,7 +586,9 @@ namespace EnemySystem
 
                     EditorGUILayout.EndHorizontal();
                     EditorGUILayout.EndVertical();
-                    break;
+
+                    serializedObject.ApplyModifiedProperties();
+                    GUIUtility.ExitGUI();
                 }
 
                 EditorGUILayout.EndHorizontal();
@@ -630,6 +652,9 @@ namespace EnemySystem
 
                 trigger.FindPropertyRelative(
                     "destroySelfAfterFire").boolValue = false;
+
+                serializedObject.ApplyModifiedProperties();
+                GUIUtility.ExitGUI();
             }
         }
 

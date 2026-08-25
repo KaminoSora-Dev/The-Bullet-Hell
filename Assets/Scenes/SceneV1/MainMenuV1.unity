@@ -129,7 +129,7 @@ GameObject:
   m_Component:
   - component: {fileID: 55670818}
   - component: {fileID: 55670817}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: CircleRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -178,7 +178,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1203389793
-  m_SortingLayer: 7
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: ca71f85a293d4c34b880fd3b0100fcf4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -199,12 +199,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 55670816}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -960, y: -540, z: -90}
   m_LocalScale: {x: 32, y: 32, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 2118241570}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &111204572
 GameObject:
@@ -521,7 +521,7 @@ AudioSource:
   m_audioClip: {fileID: 8300000, guid: 8dd33a42308a3cc4fad510385018d539, type: 3}
   m_Resource: {fileID: 8300000, guid: 8dd33a42308a3cc4fad510385018d539, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.661
+  m_Volume: 0.25
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -950,7 +950,7 @@ GameObject:
   m_Component:
   - component: {fileID: 753070054}
   - component: {fileID: 753070053}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: CircleLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -999,7 +999,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1203389793
-  m_SortingLayer: 7
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: ca71f85a293d4c34b880fd3b0100fcf4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1020,12 +1020,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 753070052}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -960, y: -540, z: -90}
   m_LocalScale: {x: 32, y: 32, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 2118241570}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &878048641
 GameObject:
@@ -1583,7 +1583,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1243277879
-  m_SortingLayer: 8
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: -3166170222310549416, guid: 8f066cbbbffe0f84eb29c8540c3a33f9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1668,7 +1668,7 @@ MonoBehaviour:
   controlsFadeDuration: 1
   maxDeltaTimePerFrame: 0.05
   continueKey: 122
-  stageSceneName: StageTest1_V4
+  stageSceneName: Stage01
 --- !u!4 &1399822548
 Transform:
   m_ObjectHideFlags: 0
@@ -2172,7 +2172,7 @@ Canvas:
   m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
-  m_SortingLayerID: -1203389793
+  m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
 --- !u!1 &1787559519
@@ -2234,7 +2234,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1243277879
-  m_SortingLayer: 8
+  m_SortingLayer: 1
   m_SortingOrder: 1
   m_Sprite: {fileID: -3584381638911545897, guid: 24ba5f54660994540b1330974d6dd4ff, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2272,6 +2272,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1811661824}
   - component: {fileID: 1811661825}
+  - component: {fileID: 1811661826}
   m_Layer: 10
   m_Name: Video Player
   m_TagString: Untagged
@@ -2331,6 +2332,18 @@ VideoPlayer:
   m_WaitForFirstFrame: 1
   m_FrameReadyEventEnabled: 0
   m_VideoShaders: []
+--- !u!114 &1811661826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1811661823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d9bb6f5f8a2a004a9ec2140aa4b109c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2108762346
 GameObject:
   m_ObjectHideFlags: 0
@@ -2562,6 +2575,8 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 753070054}
+  - {fileID: 55670818}
   - {fileID: 608319205}
   - {fileID: 1565055890}
   - {fileID: 1516514746}
@@ -2599,5 +2614,3 @@ SceneRoots:
   - {fileID: 1046457078}
   - {fileID: 314533804}
   - {fileID: 1399822548}
-  - {fileID: 753070054}
-  - {fileID: 55670818}

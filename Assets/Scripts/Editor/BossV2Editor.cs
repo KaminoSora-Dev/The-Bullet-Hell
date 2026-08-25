@@ -242,7 +242,13 @@ namespace BossSystem
                     EditorGUILayout.EndHorizontal();
                     EditorGUILayout.EndVertical();
 
-                    break;
+                    // Commit การลบทันที แล้วยกเลิก GUI pass ปัจจุบัน
+                    // ป้องกันไม่ให้วาด nested array (เช่น movementPath
+                    // ของ phase อื่นที่ index shift ไปแล้ว) ต่อในเฟรม
+                    // เดียวกันด้วย property tree ที่ยังไม่อัปเดต
+                    // -> ต้นเหตุของ ArgumentOutOfRangeException
+                    serializedObject.ApplyModifiedProperties();
+                    GUIUtility.ExitGUI();
                 }
 
                 EditorGUILayout.EndHorizontal();
@@ -329,6 +335,12 @@ namespace BossSystem
                 bulletPattern.FindPropertyRelative(
                     "loop"
                 ).boolValue = true;
+
+                // เหตุผลเดียวกับตอนลบ: commit แล้วยกเลิก GUI pass
+                // ปัจจุบัน กัน nested array ตัวอื่นวาดต่อด้วย
+                // property tree ที่ยังไม่ sync กับ array ใหม่
+                serializedObject.ApplyModifiedProperties();
+                GUIUtility.ExitGUI();
             }
         }
 

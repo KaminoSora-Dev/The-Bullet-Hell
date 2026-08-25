@@ -20,8 +20,42 @@ namespace StageSystem
         [Tooltip("Waypoint ที่ใช้ override movementPath ของ Prefab")]
         public List<Transform> movementOverride = new List<Transform>();
 
+
+        // ============================================================
+        // SPAWN AMOUNT / SPAWN INTERVAL (เพิ่มใหม่)
+        // ============================================================
+        //
+        // ทำงานที่ระดับ Entry: 1 Entry สามารถ Spawn ศัตรูซ้ำจาก
+        // spawnPoint เดิม ได้หลายตัว โดยเว้นระยะห่างตาม spawnInterval
+        //
+        // ตัวอย่าง: spawnAmount = 3, spawnInterval = 0.5
+        // -> Spawn ที่ spawnTime, spawnTime + 0.5, spawnTime + 1.0
+        //
+        [Header("Repeat Spawn (Amount / Interval)")]
+        [Tooltip(
+            "จำนวนที่จะ Spawn ในรายการนี้\n" +
+            "ค่าต่ำสุดคือ 1 (Spawn ครั้งเดียวเหมือนเดิม) ห้ามต่ำกว่านี้"
+        )]
+        [Min(1)]
+        public int spawnAmount = 1;
+
+        [Tooltip(
+            "ระยะเวลาห่างระหว่างแต่ละครั้งที่ Spawn (วินาที)\n" +
+            "มีผลเฉพาะตอน spawnAmount > 1 เท่านั้น"
+        )]
+        [Min(0f)]
+        public float spawnInterval = 0f;
+
+
+        // ============================================================
+        // RUNTIME STATE (ไม่ Serialize - รีเซ็ตผ่าน ResetSpawnStates)
+        // ============================================================
+
         [System.NonSerialized]
-        public bool hasSpawned;
+        public bool hasSpawned; // true เมื่อ Spawn ครบ spawnAmount แล้ว
+
+        [System.NonSerialized]
+        public int spawnedCount; // จำนวนที่ Spawn ไปแล้วของรายการนี้
     }
 
 
@@ -211,21 +245,44 @@ namespace StageSystem
                     if (entry == null)
                         continue;
 
-                    // Spawn ไปแล้ว
+                    // Spawn ครบ spawnAmount แล้ว - ข้ามรายการนี้
                     if (entry.hasSpawned)
                         continue;
 
-                    // ยังไม่ถึงเวลา Spawn
-                    if (groupElapsed < entry.spawnTime)
+
+                    // --------------------------------------------------
+                    // Spawn Amount / Spawn Interval
+                    // --------------------------------------------------
+                    //
+                    // ป้องกันค่าผิดพลาดจาก Inspector (เช่น List element
+                    // ใหม่ที่ field initializer ไม่ทำงาน) - clamp
+                    // ให้ spawnAmount ต่ำสุด 1 และ spawnInterval ต่ำสุด 0
+                    // เสมอ ไม่ว่าค่าที่ Serialize มาจะเป็นเท่าไหร่
+                    //
+                    int amount = Mathf.Max(1, entry.spawnAmount);
+                    float interval = Mathf.Max(0f, entry.spawnInterval);
+
+                    // เวลาที่ Spawn ครั้งถัดไป (ลำดับที่ spawnedCount)
+                    // ควรเกิดขึ้น นับจาก spawnTime ของ Entry
+                    float nextSpawnAt = entry.spawnTime + (entry.spawnedCount * interval);
+
+                    // ยังไม่ถึงเวลา Spawn ครั้งถัดไป
+                    if (groupElapsed < nextSpawnAt)
                         continue;
 
 
-                    // ถึงเวลาแล้ว
+                    // ถึงเวลาแล้ว - Spawn จาก spawnPoint เดิมของ Entry
                     SpawnEnemy(entry);
+                    entry.spawnedCount++;
 
-                    // สำคัญ:
-                    // ตั้งเป็น true หลังจากพยายาม Spawn
-                    entry.hasSpawned = true;
+                    // Spawn ครบจำนวนที่กำหนดแล้ว
+                    if (entry.spawnedCount >= amount)
+                        entry.hasSpawned = true;
+
+                    // หมายเหตุ: ตั้งใจให้ Spawn ได้อย่างมากแค่ 1 ตัว
+                    // ต่อ Entry ต่อ 1 Frame (เหมือนโค้ดเดิม) เพื่อไม่ให้
+                    // เกิด Spawn กระโดดพร้อมกันหลายตัวถ้า Frame กระตุก
+                    // - รายการที่เหลือจะถูก Spawn ต่อใน Frame ถัดไป
                 }
             }
         }
@@ -272,6 +329,7 @@ namespace StageSystem
                         continue;
 
                     entry.hasSpawned = false;
+                    entry.spawnedCount = 0;
                 }
             }
         }

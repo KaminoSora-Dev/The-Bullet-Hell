@@ -97,8 +97,17 @@ namespace ItemSystem
             isFading = false;
             hasBeenCollected = false;
 
+            // Reset visual state every time the pooled item is spawned.
+            // UpdateFade() can reduce alpha to 0, so never reuse that visual state.
             if (itemSprite != null)
-                itemSprite.color = originalColor;
+            {
+                itemSprite.enabled = true;
+
+                Color resetColor = originalColor;
+                resetColor.a = originalColor.a > 0f ? originalColor.a : 1f;
+
+                itemSprite.color = resetColor;
+            }
 
             Collider2D pickupCollider = GetComponent<Collider2D>();
             if (pickupCollider != null)
@@ -146,6 +155,11 @@ namespace ItemSystem
         private void UpdateLifetime()
         {
             lifetimeTimer += Time.deltaTime;
+
+            // Prevent an invalid/non-positive lifetime from immediately fading
+            // a freshly spawned pooled item.
+            if (lifetime <= 0f)
+                return;
 
             if (lifetimeTimer >= lifetime)
             {
@@ -242,6 +256,10 @@ namespace ItemSystem
 
         private void ReturnToPool()
         {
+            // Prevent duplicate returns during the same frame/lifecycle.
+            if (!gameObject.activeSelf)
+                return;
+
             if (PoolManager.Instance != null)
             {
                 PoolManager.Instance.Return(gameObject);
