@@ -6,21 +6,16 @@ using UnityEngine.EventSystems;
 namespace UISystem
 {
     /// <summary>
-    /// ทำให้กลุ่มปุ่ม UI เลือกได้ด้วยลูกศรขึ้น/ลง (ปรับ Key ได้) + ยืนยันด้วยปุ่ม Z (ปรับ Key ได้)
-    /// เมาส์ยังคลิก/hover เลือกได้ตามปกติ เพราะไม่ได้แตะ onClick เดิมของปุ่มเลย
+    /// ทำให้กลุ่มปุ่ม UI เลือกได้ด้วยลูกศรขึ้น/ลง + ยืนยันด้วยปุ่ม Z
     ///
-    /// Component นี้ Reusable ใช้ได้กับทุกเมนู (MainMenu, Pause, GameLose ฯลฯ)
-    /// เพียงแปะไว้บน GameObject ของ Panel เมนูนั้นๆ แล้วลากปุ่มใส่ menuButtons
+    /// จุดสำคัญ:
+    /// - ไม่พึ่ง Unity UI Navigation ในการควบคุมด้วยคีย์บอร์ด
+    /// - ใช้ currentIndex ของตัวเองเป็นหลัก
+    /// - ทุกครั้งที่เข้าเมนูใหม่ จะ reset selection
+    /// - reset EventSystem.currentSelectedGameObject ด้วย
     ///
-    /// พฤติกรรม Auto:
-    /// - Component นี้เปิด/ปิดตาม GameObject ของ Panel เอง (ผ่าน OnEnable/OnDisable ของ Unity)
-    ///   ไม่ต้องมีใครมา Enable/Disable เองจากที่อื่น - แค่ SetActive Panel ตามปกติ
-    /// - ทุกครั้งที่ Panel ถูกเปิด (OnEnable) จะ Reset กลับไปเลือกปุ่มแรกที่กดได้ให้อัตโนมัติ
-    ///
-    /// Setup:
-    /// 1. แปะ Component นี้ไว้บน Canvas/Panel ของเมนูนั้นๆ
-    /// 2. ลากปุ่มเรียงตามลำดับ (บนลงล่าง ตามที่อยากให้ลูกศรขึ้น/ลงไล่) ใส่ menuButtons
-    /// 3. (ไม่บังคับ) ลาก Sprite/Image ซ้าย-ขวา ที่จะใช้เป็นตัวชี้ว่ากำลังเลือกปุ่มไหน ใส่ selectorLeft / selectorRight
+    /// Component นี้เป็น Scene-local โดยตั้งใจ
+    /// ไม่ควรใช้ DontDestroyOnLoad
     /// </summary>
     public class KeyboardMenuNavigator : MonoBehaviour
     {
@@ -29,16 +24,16 @@ namespace UISystem
 
         [Header("Selector Indicator (ไม่ใส่ก็ได้)")]
         [Tooltip(
-            "GameObject ที่มี SpriteRenderer ติดอยู่ (แบบเดียวกับกล่องดำ) - ฝั่งซ้ายของปุ่มที่กำลังเลือกอยู่\n" +
-            "ไม่จำเป็นต้องเป็น UI Element - Transform ธรรมดาก็ใช้ได้ เพราะ Navigator อ่านตำแหน่งปุ่มเป็น World Position อยู่แล้ว\n" +
-            "ตั้ง Sorting Layer ของ SpriteRenderer เอาเองใน Inspector เพื่อคุมว่าจะให้อยู่หน้า/หลังอะไร"
+            "GameObject ที่มี SpriteRenderer ติดอยู่ - ฝั่งซ้ายของปุ่มที่กำลังเลือกอยู่"
         )]
         [SerializeField] private Transform selectorLeft;
 
-        [Tooltip("GameObject ที่มี SpriteRenderer ติดอยู่ - ฝั่งขวาของปุ่มที่กำลังเลือกอยู่")]
+        [Tooltip(
+            "GameObject ที่มี SpriteRenderer ติดอยู่ - ฝั่งขวาของปุ่มที่กำลังเลือกอยู่"
+        )]
         [SerializeField] private Transform selectorRight;
 
-        [Tooltip("ระยะห่างจากขอบปุ่ม (หน่วยเดียวกับ World Space - ปรับตามขนาด Sprite จริง)")]
+        [Tooltip("ระยะห่างจากขอบปุ่ม")]
         [SerializeField] private float selectorPadding = 0.3f;
 
         [Header("Input")]
@@ -46,19 +41,26 @@ namespace UISystem
         [SerializeField] private KeyCode downKey = KeyCode.DownArrow;
         [SerializeField] private KeyCode confirmKey = KeyCode.Z;
 
-        [Header("Click Sound (ไม่ใส่ก็ได้)")]
-        [Tooltip("ไม่ใส่ = จะพยายามหา AudioSource บน GameObject เดียวกันให้เอง")]
+        [Header("Click Sound")]
+        [Tooltip("ไม่ใส่ = จะพยายามหา AudioSource บน GameObject เดียวกัน")]
         [SerializeField] private AudioSource audioSource;
-        [Tooltip("เสียงสั้นๆ ตอนกดปุ่ม - เล่นเหมือนกันทั้งตอนคลิกเมาส์และกด Z เพราะทั้งคู่วิ่งผ่าน onClick เดียวกัน")]
+
         [SerializeField] private AudioClip clickSound;
 
         private int currentIndex = -1;
         private bool inputEnabled = true;
+
         private bool hoverRelaysAttached = false;
         private bool clickSoundAttached = false;
 
-        /// <summary>สถานะ Input ปัจจุบัน - true = รับลูกศร/Z ปกติ</summary>
+        /// <summary>
+        /// สถานะ Input ปัจจุบัน
+        /// </summary>
         public bool InputEnabled => inputEnabled;
+
+        // ============================================================
+        // UNITY
+        // ============================================================
 
         private void Awake()
         {
@@ -66,20 +68,22 @@ namespace UISystem
             AttachClickSoundListeners();
         }
 
-        private void OnDestroy()
-        {
-            DetachClickSoundListeners();
-        }
-
         private void OnEnable()
         {
-            inputEnabled = true;
-            ResetSelectionToFirst();
+            // สำคัญ:
+            // ทุกครั้งที่ Main Menu ถูกเปิดใหม่ ให้ reset state ทั้งหมด
+            // ไม่ปล่อยให้ EventSystem หรือ currentIndex จากรอบก่อนมีผล
+            ResetForMenuEntry();
         }
 
         private void OnDisable()
         {
             HideSelector();
+        }
+
+        private void OnDestroy()
+        {
+            DetachClickSoundListeners();
         }
 
         private void Update()
@@ -102,19 +106,76 @@ namespace UISystem
 
         /// <summary>
         /// เปิด/ปิดการรับ Input คีย์บอร์ด
-        /// ใช้ตอนมี Transition อื่นกำลังทำงานอยู่ (เช่น TransitionBox กำลังเคลื่อนที่)
-        /// เพื่อกันผู้เล่นกด Z/ลูกศร ระหว่างนั้น
         /// </summary>
         public void SetInputEnabled(bool value)
         {
             inputEnabled = value;
         }
 
-        /// <summary>เลือกกลับไปที่ปุ่มแรกที่ยังกดได้ (interactable) - เรียกอัตโนมัติทุกครั้งที่ Panel เปิด</summary>
+        /// <summary>
+        /// Reset Navigator สำหรับการเข้าเมนูใหม่
+        ///
+        /// ทำ 3 อย่าง:
+        /// 1. เปิด Keyboard Input
+        /// 2. เลือกปุ่มแรกที่กดได้
+        /// 3. ล้าง EventSystem selection เก่าจาก Scene ก่อนหน้า
+        ///
+        /// จุดนี้สำคัญมากสำหรับกรณี:
+        /// MainMenu -> Gameplay -> MainMenu
+        /// </summary>
+        public void ResetForMenuEntry()
+        {
+            inputEnabled = true;
+            currentIndex = -1;
+
+            ResetSelectionToFirst();
+
+            ResetUnityEventSystemSelection();
+        }
+
+        /// <summary>
+        /// เลือกกลับไปปุ่มแรกที่ interactable
+        /// </summary>
         public void ResetSelectionToFirst()
         {
             int firstInteractable = FindNextInteractable(-1, 1);
+
             SelectIndex(firstInteractable);
+        }
+
+        // ============================================================
+        // UNITY EVENTSYSTEM RESET
+        // ============================================================
+
+        /// <summary>
+        /// ล้าง selection ของ Unity EventSystem ที่อาจค้างจาก Scene ก่อนหน้า
+        ///
+        /// ถึง Navigator จะใช้ currentIndex ของตัวเองในการรับ Input
+        /// แต่การ reset EventSystem ทำให้ UI อยู่ในสถานะสะอาดด้วย
+        /// </summary>
+        private void ResetUnityEventSystemSelection()
+        {
+            EventSystem eventSystem = EventSystem.current;
+
+            if (eventSystem == null)
+                return;
+
+            // ล้าง object ที่ถูกเลือกจาก Scene ก่อนหน้า
+            eventSystem.SetSelectedGameObject(null);
+
+            // เลือกปุ่มปัจจุบันใหม่
+            if (currentIndex < 0 ||
+                currentIndex >= menuButtons.Count)
+            {
+                return;
+            }
+
+            Button button = menuButtons[currentIndex];
+
+            if (button == null || !button.interactable)
+                return;
+
+            eventSystem.SetSelectedGameObject(button.gameObject);
         }
 
         // ============================================================
@@ -124,12 +185,17 @@ namespace UISystem
         private void MoveSelection(int direction)
         {
             int next = FindNextInteractable(currentIndex, direction);
+
             SelectIndex(next);
+
+            // อัปเดต Unity EventSystem ด้วย
+            // เพื่อให้ selection ของระบบ UI และ Navigator ตรงกัน
+            ResetUnityEventSystemSelection();
         }
 
         /// <summary>
-        /// หาปุ่มถัดไปที่ interactable ในทิศทางที่กำหนด โดยไม่ Wrap กลับไปอีกฝั่ง
-        /// (ชนขอบบนสุด/ล่างสุดแล้วหยุดอยู่ตรงนั้น)
+        /// หาปุ่มถัดไปที่ interactable
+        /// ไม่ Wrap กลับอีกฝั่ง
         /// </summary>
         private int FindNextInteractable(int fromIndex, int direction)
         {
@@ -144,24 +210,32 @@ namespace UISystem
                 index += direction;
 
                 if (index < 0 || index >= count)
-                    break; // ชนขอบ - ไม่ Wrap
+                    break;
 
-                if (menuButtons[index] != null && menuButtons[index].interactable)
+                if (menuButtons[index] != null &&
+                    menuButtons[index].interactable)
+                {
                     return index;
+                }
             }
 
-            // หาไม่เจอตัวถัดไปที่กดได้ - อยู่ตำแหน่งเดิมถ้ายังกดได้
-            if (fromIndex >= 0 && fromIndex < count &&
-                menuButtons[fromIndex] != null && menuButtons[fromIndex].interactable)
+            // ถ้าปุ่มปัจจุบันยังกดได้ ให้ค้างอยู่ที่เดิม
+            if (fromIndex >= 0 &&
+                fromIndex < count &&
+                menuButtons[fromIndex] != null &&
+                menuButtons[fromIndex].interactable)
             {
                 return fromIndex;
             }
 
-            // ไม่งั้นหาตัวแรกสุดที่กดได้ทั้งลิสต์
+            // ถ้าไม่มี currentIndex ให้หาปุ่มแรกที่กดได้
             for (int i = 0; i < count; i++)
             {
-                if (menuButtons[i] != null && menuButtons[i].interactable)
+                if (menuButtons[i] != null &&
+                    menuButtons[i].interactable)
+                {
                     return i;
+                }
             }
 
             return -1;
@@ -169,7 +243,9 @@ namespace UISystem
 
         private void SelectIndex(int index)
         {
-            if (menuButtons == null || index < 0 || index >= menuButtons.Count)
+            if (menuButtons == null ||
+                index < 0 ||
+                index >= menuButtons.Count)
             {
                 currentIndex = -1;
                 HideSelector();
@@ -177,36 +253,51 @@ namespace UISystem
             }
 
             currentIndex = index;
+
             UpdateSelectorPosition();
         }
 
-        /// <summary>เรียกจาก Hover Relay ตอนเมาส์ชี้ปุ่ม - ทำให้ Hover ก็เลือกปุ่มนั้นเหมือนกดลูกศร</summary>
+        /// <summary>
+        /// เรียกจาก Hover Relay เมื่อเมาส์ชี้ปุ่ม
+        /// </summary>
         private void OnPointerEnterButton(int index)
         {
-            if (menuButtons == null || index < 0 || index >= menuButtons.Count)
+            if (menuButtons == null ||
+                index < 0 ||
+                index >= menuButtons.Count)
+            {
                 return;
+            }
 
-            if (menuButtons[index] == null || !menuButtons[index].interactable)
+            Button button = menuButtons[index];
+
+            if (button == null || !button.interactable)
                 return;
 
             SelectIndex(index);
+
+            ResetUnityEventSystemSelection();
         }
 
         private void ActivateSelected()
         {
-            if (menuButtons == null || currentIndex < 0 || currentIndex >= menuButtons.Count)
+            if (menuButtons == null ||
+                currentIndex < 0 ||
+                currentIndex >= menuButtons.Count)
+            {
                 return;
+            }
 
             Button target = menuButtons[currentIndex];
 
-            // จำลองการกดปุ่มเดียวกับตอนคลิกเมาส์ - ใช้ onClick เดิมของปุ่มทุกอย่าง
-            if (target != null && target.interactable)
-            {
-                target.onClick.Invoke();
+            if (target == null || !target.interactable)
+                return;
 
-                // ปิด Selector Indicator ทันทีที่กดยืนยันปุ่ม (กันไม่ให้ค้างอยู่ระหว่าง Transition ไปหน้าอื่น)
-                HideSelector();
-            }
+            // ใช้ onClick เดิมของ Button
+            target.onClick.Invoke();
+
+            // ปิด selector ระหว่าง Transition
+            HideSelector();
         }
 
         // ============================================================
@@ -215,52 +306,77 @@ namespace UISystem
 
         private void UpdateSelectorPosition()
         {
-            if (currentIndex < 0 || currentIndex >= menuButtons.Count)
+            if (currentIndex < 0 ||
+                currentIndex >= menuButtons.Count)
+            {
                 return;
+            }
 
             Button target = menuButtons[currentIndex];
+
             if (target == null)
                 return;
 
-            RectTransform buttonRect = target.GetComponent<RectTransform>();
+            RectTransform buttonRect =
+                target.GetComponent<RectTransform>();
+
             if (buttonRect == null)
                 return;
 
             Vector3 center = buttonRect.position;
-            float halfWidth = (buttonRect.rect.width * buttonRect.lossyScale.x) * 0.5f;
+
+            float halfWidth =
+                buttonRect.rect.width *
+                buttonRect.lossyScale.x *
+                0.5f;
 
             if (selectorLeft != null)
             {
                 selectorLeft.gameObject.SetActive(true);
-                selectorLeft.position = center + new Vector3(-(halfWidth + selectorPadding), 0f, 0f);
+
+                selectorLeft.position =
+                    center +
+                    new Vector3(
+                        -(halfWidth + selectorPadding),
+                        0f,
+                        0f
+                    );
             }
 
             if (selectorRight != null)
             {
                 selectorRight.gameObject.SetActive(true);
-                selectorRight.position = center + new Vector3(halfWidth + selectorPadding, 0f, 0f);
+
+                selectorRight.position =
+                    center +
+                    new Vector3(
+                        halfWidth + selectorPadding,
+                        0f,
+                        0f
+                    );
             }
         }
 
         private void HideSelector()
         {
-            if (selectorLeft != null) selectorLeft.gameObject.SetActive(false);
-            if (selectorRight != null) selectorRight.gameObject.SetActive(false);
+            if (selectorLeft != null)
+                selectorLeft.gameObject.SetActive(false);
+
+            if (selectorRight != null)
+                selectorRight.gameObject.SetActive(false);
         }
 
         // ============================================================
         // CLICK SOUND
         // ============================================================
 
-        /// <summary>
-        /// ผูกเสียงคลิกเข้ากับ onClick ของทุกปุ่มโดยตรง
-        /// เพราะทั้งคลิกเมาส์ และกด Z (ซึ่งเรียก onClick.Invoke() ใน ActivateSelected())
-        /// วิ่งผ่าน Event ตัวเดียวกันเป๊ะ - เลยได้เสียงเดียวกันทั้งสองทางโดยไม่ต้องเช็คแยก
-        /// </summary>
         private void AttachClickSoundListeners()
         {
-            if (clickSoundAttached || menuButtons == null)
+            if (clickSoundAttached ||
+                menuButtons == null)
+            {
                 return;
+            }
 
             clickSoundAttached = true;
 
@@ -269,11 +385,12 @@ namespace UISystem
 
             for (int i = 0; i < menuButtons.Count; i++)
             {
-                Button btn = menuButtons[i];
-                if (btn == null)
+                Button button = menuButtons[i];
+
+                if (button == null)
                     continue;
 
-                btn.onClick.AddListener(PlayClickSound);
+                button.onClick.AddListener(PlayClickSound);
             }
         }
 
@@ -284,18 +401,22 @@ namespace UISystem
 
             for (int i = 0; i < menuButtons.Count; i++)
             {
-                Button btn = menuButtons[i];
-                if (btn == null)
+                Button button = menuButtons[i];
+
+                if (button == null)
                     continue;
 
-                btn.onClick.RemoveListener(PlayClickSound);
+                button.onClick.RemoveListener(PlayClickSound);
             }
         }
 
         private void PlayClickSound()
         {
-            if (audioSource != null && clickSound != null)
+            if (audioSource != null &&
+                clickSound != null)
+            {
                 audioSource.PlayOneShot(clickSound);
+            }
         }
 
         // ============================================================
@@ -304,41 +425,55 @@ namespace UISystem
 
         private void AttachHoverRelays()
         {
-            if (hoverRelaysAttached || menuButtons == null)
+            if (hoverRelaysAttached ||
+                menuButtons == null)
+            {
                 return;
+            }
 
             hoverRelaysAttached = true;
 
             for (int i = 0; i < menuButtons.Count; i++)
             {
-                Button btn = menuButtons[i];
-                if (btn == null)
+                Button button = menuButtons[i];
+
+                if (button == null)
                     continue;
 
-                HoverRelay relay = btn.gameObject.GetComponent<HoverRelay>();
+                HoverRelay relay =
+                    button.gameObject.GetComponent<HoverRelay>();
+
                 if (relay == null)
-                    relay = btn.gameObject.AddComponent<HoverRelay>();
+                {
+                    relay =
+                        button.gameObject.AddComponent<HoverRelay>();
+                }
 
                 relay.Setup(this, i);
             }
         }
 
         /// <summary>
-        /// ติดอยู่บนปุ่มแต่ละอันแบบอัตโนมัติ (AddComponent ให้เอง)
-        /// ใช้ส่ง Hover Event กลับมาที่ Navigator เท่านั้น - ไม่แตะ onClick เดิมของปุ่มเลย
+        /// Component ภายในสำหรับส่ง Pointer Enter
+        /// กลับมาที่ Navigator
         /// </summary>
-        private class HoverRelay : MonoBehaviour, IPointerEnterHandler
+        private class HoverRelay :
+            MonoBehaviour,
+            IPointerEnterHandler
         {
             private KeyboardMenuNavigator owner;
             private int index;
 
-            public void Setup(KeyboardMenuNavigator owner, int index)
+            public void Setup(
+                KeyboardMenuNavigator owner,
+                int index)
             {
                 this.owner = owner;
                 this.index = index;
             }
 
-            public void OnPointerEnter(PointerEventData eventData)
+            public void OnPointerEnter(
+                PointerEventData eventData)
             {
                 owner?.OnPointerEnterButton(index);
             }

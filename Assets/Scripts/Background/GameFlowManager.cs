@@ -11,16 +11,10 @@ using UISystem;
 namespace GameFlowSystem
 {
     /// <summary>
-    /// ศูนย์กลาง Gameplay Flow ของเกม
-    ///
-    /// รับผิดชอบ:
-    /// - Pause / Resume
-    /// - Game Lose
-    /// - Boss Defeat -> Scene Transition
-    /// - Final Fade -> Main Menu
-    ///
-    /// GameFlowManager เป็น Persistent Manager
-    /// จึงอยู่ข้าม Scene แต่ UI ของ Main Menu ไม่ควรอยู่ข้าม Scene
+    /// ศูนย์กลาง Gameplay Flow
+    /// 
+    /// เป็น Persistent Manager
+    /// และอยู่ข้าม Scene ด้วย DontDestroyOnLoad
     /// </summary>
     public class GameFlowManager : MonoBehaviour
     {
@@ -40,122 +34,108 @@ namespace GameFlowSystem
         // SCENE
         // ============================================================
 
-        [Header("Scene")]
-        [Tooltip("Scene แรกของเกม / Stage 1")]
-        [SerializeField] private string firstSceneName = "Stage1";
+        [Header("Scene Settings")]
 
-        [Tooltip("Main Menu Scene")]
-        [SerializeField] private string mainMenuSceneName = "MainMenu";
+        [Tooltip("ชื่อ Scene ด่านแรกเมื่อเริ่มเล่นใหม่ทั้งหมด (Start Over)")]
+        [SerializeField]
+        private string firstSceneName = "Stage01";
+
+        [Tooltip("ชื่อ Scene ด่านถัดไปที่จะโหลดเมื่อชนะบอส")]
+        [SerializeField]
+        private string nextSceneName = "Stage02";
+
+        [Tooltip("ติ๊กช่องนี้ถ้าด่านปัจจุบันเป็นด่านสุดท้ายของเกม")]
+        [SerializeField]
+        private bool isFinalStage = false;
+
+        [Tooltip("ชื่อ Scene ของ Main Menu")]
+        [SerializeField]
+        private string mainMenuSceneName = "MainMenu";
 
         // ============================================================
         // BOSS FLOW
         // ============================================================
 
         [Header("Boss Defeat Flow")]
-        [Tooltip(
-            "ถ้าเปิดไว้ เมื่อ Boss ถูกกำจัดครบทุก Phase " +
-            "GameFlowManager จะเริ่มระบบเปลี่ยน Scene อัตโนมัติ"
-        )]
-        [SerializeField] private bool transitionOnBossDefeated = true;
+
+        [SerializeField]
+        private bool transitionOnBossDefeated = true;
 
         [Min(0f)]
-        [Tooltip(
-            "เวลาพักหลัง Boss ตายก่อนเริ่มเปลี่ยน Scene\n" +
-            "ใช้ Unscaled Time"
-        )]
-        [SerializeField] private float bossDefeatDelay = 1.5f;
+        [SerializeField]
+        private float bossDefeatDelay = 1.5f;
 
-        [Tooltip(
-            "ถ้า Boss อยู่ Scene สุดท้ายและเปิดไว้ " +
-            "จะ Fade จอดำแล้วกลับ Main Menu"
-        )]
-        [SerializeField] private bool fadeOnFinalScene = true;
+        [SerializeField]
+        private bool fadeOnFinalScene = true;
 
         // ============================================================
         // FINAL FADE
         // ============================================================
 
         [Header("Final Fade")]
-        [Tooltip(
-            "CanvasGroup ของ Square/Panel สีดำที่ใช้ Fade จอทั้งหมด"
-        )]
-        [SerializeField] private CanvasGroup finalFadeCanvasGroup;
+
+        [SerializeField]
+        private CanvasGroup finalFadeCanvasGroup;
 
         [Min(0f)]
-        [SerializeField] private float finalFadeDuration = 2f;
+        [SerializeField]
+        private float finalFadeDuration = 2f;
 
         // ============================================================
         // UI
         // ============================================================
 
         [Header("UI")]
-        [Tooltip(
-            "Canvas/GameObject ของหน้า Pause - ต้องเป็นลูกของ GameFlowManager"
-        )]
-        [SerializeField] private GameObject pauseCanvas;
 
-        [Tooltip(
-            "Canvas/GameObject ของหน้า Game Lose - ต้องเป็นลูกของ GameFlowManager"
-        )]
-        [SerializeField] private GameObject gameLoseCanvas;
+        [SerializeField]
+        private GameObject pauseCanvas;
+
+        [SerializeField]
+        private GameObject gameLoseCanvas;
 
         // ============================================================
-        // KEYBOARD NAVIGATION
+        // KEYBOARD
         // ============================================================
 
         [Header("Keyboard Navigation")]
-        [Tooltip(
-            "KeyboardMenuNavigator ที่แปะอยู่บน pauseCanvas (ไม่ใส่ก็ได้ ถ้าไม่ต้องการเลือกด้วยคีย์บอร์ด)\n" +
-            "Component นี้ทำงาน Auto ตาม pauseCanvas.SetActive() อยู่แล้ว - ใส่ Reference ไว้เพื่อ Validate เท่านั้น"
-        )]
-        [SerializeField] private KeyboardMenuNavigator pauseMenuNavigator;
 
-        [Tooltip(
-            "KeyboardMenuNavigator ที่แปะอยู่บน gameLoseCanvas (ไม่ใส่ก็ได้ ถ้าไม่ต้องการเลือกด้วยคีย์บอร์ด)\n" +
-            "Component นี้ทำงาน Auto ตาม gameLoseCanvas.SetActive() อยู่แล้ว - ใส่ Reference ไว้เพื่อ Validate เท่านั้น"
-        )]
-        [SerializeField] private KeyboardMenuNavigator gameLoseMenuNavigator;
+        [SerializeField]
+        private KeyboardMenuNavigator pauseMenuNavigator;
+
+        [SerializeField]
+        private KeyboardMenuNavigator gameLoseMenuNavigator;
 
         // ============================================================
         // PAUSE
         // ============================================================
 
         [Header("Pause Input")]
-        [SerializeField] private KeyCode pauseKey = KeyCode.Escape;
+
+        [SerializeField]
+        private KeyCode pauseKey = KeyCode.Escape;
 
         // ============================================================
         // GAME LOSE
         // ============================================================
 
         [Header("Game Lose Delay")]
+
         [Min(0f)]
-        [SerializeField] private float gameLoseDelay = 1.5f;
+        [SerializeField]
+        private float gameLoseDelay = 1.5f;
 
         // ============================================================
         // STATE
         // ============================================================
 
-        public FlowState CurrentState { get; private set; } =
-            FlowState.Playing;
+        public FlowState CurrentState { get; private set; } = FlowState.Playing;
 
-        public bool IsPaused =>
-            CurrentState == FlowState.Paused;
+        public bool IsPaused => CurrentState == FlowState.Paused;
+        public bool IsPendingGameLose => CurrentState == FlowState.PendingGameLose;
+        public bool IsGameLost => CurrentState == FlowState.GameLost;
+        public bool IsPendingBossTransition => CurrentState == FlowState.PendingBossTransition;
+        public bool IsEnding => CurrentState == FlowState.Ending;
 
-        public bool IsPendingGameLose =>
-            CurrentState == FlowState.PendingGameLose;
-
-        public bool IsGameLost =>
-            CurrentState == FlowState.GameLost;
-
-        public bool IsPendingBossTransition =>
-            CurrentState == FlowState.PendingBossTransition;
-
-        public bool IsEnding =>
-            CurrentState == FlowState.Ending;
-
-        /// <summary>
-        /// ล็อกการยิง/Spell ระหว่าง Boss Defeat Delay และ Final Ending
-        /// </summary>
         public bool IsPlayerActionLocked =>
             CurrentState == FlowState.PendingBossTransition ||
             CurrentState == FlowState.Ending;
@@ -182,6 +162,19 @@ namespace GameFlowSystem
         private bool runFinishRecorded;
 
         // ============================================================
+        // PUBLIC SETUP API
+        // ============================================================
+
+        /// <summary>
+        /// ใช้สำหรับเปลี่ยนชื่อด่านถัดไปผ่านโค้ดในระหว่างเล่น
+        /// </summary>
+        public void SetNextSceneName(string sceneName, bool isFinal = false)
+        {
+            nextSceneName = sceneName;
+            isFinalStage = isFinal;
+        }
+
+        // ============================================================
         // UNITY
         // ============================================================
 
@@ -201,10 +194,12 @@ namespace GameFlowSystem
 
             SetCanvasVisible(pauseCanvas, false);
             SetCanvasVisible(gameLoseCanvas, false);
+
             ResetFinalFadeVisual();
 
             finalFadeFinished = false;
             runFinishRecorded = false;
+
             Time.timeScale = 1f;
         }
 
@@ -260,8 +255,7 @@ namespace GameFlowSystem
         {
             if (PlayerStatsManager.Instance != null)
             {
-                PlayerStatsManager.Instance.OnGameOver +=
-                    HandlePlayerGameOver;
+                PlayerStatsManager.Instance.OnGameOver += HandlePlayerGameOver;
             }
         }
 
@@ -269,8 +263,7 @@ namespace GameFlowSystem
         {
             if (PlayerStatsManager.Instance != null)
             {
-                PlayerStatsManager.Instance.OnGameOver -=
-                    HandlePlayerGameOver;
+                PlayerStatsManager.Instance.OnGameOver -= HandlePlayerGameOver;
             }
         }
 
@@ -284,15 +277,18 @@ namespace GameFlowSystem
                 return;
 
             if (CurrentState == FlowState.Playing)
+            {
                 PauseGame();
+            }
             else if (CurrentState == FlowState.Paused)
+            {
                 ResumeGame();
+            }
         }
 
         public void PauseGame()
         {
-            if (CurrentState != FlowState.Playing ||
-                IsLoading())
+            if (CurrentState != FlowState.Playing || IsLoading())
             {
                 return;
             }
@@ -312,7 +308,9 @@ namespace GameFlowSystem
         public void ResumeGame()
         {
             if (CurrentState != FlowState.Paused)
+            {
                 return;
+            }
 
             AudioManager.Instance?.ResumeSFX();
             MusicManager.Instance?.ResumeMusic();
@@ -355,19 +353,19 @@ namespace GameFlowSystem
             gameLoseTimer += Time.unscaledDeltaTime;
 
             if (gameLoseTimer >= gameLoseDelay)
+            {
                 ShowGameLose();
+            }
         }
 
         public void ShowGameLose()
         {
-            if (CurrentState == FlowState.Ending ||
-                CurrentState == FlowState.GameLost)
+            if (CurrentState == FlowState.Ending || CurrentState == FlowState.GameLost)
             {
                 return;
             }
 
             CurrentState = FlowState.GameLost;
-
             Time.timeScale = 0f;
 
             AudioManager.Instance?.PauseSFX();
@@ -382,16 +380,13 @@ namespace GameFlowSystem
         public void ContinueAfterGameLose()
         {
             if (CurrentState != FlowState.GameLost)
-                return;
-
-            if (ScoreManager.Instance != null)
             {
-                ScoreManager.Instance.SavePersistentHiScoreIfHigher();
-                ScoreManager.Instance.ResetScore();
+                return;
             }
 
-            if (PlayerStatsManager.Instance != null)
-                PlayerStatsManager.Instance.ResetForGameLoseContinue();
+            ScoreManager.Instance?.SavePersistentHiScoreIfHigher();
+            ScoreManager.Instance?.ResetScore();
+            PlayerStatsManager.Instance?.ResetForGameLoseContinue();
 
             RespawnPlayer();
 
@@ -408,27 +403,22 @@ namespace GameFlowSystem
 
         private void RespawnPlayer()
         {
-            GameObject player =
-                GameObject.FindGameObjectWithTag("Player");
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
 
             if (player == null)
                 return;
 
-            if (player.TryGetComponent<IPlayerRespawnable>(
-                out var respawnable))
+            if (player.TryGetComponent<IPlayerRespawnable>(out var respawnable))
             {
                 respawnable.Respawn();
                 return;
             }
 
-            Debug.LogWarning(
-                "GameFlowManager: Player ยังไม่ได้ implement " +
-                "IPlayerRespawnable จึงยังไม่สามารถทำ Respawn logic " +
-                "ที่สมบูรณ์ได้");
+            Debug.LogWarning("GameFlowManager: Player ยังไม่ได้ implement IPlayerRespawnable");
         }
 
         // ============================================================
-        // BOSS DEFEAT
+        // BOSS
         // ============================================================
 
         private void HandleAnyBossDefeated()
@@ -436,20 +426,16 @@ namespace GameFlowSystem
             if (!transitionOnBossDefeated)
                 return;
 
-            if (CurrentState == FlowState.PendingBossTransition ||
-                CurrentState == FlowState.Ending)
+            if (CurrentState == FlowState.PendingBossTransition || CurrentState == FlowState.Ending)
             {
                 return;
             }
 
-            if (CurrentState == FlowState.GameLost ||
-                CurrentState == FlowState.PendingGameLose)
+            if (CurrentState == FlowState.GameLost || CurrentState == FlowState.PendingGameLose)
             {
                 return;
             }
 
-            // BossV2 เพิ่ม Score ก่อนยิง Event นี้
-            // จึง Save checkpoint หลัง Score ล่าสุดถูกเพิ่มแล้ว
             PlayerStatsManager.Instance?.SaveStageCheckpoint();
             ScoreManager.Instance?.SavePersistentHiScoreIfHigher();
 
@@ -460,7 +446,6 @@ namespace GameFlowSystem
         {
             CurrentState = FlowState.PendingBossTransition;
             bossDefeatTimer = 0f;
-
             Time.timeScale = 1f;
 
             SetCanvasVisible(pauseCanvas, false);
@@ -472,7 +457,9 @@ namespace GameFlowSystem
             bossDefeatTimer += Time.unscaledDeltaTime;
 
             if (bossDefeatTimer < bossDefeatDelay)
+            {
                 return;
+            }
 
             ExecuteBossDefeatTransition();
         }
@@ -480,9 +467,12 @@ namespace GameFlowSystem
         private void ExecuteBossDefeatTransition()
         {
             if (CurrentState != FlowState.PendingBossTransition)
+            {
                 return;
+            }
 
-            if (IsFinalScene())
+            // ถ้าเป็นด่านสุดท้าย หรือไม่ได้ตั้งชื่อด่านถัดไป จะเข้าสู่ฉากจบ (Ending)
+            if (isFinalStage || string.IsNullOrWhiteSpace(nextSceneName))
             {
                 if (fadeOnFinalScene)
                     BeginFinalFade();
@@ -492,18 +482,8 @@ namespace GameFlowSystem
                 return;
             }
 
-            if (TryGetNextSceneName(out string nextSceneName))
-            {
-                BeginSceneTransition(nextSceneName);
-            }
-            else
-            {
-                Debug.LogWarning(
-                    "GameFlowManager: Boss ถูกกำจัดแล้ว แต่ไม่พบ Scene ถัดไป " +
-                    "ใน Build Settings");
-
-                FinishGameWithoutFade();
-            }
+            // เปลี่ยนไปยังด่านตามที่กำหนดใน nextSceneName
+            BeginSceneTransition(nextSceneName);
         }
 
         // ============================================================
@@ -516,9 +496,10 @@ namespace GameFlowSystem
                 return;
 
             if (CurrentState == FlowState.GameLost)
+            {
                 RecordRunAsFinished(false);
+            }
 
-            // Restart = กลับ Checkpoint ล่าสุดจาก Boss ก่อนหน้า
             if (PlayerStatsManager.Instance != null)
             {
                 if (!PlayerStatsManager.Instance.RestoreLastStageCheckpoint())
@@ -534,9 +515,7 @@ namespace GameFlowSystem
 
             ResetEndingRuntimeState();
 
-            BeginSceneTransition(
-                SceneManager.GetActiveScene().name
-            );
+            BeginSceneTransition(SceneManager.GetActiveScene().name);
         }
 
         public void StartOver()
@@ -545,7 +524,9 @@ namespace GameFlowSystem
                 return;
 
             if (CurrentState == FlowState.GameLost)
+            {
                 RecordRunAsFinished(false);
+            }
 
             PlayerStatsManager.Instance?.ResetRun();
             ScoreManager.Instance?.ResetScore();
@@ -561,59 +542,63 @@ namespace GameFlowSystem
                 return;
 
             if (CurrentState == FlowState.GameLost)
+            {
                 RecordRunAsFinished(false);
+            }
 
             PlayerStatsManager.Instance?.ResetRun();
             ScoreManager.Instance?.ResetScore();
 
-            ResetEndingRuntimeState();
+            PrepareForMainMenu();
 
             BeginSceneTransition(mainMenuSceneName);
         }
 
-        public void HandleBossDefeated(
-            string ignoredNextSceneName,
-            bool ignoredFadeOnFinalScene)
+        private void PrepareForMainMenu()
         {
-            HandleBossDefeated();
-        }
+            SetCanvasVisible(pauseCanvas, false);
+            SetCanvasVisible(gameLoseCanvas, false);
 
-        public void HandleBossDefeated(bool ignoredFadeOnFinalScene)
-        {
-            HandleBossDefeated();
-        }
+            finalFadeFinished = false;
+            runFinishRecorded = false;
 
-        public void HandleBossDefeated()
-        {
-            HandleAnyBossDefeated();
-        }
+            finalFadeTimer = 0f;
+            bossDefeatTimer = 0f;
+            gameLoseTimer = 0f;
 
-        private void BeginSceneTransition(string sceneName)
-        {
-            if (string.IsNullOrWhiteSpace(sceneName))
+            ResetFinalFadeVisual();
+
+            CurrentState = FlowState.Playing;
+
+            if (LoadingScreenManager.Instance != null)
             {
-                Debug.LogError("GameFlowManager: Scene name ว่าง");
+                LoadingScreenManager.Instance.ResetForMainMenu();
+            }
+
+            Time.timeScale = 1f;
+        }
+
+        public void HandleBossDefeated(string ignoredNextSceneName, bool ignoredFadeOnFinalScene) => HandleBossDefeated();
+        public void HandleBossDefeated(bool ignoredFadeOnFinalScene) => HandleBossDefeated();
+        public void HandleBossDefeated() => HandleAnyBossDefeated();
+
+        private void BeginSceneTransition(string targetSceneName)
+        {
+            if (string.IsNullOrWhiteSpace(targetSceneName))
+            {
+                Debug.LogError("GameFlowManager: Scene name ว่างเปล่า");
                 return;
             }
 
-            if (!IsSceneInBuildSettings(sceneName))
+            if (!IsSceneInBuildSettings(targetSceneName))
             {
-                Debug.LogError(
-                    "GameFlowManager: ไม่พบ Scene '" +
-                    sceneName +
-                    "' ใน Build Settings\n" +
-                    "ตรวจสอบชื่อ Scene และตรวจสอบว่า Scene " +
-                    "ถูกเพิ่มเข้า Build Settings แล้ว",
-                    this);
-
+                Debug.LogError($"GameFlowManager: ไม่พบ Scene '{targetSceneName}' ใน Build Settings");
                 return;
             }
 
             SetCanvasVisible(pauseCanvas, false);
             SetCanvasVisible(gameLoseCanvas, false);
 
-            // ถ้าเพิ่งออกจาก Final Fade ต้องเอา Overlay สีดำออก
-            // ไม่อย่างนั้นมันจะ Persist ไปทับ Main Menu
             ResetFinalFadeVisual();
 
             AudioManager.Instance?.StopAllSFX();
@@ -622,60 +607,32 @@ namespace GameFlowSystem
             CurrentState = FlowState.Playing;
             Time.timeScale = 1f;
 
+            // Fallback: ถ้าไม่มี LoadingScreenManager ให้ทำการโหลด Scene โดยตรงทันที
             if (LoadingScreenManager.Instance == null)
             {
-                Debug.LogError(
-                    "GameFlowManager: ไม่พบ LoadingScreenManager Instance " +
-                    "- ต้องมี LoadingScreenManager อยู่ใน Scene แรกสุด " +
-                    "ที่เกมบูตขึ้นมา (เช่น MainMenu)");
-
+                Debug.LogWarning("GameFlowManager: ไม่พบ LoadingScreenManager - กำลังโหลด Scene โดยตรง...");
+                SceneManager.LoadScene(targetSceneName);
                 return;
             }
 
-            LoadingScreenManager.Instance.LoadScene(sceneName);
+            LoadingScreenManager.Instance.LoadScene(targetSceneName);
         }
 
-        private bool TryGetNextSceneName(out string sceneName)
+        // ============================================================
+        // SCENE HELPERS
+        // ============================================================
+
+        private bool IsSceneInBuildSettings(string targetSceneName)
         {
-            int currentIndex =
-                SceneManager.GetActiveScene().buildIndex;
-
-            int nextIndex = currentIndex + 1;
-
-            if (nextIndex >= SceneManager.sceneCountInBuildSettings)
-            {
-                sceneName = null;
-                return false;
-            }
-
-            string path =
-                SceneUtility.GetScenePathByBuildIndex(nextIndex);
-
-            sceneName =
-                System.IO.Path.GetFileNameWithoutExtension(path);
-
-            return !string.IsNullOrWhiteSpace(sceneName);
-        }
-
-        private bool IsSceneInBuildSettings(string sceneName)
-        {
-            if (string.IsNullOrWhiteSpace(sceneName))
+            if (string.IsNullOrWhiteSpace(targetSceneName))
                 return false;
 
-            for (int i = 0;
-                 i < SceneManager.sceneCountInBuildSettings;
-                 i++)
+            for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
             {
-                string path =
-                    SceneUtility.GetScenePathByBuildIndex(i);
+                string path = SceneUtility.GetScenePathByBuildIndex(i);
+                string buildSceneName = System.IO.Path.GetFileNameWithoutExtension(path);
 
-                string buildSceneName =
-                    System.IO.Path.GetFileNameWithoutExtension(path);
-
-                if (string.Equals(
-                    buildSceneName,
-                    sceneName,
-                    StringComparison.Ordinal))
+                if (string.Equals(buildSceneName, targetSceneName, StringComparison.Ordinal))
                 {
                     return true;
                 }
@@ -684,20 +641,9 @@ namespace GameFlowSystem
             return false;
         }
 
-        private bool IsFinalScene()
-        {
-            int currentIndex =
-                SceneManager.GetActiveScene().buildIndex;
-
-            return currentIndex >= 0 &&
-                   currentIndex ==
-                   SceneManager.sceneCountInBuildSettings - 1;
-        }
-
         private bool IsLoading()
         {
-            return LoadingScreenManager.Instance != null &&
-                   LoadingScreenManager.Instance.IsLoading;
+            return LoadingScreenManager.Instance != null && LoadingScreenManager.Instance.IsLoading;
         }
 
         // ============================================================
@@ -712,8 +658,6 @@ namespace GameFlowSystem
             CurrentState = FlowState.Ending;
             finalFadeTimer = 0f;
             finalFadeFinished = false;
-
-            // ใช้ Unscaled Time ใน UpdateFinalFade()
             Time.timeScale = 0f;
 
             if (finalFadeCanvasGroup == null)
@@ -734,16 +678,14 @@ namespace GameFlowSystem
 
             finalFadeTimer += Time.unscaledDeltaTime;
 
-            float t =
-                finalFadeDuration > 0f
-                    ? Mathf.Clamp01(
-                        finalFadeTimer /
-                        finalFadeDuration
-                    )
-                    : 1f;
+            float t = finalFadeDuration > 0f
+                ? Mathf.Clamp01(finalFadeTimer / finalFadeDuration)
+                : 1f;
 
             if (finalFadeCanvasGroup != null)
+            {
                 finalFadeCanvasGroup.alpha = t;
+            }
 
             if (t >= 1f)
                 FinishFinalFade();
@@ -755,19 +697,8 @@ namespace GameFlowSystem
                 return;
 
             finalFadeFinished = true;
-
-            // Run จบแล้ว: HiScore ถูกบันทึกไว้ก่อนหน้านี้แล้ว
-            // และ RecordRunAsFinished() จะบันทึกประวัติ Run
             RecordRunAsFinished(true);
-
             OnGameEnded?.Invoke();
-
-            // สำคัญ:
-            // อย่าปล่อย GameFlowManager ค้างอยู่บน Final Fade
-            // เพราะ GameFlowManager เป็น DontDestroyOnLoad
-            //
-            // หลัง Fade เสร็จ ให้กลับ Main Menu อัตโนมัติ
-            // และ Reset Run ก่อนเริ่ม Run ใหม่
             GoBackToMenu();
         }
 
@@ -777,16 +708,13 @@ namespace GameFlowSystem
                 return;
 
             finalFadeFinished = true;
-
             RecordRunAsFinished(true);
             OnGameEnded?.Invoke();
-
-            // จบ Run แล้วกลับ Main Menu เช่นเดียวกับ Final Fade
             GoBackToMenu();
         }
 
         // ============================================================
-        // PLAYER STATS
+        // PLAYER STATS & RESET
         // ============================================================
 
         private void RecordRunAsFinished(bool completed)
@@ -795,18 +723,17 @@ namespace GameFlowSystem
                 return;
 
             runFinishRecorded = true;
-
-            PlayerStatsManager.Instance?.RecordRunFinished(
-                completed
-            );
+            PlayerStatsManager.Instance?.RecordRunFinished(completed);
         }
 
         private void ResetEndingRuntimeState()
         {
             finalFadeFinished = false;
             runFinishRecorded = false;
+
             finalFadeTimer = 0f;
             bossDefeatTimer = 0f;
+            gameLoseTimer = 0f;
 
             ResetFinalFadeVisual();
 
@@ -825,63 +752,38 @@ namespace GameFlowSystem
         }
 
         // ============================================================
-        // CANVAS
+        // CANVAS & NAVIGATOR VALIDATION
         // ============================================================
 
         private void ValidateCanvasHierarchy()
         {
-            if (pauseCanvas != null &&
-                !pauseCanvas.transform.IsChildOf(transform))
+            if (pauseCanvas != null && !pauseCanvas.transform.IsChildOf(transform))
             {
-                Debug.LogError(
-                    "GameFlowManager: pauseCanvas ไม่ได้เป็นลูกของ " +
-                    "GameFlowManager GameObject - " +
-                    "ย้ายเข้าไปเป็น Child ใน Hierarchy ก่อน",
-                    this);
+                Debug.LogError("GameFlowManager: pauseCanvas ไม่ได้เป็นลูกของ GameFlowManager", this);
             }
 
-            if (gameLoseCanvas != null &&
-                !gameLoseCanvas.transform.IsChildOf(transform))
+            if (gameLoseCanvas != null && !gameLoseCanvas.transform.IsChildOf(transform))
             {
-                Debug.LogError(
-                    "GameFlowManager: gameLoseCanvas ไม่ได้เป็นลูกของ " +
-                    "GameFlowManager GameObject - " +
-                    "ย้ายเข้าไปเป็น Child ใน Hierarchy ก่อน",
-                    this);
+                Debug.LogError("GameFlowManager: gameLoseCanvas ไม่ได้เป็นลูกของ GameFlowManager", this);
             }
         }
 
-        /// <summary>
-        /// เช็คว่า KeyboardMenuNavigator (ถ้าใส่ Reference ไว้) อยู่เป็นลูกของ Canvas ที่มันควรควบคุมจริง
-        /// เพื่อให้ OnEnable/OnDisable ของ Navigator ทำงานสอดคล้องกับตอน Canvas ถูก SetActive
-        /// (ตัว Navigator เองไม่ต้องมีใครสั่ง Enable/Disable - มันอ่านสถานะ Active ของ GameObject ตัวเองโดยตรง)
-        /// </summary>
         private void ValidateKeyboardNavigators()
         {
             if (pauseMenuNavigator != null && pauseCanvas != null &&
                 !pauseMenuNavigator.transform.IsChildOf(pauseCanvas.transform))
             {
-                Debug.LogError(
-                    "GameFlowManager: pauseMenuNavigator ไม่ได้เป็นลูกของ " +
-                    "pauseCanvas - ต้องเป็นลูก (หรืออยู่บน GameObject เดียวกัน) " +
-                    "เพื่อให้เปิด/ปิดพร้อมกับ pauseCanvas อัตโนมัติ",
-                    this);
+                Debug.LogError("GameFlowManager: pauseMenuNavigator ไม่ได้เป็นลูกของ pauseCanvas", this);
             }
 
             if (gameLoseMenuNavigator != null && gameLoseCanvas != null &&
                 !gameLoseMenuNavigator.transform.IsChildOf(gameLoseCanvas.transform))
             {
-                Debug.LogError(
-                    "GameFlowManager: gameLoseMenuNavigator ไม่ได้เป็นลูกของ " +
-                    "gameLoseCanvas - ต้องเป็นลูก (หรืออยู่บน GameObject เดียวกัน) " +
-                    "เพื่อให้เปิด/ปิดพร้อมกับ gameLoseCanvas อัตโนมัติ",
-                    this);
+                Debug.LogError("GameFlowManager: gameLoseMenuNavigator ไม่ได้เป็นลูกของ gameLoseCanvas", this);
             }
         }
 
-        private static void SetCanvasVisible(
-            GameObject canvasObject,
-            bool visible)
+        private static void SetCanvasVisible(GameObject canvasObject, bool visible)
         {
             if (canvasObject != null)
                 canvasObject.SetActive(visible);
