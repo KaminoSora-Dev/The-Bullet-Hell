@@ -16453,7 +16453,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 0.75
+  m_Radius: 0.4
 --- !u!1 &1404736363
 GameObject:
   m_ObjectHideFlags: 0
@@ -17016,15 +17016,15 @@ RectTransform:
   m_GameObject: {fileID: 1424807101}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1098652653}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -450, y: -190}
-  m_SizeDelta: {x: 400, y: 600}
+  m_AnchoredPosition: {x: -450, y: -180}
+  m_SizeDelta: {x: 408, y: 906}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1424807103
 CanvasRenderer:
@@ -17054,7 +17054,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 29099722375552244b002c7010285d9e, type: 3}
+  m_Sprite: {fileID: 7497447210740581395, guid: 7a0b5885d12f85f499d4c7b75de0fdc3, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
