@@ -148,7 +148,7 @@ Transform:
   m_GameObject: {fileID: 74749692}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -300, z: 0}
+  m_LocalPosition: {x: -200, y: -100, z: 0}
   m_LocalScale: {x: 80, y: 80, z: 80}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -196,7 +196,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1534680149
-  m_SortingLayer: 2
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 6833008571345685485, guid: 51168e18a69020d4f997db77f8271423, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -298,6 +298,511 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!1 &146686255
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 146686256}
+  - component: {fileID: 146686260}
+  - component: {fileID: 146686259}
+  - component: {fileID: 146686258}
+  - component: {fileID: 146686257}
+  m_Layer: 0
+  m_Name: LightSquareBullet_Scale60
+  m_TagString: EnemyBullet
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &146686256
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 146686255}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -1, w: 0}
+  m_LocalPosition: {x: 0, y: -200, z: 0}
+  m_LocalScale: {x: 60, y: 60, z: 60}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 1816203584}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -180}
+--- !u!61 &146686257
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 146686255}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -0.005, y: -0.005}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.53, y: 0.53}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 0.36, y: 0.36}
+  m_EdgeRadius: 0
+--- !u!114 &146686258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 146686255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62c9ccc595811804aad5a92fb76e4163, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseSpeed: 400
+  baseAcceleration: 0
+  baseMinSpeed: 0
+  baseMaxSpeed: 50
+  deathAnimator: {fileID: 0}
+  deathTrigger: Death
+  spawnSfx: {fileID: 0}
+  rotateToFaceDirection: 1
+  spriteAngleOffset: -90
+--- !u!50 &146686259
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 146686255}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!212 &146686260
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 146686255}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: -372255461
+  m_SortingLayer: 2
+  m_SortingOrder: 1
+  m_Sprite: {fileID: -7128658673420715177, guid: 72fe84234cbba1144a072b6259d1acd0, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!1 &195218989
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 195218990}
+  m_Layer: 0
+  m_Name: BCP_Test
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &195218990
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 195218989}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 279288184}
+  - {fileID: 437891731}
+  m_Father: {fileID: 1438725495}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &225292998
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 225292999}
+  - component: {fileID: 225293003}
+  - component: {fileID: 225293002}
+  - component: {fileID: 225293001}
+  - component: {fileID: 225293004}
+  m_Layer: 0
+  m_Name: LightCircleBullet_Scale60
+  m_TagString: EnemyBullet
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &225292999
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 225292998}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -1, w: 0}
+  m_LocalPosition: {x: 100, y: -200, z: 0}
+  m_LocalScale: {x: 60, y: 60, z: 60}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 1816203584}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -180}
+--- !u!114 &225293001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 225292998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62c9ccc595811804aad5a92fb76e4163, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseSpeed: 400
+  baseAcceleration: 0
+  baseMinSpeed: 0
+  baseMaxSpeed: 50
+  deathAnimator: {fileID: 0}
+  deathTrigger: Death
+  spawnSfx: {fileID: 0}
+  rotateToFaceDirection: 1
+  spriteAngleOffset: -90
+--- !u!50 &225293002
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 225292998}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!212 &225293003
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 225292998}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: -372255461
+  m_SortingLayer: 2
+  m_SortingOrder: 1
+  m_Sprite: {fileID: 1295304433390897707, guid: 15d03fce34eb2bf46a517e00b2326040, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!58 &225293004
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 225292998}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 0.2
+--- !u!1 &279288183
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 279288184}
+  - component: {fileID: 279288185}
+  m_Layer: 0
+  m_Name: TestBCP09_1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &279288184
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 279288183}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 195218990}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &279288185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 279288183}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a473479aaeb14114a8b29abad600ba3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patternName: BCP08_LightCircleSpread
+  groups:
+  - groupName: LightCircleSpread
+    initialDelay: 0
+    bursts:
+    - name: Clockwise
+      repeatCount: 72
+      repeatInterval: 0.1
+      delayAfter: 0.5
+      bulletPrefab: {fileID: 225292998}
+      bulletCount: 1
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+      direction:
+        mode: 6
+        angle: 0
+        spread: 0
+        rotationPerRepeat: 10
+      motion:
+        overrideInitialSpeed: 1
+        initialSpeed: 100
+        speedTimeline: []
+        directionTimeline: []
+        burstTimeline: []
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    loopPattern: 1
+  - groupName: Counter Clockwise
+    initialDelay: 0
+    bursts:
+    - name: Burst 1
+      repeatCount: 72
+      repeatInterval: 0.1
+      delayAfter: 0.5
+      bulletPrefab: {fileID: 225292998}
+      bulletCount: 1
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+      direction:
+        mode: 6
+        angle: 180
+        spread: 0
+        rotationPerRepeat: -10
+      motion:
+        overrideInitialSpeed: 1
+        initialSpeed: 100
+        speedTimeline: []
+        directionTimeline: []
+        burstTimeline: []
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    loopPattern: 1
 --- !u!1 &302071784
 GameObject:
   m_ObjectHideFlags: 0
@@ -319,7 +824,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &302071785
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -573,9 +1078,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: -372255461
+  m_SortingLayer: 2
+  m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: fc305e3a106c75f42ac9557b6d8ff44f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -830,9 +1335,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: -372255461
+  m_SortingLayer: 2
+  m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: afe272153db74534b87871bdd3f721e2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -898,7 +1403,7 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.1
       delayAfter: 4
-      bulletPrefab: {fileID: 1289619177}
+      bulletPrefab: {fileID: 0}
       bulletCount: 1
       spawn:
         mode: 0
@@ -979,6 +1484,133 @@ Transform:
   - {fileID: 552470122}
   m_Father: {fileID: 1194907908}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &437891730
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 437891731}
+  - component: {fileID: 437891732}
+  m_Layer: 0
+  m_Name: TestBCP09_2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &437891731
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 437891730}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2090277194}
+  m_Father: {fileID: 195218990}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &437891732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 437891730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a473479aaeb14114a8b29abad600ba3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patternName: TestBCP09_2
+  groups:
+  - groupName: FarShot01
+    initialDelay: 0
+    bursts:
+    - name: Burst 1
+      repeatCount: 4
+      repeatInterval: 1
+      delayAfter: 0.5
+      bulletPrefab: {fileID: 225292998}
+      bulletCount: 4
+      spawn:
+        mode: 1
+        offset: {x: 100, y: 100}
+        circleRadius: 0
+      direction:
+        mode: 0
+        angle: 0
+        spread: 20
+        rotationPerRepeat: 0
+      motion:
+        overrideInitialSpeed: 1
+        initialSpeed: 200
+        speedTimeline: []
+        directionTimeline:
+        - mode: 1
+          relativeAngle: 45
+          duration: 1
+          easing: 0
+        - mode: 1
+          relativeAngle: 45
+          duration: 1
+          easing: 0
+        burstTimeline:
+        - name: Trigger 1
+          time: 1
+          pattern: {fileID: 2090277195}
+          destroySelfAfterFire: 1
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    loopPattern: 1
+  - groupName: FarShot02
+    initialDelay: 0.25
+    bursts:
+    - name: Burst 1
+      repeatCount: 3
+      repeatInterval: 1
+      delayAfter: 0.5
+      bulletPrefab: {fileID: 225292998}
+      bulletCount: 3
+      spawn:
+        mode: 1
+        offset: {x: -100, y: -100}
+        circleRadius: 0
+      direction:
+        mode: 0
+        angle: 0
+        spread: 20
+        rotationPerRepeat: 0
+      motion:
+        overrideInitialSpeed: 1
+        initialSpeed: 200
+        speedTimeline: []
+        directionTimeline: []
+        burstTimeline: []
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    loopPattern: 1
 --- !u!1 &454101848
 GameObject:
   m_ObjectHideFlags: 0
@@ -1103,8 +1735,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 954265293
-  m_SortingLayer: 3
+  m_SortingLayerID: -372255461
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -517416063298849897, guid: 01c0e4fc74a5b7b4fb9cdc61b389bf26, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1298,7 +1930,7 @@ MonoBehaviour:
       repeatCount: 4
       repeatInterval: 0.1
       delayAfter: 0.4
-      bulletPrefab: {fileID: 1289619177}
+      bulletPrefab: {fileID: 0}
       bulletCount: 1
       spawn:
         mode: 0
@@ -1328,7 +1960,7 @@ MonoBehaviour:
       repeatCount: 4
       repeatInterval: 0.1
       delayAfter: 0.4
-      bulletPrefab: {fileID: 1156615127}
+      bulletPrefab: {fileID: 0}
       bulletCount: 2
       spawn:
         mode: 0
@@ -1358,7 +1990,7 @@ MonoBehaviour:
       repeatCount: 4
       repeatInterval: 0.1
       delayAfter: 0.4
-      bulletPrefab: {fileID: 1532030632}
+      bulletPrefab: {fileID: 0}
       bulletCount: 3
       spawn:
         mode: 0
@@ -1388,7 +2020,7 @@ MonoBehaviour:
       repeatCount: 4
       repeatInterval: 0.1
       delayAfter: 0.4
-      bulletPrefab: {fileID: 1619466907}
+      bulletPrefab: {fileID: 0}
       bulletCount: 4
       spawn:
         mode: 0
@@ -1418,7 +2050,7 @@ MonoBehaviour:
       repeatCount: 4
       repeatInterval: 0.1
       delayAfter: 0.4
-      bulletPrefab: {fileID: 454101848}
+      bulletPrefab: {fileID: 0}
       bulletCount: 5
       spawn:
         mode: 0
@@ -1448,7 +2080,7 @@ MonoBehaviour:
       repeatCount: 4
       repeatInterval: 0.1
       delayAfter: 0.4
-      bulletPrefab: {fileID: 1206421667}
+      bulletPrefab: {fileID: 0}
       bulletCount: 6
       spawn:
         mode: 0
@@ -1478,7 +2110,7 @@ MonoBehaviour:
       repeatCount: 4
       repeatInterval: 0.1
       delayAfter: 0.8
-      bulletPrefab: {fileID: 1670586318}
+      bulletPrefab: {fileID: 0}
       bulletCount: 7
       spawn:
         mode: 0
@@ -1656,7 +2288,7 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.1
       delayAfter: 2
-      bulletPrefab: {fileID: 1156615127}
+      bulletPrefab: {fileID: 0}
       bulletCount: 4
       spawn:
         mode: 0
@@ -1719,6 +2351,570 @@ Transform:
   m_Children: []
   m_Father: {fileID: 905761200}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &757206540
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 757206541}
+  - component: {fileID: 757206545}
+  - component: {fileID: 757206544}
+  - component: {fileID: 757206543}
+  - component: {fileID: 757206542}
+  m_Layer: 0
+  m_Name: LightCircleBullet_Scale30
+  m_TagString: EnemyBullet
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &757206541
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 757206540}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -1, w: 0}
+  m_LocalPosition: {x: 100, y: -300, z: 0}
+  m_LocalScale: {x: 30, y: 30, z: 30}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 1816203584}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -180}
+--- !u!58 &757206542
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 757206540}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 0.2
+--- !u!114 &757206543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 757206540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62c9ccc595811804aad5a92fb76e4163, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseSpeed: 600
+  baseAcceleration: 0
+  baseMinSpeed: 0
+  baseMaxSpeed: 50
+  deathAnimator: {fileID: 0}
+  deathTrigger: Death
+  spawnSfx: {fileID: 0}
+  rotateToFaceDirection: 1
+  spriteAngleOffset: -90
+--- !u!50 &757206544
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 757206540}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!212 &757206545
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 757206540}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: -372255461
+  m_SortingLayer: 2
+  m_SortingOrder: 1
+  m_Sprite: {fileID: 1295304433390897707, guid: 15d03fce34eb2bf46a517e00b2326040, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!1 &779324378
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 779324379}
+  - component: {fileID: 779324383}
+  - component: {fileID: 779324382}
+  - component: {fileID: 779324381}
+  - component: {fileID: 779324384}
+  m_Layer: 0
+  m_Name: LightTriangleBullet_Scale60
+  m_TagString: EnemyBullet
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &779324379
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 779324378}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 200, y: -200, z: 0}
+  m_LocalScale: {x: 60, y: 60, z: 60}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 1816203584}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &779324381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 779324378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62c9ccc595811804aad5a92fb76e4163, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseSpeed: 400
+  baseAcceleration: 0
+  baseMinSpeed: 0
+  baseMaxSpeed: 50
+  deathAnimator: {fileID: 0}
+  deathTrigger: Death
+  spawnSfx: {fileID: 0}
+  rotateToFaceDirection: 1
+  spriteAngleOffset: -90
+--- !u!50 &779324382
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 779324378}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!212 &779324383
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 779324378}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: -372255461
+  m_SortingLayer: 2
+  m_SortingOrder: 1
+  m_Sprite: {fileID: 245024826941663606, guid: 150765cc80739e94882b711babbf01eb, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!60 &779324384
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 779324378}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.51, y: 0.6}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.009650927, y: 0.18709275}
+      - {x: -0.0073255906, y: 0.20436008}
+      - {x: -0.04924413, y: 0.12872045}
+      - {x: -0.1478486, y: -0.17343028}
+      - {x: -0.14976713, y: -0.21313943}
+      - {x: -0.12441833, y: -0.21203448}
+      - {x: 0.13552302, y: -0.21395329}
+      - {x: 0.16936034, y: -0.20546502}
+      - {x: 0.14825565, y: -0.15284862}
+      - {x: 0.028546497, y: 0.13436036}
+  m_UseDelaunayMesh: 0
+--- !u!1 &818882656
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 818882657}
+  - component: {fileID: 818882661}
+  - component: {fileID: 818882660}
+  - component: {fileID: 818882659}
+  - component: {fileID: 818882658}
+  m_Layer: 0
+  m_Name: LightTriangleBullet_Scale30
+  m_TagString: EnemyBullet
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &818882657
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 818882656}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 200, y: -300, z: 0}
+  m_LocalScale: {x: 30, y: 30, z: 30}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 1816203584}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!60 &818882658
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 818882656}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.51, y: 0.6}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.009650927, y: 0.18709275}
+      - {x: -0.0073255906, y: 0.20436008}
+      - {x: -0.04924413, y: 0.12872045}
+      - {x: -0.1478486, y: -0.17343028}
+      - {x: -0.14976713, y: -0.21313943}
+      - {x: -0.12441833, y: -0.21203448}
+      - {x: 0.13552302, y: -0.21395329}
+      - {x: 0.16936034, y: -0.20546502}
+      - {x: 0.14825565, y: -0.15284862}
+      - {x: 0.028546497, y: 0.13436036}
+  m_UseDelaunayMesh: 0
+--- !u!114 &818882659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 818882656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62c9ccc595811804aad5a92fb76e4163, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseSpeed: 600
+  baseAcceleration: 0
+  baseMinSpeed: 0
+  baseMaxSpeed: 50
+  deathAnimator: {fileID: 0}
+  deathTrigger: Death
+  spawnSfx: {fileID: 0}
+  rotateToFaceDirection: 1
+  spriteAngleOffset: -90
+--- !u!50 &818882660
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 818882656}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!212 &818882661
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 818882656}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: -372255461
+  m_SortingLayer: 2
+  m_SortingOrder: 1
+  m_Sprite: {fileID: 245024826941663606, guid: 150765cc80739e94882b711babbf01eb, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
 --- !u!1 &903942430
 GameObject:
   m_ObjectHideFlags: 0
@@ -1772,7 +2968,7 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.2
       delayAfter: 0.2
-      bulletPrefab: {fileID: 1156615127}
+      bulletPrefab: {fileID: 0}
       bulletCount: 10
       spawn:
         mode: 0
@@ -1808,7 +3004,7 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.2
       delayAfter: 0.2
-      bulletPrefab: {fileID: 1532030632}
+      bulletPrefab: {fileID: 0}
       bulletCount: 20
       spawn:
         mode: 0
@@ -1844,7 +3040,7 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.2
       delayAfter: 0.2
-      bulletPrefab: {fileID: 1156615127}
+      bulletPrefab: {fileID: 0}
       bulletCount: 30
       spawn:
         mode: 0
@@ -1880,7 +3076,7 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.2
       delayAfter: 0.2
-      bulletPrefab: {fileID: 454101848}
+      bulletPrefab: {fileID: 0}
       bulletCount: 40
       spawn:
         mode: 0
@@ -1942,7 +3138,7 @@ Transform:
   m_GameObject: {fileID: 904436393}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 100, y: -300, z: 0}
+  m_LocalPosition: {x: -100, y: -100, z: 0}
   m_LocalScale: {x: 80, y: 80, z: 80}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -2079,7 +3275,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1534680149
-  m_SortingLayer: 2
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 1209660920488899512, guid: 1d449e86cfcb518429641633e5df979f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2146,7 +3342,7 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.1
       delayAfter: 2
-      bulletPrefab: {fileID: 1156615127}
+      bulletPrefab: {fileID: 0}
       bulletCount: 4
       spawn:
         mode: 0
@@ -2228,7 +3424,7 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.1
       delayAfter: 2
-      bulletPrefab: {fileID: 1289619177}
+      bulletPrefab: {fileID: 0}
       bulletCount: 1
       spawn:
         mode: 0
@@ -2274,6 +3470,363 @@ Transform:
   m_Children:
   - {fileID: 1018650320}
   m_Father: {fileID: 1090334322}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &953833286
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 953833287}
+  - component: {fileID: 953833288}
+  m_Layer: 0
+  m_Name: BCP010_LightSquareBurstx4
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &953833287
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 953833286}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 959725636}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &953833288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 953833286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a473479aaeb14114a8b29abad600ba3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patternName: BCP010_LightSquareBurstx4
+  groups:
+  - groupName: Burstx4
+    initialDelay: 0
+    bursts:
+    - name: Burst 1
+      repeatCount: 1
+      repeatInterval: 0.1
+      delayAfter: 0.5
+      bulletPrefab: {fileID: 1708515977}
+      bulletCount: 4
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+      direction:
+        mode: 1
+        angle: -90
+        spread: 60
+        rotationPerRepeat: 0
+      motion:
+        overrideInitialSpeed: 1
+        initialSpeed: 600
+        speedTimeline:
+        - targetSpeed: 300
+          duration: 0.5
+          easing: 0
+        directionTimeline: []
+        burstTimeline: []
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    loopPattern: 0
+--- !u!1 &959725635
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 959725636}
+  - component: {fileID: 959725637}
+  m_Layer: 0
+  m_Name: BCP010_LightSquareSpread
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &959725636
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 959725635}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 953833287}
+  m_Father: {fileID: 1393028231}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &959725637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 959725635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a473479aaeb14114a8b29abad600ba3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patternName: BCP010_LightSquareSpread
+  groups:
+  - groupName: LightSquareSpread
+    initialDelay: 0.5
+    bursts:
+    - name: Burst1
+      repeatCount: 1
+      repeatInterval: 0.5
+      delayAfter: 0.5
+      bulletPrefab: {fileID: 146686255}
+      bulletCount: 1
+      spawn:
+        mode: 1
+        offset: {x: -150, y: -100}
+        circleRadius: 0
+      direction:
+        mode: 0
+        angle: 90
+        spread: 0
+        rotationPerRepeat: 80
+      motion:
+        overrideInitialSpeed: 1
+        initialSpeed: 0
+        speedTimeline:
+        - targetSpeed: 0
+          duration: 1.5
+          easing: 2
+        - targetSpeed: 300
+          duration: 0.01
+          easing: 0
+        directionTimeline:
+        - mode: 0
+          relativeAngle: 90
+          duration: 1.5
+          easing: 0
+        - mode: 1
+          relativeAngle: 45
+          duration: 0.05
+          easing: 0
+        burstTimeline:
+        - name: Burstx4
+          time: 1.5
+          pattern: {fileID: 953833288}
+          destroySelfAfterFire: 1
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    - name: Burst 2
+      repeatCount: 1
+      repeatInterval: 0.5
+      delayAfter: 0.5
+      bulletPrefab: {fileID: 146686255}
+      bulletCount: 1
+      spawn:
+        mode: 1
+        offset: {x: -50, y: -100}
+        circleRadius: 0
+      direction:
+        mode: 0
+        angle: 180
+        spread: 0
+        rotationPerRepeat: 80
+      motion:
+        overrideInitialSpeed: 1
+        initialSpeed: 0
+        speedTimeline:
+        - targetSpeed: 0
+          duration: 1
+          easing: 2
+        - targetSpeed: 300
+          duration: 0.01
+          easing: 0
+        directionTimeline:
+        - mode: 0
+          relativeAngle: 90
+          duration: 1
+          easing: 0
+        - mode: 1
+          relativeAngle: 45
+          duration: 0.05
+          easing: 0
+        burstTimeline:
+        - name: Burstx4
+          time: 1
+          pattern: {fileID: 953833288}
+          destroySelfAfterFire: 1
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    - name: Burst 3
+      repeatCount: 1
+      repeatInterval: 0.25
+      delayAfter: 0.25
+      bulletPrefab: {fileID: 146686255}
+      bulletCount: 1
+      spawn:
+        mode: 1
+        offset: {x: 50, y: -100}
+        circleRadius: 0
+      direction:
+        mode: 0
+        angle: 180
+        spread: 0
+        rotationPerRepeat: 80
+      motion:
+        overrideInitialSpeed: 1
+        initialSpeed: 0
+        speedTimeline:
+        - targetSpeed: 0
+          duration: 0.5
+          easing: 2
+        - targetSpeed: 300
+          duration: 0.01
+          easing: 0
+        directionTimeline:
+        - mode: 0
+          relativeAngle: 90
+          duration: 0.5
+          easing: 0
+        - mode: 1
+          relativeAngle: 45
+          duration: 0.05
+          easing: 0
+        burstTimeline:
+        - name: Burstx4
+          time: 0.5
+          pattern: {fileID: 953833288}
+          destroySelfAfterFire: 1
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    - name: Burst 4
+      repeatCount: 1
+      repeatInterval: 0.1
+      delayAfter: 0.5
+      bulletPrefab: {fileID: 146686255}
+      bulletCount: 1
+      spawn:
+        mode: 1
+        offset: {x: 150, y: -100}
+        circleRadius: 0
+      direction:
+        mode: 0
+        angle: 180
+        spread: 0
+        rotationPerRepeat: 80
+      motion:
+        overrideInitialSpeed: 1
+        initialSpeed: 0
+        speedTimeline:
+        - targetSpeed: 0
+          duration: 0.25
+          easing: 2
+        - targetSpeed: 300
+          duration: 0.01
+          easing: 0
+        directionTimeline:
+        - mode: 0
+          relativeAngle: 90
+          duration: 0.5
+          easing: 0
+        - mode: 1
+          relativeAngle: 45
+          duration: 0.05
+          easing: 0
+        burstTimeline:
+        - name: Burstx4
+          time: 0.25
+          pattern: {fileID: 953833288}
+          destroySelfAfterFire: 1
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    loopPattern: 0
+--- !u!1 &965107711
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 965107712}
+  m_Layer: 0
+  m_Name: BCP_Set02_Boss
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &965107712
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 965107711}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1438725495}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &971139530
 GameObject:
@@ -2357,7 +3910,7 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.1
       delayAfter: 2
-      bulletPrefab: {fileID: 1156615127}
+      bulletPrefab: {fileID: 0}
       bulletCount: 4
       spawn:
         mode: 0
@@ -2520,7 +4073,7 @@ MonoBehaviour:
       repeatCount: 8
       repeatInterval: 0.4
       delayAfter: 1.2
-      bulletPrefab: {fileID: 1289619177}
+      bulletPrefab: {fileID: 0}
       bulletCount: 4
       spawn:
         mode: 0
@@ -2705,6 +4258,155 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!1 &1085936824
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1085936825}
+  - component: {fileID: 1085936826}
+  m_Layer: 0
+  m_Name: BCP09_LightCircleSpread
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1085936825
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1085936824}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1393028231}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1085936826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1085936824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a473479aaeb14114a8b29abad600ba3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patternName: BCP08_LightCircleSpread
+  groups:
+  - groupName: LightCircleSpread
+    initialDelay: 0
+    bursts:
+    - name: Burst 1
+      repeatCount: 2
+      repeatInterval: 0.25
+      delayAfter: 0.5
+      bulletPrefab: {fileID: 757206540}
+      bulletCount: 16
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+      direction:
+        mode: 0
+        angle: 0
+        spread: 360
+        rotationPerRepeat: 0
+      motion:
+        overrideInitialSpeed: 0
+        initialSpeed: 0
+        speedTimeline:
+        - targetSpeed: 200
+          duration: 1
+          easing: 2
+        directionTimeline: []
+        burstTimeline: []
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    - name: Burst 2
+      repeatCount: 2
+      repeatInterval: 0.25
+      delayAfter: 0.5
+      bulletPrefab: {fileID: 225292998}
+      bulletCount: 16
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+      direction:
+        mode: 0
+        angle: 0
+        spread: 360
+        rotationPerRepeat: 0
+      motion:
+        overrideInitialSpeed: 0
+        initialSpeed: 0
+        speedTimeline:
+        - targetSpeed: 200
+          duration: 1
+          easing: 2
+        directionTimeline: []
+        burstTimeline: []
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    - name: Burst 3
+      repeatCount: 1
+      repeatInterval: 0.25
+      delayAfter: 0.5
+      bulletPrefab: {fileID: 225292998}
+      bulletCount: 32
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+      direction:
+        mode: 0
+        angle: 0
+        spread: 360
+        rotationPerRepeat: 0
+      motion:
+        overrideInitialSpeed: 0
+        initialSpeed: 0
+        speedTimeline:
+        - targetSpeed: 200
+          duration: 1
+          easing: 2
+        directionTimeline: []
+        burstTimeline: []
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    loopPattern: 0
 --- !u!1 &1090334321
 GameObject:
   m_ObjectHideFlags: 0
@@ -2800,7 +4502,7 @@ MonoBehaviour:
       repeatCount: 288
       repeatInterval: 0.01
       delayAfter: 0.5
-      bulletPrefab: {fileID: 1289619177}
+      bulletPrefab: {fileID: 0}
       bulletCount: 1
       spawn:
         mode: 0
@@ -2863,7 +4565,7 @@ MonoBehaviour:
       repeatCount: 288
       repeatInterval: 0.01
       delayAfter: 2
-      bulletPrefab: {fileID: 1670586318}
+      bulletPrefab: {fileID: 0}
       bulletCount: 1
       spawn:
         mode: 0
@@ -2923,6 +4625,248 @@ MonoBehaviour:
           range: 0
           scope: 0
     loopPattern: 1
+--- !u!1 &1143908189
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1143908197}
+  - component: {fileID: 1143908196}
+  - component: {fileID: 1143908195}
+  - component: {fileID: 1143908194}
+  - component: {fileID: 1143908193}
+  - component: {fileID: 1143908192}
+  - component: {fileID: 1143908191}
+  - component: {fileID: 1143908190}
+  m_Layer: 0
+  m_Name: Enemy02
+  m_TagString: Enemy
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1143908190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1143908189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5bd1f5226815984b9f0a0f424ec8350, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 1143908193}
+  deathTrigger: Death
+  playWithBlink: 0
+  deathAnimDuration: 0.6
+  movingLeftParam: IsMovingLeft
+  movingRightParam: IsMovingRight
+  moveThreshold: 0.001
+--- !u!114 &1143908191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1143908189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a164848a9a16d1419c5dfa36e157d4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patternSchedule:
+    pattern: {fileID: 1294717916}
+    startDelay: 0
+    loop: 1
+  useFixedSeed: 0
+  randomSeed: 12345
+--- !u!114 &1143908192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1143908189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9283b625c9385e64ba2de0503a17af95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 24
+  scoreValue: 100
+  blinkCount: 3
+  blinkInterval: 0.1
+  blinkColor: {r: 1, g: 0, b: 0, a: 1}
+  startHidden: 0
+  appearDelay: 0
+  movementPath: []
+  bodySprite: {fileID: 1143908196}
+  hitCollider: {fileID: 1143908194}
+  spawnSfx: {fileID: 0}
+  deathSfx: {fileID: 0}
+  itemDrop:
+    itemPrefab: {fileID: 0}
+    count: 1
+--- !u!95 &1143908193
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1143908189}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: eff1937d37264dc48a247ccf229e6fb6, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!58 &1143908194
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1143908189}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 0.5
+--- !u!50 &1143908195
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1143908189}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!212 &1143908196
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1143908189}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: -372255461
+  m_SortingLayer: 2
+  m_SortingOrder: 5
+  m_Sprite: {fileID: 6668382414319915923, guid: 4a84485e95ff01f4db6e799d36bdfe42, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 5.12, y: 5.12}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!4 &1143908197
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1143908189}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1000, y: 900, z: 0}
+  m_LocalScale: {x: 20, y: 20, z: 20}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1156615127
 GameObject:
   m_ObjectHideFlags: 0
@@ -3047,8 +4991,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 954265293
-  m_SortingLayer: 3
+  m_SortingLayerID: -372255461
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -7097403377359191814, guid: 82752280b5c881a46806d2ac26c931b4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -3145,7 +5089,7 @@ MonoBehaviour:
       repeatCount: 8
       repeatInterval: 0.1
       delayAfter: 2
-      bulletPrefab: {fileID: 1289619177}
+      bulletPrefab: {fileID: 0}
       bulletCount: 8
       spawn:
         mode: 0
@@ -3353,8 +5297,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 954265293
-  m_SortingLayer: 3
+  m_SortingLayerID: -372255461
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 4643554759479323869, guid: d638c6f8f12a8fb4799371be950aa0d1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -3651,8 +5595,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 954265293
-  m_SortingLayer: 3
+  m_SortingLayerID: -372255461
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -6889142074871475050, guid: a91c17849ad97814dbbbcbafe0d61f00, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -3665,6 +5609,340 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1294717914
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1294717915}
+  - component: {fileID: 1294717916}
+  m_Layer: 0
+  m_Name: BCP011_LightTriangleSpread
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1294717915
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1294717914}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1393028231}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1294717916
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1294717914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a473479aaeb14114a8b29abad600ba3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patternName: BCP011_LightTriangleSpread
+  groups:
+  - groupName: LightTriangleSpread
+    initialDelay: 0.5
+    bursts:
+    - name: Burst x32
+      repeatCount: 1
+      repeatInterval: 0.1
+      delayAfter: 0.5
+      bulletPrefab: {fileID: 818882656}
+      bulletCount: 32
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+      direction:
+        mode: 5
+        angle: 0
+        spread: 360
+        rotationPerRepeat: 80
+      motion:
+        overrideInitialSpeed: 0
+        initialSpeed: 0
+        speedTimeline:
+        - targetSpeed: 0
+          duration: 1
+          easing: 2
+        - targetSpeed: 0
+          duration: 0.4
+          easing: 0
+        - targetSpeed: 300
+          duration: 0.2
+          easing: 0
+        directionTimeline:
+        - mode: 0
+          relativeAngle: 0
+          duration: 1
+          easing: 0
+        - mode: 1
+          relativeAngle: 120
+          duration: 0.2
+          easing: 1
+        - mode: 0
+          relativeAngle: 0
+          duration: 0.4
+          easing: 0
+        - mode: 1
+          relativeAngle: 45
+          duration: 0.2
+          easing: 2
+        - mode: 0
+          relativeAngle: 0
+          duration: 0.4
+          easing: 0
+        - mode: 1
+          relativeAngle: 45
+          duration: 0.2
+          easing: 0
+        - mode: 0
+          relativeAngle: 0
+          duration: 0.4
+          easing: 0
+        - mode: 1
+          relativeAngle: 0
+          duration: 0.2
+          easing: 0
+        burstTimeline: []
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    - name: Burst x40
+      repeatCount: 1
+      repeatInterval: 0.1
+      delayAfter: 0.5
+      bulletPrefab: {fileID: 818882656}
+      bulletCount: 40
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+      direction:
+        mode: 5
+        angle: 0
+        spread: 360
+        rotationPerRepeat: 80
+      motion:
+        overrideInitialSpeed: 0
+        initialSpeed: 0
+        speedTimeline:
+        - targetSpeed: 0
+          duration: 1
+          easing: 2
+        - targetSpeed: 0
+          duration: 0.4
+          easing: 0
+        - targetSpeed: 300
+          duration: 0.2
+          easing: 0
+        directionTimeline:
+        - mode: 0
+          relativeAngle: 0
+          duration: 1
+          easing: 0
+        - mode: 1
+          relativeAngle: 120
+          duration: 0.2
+          easing: 1
+        - mode: 0
+          relativeAngle: 0
+          duration: 0.4
+          easing: 0
+        - mode: 1
+          relativeAngle: 45
+          duration: 0.2
+          easing: 2
+        - mode: 0
+          relativeAngle: 0
+          duration: 0.4
+          easing: 0
+        - mode: 1
+          relativeAngle: 45
+          duration: 0.2
+          easing: 0
+        - mode: 0
+          relativeAngle: 0
+          duration: 0.4
+          easing: 0
+        - mode: 1
+          relativeAngle: 0
+          duration: 0.2
+          easing: 0
+        burstTimeline: []
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    - name: Burst x48
+      repeatCount: 1
+      repeatInterval: 0.1
+      delayAfter: 0.25
+      bulletPrefab: {fileID: 818882656}
+      bulletCount: 48
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+      direction:
+        mode: 5
+        angle: 0
+        spread: 360
+        rotationPerRepeat: 80
+      motion:
+        overrideInitialSpeed: 0
+        initialSpeed: 0
+        speedTimeline:
+        - targetSpeed: 0
+          duration: 1
+          easing: 2
+        - targetSpeed: 0
+          duration: 0.4
+          easing: 0
+        - targetSpeed: 300
+          duration: 0.2
+          easing: 0
+        directionTimeline:
+        - mode: 0
+          relativeAngle: 0
+          duration: 1
+          easing: 0
+        - mode: 1
+          relativeAngle: 120
+          duration: 0.2
+          easing: 1
+        - mode: 0
+          relativeAngle: 0
+          duration: 0.4
+          easing: 0
+        - mode: 1
+          relativeAngle: 45
+          duration: 0.2
+          easing: 2
+        - mode: 0
+          relativeAngle: 0
+          duration: 0.4
+          easing: 0
+        - mode: 1
+          relativeAngle: 45
+          duration: 0.2
+          easing: 0
+        - mode: 0
+          relativeAngle: 0
+          duration: 0.4
+          easing: 0
+        - mode: 1
+          relativeAngle: 0
+          duration: 0.2
+          easing: 0
+        burstTimeline: []
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    - name: Burst x64
+      repeatCount: 1
+      repeatInterval: 0.1
+      delayAfter: 0.5
+      bulletPrefab: {fileID: 779324378}
+      bulletCount: 64
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+      direction:
+        mode: 5
+        angle: 0
+        spread: 360
+        rotationPerRepeat: 80
+      motion:
+        overrideInitialSpeed: 0
+        initialSpeed: 0
+        speedTimeline:
+        - targetSpeed: 0
+          duration: 1
+          easing: 2
+        - targetSpeed: 0
+          duration: 0.4
+          easing: 0
+        - targetSpeed: 300
+          duration: 0.2
+          easing: 0
+        directionTimeline:
+        - mode: 0
+          relativeAngle: 0
+          duration: 1
+          easing: 0
+        - mode: 1
+          relativeAngle: 120
+          duration: 0.2
+          easing: 1
+        - mode: 0
+          relativeAngle: 0
+          duration: 0.4
+          easing: 0
+        - mode: 1
+          relativeAngle: 45
+          duration: 0.2
+          easing: 2
+        - mode: 0
+          relativeAngle: 0
+          duration: 0.4
+          easing: 0
+        - mode: 1
+          relativeAngle: 45
+          duration: 0.2
+          easing: 0
+        - mode: 0
+          relativeAngle: 0
+          duration: 0.4
+          easing: 0
+        - mode: 1
+          relativeAngle: 0
+          duration: 0.2
+          easing: 0
+        burstTimeline: []
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    loopPattern: 0
 --- !u!1 &1296902386
 GameObject:
   m_ObjectHideFlags: 0
@@ -3758,8 +6036,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -411478679
-  m_SortingLayer: 5
+  m_SortingLayerID: -372255461
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 8dd7ec41cdbaf994188207d46df1d05f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -3913,6 +6191,41 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.75
+--- !u!1 &1393028230
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1393028231}
+  m_Layer: 0
+  m_Name: BCP_Set02_Enemy
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1393028231
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1393028230}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1457778902}
+  - {fileID: 1085936825}
+  - {fileID: 959725636}
+  - {fileID: 1294717915}
+  m_Father: {fileID: 1438725495}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1399491420
 GameObject:
   m_ObjectHideFlags: 0
@@ -3967,7 +6280,7 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.1
       delayAfter: 2
-      bulletPrefab: {fileID: 1156615127}
+      bulletPrefab: {fileID: 0}
       bulletCount: 4
       spawn:
         mode: 0
@@ -4069,8 +6382,94 @@ Transform:
   m_Children:
   - {fileID: 1090334322}
   - {fileID: 1997378038}
+  - {fileID: 1393028231}
+  - {fileID: 965107712}
+  - {fileID: 195218990}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1457778901
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1457778902}
+  - component: {fileID: 1457778903}
+  m_Layer: 0
+  m_Name: BCP08_LightCircleNormalShot_x2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1457778902
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1457778901}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1393028231}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1457778903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1457778901}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a473479aaeb14114a8b29abad600ba3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patternName: BCP08_LightCircleSpread
+  groups:
+  - groupName: LightCircleSpread
+    initialDelay: 0
+    bursts:
+    - name: Burst 1
+      repeatCount: 2
+      repeatInterval: 0.1
+      delayAfter: 0.5
+      bulletPrefab: {fileID: 225292998}
+      bulletCount: 1
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+      direction:
+        mode: 0
+        angle: 0
+        spread: 0
+        rotationPerRepeat: 0
+      motion:
+        overrideInitialSpeed: 0
+        initialSpeed: 0
+        speedTimeline:
+        - targetSpeed: 200
+          duration: 1
+          easing: 2
+        directionTimeline: []
+        burstTimeline: []
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    loopPattern: 0
 --- !u!1 &1495925525
 GameObject:
   m_ObjectHideFlags: 0
@@ -4102,6 +6501,310 @@ Transform:
   m_Children:
   - {fileID: 1575869738}
   - {fileID: 971139531}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1502653325
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1502653332}
+  - component: {fileID: 1502653331}
+  - component: {fileID: 1502653330}
+  - component: {fileID: 1502653329}
+  - component: {fileID: 1502653328}
+  - component: {fileID: 1502653327}
+  - component: {fileID: 1502653326}
+  m_Layer: 0
+  m_Name: Stage02TheStar
+  m_TagString: Enemy
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &1502653326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1502653325}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffb6c9935750ae64bbb233d80e5f9994, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 1502653328}
+  deathTrigger: Death
+  playWithBlink: 1
+  deathAnimDuration: 1.5
+  movingLeftParam: IsMovingLeft
+  movingRightParam: IsMovingRight
+  moveThreshold: 0.001
+--- !u!114 &1502653327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1502653325}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e07e46517dae0243851c1fc767756ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bossName: Boss
+  entryTargetPoint: {fileID: 1502653332}
+  entryDuration: 2
+  entryEase: 2
+  phases:
+  - phaseName: The Unexpect - Straight Shot
+    phaseHealth: 180
+    isSpellCard: 0
+    spellCardName: The Unexpect - Straight Shot
+    spellCardTimeLimit: 30
+    transitionTargetPoint: {fileID: 1296902387}
+    transitionDuration: 0
+    transitionEase: 3
+    movementPath: []
+    loopMovement: 1
+    bulletPattern:
+      pattern: {fileID: 479661667}
+      startDelay: 0
+      loop: 1
+  - phaseName: The Unexpect - Spiral Circle
+    phaseHealth: 300
+    isSpellCard: 1
+    spellCardName: The Unexpect - Spiral Circle
+    spellCardTimeLimit: 60
+    transitionTargetPoint: {fileID: 0}
+    transitionDuration: 0
+    transitionEase: 3
+    movementPath:
+    - target: {fileID: 1568585601}
+      duration: 2
+      easeType: 3
+      allowShoot: 0
+    - target: {fileID: 1568585601}
+      duration: 2
+      easeType: 3
+      allowShoot: 1
+    - target: {fileID: 2015445630}
+      duration: 2
+      easeType: 3
+      allowShoot: 0
+    - target: {fileID: 2015445630}
+      duration: 2
+      easeType: 3
+      allowShoot: 1
+    - target: {fileID: 1296902387}
+      duration: 2
+      easeType: 3
+      allowShoot: 0
+    - target: {fileID: 1296902387}
+      duration: 2
+      easeType: 3
+      allowShoot: 1
+    loopMovement: 1
+    bulletPattern:
+      pattern: {fileID: 1141027436}
+      startDelay: 0
+      loop: 1
+  - phaseName: The Unexpect - Straight Follow Bullets
+    phaseHealth: 180
+    isSpellCard: 0
+    spellCardName: The Unexpect - Straight Follow Bullets
+    spellCardTimeLimit: 30
+    transitionTargetPoint: {fileID: 1296902387}
+    transitionDuration: 1
+    transitionEase: 3
+    movementPath: []
+    loopMovement: 1
+    bulletPattern:
+      pattern: {fileID: 1183840683}
+      startDelay: 0
+      loop: 1
+  - phaseName: The Unexpect - Burst Circle
+    phaseHealth: 300
+    isSpellCard: 1
+    spellCardName: The Unexpect - Burst Circle
+    spellCardTimeLimit: 60
+    transitionTargetPoint: {fileID: 1296902387}
+    transitionDuration: 0
+    transitionEase: 3
+    movementPath: []
+    loopMovement: 1
+    bulletPattern:
+      pattern: {fileID: 903942432}
+      startDelay: 0
+      loop: 1
+  phaseTransitionDuration: 1.2
+  clearBulletsOnPhaseTransition: 1
+  blinkCount: 6
+  blinkInterval: 0.08
+  blinkColor: {r: 1, g: 1, b: 1, a: 1}
+  scoreValueOnDefeat: 50000
+  itemDrop:
+    itemPrefab: {fileID: 0}
+    count: 1
+  bodySprite: {fileID: 1502653331}
+  hitCollider: {fileID: 1502653329}
+--- !u!95 &1502653328
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1502653325}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f22bea89d074a234588449f498443838, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!58 &1502653329
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1502653325}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 4.2
+--- !u!50 &1502653330
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1502653325}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!212 &1502653331
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1502653325}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: -372255461
+  m_SortingLayer: 2
+  m_SortingOrder: 5
+  m_Sprite: {fileID: -6894329106635550459, guid: 78a592f0ade97c24aaf1652deec18a98, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 5.12, y: 5.12}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!4 &1502653332
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1502653325}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1000, y: 900, z: 0}
+  m_LocalScale: {x: 20, y: 20, z: 20}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1518954361
@@ -4142,7 +6845,7 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.1
       delayAfter: 1.2
-      bulletPrefab: {fileID: 1289619177}
+      bulletPrefab: {fileID: 0}
       bulletCount: 3
       spawn:
         mode: 0
@@ -4308,8 +7011,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 954265293
-  m_SortingLayer: 3
+  m_SortingLayerID: -372255461
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -7281272691664690619, guid: de1224ef392fc2948862766e488b0021, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -4434,7 +7137,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1534680149
-  m_SortingLayer: 2
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 8014645988064725789, guid: 866c82f114b676743bdfd7632969506b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -4456,7 +7159,7 @@ Transform:
   m_GameObject: {fileID: 1556684541}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -200, y: -300, z: 0}
+  m_LocalPosition: {x: -400, y: -100, z: 0}
   m_LocalScale: {x: 80, y: 80, z: 80}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -4701,9 +7404,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 522634395
-  m_SortingLayer: 6
-  m_SortingOrder: 0
+  m_SortingLayerID: -372255461
+  m_SortingLayer: 2
+  m_SortingOrder: 9
   m_Sprite: {fileID: -1868515887584194672, guid: 0d462ecaa3dc6d04e86d3d1eddf38454, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.39215687}
   m_FlipX: 0
@@ -4820,7 +7523,7 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.1
       delayAfter: 1
-      bulletPrefab: {fileID: 1289619177}
+      bulletPrefab: {fileID: 0}
       bulletCount: 20
       spawn:
         mode: 2
@@ -4994,8 +7697,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 954265293
-  m_SortingLayer: 3
+  m_SortingLayerID: -372255461
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 147376621641139287, guid: 61a02e9e2abb65248b965581cb4caab5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -5292,10 +7995,194 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 954265293
-  m_SortingLayer: 3
+  m_SortingLayerID: -372255461
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -1498630661582013390, guid: 2254dba4f3a87eb4a874a58076c4f450, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!1 &1708515977
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1708515978}
+  - component: {fileID: 1708515982}
+  - component: {fileID: 1708515981}
+  - component: {fileID: 1708515980}
+  - component: {fileID: 1708515979}
+  m_Layer: 0
+  m_Name: LightSquareBullet_Scale30
+  m_TagString: EnemyBullet
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1708515978
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1708515977}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -1, w: 0}
+  m_LocalPosition: {x: 0, y: -300, z: 0}
+  m_LocalScale: {x: 30, y: 30, z: 30}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 1816203584}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -180}
+--- !u!61 &1708515979
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1708515977}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -0.005, y: -0.005}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.53, y: 0.53}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 0.36, y: 0.36}
+  m_EdgeRadius: 0
+--- !u!114 &1708515980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1708515977}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62c9ccc595811804aad5a92fb76e4163, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseSpeed: 600
+  baseAcceleration: 0
+  baseMinSpeed: 0
+  baseMaxSpeed: 50
+  deathAnimator: {fileID: 0}
+  deathTrigger: Death
+  spawnSfx: {fileID: 0}
+  rotateToFaceDirection: 1
+  spriteAngleOffset: -90
+--- !u!50 &1708515981
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1708515977}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!212 &1708515982
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1708515977}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: -372255461
+  m_SortingLayer: 2
+  m_SortingOrder: 1
+  m_Sprite: {fileID: -7128658673420715177, guid: 72fe84234cbba1144a072b6259d1acd0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -5472,7 +8359,7 @@ MonoBehaviour:
       repeatCount: 8
       repeatInterval: 0.1
       delayAfter: 0.1
-      bulletPrefab: {fileID: 1289619177}
+      bulletPrefab: {fileID: 0}
       bulletCount: 4
       spawn:
         mode: 0
@@ -5508,7 +8395,7 @@ MonoBehaviour:
       repeatCount: 8
       repeatInterval: 0.1
       delayAfter: 0.1
-      bulletPrefab: {fileID: 1289619177}
+      bulletPrefab: {fileID: 0}
       bulletCount: 4
       spawn:
         mode: 0
@@ -5751,7 +8638,7 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.1
       delayAfter: 1.2
-      bulletPrefab: {fileID: 1289619177}
+      bulletPrefab: {fileID: 0}
       bulletCount: 1
       spawn:
         mode: 0
@@ -5788,7 +8675,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1801907082}
   m_Layer: 0
-  m_Name: EnemyBulletSet
+  m_Name: EnemyBulletSet01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5814,6 +8701,43 @@ Transform:
   - {fileID: 1289619178}
   - {fileID: 1670586319}
   - {fileID: 1532030633}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1816203583
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1816203584}
+  m_Layer: 0
+  m_Name: EnemyBulletSet02
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1816203584
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1816203583}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 225292999}
+  - {fileID: 146686256}
+  - {fileID: 779324379}
+  - {fileID: 757206541}
+  - {fileID: 1708515978}
+  - {fileID: 818882657}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1824908563
@@ -5952,9 +8876,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 522634395
-  m_SortingLayer: 6
-  m_SortingOrder: 0
+  m_SortingLayerID: -372255461
+  m_SortingLayer: 2
+  m_SortingOrder: 10
   m_Sprite: {fileID: -2413806693520163455, guid: 355daba849830444f9457481eee62709, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -6112,7 +9036,7 @@ MonoBehaviour:
       repeatCount: 8
       repeatInterval: 0.4
       delayAfter: 1.2
-      bulletPrefab: {fileID: 1289619177}
+      bulletPrefab: {fileID: 0}
       bulletCount: 4
       spawn:
         mode: 0
@@ -6183,7 +9107,7 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.1
       delayAfter: 2
-      bulletPrefab: {fileID: 1156615127}
+      bulletPrefab: {fileID: 0}
       bulletCount: 4
       spawn:
         mode: 0
@@ -6423,7 +9347,7 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.1
       delayAfter: 2
-      bulletPrefab: {fileID: 1156615127}
+      bulletPrefab: {fileID: 0}
       bulletCount: 4
       spawn:
         mode: 0
@@ -6504,7 +9428,7 @@ Transform:
   m_GameObject: {fileID: 2041904670}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -100, y: -300, z: 0}
+  m_LocalPosition: {x: -300, y: -100, z: 0}
   m_LocalScale: {x: 80, y: 80, z: 80}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -6632,7 +9556,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1534680149
-  m_SortingLayer: 2
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 3952942513148936539, guid: 2462bd3dcbd3b4a49a76dacf0f7016e2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -6645,6 +9569,94 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &2090277193
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2090277194}
+  - component: {fileID: 2090277195}
+  m_Layer: 0
+  m_Name: TestBCP09_2.1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2090277194
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2090277193}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 437891731}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2090277195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2090277193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a473479aaeb14114a8b29abad600ba3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patternName: BCP08_LightCircleSpread
+  groups:
+  - groupName: BurstShot1
+    initialDelay: 0
+    bursts:
+    - name: Burst 1
+      repeatCount: 1
+      repeatInterval: 1
+      delayAfter: 0.5
+      bulletPrefab: {fileID: 225292998}
+      bulletCount: 16
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+      direction:
+        mode: 0
+        angle: 0
+        spread: 360
+        rotationPerRepeat: 0
+      motion:
+        overrideInitialSpeed: 0
+        initialSpeed: 0
+        speedTimeline: []
+        directionTimeline:
+        - mode: 1
+          relativeAngle: 45
+          duration: 0.5
+          easing: 0
+        - mode: 1
+          relativeAngle: 45
+          duration: 0.2
+          easing: 0
+        burstTimeline: []
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    loopPattern: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -6656,7 +9668,10 @@ SceneRoots:
   - {fileID: 1418916231}
   - {fileID: 1758851224}
   - {fileID: 1801907082}
+  - {fileID: 1816203584}
   - {fileID: 1194907908}
   - {fileID: 1438725495}
   - {fileID: 342012400}
   - {fileID: 302071791}
+  - {fileID: 1143908197}
+  - {fileID: 1502653332}

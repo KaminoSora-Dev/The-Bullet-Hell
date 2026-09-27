@@ -27,6 +27,16 @@ namespace MenuSystemV1
     /// สำคัญ:
     /// Menu จะไม่พึ่ง TransitionBox Event เพียงอย่างเดียว
     /// แต่จะตรวจสถานะ IsAtEnd เป็น safety fallback ด้วย
+    ///
+    /// ============================================================
+    /// STAGE SELECT (เพิ่มใหม่)
+    /// ============================================================
+    /// กด "Stage Select" -> ซ่อน Panel ปุ่มหลักของตัวเอง + สั่ง
+    /// StageSelectController.Open() แทน ตัว StageSelectController
+    /// คุม Panel/Navigator ของหน้า Stage List เองทั้งหมด - พอกด Go
+    /// Back จะยิง OnClosed event กลับมาให้ MenuManager เปิด Panel
+    /// ปุ่มหลักคืน (Event-driven decoupling ตาม convention เดิม
+    /// เหมือน TransitionBox.OnArrivedAtEnd/Start)
     /// </summary>
     public class MenuManager : MonoBehaviour
     {
@@ -48,6 +58,18 @@ namespace MenuSystemV1
         [Header("Buttons")]
         [SerializeField] private Button startButton;
         [SerializeField] private Button exitButton;
+
+        // ============================================================
+        // STAGE SELECT (เพิ่มใหม่)
+        // ============================================================
+
+        [Header("Stage Select")]
+        [SerializeField] private Button stageSelectButton;
+
+        [Tooltip("Panel ที่รวมปุ่มหลักของ Main Menu (Start/Stage Select/Exit) - ถูกซ่อนตอนเปิด Stage Select แล้วเปิดกลับตอน Go Back")]
+        [SerializeField] private GameObject mainMenuButtonsPanel;
+
+        [SerializeField] private StageSelectController stageSelectController;
 
         // ============================================================
         // KEYBOARD
@@ -151,6 +173,19 @@ namespace MenuSystemV1
                 );
             }
 
+            if (stageSelectButton != null)
+            {
+                stageSelectButton.onClick.AddListener(
+                    OnStageSelectClicked
+                );
+            }
+
+            if (stageSelectController != null)
+            {
+                stageSelectController.OnClosed +=
+                    HandleStageSelectClosed;
+            }
+
             // --------------------------------------------------------
             // Transition Events
             // --------------------------------------------------------
@@ -185,6 +220,19 @@ namespace MenuSystemV1
                 exitButton.onClick.RemoveListener(
                     OnExitClicked
                 );
+            }
+
+            if (stageSelectButton != null)
+            {
+                stageSelectButton.onClick.RemoveListener(
+                    OnStageSelectClicked
+                );
+            }
+
+            if (stageSelectController != null)
+            {
+                stageSelectController.OnClosed -=
+                    HandleStageSelectClosed;
             }
 
             if (transitionBox != null)
@@ -256,6 +304,13 @@ namespace MenuSystemV1
             }
 
             fadeTimer = 0f;
+
+            // --------------------------------------------------------
+            // Stage Select (เพิ่มใหม่) - ให้ Panel ปุ่มหลักโชว์อยู่เสมอตอนเริ่ม
+            // --------------------------------------------------------
+
+            if (mainMenuButtonsPanel != null)
+                mainMenuButtonsPanel.SetActive(true);
 
             // --------------------------------------------------------
             // Buttons
@@ -403,6 +458,44 @@ namespace MenuSystemV1
             {
                 QuitGame();
             }
+        }
+
+        /// <summary>
+        /// กด "Stage Select" - ซ่อน Panel ปุ่มหลักแล้วเปิดหน้า Stage List แทน
+        /// ไม่ผ่าน TransitionBox (Panel ธรรมดา SetActive สลับตามที่ตกลงกันไว้)
+        /// </summary>
+        public void OnStageSelectClicked()
+        {
+            if (!CanAcceptInput())
+                return;
+
+            LockAllInput();
+
+            if (stageSelectController == null)
+            {
+                Debug.LogWarning(
+                    "MenuManager: ไม่ได้ผูก stageSelectController ไว้ - เปิดหน้า Stage Select ไม่ได้"
+                );
+
+                UnlockMenuInput();
+                return;
+            }
+
+            if (mainMenuButtonsPanel != null)
+                mainMenuButtonsPanel.SetActive(false);
+
+            stageSelectController.Open();
+        }
+
+        /// <summary>
+        /// เรียกจาก StageSelectController.OnClosed ตอนกด Go Back
+        /// </summary>
+        private void HandleStageSelectClosed()
+        {
+            if (mainMenuButtonsPanel != null)
+                mainMenuButtonsPanel.SetActive(true);
+
+            UnlockMenuInput();
         }
 
         private bool CanAcceptInput()
@@ -659,6 +752,9 @@ namespace MenuSystemV1
 
             if (exitButton != null)
                 exitButton.interactable = value;
+
+            if (stageSelectButton != null)
+                stageSelectButton.interactable = value;
         }
     }
 }
