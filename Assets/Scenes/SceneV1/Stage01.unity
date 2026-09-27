@@ -11939,8 +11939,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   firstSceneName: Stage01
-  nextSceneName: LastSceneV1
-  isFinalStage: 1
+  nextSceneName: Stage02
+  isFinalStage: 0
   mainMenuSceneName: MainMenuV1
   transitionOnBossDefeated: 1
   bossDefeatDelay: 8
@@ -19552,6 +19552,7 @@ MonoBehaviour:
   crossfadeDuration: 1.5
   musicVolume: 0.7
   playNormalMusicOnStart: 1
+  debugTimingLogs: 1
 --- !u!1 &1619466907
 GameObject:
   m_ObjectHideFlags: 0

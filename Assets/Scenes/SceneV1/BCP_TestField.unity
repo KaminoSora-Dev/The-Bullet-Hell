@@ -298,6 +298,101 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!1 &78492019
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 78492020}
+  - component: {fileID: 78492021}
+  m_Layer: 0
+  m_Name: Glitch Star - Stardust
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &78492020
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 78492019}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1467228598}
+  - {fileID: 988155917}
+  - {fileID: 992041934}
+  - {fileID: 1656159722}
+  - {fileID: 987437832}
+  m_Father: {fileID: 965107712}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &78492021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 78492019}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a473479aaeb14114a8b29abad600ba3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patternName: Glitch Star - Stardust
+  groups:
+  - groupName: Stardust 1st Tier
+    initialDelay: 0
+    bursts:
+    - name: Burst 1
+      repeatCount: 200
+      repeatInterval: 0.2
+      delayAfter: 0.5
+      bulletPrefab: {fileID: 779324378}
+      bulletCount: 1
+      spawn:
+        mode: 2
+        offset: {x: 0, y: 0}
+        circleRadius: 20
+      direction:
+        mode: 5
+        angle: 0
+        spread: 0
+        rotationPerRepeat: 0
+      motion:
+        overrideInitialSpeed: 1
+        initialSpeed: 160
+        speedTimeline:
+        - targetSpeed: 80
+          duration: 2
+          easing: 0
+        - targetSpeed: 40
+          duration: 1
+          easing: 0
+        directionTimeline: []
+        burstTimeline:
+        - name: Stardust Tier 2
+          time: 3
+          pattern: {fileID: 1467228599}
+          destroySelfAfterFire: 1
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 1
+          range: 160
+          scope: 2
+    loopPattern: 1
 --- !u!1 &146686255
 GameObject:
   m_ObjectHideFlags: 0
@@ -311,6 +406,7 @@ GameObject:
   - component: {fileID: 146686259}
   - component: {fileID: 146686258}
   - component: {fileID: 146686257}
+  - component: {fileID: 146686261}
   m_Layer: 0
   m_Name: LightSquareBullet_Scale60
   m_TagString: EnemyBullet
@@ -482,6 +578,131 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!58 &146686261
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 146686255}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 0.5
+--- !u!1 &186810373
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 186810374}
+  - component: {fileID: 186810375}
+  m_Layer: 0
+  m_Name: BCP012_Burst Xylo1 (3)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &186810374
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 186810373}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1226622568}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &186810375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 186810373}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a473479aaeb14114a8b29abad600ba3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patternName: BCP012_TheTrioBulletPattern
+  groups:
+  - groupName: BCP012_TheTrioBulletPattern
+    initialDelay: 0
+    bursts:
+    - name: Xylo1
+      repeatCount: 1
+      repeatInterval: 0.1
+      delayAfter: 0.25
+      bulletPrefab: {fileID: 818882656}
+      bulletCount: 16
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+      direction:
+        mode: 5
+        angle: -45
+        spread: 180
+        rotationPerRepeat: 0
+      motion:
+        overrideInitialSpeed: 1
+        initialSpeed: 800
+        speedTimeline:
+        - targetSpeed: 0
+          duration: 0.25
+          easing: 0
+        - targetSpeed: 0
+          duration: 2
+          easing: 0
+        - targetSpeed: 200
+          duration: 1
+          easing: 0
+        directionTimeline: []
+        burstTimeline: []
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    loopPattern: 0
 --- !u!1 &195218989
 GameObject:
   m_ObjectHideFlags: 0
@@ -742,7 +963,7 @@ MonoBehaviour:
       repeatCount: 72
       repeatInterval: 0.1
       delayAfter: 0.5
-      bulletPrefab: {fileID: 225292998}
+      bulletPrefab: {fileID: 0}
       bulletCount: 1
       spawn:
         mode: 0
@@ -776,7 +997,7 @@ MonoBehaviour:
       repeatCount: 72
       repeatInterval: 0.1
       delayAfter: 0.5
-      bulletPrefab: {fileID: 225292998}
+      bulletPrefab: {fileID: 0}
       bulletCount: 1
       spawn:
         mode: 0
@@ -803,6 +1024,37 @@ MonoBehaviour:
           range: 0
           scope: 0
     loopPattern: 1
+--- !u!1 &288196587
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 288196588}
+  m_Layer: 0
+  m_Name: MovePos01
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &288196588
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 288196587}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 840, y: 900, z: 0}
+  m_LocalScale: {x: 20, y: 20, z: 20}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1512265138}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &302071784
 GameObject:
   m_ObjectHideFlags: 0
@@ -1403,7 +1655,7 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.1
       delayAfter: 4
-      bulletPrefab: {fileID: 0}
+      bulletPrefab: {fileID: 1289619177}
       bulletCount: 1
       spawn:
         mode: 0
@@ -1538,7 +1790,7 @@ MonoBehaviour:
       repeatCount: 4
       repeatInterval: 1
       delayAfter: 0.5
-      bulletPrefab: {fileID: 225292998}
+      bulletPrefab: {fileID: 0}
       bulletCount: 4
       spawn:
         mode: 1
@@ -1584,7 +1836,7 @@ MonoBehaviour:
       repeatCount: 3
       repeatInterval: 1
       delayAfter: 0.5
-      bulletPrefab: {fileID: 225292998}
+      bulletPrefab: {fileID: 0}
       bulletCount: 3
       spawn:
         mode: 1
@@ -1624,6 +1876,7 @@ GameObject:
   - component: {fileID: 454101852}
   - component: {fileID: 454101850}
   - component: {fileID: 454101854}
+  - component: {fileID: 454101855}
   m_Layer: 0
   m_Name: HalfSQ45Bullet03
   m_TagString: EnemyBullet
@@ -1795,6 +2048,42 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.2, y: 0.36}
   m_EdgeRadius: 0
+--- !u!58 &454101855
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 454101848}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 0.5
 --- !u!1 &468944774
 GameObject:
   m_ObjectHideFlags: 0
@@ -1930,7 +2219,7 @@ MonoBehaviour:
       repeatCount: 4
       repeatInterval: 0.1
       delayAfter: 0.4
-      bulletPrefab: {fileID: 0}
+      bulletPrefab: {fileID: 1289619177}
       bulletCount: 1
       spawn:
         mode: 0
@@ -1960,7 +2249,7 @@ MonoBehaviour:
       repeatCount: 4
       repeatInterval: 0.1
       delayAfter: 0.4
-      bulletPrefab: {fileID: 0}
+      bulletPrefab: {fileID: 1156615127}
       bulletCount: 2
       spawn:
         mode: 0
@@ -1990,7 +2279,7 @@ MonoBehaviour:
       repeatCount: 4
       repeatInterval: 0.1
       delayAfter: 0.4
-      bulletPrefab: {fileID: 0}
+      bulletPrefab: {fileID: 1532030632}
       bulletCount: 3
       spawn:
         mode: 0
@@ -2020,7 +2309,7 @@ MonoBehaviour:
       repeatCount: 4
       repeatInterval: 0.1
       delayAfter: 0.4
-      bulletPrefab: {fileID: 0}
+      bulletPrefab: {fileID: 1619466907}
       bulletCount: 4
       spawn:
         mode: 0
@@ -2050,7 +2339,7 @@ MonoBehaviour:
       repeatCount: 4
       repeatInterval: 0.1
       delayAfter: 0.4
-      bulletPrefab: {fileID: 0}
+      bulletPrefab: {fileID: 454101848}
       bulletCount: 5
       spawn:
         mode: 0
@@ -2080,7 +2369,7 @@ MonoBehaviour:
       repeatCount: 4
       repeatInterval: 0.1
       delayAfter: 0.4
-      bulletPrefab: {fileID: 0}
+      bulletPrefab: {fileID: 1206421667}
       bulletCount: 6
       spawn:
         mode: 0
@@ -2110,7 +2399,7 @@ MonoBehaviour:
       repeatCount: 4
       repeatInterval: 0.1
       delayAfter: 0.8
-      bulletPrefab: {fileID: 0}
+      bulletPrefab: {fileID: 1670586318}
       bulletCount: 7
       spawn:
         mode: 0
@@ -2137,6 +2426,37 @@ MonoBehaviour:
           range: 0
           scope: 0
     loopPattern: 1
+--- !u!1 &514434467
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 514434468}
+  m_Layer: 0
+  m_Name: MovePos01
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &514434468
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 514434467}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 800, y: 700, z: 0}
+  m_LocalScale: {x: 20, y: 20, z: 20}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 655173650}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &552470121
 GameObject:
   m_ObjectHideFlags: 0
@@ -2215,6 +2535,37 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!1 &566855550
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 566855551}
+  m_Layer: 0
+  m_Name: MovePos05
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &566855551
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 566855550}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1140, y: 500, z: 0}
+  m_LocalScale: {x: 20, y: 20, z: 20}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1512265138}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &582066410
 GameObject:
   m_ObjectHideFlags: 0
@@ -2250,6 +2601,254 @@ Transform:
   - {fileID: 1242400004}
   m_Father: {fileID: 1194907908}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &647001069
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 647001070}
+  - component: {fileID: 647001071}
+  m_Layer: 0
+  m_Name: BCP012_Burst Xylo1 (4)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &647001070
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 647001069}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1226622568}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &647001071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 647001069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a473479aaeb14114a8b29abad600ba3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patternName: BCP012_TheTrioBulletPattern
+  groups:
+  - groupName: BCP012_TheTrioBulletPattern
+    initialDelay: 0
+    bursts:
+    - name: Xylo1
+      repeatCount: 1
+      repeatInterval: 0.1
+      delayAfter: 0.25
+      bulletPrefab: {fileID: 818882656}
+      bulletCount: 16
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+      direction:
+        mode: 5
+        angle: -135
+        spread: 180
+        rotationPerRepeat: 0
+      motion:
+        overrideInitialSpeed: 1
+        initialSpeed: 800
+        speedTimeline:
+        - targetSpeed: 0
+          duration: 0.25
+          easing: 0
+        - targetSpeed: 0
+          duration: 2
+          easing: 0
+        - targetSpeed: 200
+          duration: 1
+          easing: 0
+        directionTimeline: []
+        burstTimeline: []
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    loopPattern: 0
+--- !u!1 &655173649
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 655173650}
+  - component: {fileID: 655173651}
+  m_Layer: 0
+  m_Name: Glitch Star - Glitch Overload
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &655173650
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 655173649}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 514434468}
+  - {fileID: 1568261877}
+  m_Father: {fileID: 965107712}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &655173651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 655173649}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a473479aaeb14114a8b29abad600ba3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patternName: Glitch Star - Glitch Overload
+  groups:
+  - groupName: Glitch Star - Glitch Overload
+    initialDelay: 0
+    bursts:
+    - name: Spin Clockwise
+      repeatCount: 12
+      repeatInterval: 0.1
+      delayAfter: 0.4
+      bulletPrefab: {fileID: 779324378}
+      bulletCount: 6
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+      direction:
+        mode: 6
+        angle: 90
+        spread: 360
+        rotationPerRepeat: 4
+      motion:
+        overrideInitialSpeed: 1
+        initialSpeed: 300
+        speedTimeline:
+        - targetSpeed: 600
+          duration: 3
+          easing: 0
+        directionTimeline: []
+        burstTimeline: []
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    - name: Spin Counter-Clockwise
+      repeatCount: 12
+      repeatInterval: 0.1
+      delayAfter: 0.4
+      bulletPrefab: {fileID: 779324378}
+      bulletCount: 6
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 100}
+        circleRadius: 0
+      direction:
+        mode: 6
+        angle: 90
+        spread: 360
+        rotationPerRepeat: -4
+      motion:
+        overrideInitialSpeed: 1
+        initialSpeed: 400
+        speedTimeline:
+        - targetSpeed: 600
+          duration: 3
+          easing: 0
+        directionTimeline: []
+        burstTimeline: []
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    loopPattern: 1
+  - groupName: Mini Triangle Spread
+    initialDelay: 3
+    bursts:
+    - name: Mini Triangle Falling
+      repeatCount: 10
+      repeatInterval: 0.1
+      delayAfter: 2
+      bulletPrefab: {fileID: 818882656}
+      bulletCount: 2
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 100}
+        circleRadius: 0
+      direction:
+        mode: 5
+        angle: 90
+        spread: 150
+        rotationPerRepeat: 1
+      motion:
+        overrideInitialSpeed: 1
+        initialSpeed: 200
+        speedTimeline:
+        - targetSpeed: 100
+          duration: 2
+          easing: 0
+        directionTimeline: []
+        burstTimeline:
+        - name: Petal Going Up
+          time: 2
+          pattern: {fileID: 1568261878}
+          destroySelfAfterFire: 1
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    loopPattern: 1
 --- !u!1 &672728009
 GameObject:
   m_ObjectHideFlags: 0
@@ -2288,7 +2887,7 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.1
       delayAfter: 2
-      bulletPrefab: {fileID: 0}
+      bulletPrefab: {fileID: 1670586318}
       bulletCount: 4
       spawn:
         mode: 0
@@ -2350,6 +2949,126 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 905761200}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &687288689
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 687288690}
+  - component: {fileID: 687288691}
+  m_Layer: 0
+  m_Name: BCP012_Burst Xylo1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &687288690
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 687288689}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1226622568}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &687288691
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 687288689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a473479aaeb14114a8b29abad600ba3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patternName: BCP012_TheTrioBulletPattern
+  groups:
+  - groupName: BCP012_TheTrioBulletPattern
+    initialDelay: 0
+    bursts:
+    - name: Xylo1
+      repeatCount: 1
+      repeatInterval: 0.1
+      delayAfter: 0.25
+      bulletPrefab: {fileID: 757206540}
+      bulletCount: 16
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+      direction:
+        mode: 0
+        angle: -90
+        spread: 180
+        rotationPerRepeat: 0
+      motion:
+        overrideInitialSpeed: 1
+        initialSpeed: 600
+        speedTimeline:
+        - targetSpeed: 0
+          duration: 0.4
+          easing: 0
+        - targetSpeed: 0
+          duration: 2
+          easing: 0
+        - targetSpeed: 200
+          duration: 1
+          easing: 0
+        directionTimeline: []
+        burstTimeline: []
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    loopPattern: 0
+--- !u!1 &715139410
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 715139411}
+  m_Layer: 0
+  m_Name: MovePos03
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &715139411
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 715139410}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 540, y: 500, z: 0}
+  m_LocalScale: {x: 20, y: 20, z: 20}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1512265138}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &757206540
 GameObject:
@@ -2538,6 +3257,7 @@ GameObject:
   - component: {fileID: 779324382}
   - component: {fileID: 779324381}
   - component: {fileID: 779324384}
+  - component: {fileID: 779324385}
   m_Layer: 0
   m_Name: LightTriangleBullet_Scale60
   m_TagString: EnemyBullet
@@ -2720,6 +3440,42 @@ PolygonCollider2D:
       - {x: 0.14825565, y: -0.15284862}
       - {x: 0.028546497, y: 0.13436036}
   m_UseDelaunayMesh: 0
+--- !u!58 &779324385
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 779324378}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 0.5
 --- !u!1 &818882656
 GameObject:
   m_ObjectHideFlags: 0
@@ -2733,6 +3489,7 @@ GameObject:
   - component: {fileID: 818882660}
   - component: {fileID: 818882659}
   - component: {fileID: 818882658}
+  - component: {fileID: 818882662}
   m_Layer: 0
   m_Name: LightTriangleBullet_Scale30
   m_TagString: EnemyBullet
@@ -2915,6 +3672,42 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!58 &818882662
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 818882656}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 0.5
 --- !u!1 &903942430
 GameObject:
   m_ObjectHideFlags: 0
@@ -2968,7 +3761,7 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.2
       delayAfter: 0.2
-      bulletPrefab: {fileID: 0}
+      bulletPrefab: {fileID: 1289619177}
       bulletCount: 10
       spawn:
         mode: 0
@@ -3004,7 +3797,7 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.2
       delayAfter: 0.2
-      bulletPrefab: {fileID: 0}
+      bulletPrefab: {fileID: 1289619177}
       bulletCount: 20
       spawn:
         mode: 0
@@ -3040,7 +3833,7 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.2
       delayAfter: 0.2
-      bulletPrefab: {fileID: 0}
+      bulletPrefab: {fileID: 1289619177}
       bulletCount: 30
       spawn:
         mode: 0
@@ -3076,7 +3869,7 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.2
       delayAfter: 0.2
-      bulletPrefab: {fileID: 0}
+      bulletPrefab: {fileID: 1289619177}
       bulletCount: 40
       spawn:
         mode: 0
@@ -3342,7 +4135,7 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.1
       delayAfter: 2
-      bulletPrefab: {fileID: 0}
+      bulletPrefab: {fileID: 454101848}
       bulletCount: 4
       spawn:
         mode: 0
@@ -3424,7 +4217,7 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.1
       delayAfter: 2
-      bulletPrefab: {fileID: 0}
+      bulletPrefab: {fileID: 1156615127}
       bulletCount: 1
       spawn:
         mode: 0
@@ -3704,7 +4497,7 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.25
       delayAfter: 0.25
-      bulletPrefab: {fileID: 146686255}
+      bulletPrefab: {fileID: 779324378}
       bulletCount: 1
       spawn:
         mode: 1
@@ -3752,7 +4545,7 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.1
       delayAfter: 0.5
-      bulletPrefab: {fileID: 146686255}
+      bulletPrefab: {fileID: 0}
       bulletCount: 1
       spawn:
         mode: 1
@@ -3825,7 +4618,11 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1876965842}
+  - {fileID: 1512265138}
+  - {fileID: 78492020}
+  - {fileID: 655173650}
   m_Father: {fileID: 1438725495}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &971139530
@@ -3872,6 +4669,99 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de429b3b9cc2a7243a78e4a82b7a7f06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &987437831
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 987437832}
+  m_Layer: 0
+  m_Name: MovePos04
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &987437832
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 987437831}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1100, y: 500, z: 0}
+  m_LocalScale: {x: 20, y: 20, z: 20}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 78492020}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &988155916
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 988155917}
+  m_Layer: 0
+  m_Name: MovePos01
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &988155917
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 988155916}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 500, y: 500, z: 0}
+  m_LocalScale: {x: 20, y: 20, z: 20}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 78492020}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &992041933
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 992041934}
+  m_Layer: 0
+  m_Name: MovePos02
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &992041934
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 992041933}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1100, y: 900, z: 0}
+  m_LocalScale: {x: 20, y: 20, z: 20}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 78492020}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1018650318
 GameObject:
   m_ObjectHideFlags: 0
@@ -3910,7 +4800,7 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.1
       delayAfter: 2
-      bulletPrefab: {fileID: 0}
+      bulletPrefab: {fileID: 454101848}
       bulletCount: 4
       spawn:
         mode: 0
@@ -3956,6 +4846,37 @@ Transform:
   m_Children:
   - {fileID: 1869018878}
   m_Father: {fileID: 922491251}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1030673786
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1030673787}
+  m_Layer: 0
+  m_Name: MovePos04
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1030673787
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1030673786}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 840, y: 300, z: 0}
+  m_LocalScale: {x: 20, y: 20, z: 20}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1512265138}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1040590710
 GameObject:
@@ -4073,7 +4994,7 @@ MonoBehaviour:
       repeatCount: 8
       repeatInterval: 0.4
       delayAfter: 1.2
-      bulletPrefab: {fileID: 0}
+      bulletPrefab: {fileID: 1619466907}
       bulletCount: 4
       spawn:
         mode: 0
@@ -4344,7 +5265,7 @@ MonoBehaviour:
       repeatCount: 2
       repeatInterval: 0.25
       delayAfter: 0.5
-      bulletPrefab: {fileID: 225292998}
+      bulletPrefab: {fileID: 757206540}
       bulletCount: 16
       spawn:
         mode: 0
@@ -4502,7 +5423,7 @@ MonoBehaviour:
       repeatCount: 288
       repeatInterval: 0.01
       delayAfter: 0.5
-      bulletPrefab: {fileID: 0}
+      bulletPrefab: {fileID: 1289619177}
       bulletCount: 1
       spawn:
         mode: 0
@@ -4565,7 +5486,7 @@ MonoBehaviour:
       repeatCount: 288
       repeatInterval: 0.01
       delayAfter: 2
-      bulletPrefab: {fileID: 0}
+      bulletPrefab: {fileID: 1289619177}
       bulletCount: 1
       spawn:
         mode: 0
@@ -4647,7 +5568,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1143908190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4680,7 +5601,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   patternSchedule:
-    pattern: {fileID: 1294717916}
+    pattern: {fileID: 1495661138}
     startDelay: 0
     loop: 1
   useFixedSeed: 0
@@ -4880,6 +5801,7 @@ GameObject:
   - component: {fileID: 1156615132}
   - component: {fileID: 1156615129}
   - component: {fileID: 1156615134}
+  - component: {fileID: 1156615135}
   m_Layer: 0
   m_Name: SquareBullet01
   m_TagString: EnemyBullet
@@ -5051,6 +5973,42 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.36, y: 0.36}
   m_EdgeRadius: 0
+--- !u!58 &1156615135
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1156615127}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 0.5
 --- !u!1 &1183840682
 GameObject:
   m_ObjectHideFlags: 0
@@ -5089,7 +6047,7 @@ MonoBehaviour:
       repeatCount: 8
       repeatInterval: 0.1
       delayAfter: 2
-      bulletPrefab: {fileID: 0}
+      bulletPrefab: {fileID: 1289619177}
       bulletCount: 8
       spawn:
         mode: 0
@@ -5173,6 +6131,37 @@ Transform:
   - {fileID: 582066411}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1195358479
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1195358480}
+  m_Layer: 0
+  m_Name: MovePos02
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1195358480
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1195358479}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 540, y: 700, z: 0}
+  m_LocalScale: {x: 20, y: 20, z: 20}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1512265138}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1206421667
 GameObject:
   m_ObjectHideFlags: 0
@@ -5186,6 +6175,7 @@ GameObject:
   - component: {fileID: 1206421671}
   - component: {fileID: 1206421669}
   - component: {fileID: 1206421673}
+  - component: {fileID: 1206421674}
   m_Layer: 0
   m_Name: PointerBullet04
   m_TagString: EnemyBullet
@@ -5357,6 +6347,259 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.14, y: 0.41}
   m_EdgeRadius: 0
+--- !u!58 &1206421674
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1206421667}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 0.5
+--- !u!1 &1211371630
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1211371631}
+  - component: {fileID: 1211371632}
+  m_Layer: 0
+  m_Name: BCP012_Burst Xylo1 (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1211371631
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1211371630}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1226622568}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1211371632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1211371630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a473479aaeb14114a8b29abad600ba3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patternName: BCP012_TheTrioBulletPattern
+  groups:
+  - groupName: BCP012_TheTrioBulletPattern
+    initialDelay: 0
+    bursts:
+    - name: Xylo1
+      repeatCount: 1
+      repeatInterval: 0.1
+      delayAfter: 0.25
+      bulletPrefab: {fileID: 1708515977}
+      bulletCount: 16
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+      direction:
+        mode: 5
+        angle: -180
+        spread: 180
+        rotationPerRepeat: 0
+      motion:
+        overrideInitialSpeed: 1
+        initialSpeed: 800
+        speedTimeline:
+        - targetSpeed: 0
+          duration: 0.25
+          easing: 0
+        - targetSpeed: 0
+          duration: 2
+          easing: 0
+        - targetSpeed: 200
+          duration: 1
+          easing: 0
+        directionTimeline: []
+        burstTimeline: []
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    loopPattern: 0
+--- !u!1 &1226622567
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1226622568}
+  - component: {fileID: 1226622569}
+  m_Layer: 0
+  m_Name: BCP012_TheTrioBulletPattern_Timing01
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1226622568
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1226622567}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 687288690}
+  - {fileID: 1367614726}
+  - {fileID: 1211371631}
+  - {fileID: 186810374}
+  - {fileID: 647001070}
+  m_Father: {fileID: 1393028231}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1226622569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1226622567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a473479aaeb14114a8b29abad600ba3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patternName: BCP012_TheTrioBulletPattern
+  groups:
+  - groupName: BCP012_TheTrioBulletPattern
+    initialDelay: 0
+    bursts:
+    - name: Xylo1
+      repeatCount: 1
+      repeatInterval: 0.1
+      delayAfter: 0.25
+      bulletPrefab: {fileID: 757206540}
+      bulletCount: 1
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+      direction:
+        mode: 1
+        angle: -90
+        spread: 0
+        rotationPerRepeat: 0
+      motion:
+        overrideInitialSpeed: 0
+        initialSpeed: 0
+        speedTimeline:
+        - targetSpeed: 0
+          duration: 0.5
+          easing: 0
+        directionTimeline: []
+        burstTimeline:
+        - name: Trigger 1
+          time: 0.5
+          pattern: {fileID: 687288691}
+          destroySelfAfterFire: 0
+        - name: Trigger 2
+          time: 0.75
+          pattern: {fileID: 1367614727}
+          destroySelfAfterFire: 0
+        - name: Trigger 3
+          time: 1.25
+          pattern: {fileID: 1211371632}
+          destroySelfAfterFire: 0
+        - name: Trigger 4
+          time: 1.75
+          pattern: {fileID: 186810375}
+          destroySelfAfterFire: 0
+        - name: Trigger 5
+          time: 2
+          pattern: {fileID: 647001071}
+          destroySelfAfterFire: 0
+        - name: Trigger 6
+          time: 2.75
+          pattern: {fileID: 1367614727}
+          destroySelfAfterFire: 0
+        - name: Trigger 7
+          time: 3
+          pattern: {fileID: 1211371632}
+          destroySelfAfterFire: 0
+        - name: Trigger 8
+          time: 3.25
+          pattern: {fileID: 186810375}
+          destroySelfAfterFire: 0
+        - name: Trigger 9
+          time: 3.5
+          pattern: {fileID: 647001071}
+          destroySelfAfterFire: 0
+        - name: Trigger 10
+          time: 3.75
+          pattern: {fileID: 687288691}
+          destroySelfAfterFire: 1
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    loopPattern: 0
 --- !u!1 &1242400003
 GameObject:
   m_ObjectHideFlags: 0
@@ -5974,6 +7217,95 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1141027435}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1367614725
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1367614726}
+  - component: {fileID: 1367614727}
+  m_Layer: 0
+  m_Name: BCP012_Burst Xylo1 (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1367614726
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1367614725}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1226622568}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1367614727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1367614725}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a473479aaeb14114a8b29abad600ba3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patternName: BCP012_TheTrioBulletPattern
+  groups:
+  - groupName: BCP012_TheTrioBulletPattern
+    initialDelay: 0
+    bursts:
+    - name: Xylo1
+      repeatCount: 1
+      repeatInterval: 0.1
+      delayAfter: 0.25
+      bulletPrefab: {fileID: 1708515977}
+      bulletCount: 16
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+      direction:
+        mode: 5
+        angle: 0
+        spread: 180
+        rotationPerRepeat: 0
+      motion:
+        overrideInitialSpeed: 1
+        initialSpeed: 800
+        speedTimeline:
+        - targetSpeed: 0
+          duration: 0.25
+          easing: 0
+        - targetSpeed: 0
+          duration: 2
+          easing: 0
+        - targetSpeed: 200
+          duration: 1
+          easing: 0
+        directionTimeline: []
+        burstTimeline: []
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    loopPattern: 0
 --- !u!1 &1377098211
 GameObject:
   m_ObjectHideFlags: 0
@@ -6059,8 +7391,8 @@ Transform:
   m_GameObject: {fileID: 1377098211}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1000, y: 200, z: 0}
-  m_LocalScale: {x: 16, y: 16, z: 16}
+  m_LocalPosition: {x: 800, y: 200, z: 0}
+  m_LocalScale: {x: 12, y: 12, z: 12}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1843075897}
@@ -6224,6 +7556,9 @@ Transform:
   - {fileID: 1085936825}
   - {fileID: 959725636}
   - {fileID: 1294717915}
+  - {fileID: 1226622568}
+  - {fileID: 1646067531}
+  - {fileID: 1495661137}
   m_Father: {fileID: 1438725495}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1399491420
@@ -6280,7 +7615,7 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.1
       delayAfter: 2
-      bulletPrefab: {fileID: 0}
+      bulletPrefab: {fileID: 1156615127}
       bulletCount: 4
       spawn:
         mode: 0
@@ -6470,6 +7805,448 @@ MonoBehaviour:
           range: 0
           scope: 0
     loopPattern: 0
+--- !u!1 &1467228597
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1467228598}
+  - component: {fileID: 1467228599}
+  m_Layer: 0
+  m_Name: Stardust Tier 2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1467228598
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1467228597}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 78492020}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1467228599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1467228597}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a473479aaeb14114a8b29abad600ba3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patternName: Glitch Star - Stardust
+  groups:
+  - groupName: Stardust 1st Tier
+    initialDelay: 0
+    bursts:
+    - name: Burst 1
+      repeatCount: 1
+      repeatInterval: 0.01
+      delayAfter: 0.5
+      bulletPrefab: {fileID: 757206540}
+      bulletCount: 3
+      spawn:
+        mode: 2
+        offset: {x: 0, y: 0}
+        circleRadius: 20
+      direction:
+        mode: 5
+        angle: 0
+        spread: 360
+        rotationPerRepeat: 0
+      motion:
+        overrideInitialSpeed: 1
+        initialSpeed: 160
+        speedTimeline:
+        - targetSpeed: 80
+          duration: 2
+          easing: 0
+        - targetSpeed: 40
+          duration: 1
+          easing: 0
+        - targetSpeed: 160
+          duration: 2
+          easing: 3
+        directionTimeline:
+        - mode: 1
+          relativeAngle: 90
+          duration: 4
+          easing: 3
+        - mode: 0
+          relativeAngle: -180
+          duration: 4
+          easing: 3
+        burstTimeline: []
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 1
+          range: 160
+          scope: 2
+    loopPattern: 1
+--- !u!1 &1495661136
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1495661137}
+  - component: {fileID: 1495661138}
+  m_Layer: 0
+  m_Name: BCP014_TriangleBaseSound
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1495661137
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1495661136}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1393028231}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1495661138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1495661136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a473479aaeb14114a8b29abad600ba3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patternName: BCP012_TheTrioBulletPattern
+  groups:
+  - groupName: TheTriangle3Corner
+    initialDelay: 0
+    bursts:
+    - name: AllCorner Bulletx3 1 2 3 4 5 6 7 8
+      repeatCount: 8
+      repeatInterval: 0.25
+      delayAfter: 0.5
+      bulletPrefab: {fileID: 779324378}
+      bulletCount: 3
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+      direction:
+        mode: 6
+        angle: 90
+        spread: 40
+        rotationPerRepeat: 120
+      motion:
+        overrideInitialSpeed: 0
+        initialSpeed: 0
+        speedTimeline: []
+        directionTimeline: []
+        burstTimeline: []
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    - name: AllCorner Bulletx3 1 2 3 4 5 6 7
+      repeatCount: 7
+      repeatInterval: 0.25
+      delayAfter: 0.25
+      bulletPrefab: {fileID: 779324378}
+      bulletCount: 4
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+      direction:
+        mode: 6
+        angle: 90
+        spread: 40
+        rotationPerRepeat: 120
+      motion:
+        overrideInitialSpeed: 0
+        initialSpeed: 0
+        speedTimeline: []
+        directionTimeline: []
+        burstTimeline: []
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    loopPattern: 1
+  - groupName: TheTriangleSpread
+    initialDelay: 0.25
+    bursts:
+    - name: Burst 1
+      repeatCount: 1
+      repeatInterval: 0.25
+      delayAfter: 0.25
+      bulletPrefab: {fileID: 818882656}
+      bulletCount: 12
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+      direction:
+        mode: 5
+        angle: 0
+        spread: 360
+        rotationPerRepeat: 0
+      motion:
+        overrideInitialSpeed: 0
+        initialSpeed: 0
+        speedTimeline:
+        - targetSpeed: 200
+          duration: 1
+          easing: 3
+        directionTimeline: []
+        burstTimeline: []
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    - name: Burst 2
+      repeatCount: 1
+      repeatInterval: 0.1
+      delayAfter: 0.5
+      bulletPrefab: {fileID: 0}
+      bulletCount: 12
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+      direction:
+        mode: 5
+        angle: 0
+        spread: 360
+        rotationPerRepeat: 0
+      motion:
+        overrideInitialSpeed: 0
+        initialSpeed: 0
+        speedTimeline:
+        - targetSpeed: 200
+          duration: 1
+          easing: 3
+        directionTimeline: []
+        burstTimeline: []
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    - name: Burst 3
+      repeatCount: 1
+      repeatInterval: 0.1
+      delayAfter: 0.25
+      bulletPrefab: {fileID: 0}
+      bulletCount: 18
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+      direction:
+        mode: 5
+        angle: 0
+        spread: 360
+        rotationPerRepeat: 0
+      motion:
+        overrideInitialSpeed: 0
+        initialSpeed: 0
+        speedTimeline:
+        - targetSpeed: 200
+          duration: 1
+          easing: 3
+        directionTimeline: []
+        burstTimeline: []
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    - name: Burst 4
+      repeatCount: 1
+      repeatInterval: 0.1
+      delayAfter: 0.5
+      bulletPrefab: {fileID: 0}
+      bulletCount: 18
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+      direction:
+        mode: 5
+        angle: 0
+        spread: 360
+        rotationPerRepeat: 0
+      motion:
+        overrideInitialSpeed: 0
+        initialSpeed: 0
+        speedTimeline:
+        - targetSpeed: 200
+          duration: 1
+          easing: 3
+        directionTimeline: []
+        burstTimeline: []
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    - name: Burst 5
+      repeatCount: 2
+      repeatInterval: 0.75
+      delayAfter: 0.5
+      bulletPrefab: {fileID: 0}
+      bulletCount: 24
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+      direction:
+        mode: 5
+        angle: 0
+        spread: 360
+        rotationPerRepeat: 0
+      motion:
+        overrideInitialSpeed: 0
+        initialSpeed: 0
+        speedTimeline:
+        - targetSpeed: 200
+          duration: 1
+          easing: 3
+        directionTimeline: []
+        burstTimeline: []
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    - name: Burst 6
+      repeatCount: 1
+      repeatInterval: 0.1
+      delayAfter: 0.5
+      bulletPrefab: {fileID: 0}
+      bulletCount: 18
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+      direction:
+        mode: 5
+        angle: 0
+        spread: 360
+        rotationPerRepeat: 0
+      motion:
+        overrideInitialSpeed: 0
+        initialSpeed: 0
+        speedTimeline:
+        - targetSpeed: 200
+          duration: 1
+          easing: 3
+        directionTimeline: []
+        burstTimeline: []
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    - name: Burst 7
+      repeatCount: 2
+      repeatInterval: 0.25
+      delayAfter: 0.5
+      bulletPrefab: {fileID: 0}
+      bulletCount: 12
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+      direction:
+        mode: 5
+        angle: 0
+        spread: 360
+        rotationPerRepeat: 0
+      motion:
+        overrideInitialSpeed: 0
+        initialSpeed: 0
+        speedTimeline:
+        - targetSpeed: 200
+          duration: 1
+          easing: 3
+        directionTimeline: []
+        burstTimeline: []
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    loopPattern: 1
 --- !u!1 &1495925525
 GameObject:
   m_ObjectHideFlags: 0
@@ -6524,7 +8301,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1502653326
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6561,92 +8338,176 @@ MonoBehaviour:
   entryDuration: 2
   entryEase: 2
   phases:
-  - phaseName: The Unexpect - Straight Shot
-    phaseHealth: 180
+  - phaseName: Glitch Star - 6 Triangle
+    phaseHealth: 240
     isSpellCard: 0
-    spellCardName: The Unexpect - Straight Shot
-    spellCardTimeLimit: 30
-    transitionTargetPoint: {fileID: 1296902387}
-    transitionDuration: 0
-    transitionEase: 3
-    movementPath: []
-    loopMovement: 1
-    bulletPattern:
-      pattern: {fileID: 479661667}
-      startDelay: 0
-      loop: 1
-  - phaseName: The Unexpect - Spiral Circle
-    phaseHealth: 300
-    isSpellCard: 1
-    spellCardName: The Unexpect - Spiral Circle
-    spellCardTimeLimit: 60
-    transitionTargetPoint: {fileID: 0}
+    spellCardName: Glitch Star - 6 Triangle
+    spellCardTimeLimit: 36
+    transitionTargetPoint: {fileID: 1685128802}
     transitionDuration: 0
     transitionEase: 3
     movementPath:
-    - target: {fileID: 1568585601}
-      duration: 2
-      easeType: 3
-      allowShoot: 0
-    - target: {fileID: 1568585601}
-      duration: 2
-      easeType: 3
+    - target: {fileID: 1851313449}
+      duration: 0.01
+      easeType: 0
       allowShoot: 1
-    - target: {fileID: 2015445630}
-      duration: 2
-      easeType: 3
-      allowShoot: 0
-    - target: {fileID: 2015445630}
-      duration: 2
-      easeType: 3
+    - target: {fileID: 1851313449}
+      duration: 4
+      easeType: 0
       allowShoot: 1
-    - target: {fileID: 1296902387}
-      duration: 2
-      easeType: 3
-      allowShoot: 0
-    - target: {fileID: 1296902387}
-      duration: 2
-      easeType: 3
+    - target: {fileID: 1685128802}
+      duration: 0.01
+      easeType: 0
+      allowShoot: 1
+    - target: {fileID: 1685128802}
+      duration: 4
+      easeType: 0
+      allowShoot: 1
+    - target: {fileID: 1995070896}
+      duration: 0.01
+      easeType: 0
+      allowShoot: 1
+    - target: {fileID: 1995070896}
+      duration: 4
+      easeType: 0
       allowShoot: 1
     loopMovement: 1
     bulletPattern:
-      pattern: {fileID: 1141027436}
+      pattern: {fileID: 1876965841}
       startDelay: 0
       loop: 1
-  - phaseName: The Unexpect - Straight Follow Bullets
-    phaseHealth: 180
-    isSpellCard: 0
-    spellCardName: The Unexpect - Straight Follow Bullets
-    spellCardTimeLimit: 30
-    transitionTargetPoint: {fileID: 1296902387}
+  - phaseName: Glitch Star - Teleportation
+    phaseHealth: 320
+    isSpellCard: 1
+    spellCardName: Glitch Star - Speedy Star
+    spellCardTimeLimit: 24
+    transitionTargetPoint: {fileID: 1938590392}
     transitionDuration: 1
     transitionEase: 3
-    movementPath: []
+    movementPath:
+    - target: {fileID: 288196588}
+      duration: 0.19
+      easeType: 0
+      allowShoot: 1
+    - target: {fileID: 1195358480}
+      duration: 0.19
+      easeType: 0
+      allowShoot: 1
+    - target: {fileID: 715139411}
+      duration: 0.19
+      easeType: 0
+      allowShoot: 1
+    - target: {fileID: 1030673787}
+      duration: 0.19
+      easeType: 0
+      allowShoot: 1
+    - target: {fileID: 566855551}
+      duration: 0.19
+      easeType: 0
+      allowShoot: 1
+    - target: {fileID: 1830251106}
+      duration: 0.19
+      easeType: 0
+      allowShoot: 1
+    - target: {fileID: 1938590392}
+      duration: 0.19
+      easeType: 0
+      allowShoot: 1
+    - target: {fileID: 1938590392}
+      duration: 1.6
+      easeType: 0
+      allowShoot: 1
+    - target: {fileID: 288196588}
+      duration: 0.19
+      easeType: 0
+      allowShoot: 1
+    - target: {fileID: 1830251106}
+      duration: 0.19
+      easeType: 0
+      allowShoot: 1
+    - target: {fileID: 566855551}
+      duration: 0.19
+      easeType: 0
+      allowShoot: 1
+    - target: {fileID: 1030673787}
+      duration: 0.19
+      easeType: 0
+      allowShoot: 1
+    - target: {fileID: 715139411}
+      duration: 0.19
+      easeType: 0
+      allowShoot: 1
+    - target: {fileID: 1195358480}
+      duration: 0.19
+      easeType: 0
+      allowShoot: 1
+    - target: {fileID: 1938590392}
+      duration: 0.19
+      easeType: 0
+      allowShoot: 1
+    - target: {fileID: 1938590392}
+      duration: 1.6
+      easeType: 0
+      allowShoot: 1
     loopMovement: 1
     bulletPattern:
-      pattern: {fileID: 1183840683}
+      pattern: {fileID: 1512265139}
       startDelay: 0
       loop: 1
-  - phaseName: The Unexpect - Burst Circle
-    phaseHealth: 300
-    isSpellCard: 1
-    spellCardName: The Unexpect - Burst Circle
-    spellCardTimeLimit: 60
-    transitionTargetPoint: {fileID: 1296902387}
+  - phaseName: Glitch Star - Stardust
+    phaseHealth: 180
+    isSpellCard: 0
+    spellCardName: Glitch Star - Stardust
+    spellCardTimeLimit: 48
+    transitionTargetPoint: {fileID: 1656159722}
     transitionDuration: 0
     transitionEase: 3
-    movementPath: []
+    movementPath:
+    - target: {fileID: 988155917}
+      duration: 2
+      easeType: 3
+      allowShoot: 1
+    - target: {fileID: 992041934}
+      duration: 2
+      easeType: 3
+      allowShoot: 1
+    - target: {fileID: 1656159722}
+      duration: 2
+      easeType: 3
+      allowShoot: 1
+    - target: {fileID: 987437832}
+      duration: 2
+      easeType: 3
+      allowShoot: 1
     loopMovement: 1
     bulletPattern:
-      pattern: {fileID: 903942432}
+      pattern: {fileID: 78492021}
       startDelay: 0
       loop: 1
-  phaseTransitionDuration: 1.2
+  - phaseName: Glitch Star - Glitch Overload
+    phaseHealth: 480
+    isSpellCard: 1
+    spellCardName: Glitch Star - Glitch Overload
+    spellCardTimeLimit: 60
+    transitionTargetPoint: {fileID: 514434468}
+    transitionDuration: 1
+    transitionEase: 3
+    movementPath:
+    - target: {fileID: 514434468}
+      duration: 1
+      easeType: 0
+      allowShoot: 1
+    loopMovement: 1
+    bulletPattern:
+      pattern: {fileID: 655173651}
+      startDelay: 0
+      loop: 1
+  phaseTransitionDuration: 1
   clearBulletsOnPhaseTransition: 1
   blinkCount: 6
   blinkInterval: 0.08
   blinkColor: {r: 1, g: 1, b: 1, a: 1}
-  scoreValueOnDefeat: 50000
+  scoreValueOnDefeat: 60000
   itemDrop:
     itemPrefab: {fileID: 0}
     count: 1
@@ -6801,12 +8662,190 @@ Transform:
   m_GameObject: {fileID: 1502653325}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1000, y: 900, z: 0}
+  m_LocalPosition: {x: 800, y: 900, z: 0}
   m_LocalScale: {x: 20, y: 20, z: 20}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1512265137
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1512265138}
+  - component: {fileID: 1512265139}
+  m_Layer: 0
+  m_Name: Glitch Star - Teleportation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1512265138
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1512265137}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 288196588}
+  - {fileID: 1195358480}
+  - {fileID: 715139411}
+  - {fileID: 1030673787}
+  - {fileID: 566855551}
+  - {fileID: 1830251106}
+  - {fileID: 1938590392}
+  m_Father: {fileID: 965107712}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1512265139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1512265137}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a473479aaeb14114a8b29abad600ba3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patternName: Glitch Star - Teleportation
+  groups:
+  - groupName: 6 Triangle Burst
+    initialDelay: 0
+    bursts:
+    - name: Burst 1
+      repeatCount: 8
+      repeatInterval: 0.16
+      delayAfter: 1.9
+      bulletPrefab: {fileID: 779324378}
+      bulletCount: 6
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 360
+      direction:
+        mode: 6
+        angle: 90
+        spread: 360
+        rotationPerRepeat: 5
+      motion:
+        overrideInitialSpeed: 1
+        initialSpeed: 200
+        speedTimeline:
+        - targetSpeed: 20
+          duration: 0.71
+          easing: 3
+        - targetSpeed: 10
+          duration: 1
+          easing: 0
+        - targetSpeed: 200
+          duration: 0.4
+          easing: 1
+        directionTimeline: []
+        burstTimeline: []
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    - name: Burst 2
+      repeatCount: 8
+      repeatInterval: 0.16
+      delayAfter: 1.9
+      bulletPrefab: {fileID: 779324378}
+      bulletCount: 6
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 360
+      direction:
+        mode: 6
+        angle: 90
+        spread: 360
+        rotationPerRepeat: -5
+      motion:
+        overrideInitialSpeed: 1
+        initialSpeed: 200
+        speedTimeline:
+        - targetSpeed: 20
+          duration: 0.71
+          easing: 3
+        - targetSpeed: 10
+          duration: 1
+          easing: 0
+        - targetSpeed: 200
+          duration: 0.4
+          easing: 1
+        directionTimeline: []
+        burstTimeline: []
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    loopPattern: 1
+  - groupName: Mini Triangle Support
+    initialDelay: 0
+    bursts:
+    - name: Burst 1
+      repeatCount: 8
+      repeatInterval: 0.16
+      delayAfter: 1.9
+      bulletPrefab: {fileID: 818882656}
+      bulletCount: 12
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+      direction:
+        mode: 6
+        angle: 75
+        spread: 360
+        rotationPerRepeat: 0
+      motion:
+        overrideInitialSpeed: 1
+        initialSpeed: 100
+        speedTimeline:
+        - targetSpeed: 0
+          duration: 0.4
+          easing: 0
+        - targetSpeed: 0
+          duration: 1.2
+          easing: 0
+        - targetSpeed: 200
+          duration: 1
+          easing: 0
+        directionTimeline: []
+        burstTimeline: []
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 1
+          range: 40
+          scope: 2
+    loopPattern: 1
 --- !u!1 &1518954361
 GameObject:
   m_ObjectHideFlags: 0
@@ -6845,7 +8884,7 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.1
       delayAfter: 1.2
-      bulletPrefab: {fileID: 0}
+      bulletPrefab: {fileID: 1532030632}
       bulletCount: 3
       spawn:
         mode: 0
@@ -6900,6 +8939,7 @@ GameObject:
   - component: {fileID: 1532030636}
   - component: {fileID: 1532030634}
   - component: {fileID: 1532030638}
+  - component: {fileID: 1532030639}
   m_Layer: 0
   m_Name: TriangleBullet07
   m_TagString: EnemyBullet
@@ -7075,6 +9115,42 @@ PolygonCollider2D:
       - {x: 0.2, y: 0.24}
       - {x: -0.19, y: 0.24}
   m_UseDelaunayMesh: 0
+--- !u!58 &1532030639
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1532030632}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 0.5
 --- !u!1 &1556684541
 GameObject:
   m_ObjectHideFlags: 0
@@ -7245,6 +9321,94 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!1 &1568261876
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1568261877}
+  - component: {fileID: 1568261878}
+  m_Layer: 0
+  m_Name: Petal Going Up
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1568261877
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1568261876}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1997350624}
+  m_Father: {fileID: 655173650}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1568261878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1568261876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a473479aaeb14114a8b29abad600ba3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patternName: Glitch Star - Glitch Overload
+  groups:
+  - groupName: Going Up
+    initialDelay: 0
+    bursts:
+    - name: Burst 1
+      repeatCount: 1
+      repeatInterval: 0.01
+      delayAfter: 1
+      bulletPrefab: {fileID: 757206540}
+      bulletCount: 1
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+      direction:
+        mode: 1
+        angle: 90
+        spread: 0
+        rotationPerRepeat: 0
+      motion:
+        overrideInitialSpeed: 1
+        initialSpeed: 320
+        speedTimeline:
+        - targetSpeed: 0
+          duration: 1
+          easing: 3
+        directionTimeline: []
+        burstTimeline:
+        - name: Petal Falling
+          time: 1
+          pattern: {fileID: 1997350625}
+          destroySelfAfterFire: 1
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 80
+          scope: 2
+    loopPattern: 0
 --- !u!1 &1568585600
 GameObject:
   m_ObjectHideFlags: 0
@@ -7485,6 +9649,18 @@ MonoBehaviour:
     prewarmCount: 400
   - prefab: {fileID: 1532030632}
     prewarmCount: 400
+  - prefab: {fileID: 225292998}
+    prewarmCount: 400
+  - prefab: {fileID: 146686255}
+    prewarmCount: 400
+  - prefab: {fileID: 779324378}
+    prewarmCount: 400
+  - prefab: {fileID: 757206540}
+    prewarmCount: 400
+  - prefab: {fileID: 1708515977}
+    prewarmCount: 400
+  - prefab: {fileID: 818882656}
+    prewarmCount: 400
 --- !u!1 &1591301651
 GameObject:
   m_ObjectHideFlags: 0
@@ -7523,7 +9699,7 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.1
       delayAfter: 1
-      bulletPrefab: {fileID: 0}
+      bulletPrefab: {fileID: 1289619177}
       bulletCount: 20
       spawn:
         mode: 2
@@ -7586,6 +9762,7 @@ GameObject:
   - component: {fileID: 1619466911}
   - component: {fileID: 1619466909}
   - component: {fileID: 1619466913}
+  - component: {fileID: 1619466914}
   m_Layer: 0
   m_Name: HalfSqBullet02
   m_TagString: EnemyBullet
@@ -7757,6 +9934,42 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.22, y: 0.42}
   m_EdgeRadius: 0
+--- !u!58 &1619466914
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1619466907}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 0.5
 --- !u!1 &1621103596
 GameObject:
   m_ObjectHideFlags: 0
@@ -7835,6 +10048,190 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!1 &1646067530
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1646067531}
+  - component: {fileID: 1646067532}
+  m_Layer: 0
+  m_Name: BCP013_TrioSpread
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1646067531
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1646067530}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1393028231}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1646067532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1646067530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a473479aaeb14114a8b29abad600ba3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patternName: BCP012_TheTrioBulletPattern
+  groups:
+  - groupName: BCP013_LightCircleTrioSpread
+    initialDelay: 0
+    bursts:
+    - name: Xylo 1 2 3 4 5 6 7
+      repeatCount: 7
+      repeatInterval: 0.25
+      delayAfter: 0.75
+      bulletPrefab: {fileID: 757206540}
+      bulletCount: 24
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+      direction:
+        mode: 0
+        angle: -90
+        spread: 360
+        rotationPerRepeat: 0
+      motion:
+        overrideInitialSpeed: 0
+        initialSpeed: 0
+        speedTimeline:
+        - targetSpeed: 100
+          duration: 2
+          easing: 1
+        directionTimeline: []
+        burstTimeline: []
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    - name: Xylo 8 9 10 11 12
+      repeatCount: 5
+      repeatInterval: 0.25
+      delayAfter: 0.25
+      bulletPrefab: {fileID: 225292998}
+      bulletCount: 1
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+      direction:
+        mode: 0
+        angle: -90
+        spread: 360
+        rotationPerRepeat: 0
+      motion:
+        overrideInitialSpeed: 0
+        initialSpeed: 0
+        speedTimeline:
+        - targetSpeed: 100
+          duration: 2
+          easing: 1
+        directionTimeline: []
+        burstTimeline: []
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    - name: Little Off Burst
+      repeatCount: 1
+      repeatInterval: 0.1
+      delayAfter: 0.5
+      bulletPrefab: {fileID: 757206540}
+      bulletCount: 1
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+      direction:
+        mode: 1
+        angle: 90
+        spread: 0
+        rotationPerRepeat: 0
+      motion:
+        overrideInitialSpeed: 0
+        initialSpeed: 400
+        speedTimeline:
+        - targetSpeed: 100
+          duration: 1.5
+          easing: 1
+        directionTimeline:
+        - mode: 1
+          relativeAngle: 180
+          duration: 1
+          easing: 0
+        burstTimeline: []
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    loopPattern: 1
+--- !u!1 &1656159721
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1656159722}
+  m_Layer: 0
+  m_Name: MovePos03
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1656159722
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1656159721}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 500, y: 900, z: 0}
+  m_LocalScale: {x: 20, y: 20, z: 20}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 78492020}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1670586318
 GameObject:
   m_ObjectHideFlags: 0
@@ -8009,6 +10406,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1685128801
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1685128802}
+  m_Layer: 0
+  m_Name: MovePos02
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1685128802
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1685128801}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 800, y: 900, z: 0}
+  m_LocalScale: {x: 20, y: 20, z: 20}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1876965842}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1708515977
 GameObject:
   m_ObjectHideFlags: 0
@@ -8022,6 +10450,7 @@ GameObject:
   - component: {fileID: 1708515981}
   - component: {fileID: 1708515980}
   - component: {fileID: 1708515979}
+  - component: {fileID: 1708515983}
   m_Layer: 0
   m_Name: LightSquareBullet_Scale30
   m_TagString: EnemyBullet
@@ -8193,6 +10622,42 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!58 &1708515983
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1708515977}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 0.5
 --- !u!1 &1751531395
 GameObject:
   m_ObjectHideFlags: 0
@@ -8359,7 +10824,7 @@ MonoBehaviour:
       repeatCount: 8
       repeatInterval: 0.1
       delayAfter: 0.1
-      bulletPrefab: {fileID: 0}
+      bulletPrefab: {fileID: 454101848}
       bulletCount: 4
       spawn:
         mode: 0
@@ -8638,7 +11103,7 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.1
       delayAfter: 1.2
-      bulletPrefab: {fileID: 0}
+      bulletPrefab: {fileID: 1289619177}
       bulletCount: 1
       spawn:
         mode: 0
@@ -8818,6 +11283,37 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!1 &1830251105
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1830251106}
+  m_Layer: 0
+  m_Name: MovePos06
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1830251106
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1830251105}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1140, y: 700, z: 0}
+  m_LocalScale: {x: 20, y: 20, z: 20}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1512265138}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1843075895
 GameObject:
   m_ObjectHideFlags: 0
@@ -9036,7 +11532,7 @@ MonoBehaviour:
       repeatCount: 8
       repeatInterval: 0.4
       delayAfter: 1.2
-      bulletPrefab: {fileID: 0}
+      bulletPrefab: {fileID: 1156615127}
       bulletCount: 4
       spawn:
         mode: 0
@@ -9069,6 +11565,37 @@ MonoBehaviour:
           range: 0
           scope: 0
     loopPattern: 1
+--- !u!1 &1851313448
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1851313449}
+  m_Layer: 0
+  m_Name: MovePos01
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1851313449
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1851313448}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 600, y: 900, z: 0}
+  m_LocalScale: {x: 20, y: 20, z: 20}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1876965842}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1869018876
 GameObject:
   m_ObjectHideFlags: 0
@@ -9107,7 +11634,7 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.1
       delayAfter: 2
-      bulletPrefab: {fileID: 0}
+      bulletPrefab: {fileID: 1619466907}
       bulletCount: 4
       spawn:
         mode: 0
@@ -9149,6 +11676,411 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1018650320}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1876965840
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1876965842}
+  - component: {fileID: 1876965841}
+  m_Layer: 0
+  m_Name: Glitch Star - 6 Triangle
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1876965841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1876965840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a473479aaeb14114a8b29abad600ba3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patternName: Glitch Star - 6 Triangle
+  groups:
+  - groupName: Glitch Star - 6 Triangle
+    initialDelay: 0
+    bursts:
+    - name: 6 Triangle
+      repeatCount: 24
+      repeatInterval: 0.19
+      delayAfter: 0.76
+      bulletPrefab: {fileID: 779324378}
+      bulletCount: 6
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+      direction:
+        mode: 6
+        angle: 90
+        spread: 360
+        rotationPerRepeat: 5
+      motion:
+        overrideInitialSpeed: 1
+        initialSpeed: 100
+        speedTimeline:
+        - targetSpeed: 600
+          duration: 3
+          easing: 0
+        directionTimeline: []
+        burstTimeline: []
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    - name: 6 Triangle But Stronger
+      repeatCount: 16
+      repeatInterval: 0.045
+      delayAfter: 0.76
+      bulletPrefab: {fileID: 779324378}
+      bulletCount: 6
+      spawn:
+        mode: 1
+        offset: {x: 0, y: 100}
+        circleRadius: 0
+      direction:
+        mode: 5
+        angle: 90
+        spread: 360
+        rotationPerRepeat: 20
+      motion:
+        overrideInitialSpeed: 1
+        initialSpeed: 400
+        speedTimeline:
+        - targetSpeed: 600
+          duration: 3
+          easing: 0
+        directionTimeline: []
+        burstTimeline: []
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    loopPattern: 1
+  - groupName: Mini Triangle Spread
+    initialDelay: 3
+    bursts:
+    - name: Mini Triangle Falling
+      repeatCount: 120
+      repeatInterval: 0.02
+      delayAfter: 2
+      bulletPrefab: {fileID: 818882656}
+      bulletCount: 1
+      spawn:
+        mode: 1
+        offset: {x: 0, y: 100}
+        circleRadius: 0
+      direction:
+        mode: 5
+        angle: 0
+        spread: 60
+        rotationPerRepeat: 0
+      motion:
+        overrideInitialSpeed: 0
+        initialSpeed: 0
+        speedTimeline: []
+        directionTimeline: []
+        burstTimeline: []
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    loopPattern: 1
+--- !u!4 &1876965842
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1876965840}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1851313449}
+  - {fileID: 1685128802}
+  - {fileID: 1995070896}
+  m_Father: {fileID: 965107712}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1902251294
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1902251296}
+  - component: {fileID: 1902251295}
+  m_Layer: 0
+  m_Name: The_Bullet_Hell_UI03_0
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!212 &1902251295
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1902251294}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: -8303082171207940594, guid: a0db2d895fec7f943b0135d22693bf0e, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 19.2, y: 10.8}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!4 &1902251296
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1902251294}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 960, y: 540, z: 0}
+  m_LocalScale: {x: 100, y: 100, z: 100}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1938590391
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1938590392}
+  m_Layer: 0
+  m_Name: MovePos07
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1938590392
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1938590391}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 840, y: 600, z: 0}
+  m_LocalScale: {x: 20, y: 20, z: 20}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1512265138}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1995070895
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1995070896}
+  m_Layer: 0
+  m_Name: MovePos03
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1995070896
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1995070895}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1000, y: 900, z: 0}
+  m_LocalScale: {x: 20, y: 20, z: 20}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1876965842}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1997350623
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1997350624}
+  - component: {fileID: 1997350625}
+  m_Layer: 0
+  m_Name: Petal Falling
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1997350624
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1997350623}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1568261877}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1997350625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1997350623}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a473479aaeb14114a8b29abad600ba3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patternName: Glitch Star - Glitch Overload
+  groups:
+  - groupName: Going Up
+    initialDelay: 0
+    bursts:
+    - name: Burst 1
+      repeatCount: 1
+      repeatInterval: 1
+      delayAfter: 1
+      bulletPrefab: {fileID: 757206540}
+      bulletCount: 3
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+      direction:
+        mode: 1
+        angle: -90
+        spread: 60
+        rotationPerRepeat: 0
+      motion:
+        overrideInitialSpeed: 1
+        initialSpeed: 0
+        speedTimeline:
+        - targetSpeed: 200
+          duration: 4
+          easing: 2
+        directionTimeline:
+        - mode: 0
+          relativeAngle: 0
+          duration: 1
+          easing: 0
+        - mode: 0
+          relativeAngle: 15
+          duration: 2
+          easing: 0
+        - mode: 0
+          relativeAngle: -30
+          duration: 2
+          easing: 0
+        - mode: 0
+          relativeAngle: 60
+          duration: 2
+          easing: 0
+        - mode: 0
+          relativeAngle: -30
+          duration: 2
+          easing: 0
+        burstTimeline: []
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 160
+          scope: 2
+    loopPattern: 0
 --- !u!1 &1997378037
 GameObject:
   m_ObjectHideFlags: 0
@@ -9347,7 +12279,7 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.1
       delayAfter: 2
-      bulletPrefab: {fileID: 0}
+      bulletPrefab: {fileID: 1206421667}
       bulletCount: 4
       spawn:
         mode: 0
@@ -9622,7 +12554,7 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 1
       delayAfter: 0.5
-      bulletPrefab: {fileID: 225292998}
+      bulletPrefab: {fileID: 0}
       bulletCount: 16
       spawn:
         mode: 0
@@ -9663,6 +12595,7 @@ SceneRoots:
   m_Roots:
   - {fileID: 1062541081}
   - {fileID: 1785608660}
+  - {fileID: 1902251296}
   - {fileID: 1495925527}
   - {fileID: 1377098213}
   - {fileID: 1418916231}
