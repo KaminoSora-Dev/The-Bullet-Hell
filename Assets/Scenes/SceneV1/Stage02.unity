@@ -288,17 +288,72 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.1
       delayAfter: 0.25
-      bulletPrefab: {fileID: 1014114918}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 1014114918}
+        bulletCount: 8
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 5
+          angle: 0
+          spread: 180
+          rotationPerRepeat: 0
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 800
+          speedTimeline:
+          - targetSpeed: 0
+            duration: 0.25
+            easing: 0
+          - targetSpeed: 0
+            duration: 2
+            easing: 0
+          - targetSpeed: 200
+            duration: 1
+            easing: 0
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            duration: 1
+            easing: 0
+            endBehavior: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 8
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 5
         angle: 0
         spread: 180
         rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 1
         initialSpeed: 800
@@ -313,7 +368,19 @@ MonoBehaviour:
           duration: 1
           easing: 0
         directionTimeline: []
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          duration: 1
+          easing: 0
+          endBehavior: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -1608,7 +1675,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -142.5, y: -351.5}
+  m_AnchoredPosition: {x: -142.5, y: -351.50003}
   m_SizeDelta: {x: -925, y: -797}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &137425687
@@ -1810,17 +1877,86 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 1
       delayAfter: 1
-      bulletPrefab: {fileID: 260285518}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 260285518}
+        bulletCount: 3
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 1
+          angle: -90
+          spread: 60
+          rotationPerRepeat: 0
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 0
+          speedTimeline:
+          - targetSpeed: 200
+            duration: 4
+            easing: 2
+          directionTimeline:
+          - mode: 0
+            relativeAngle: 0
+            duration: 1
+            easing: 0
+          - mode: 0
+            relativeAngle: 15
+            duration: 2
+            easing: 0
+          - mode: 0
+            relativeAngle: -30
+            duration: 2
+            easing: 0
+          - mode: 0
+            relativeAngle: 60
+            duration: 2
+            easing: 0
+          - mode: 0
+            relativeAngle: -30
+            duration: 2
+            easing: 0
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            duration: 1
+            easing: 0
+            endBehavior: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 160
+            scope: 2
+      bulletPrefab: {fileID: 0}
       bulletCount: 3
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 1
         angle: -90
         spread: 60
         rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 1
         initialSpeed: 0
@@ -1849,7 +1985,19 @@ MonoBehaviour:
           relativeAngle: -30
           duration: 2
           easing: 0
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          duration: 1
+          easing: 0
+          endBehavior: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -5926,17 +6074,66 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.1
       delayAfter: 0.5
-      bulletPrefab: {fileID: 1014114918}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 1014114918}
+        bulletCount: 4
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 1
+          angle: -90
+          spread: 60
+          rotationPerRepeat: 0
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 600
+          speedTimeline:
+          - targetSpeed: 300
+            duration: 0.5
+            easing: 0
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            duration: 1
+            easing: 0
+            endBehavior: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 4
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 1
         angle: -90
         spread: 60
         rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 1
         initialSpeed: 600
@@ -5945,7 +6142,19 @@ MonoBehaviour:
           duration: 0.5
           easing: 0
         directionTimeline: []
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          duration: 1
+          easing: 0
+          endBehavior: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -6465,17 +6674,72 @@ MonoBehaviour:
       repeatCount: 8
       repeatInterval: 0.16
       delayAfter: 1.9
-      bulletPrefab: {fileID: 256699918}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 256699918}
+        bulletCount: 6
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 360
+          circleDistribution: 0
+        direction:
+          mode: 6
+          angle: 90
+          spread: 360
+          rotationPerRepeat: 5
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 200
+          speedTimeline:
+          - targetSpeed: 20
+            duration: 0.71
+            easing: 3
+          - targetSpeed: 10
+            duration: 1
+            easing: 0
+          - targetSpeed: 200
+            duration: 0.4
+            easing: 1
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            duration: 1
+            easing: 0
+            endBehavior: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 6
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 360
+        circleDistribution: 0
       direction:
         mode: 6
         angle: 90
         spread: 360
         rotationPerRepeat: 5
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 1
         initialSpeed: 200
@@ -6490,7 +6754,19 @@ MonoBehaviour:
           duration: 0.4
           easing: 1
         directionTimeline: []
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          duration: 1
+          easing: 0
+          endBehavior: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -6504,17 +6780,72 @@ MonoBehaviour:
       repeatCount: 8
       repeatInterval: 0.16
       delayAfter: 1.9
-      bulletPrefab: {fileID: 256699918}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 256699918}
+        bulletCount: 6
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 360
+          circleDistribution: 0
+        direction:
+          mode: 6
+          angle: 90
+          spread: 360
+          rotationPerRepeat: -5
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 200
+          speedTimeline:
+          - targetSpeed: 20
+            duration: 0.71
+            easing: 3
+          - targetSpeed: 10
+            duration: 1
+            easing: 0
+          - targetSpeed: 200
+            duration: 0.4
+            easing: 1
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            duration: 1
+            easing: 0
+            endBehavior: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 6
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 360
+        circleDistribution: 0
       direction:
         mode: 6
         angle: 90
         spread: 360
         rotationPerRepeat: -5
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 1
         initialSpeed: 200
@@ -6529,7 +6860,19 @@ MonoBehaviour:
           duration: 0.4
           easing: 1
         directionTimeline: []
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          duration: 1
+          easing: 0
+          endBehavior: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -6547,17 +6890,72 @@ MonoBehaviour:
       repeatCount: 8
       repeatInterval: 0.16
       delayAfter: 1.9
-      bulletPrefab: {fileID: 502557264}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 502557264}
+        bulletCount: 12
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 6
+          angle: 75
+          spread: 360
+          rotationPerRepeat: 0
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 100
+          speedTimeline:
+          - targetSpeed: 0
+            duration: 0.4
+            easing: 0
+          - targetSpeed: 0
+            duration: 1.2
+            easing: 0
+          - targetSpeed: 200
+            duration: 1
+            easing: 0
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            duration: 1
+            easing: 0
+            endBehavior: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 1
+            range: 40
+            scope: 2
+      bulletPrefab: {fileID: 0}
       bulletCount: 12
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 6
         angle: 75
         spread: 360
         rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 1
         initialSpeed: 100
@@ -6572,7 +6970,19 @@ MonoBehaviour:
           duration: 1
           easing: 0
         directionTimeline: []
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          duration: 1
+          easing: 0
+          endBehavior: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -6988,17 +7398,66 @@ MonoBehaviour:
       repeatCount: 7
       repeatInterval: 0.25
       delayAfter: 0.75
-      bulletPrefab: {fileID: 260285518}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 260285518}
+        bulletCount: 24
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 0
+          angle: -90
+          spread: 360
+          rotationPerRepeat: 0
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 0
+          initialSpeed: 0
+          speedTimeline:
+          - targetSpeed: 300
+            duration: 1
+            easing: 1
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            duration: 1
+            easing: 0
+            endBehavior: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 24
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 0
         angle: -90
         spread: 360
         rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 0
         initialSpeed: 0
@@ -7007,7 +7466,19 @@ MonoBehaviour:
           duration: 1
           easing: 1
         directionTimeline: []
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          duration: 1
+          easing: 0
+          endBehavior: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -7021,17 +7492,66 @@ MonoBehaviour:
       repeatCount: 5
       repeatInterval: 0.25
       delayAfter: 0.25
-      bulletPrefab: {fileID: 475569691}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 475569691}
+        bulletCount: 1
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 0
+          angle: -90
+          spread: 360
+          rotationPerRepeat: 0
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 0
+          initialSpeed: 0
+          speedTimeline:
+          - targetSpeed: 100
+            duration: 2
+            easing: 1
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            duration: 1
+            easing: 0
+            endBehavior: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 1
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 0
         angle: -90
         spread: 360
         rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 0
         initialSpeed: 0
@@ -7040,7 +7560,19 @@ MonoBehaviour:
           duration: 2
           easing: 1
         directionTimeline: []
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          duration: 1
+          easing: 0
+          endBehavior: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -7054,17 +7586,70 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.1
       delayAfter: 0.5
-      bulletPrefab: {fileID: 260285518}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 260285518}
+        bulletCount: 1
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 1
+          angle: 90
+          spread: 0
+          rotationPerRepeat: 0
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 0
+          initialSpeed: 400
+          speedTimeline:
+          - targetSpeed: 100
+            duration: 1.5
+            easing: 1
+          directionTimeline:
+          - mode: 1
+            relativeAngle: 180
+            duration: 1
+            easing: 0
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            duration: 1
+            easing: 0
+            endBehavior: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 1
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 1
         angle: 90
         spread: 0
         rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 0
         initialSpeed: 400
@@ -7077,7 +7662,19 @@ MonoBehaviour:
           relativeAngle: 180
           duration: 1
           easing: 0
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          duration: 1
+          easing: 0
+          endBehavior: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -7651,17 +8248,66 @@ MonoBehaviour:
       repeatCount: 7
       repeatInterval: 0.25
       delayAfter: 0.75
-      bulletPrefab: {fileID: 502557264}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 502557264}
+        bulletCount: 24
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 0
+          angle: -90
+          spread: 360
+          rotationPerRepeat: 0
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 0
+          initialSpeed: 0
+          speedTimeline:
+          - targetSpeed: 300
+            duration: 1
+            easing: 1
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            duration: 1
+            easing: 0
+            endBehavior: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 24
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 0
         angle: -90
         spread: 360
         rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 0
         initialSpeed: 0
@@ -7670,7 +8316,19 @@ MonoBehaviour:
           duration: 1
           easing: 1
         directionTimeline: []
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          duration: 1
+          easing: 0
+          endBehavior: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -7684,17 +8342,66 @@ MonoBehaviour:
       repeatCount: 5
       repeatInterval: 0.25
       delayAfter: 0.25
-      bulletPrefab: {fileID: 256699918}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 256699918}
+        bulletCount: 1
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 0
+          angle: -90
+          spread: 360
+          rotationPerRepeat: 0
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 0
+          initialSpeed: 0
+          speedTimeline:
+          - targetSpeed: 100
+            duration: 2
+            easing: 1
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            duration: 1
+            easing: 0
+            endBehavior: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 1
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 0
         angle: -90
         spread: 360
         rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 0
         initialSpeed: 0
@@ -7703,7 +8410,19 @@ MonoBehaviour:
           duration: 2
           easing: 1
         directionTimeline: []
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          duration: 1
+          easing: 0
+          endBehavior: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -7717,17 +8436,70 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.1
       delayAfter: 0.5
-      bulletPrefab: {fileID: 502557264}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 502557264}
+        bulletCount: 1
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 1
+          angle: 90
+          spread: 0
+          rotationPerRepeat: 0
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 0
+          initialSpeed: 400
+          speedTimeline:
+          - targetSpeed: 100
+            duration: 1.5
+            easing: 1
+          directionTimeline:
+          - mode: 1
+            relativeAngle: 180
+            duration: 1
+            easing: 0
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            duration: 1
+            easing: 0
+            endBehavior: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 1
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 1
         angle: 90
         spread: 0
         rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 0
         initialSpeed: 400
@@ -7740,7 +8512,19 @@ MonoBehaviour:
           relativeAngle: 180
           duration: 1
           easing: 0
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          duration: 1
+          easing: 0
+          endBehavior: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -9625,23 +10409,81 @@ MonoBehaviour:
       repeatCount: 8
       repeatInterval: 0.25
       delayAfter: 0.5
-      bulletPrefab: {fileID: 256699918}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 256699918}
+        bulletCount: 3
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 6
+          angle: 90
+          spread: 40
+          rotationPerRepeat: 120
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 0
+          initialSpeed: 0
+          speedTimeline: []
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            duration: 1
+            easing: 0
+            endBehavior: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 3
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 6
         angle: 90
         spread: 40
         rotationPerRepeat: 120
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 0
         initialSpeed: 0
         speedTimeline: []
         directionTimeline: []
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          duration: 1
+          easing: 0
+          endBehavior: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -9655,23 +10497,81 @@ MonoBehaviour:
       repeatCount: 7
       repeatInterval: 0.25
       delayAfter: 0.25
-      bulletPrefab: {fileID: 256699918}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 256699918}
+        bulletCount: 4
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 6
+          angle: 90
+          spread: 40
+          rotationPerRepeat: 120
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 0
+          initialSpeed: 0
+          speedTimeline: []
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            duration: 1
+            easing: 0
+            endBehavior: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 4
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 6
         angle: 90
         spread: 40
         rotationPerRepeat: 120
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 0
         initialSpeed: 0
         speedTimeline: []
         directionTimeline: []
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          duration: 1
+          easing: 0
+          endBehavior: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -9689,17 +10589,66 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.25
       delayAfter: 0.25
-      bulletPrefab: {fileID: 502557264}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 502557264}
+        bulletCount: 12
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 5
+          angle: 0
+          spread: 360
+          rotationPerRepeat: 0
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 0
+          initialSpeed: 0
+          speedTimeline:
+          - targetSpeed: 200
+            duration: 1
+            easing: 3
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            duration: 1
+            easing: 0
+            endBehavior: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 12
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 5
         angle: 0
         spread: 360
         rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 0
         initialSpeed: 0
@@ -9708,7 +10657,19 @@ MonoBehaviour:
           duration: 1
           easing: 3
         directionTimeline: []
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          duration: 1
+          easing: 0
+          endBehavior: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -9722,17 +10683,66 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.1
       delayAfter: 0.5
-      bulletPrefab: {fileID: 502557264}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 502557264}
+        bulletCount: 12
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 5
+          angle: 0
+          spread: 360
+          rotationPerRepeat: 0
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 0
+          initialSpeed: 0
+          speedTimeline:
+          - targetSpeed: 200
+            duration: 1
+            easing: 3
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            duration: 1
+            easing: 0
+            endBehavior: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 12
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 5
         angle: 0
         spread: 360
         rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 0
         initialSpeed: 0
@@ -9741,7 +10751,19 @@ MonoBehaviour:
           duration: 1
           easing: 3
         directionTimeline: []
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          duration: 1
+          easing: 0
+          endBehavior: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -9755,17 +10777,66 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.1
       delayAfter: 0.25
-      bulletPrefab: {fileID: 502557264}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 502557264}
+        bulletCount: 18
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 5
+          angle: 0
+          spread: 360
+          rotationPerRepeat: 0
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 0
+          initialSpeed: 0
+          speedTimeline:
+          - targetSpeed: 200
+            duration: 1
+            easing: 3
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            duration: 1
+            easing: 0
+            endBehavior: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 18
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 5
         angle: 0
         spread: 360
         rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 0
         initialSpeed: 0
@@ -9774,7 +10845,19 @@ MonoBehaviour:
           duration: 1
           easing: 3
         directionTimeline: []
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          duration: 1
+          easing: 0
+          endBehavior: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -9788,17 +10871,66 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.1
       delayAfter: 0.5
-      bulletPrefab: {fileID: 502557264}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 502557264}
+        bulletCount: 18
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 5
+          angle: 0
+          spread: 360
+          rotationPerRepeat: 0
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 0
+          initialSpeed: 0
+          speedTimeline:
+          - targetSpeed: 200
+            duration: 1
+            easing: 3
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            duration: 1
+            easing: 0
+            endBehavior: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 18
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 5
         angle: 0
         spread: 360
         rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 0
         initialSpeed: 0
@@ -9807,7 +10939,19 @@ MonoBehaviour:
           duration: 1
           easing: 3
         directionTimeline: []
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          duration: 1
+          easing: 0
+          endBehavior: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -9821,17 +10965,66 @@ MonoBehaviour:
       repeatCount: 2
       repeatInterval: 0.75
       delayAfter: 0.5
-      bulletPrefab: {fileID: 502557264}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 502557264}
+        bulletCount: 24
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 5
+          angle: 0
+          spread: 360
+          rotationPerRepeat: 0
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 0
+          initialSpeed: 0
+          speedTimeline:
+          - targetSpeed: 200
+            duration: 1
+            easing: 3
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            duration: 1
+            easing: 0
+            endBehavior: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 24
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 5
         angle: 0
         spread: 360
         rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 0
         initialSpeed: 0
@@ -9840,7 +11033,19 @@ MonoBehaviour:
           duration: 1
           easing: 3
         directionTimeline: []
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          duration: 1
+          easing: 0
+          endBehavior: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -9854,17 +11059,66 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.1
       delayAfter: 0.5
-      bulletPrefab: {fileID: 502557264}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 502557264}
+        bulletCount: 18
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 5
+          angle: 0
+          spread: 360
+          rotationPerRepeat: 0
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 0
+          initialSpeed: 0
+          speedTimeline:
+          - targetSpeed: 200
+            duration: 1
+            easing: 3
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            duration: 1
+            easing: 0
+            endBehavior: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 18
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 5
         angle: 0
         spread: 360
         rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 0
         initialSpeed: 0
@@ -9873,7 +11127,19 @@ MonoBehaviour:
           duration: 1
           easing: 3
         directionTimeline: []
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          duration: 1
+          easing: 0
+          endBehavior: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -9887,17 +11153,66 @@ MonoBehaviour:
       repeatCount: 2
       repeatInterval: 0.25
       delayAfter: 0.5
-      bulletPrefab: {fileID: 502557264}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 502557264}
+        bulletCount: 12
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 5
+          angle: 0
+          spread: 360
+          rotationPerRepeat: 0
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 0
+          initialSpeed: 0
+          speedTimeline:
+          - targetSpeed: 200
+            duration: 1
+            easing: 3
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            duration: 1
+            easing: 0
+            endBehavior: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 12
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 5
         angle: 0
         spread: 360
         rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 0
         initialSpeed: 0
@@ -9906,7 +11221,19 @@ MonoBehaviour:
           duration: 1
           easing: 3
         directionTimeline: []
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          duration: 1
+          easing: 0
+          endBehavior: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -11232,17 +12559,81 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.5
       delayAfter: 0.5
-      bulletPrefab: {fileID: 836019037}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 836019037}
+        bulletCount: 1
+        spawn:
+          mode: 1
+          offset: {x: -150, y: -100}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 0
+          angle: 90
+          spread: 0
+          rotationPerRepeat: 80
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 0
+          speedTimeline:
+          - targetSpeed: 0
+            duration: 1.5
+            easing: 2
+          - targetSpeed: 300
+            duration: 0.01
+            easing: 0
+          directionTimeline:
+          - mode: 0
+            relativeAngle: 90
+            duration: 1.5
+            easing: 0
+          - mode: 1
+            relativeAngle: 45
+            duration: 0.05
+            easing: 0
+          syncDirectionTimelineToBurst: 0
+          burstTimeline:
+          - name: Burstx4
+            time: 1.5
+            pattern: {fileID: 410157630}
+            destroySelfAfterFire: 1
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            duration: 1
+            easing: 0
+            endBehavior: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 1
       spawn:
         mode: 1
         offset: {x: -150, y: -100}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 0
         angle: 90
         spread: 0
         rotationPerRepeat: 80
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 1
         initialSpeed: 0
@@ -11262,11 +12653,23 @@ MonoBehaviour:
           relativeAngle: 45
           duration: 0.05
           easing: 0
+        syncDirectionTimelineToBurst: 0
         burstTimeline:
         - name: Burstx4
           time: 1.5
           pattern: {fileID: 410157630}
           destroySelfAfterFire: 1
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          duration: 1
+          easing: 0
+          endBehavior: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -11280,17 +12683,81 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.5
       delayAfter: 0.5
-      bulletPrefab: {fileID: 836019037}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 836019037}
+        bulletCount: 1
+        spawn:
+          mode: 1
+          offset: {x: -50, y: -100}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 0
+          angle: 180
+          spread: 0
+          rotationPerRepeat: 80
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 0
+          speedTimeline:
+          - targetSpeed: 0
+            duration: 1
+            easing: 2
+          - targetSpeed: 300
+            duration: 0.01
+            easing: 0
+          directionTimeline:
+          - mode: 0
+            relativeAngle: 90
+            duration: 1
+            easing: 0
+          - mode: 1
+            relativeAngle: 45
+            duration: 0.05
+            easing: 0
+          syncDirectionTimelineToBurst: 0
+          burstTimeline:
+          - name: Burstx4
+            time: 1
+            pattern: {fileID: 410157630}
+            destroySelfAfterFire: 1
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            duration: 1
+            easing: 0
+            endBehavior: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 1
       spawn:
         mode: 1
         offset: {x: -50, y: -100}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 0
         angle: 180
         spread: 0
         rotationPerRepeat: 80
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 1
         initialSpeed: 0
@@ -11310,11 +12777,23 @@ MonoBehaviour:
           relativeAngle: 45
           duration: 0.05
           easing: 0
+        syncDirectionTimelineToBurst: 0
         burstTimeline:
         - name: Burstx4
           time: 1
           pattern: {fileID: 410157630}
           destroySelfAfterFire: 1
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          duration: 1
+          easing: 0
+          endBehavior: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -11328,17 +12807,81 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.25
       delayAfter: 0.25
-      bulletPrefab: {fileID: 836019037}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 836019037}
+        bulletCount: 1
+        spawn:
+          mode: 1
+          offset: {x: 50, y: -100}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 0
+          angle: 180
+          spread: 0
+          rotationPerRepeat: 80
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 0
+          speedTimeline:
+          - targetSpeed: 0
+            duration: 0.5
+            easing: 2
+          - targetSpeed: 300
+            duration: 0.01
+            easing: 0
+          directionTimeline:
+          - mode: 0
+            relativeAngle: 90
+            duration: 0.5
+            easing: 0
+          - mode: 1
+            relativeAngle: 45
+            duration: 0.05
+            easing: 0
+          syncDirectionTimelineToBurst: 0
+          burstTimeline:
+          - name: Burstx4
+            time: 0.5
+            pattern: {fileID: 410157630}
+            destroySelfAfterFire: 1
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            duration: 1
+            easing: 0
+            endBehavior: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 1
       spawn:
         mode: 1
         offset: {x: 50, y: -100}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 0
         angle: 180
         spread: 0
         rotationPerRepeat: 80
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 1
         initialSpeed: 0
@@ -11358,11 +12901,23 @@ MonoBehaviour:
           relativeAngle: 45
           duration: 0.05
           easing: 0
+        syncDirectionTimelineToBurst: 0
         burstTimeline:
         - name: Burstx4
           time: 0.5
           pattern: {fileID: 410157630}
           destroySelfAfterFire: 1
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          duration: 1
+          easing: 0
+          endBehavior: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -11376,17 +12931,81 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.1
       delayAfter: 0.5
-      bulletPrefab: {fileID: 836019037}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 836019037}
+        bulletCount: 1
+        spawn:
+          mode: 1
+          offset: {x: 150, y: -100}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 0
+          angle: 180
+          spread: 0
+          rotationPerRepeat: 80
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 0
+          speedTimeline:
+          - targetSpeed: 0
+            duration: 0.25
+            easing: 2
+          - targetSpeed: 300
+            duration: 0.01
+            easing: 0
+          directionTimeline:
+          - mode: 0
+            relativeAngle: 90
+            duration: 0.5
+            easing: 0
+          - mode: 1
+            relativeAngle: 45
+            duration: 0.05
+            easing: 0
+          syncDirectionTimelineToBurst: 0
+          burstTimeline:
+          - name: Burstx4
+            time: 0.25
+            pattern: {fileID: 410157630}
+            destroySelfAfterFire: 1
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            duration: 1
+            easing: 0
+            endBehavior: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 1
       spawn:
         mode: 1
         offset: {x: 150, y: -100}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 0
         angle: 180
         spread: 0
         rotationPerRepeat: 80
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 1
         initialSpeed: 0
@@ -11406,11 +13025,23 @@ MonoBehaviour:
           relativeAngle: 45
           duration: 0.05
           easing: 0
+        syncDirectionTimelineToBurst: 0
         burstTimeline:
         - name: Burstx4
           time: 0.25
           pattern: {fileID: 410157630}
           destroySelfAfterFire: 1
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          duration: 1
+          easing: 0
+          endBehavior: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -11922,17 +13553,66 @@ MonoBehaviour:
       repeatCount: 2
       repeatInterval: 0.25
       delayAfter: 0.5
-      bulletPrefab: {fileID: 260285518}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 260285518}
+        bulletCount: 16
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 0
+          angle: 0
+          spread: 360
+          rotationPerRepeat: 0
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 0
+          initialSpeed: 0
+          speedTimeline:
+          - targetSpeed: 200
+            duration: 1
+            easing: 2
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            duration: 1
+            easing: 0
+            endBehavior: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 16
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 0
         angle: 0
         spread: 360
         rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 0
         initialSpeed: 0
@@ -11941,7 +13621,19 @@ MonoBehaviour:
           duration: 1
           easing: 2
         directionTimeline: []
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          duration: 1
+          easing: 0
+          endBehavior: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -11955,17 +13647,66 @@ MonoBehaviour:
       repeatCount: 2
       repeatInterval: 0.25
       delayAfter: 0.5
-      bulletPrefab: {fileID: 260285518}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 260285518}
+        bulletCount: 16
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 0
+          angle: 0
+          spread: 360
+          rotationPerRepeat: 0
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 0
+          initialSpeed: 0
+          speedTimeline:
+          - targetSpeed: 200
+            duration: 1
+            easing: 2
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            duration: 1
+            easing: 0
+            endBehavior: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 16
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 0
         angle: 0
         spread: 360
         rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 0
         initialSpeed: 0
@@ -11974,7 +13715,19 @@ MonoBehaviour:
           duration: 1
           easing: 2
         directionTimeline: []
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          duration: 1
+          easing: 0
+          endBehavior: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -11988,17 +13741,66 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.25
       delayAfter: 0.5
-      bulletPrefab: {fileID: 475569691}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 475569691}
+        bulletCount: 32
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 0
+          angle: 0
+          spread: 360
+          rotationPerRepeat: 0
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 0
+          initialSpeed: 0
+          speedTimeline:
+          - targetSpeed: 200
+            duration: 1
+            easing: 2
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            duration: 1
+            easing: 0
+            endBehavior: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 32
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 0
         angle: 0
         spread: 360
         rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 0
         initialSpeed: 0
@@ -12007,7 +13809,19 @@ MonoBehaviour:
           duration: 1
           easing: 2
         directionTimeline: []
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          duration: 1
+          easing: 0
+          endBehavior: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -13447,23 +15261,81 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.1
       delayAfter: 1.2
-      bulletPrefab: {fileID: 1289619177}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 1289619177}
+        bulletCount: 1
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 0
+          angle: 0
+          spread: 0
+          rotationPerRepeat: 0
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 0
+          initialSpeed: 0
+          speedTimeline: []
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            duration: 1
+            easing: 0
+            endBehavior: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 1
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 0
         angle: 0
         spread: 0
         rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 0
         initialSpeed: 0
         speedTimeline: []
         directionTimeline: []
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          duration: 1
+          easing: 0
+          endBehavior: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -15806,8 +17678,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   firstSceneName: Stage01
-  nextSceneName: LastSceneV1
-  isFinalStage: 1
+  nextSceneName: Stage03
+  isFinalStage: 0
   mainMenuSceneName: MainMenuV1
   transitionOnBossDefeated: 1
   bossDefeatDelay: 8
@@ -18367,17 +20239,70 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.01
       delayAfter: 1
-      bulletPrefab: {fileID: 260285518}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 260285518}
+        bulletCount: 1
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 1
+          angle: 90
+          spread: 0
+          rotationPerRepeat: 0
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 320
+          speedTimeline:
+          - targetSpeed: 0
+            duration: 1
+            easing: 3
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline:
+          - name: Petal Falling
+            time: 1
+            pattern: {fileID: 151693919}
+            destroySelfAfterFire: 1
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            duration: 1
+            easing: 0
+            endBehavior: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 80
+            scope: 2
+      bulletPrefab: {fileID: 0}
       bulletCount: 1
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 1
         angle: 90
         spread: 0
         rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 1
         initialSpeed: 320
@@ -18386,11 +20311,23 @@ MonoBehaviour:
           duration: 1
           easing: 3
         directionTimeline: []
+        syncDirectionTimelineToBurst: 0
         burstTimeline:
         - name: Petal Falling
           time: 1
           pattern: {fileID: 151693919}
           destroySelfAfterFire: 1
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          duration: 1
+          easing: 0
+          endBehavior: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -18485,17 +20422,72 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.1
       delayAfter: 0.25
-      bulletPrefab: {fileID: 502557264}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 502557264}
+        bulletCount: 8
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 5
+          angle: -135
+          spread: 180
+          rotationPerRepeat: 0
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 800
+          speedTimeline:
+          - targetSpeed: 0
+            duration: 0.25
+            easing: 0
+          - targetSpeed: 0
+            duration: 2
+            easing: 0
+          - targetSpeed: 200
+            duration: 1
+            easing: 0
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            duration: 1
+            easing: 0
+            endBehavior: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 8
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 5
         angle: -135
         spread: 180
         rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 1
         initialSpeed: 800
@@ -18510,7 +20502,19 @@ MonoBehaviour:
           duration: 1
           easing: 0
         directionTimeline: []
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          duration: 1
+          easing: 0
+          endBehavior: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -18898,17 +20902,80 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.01
       delayAfter: 0.5
-      bulletPrefab: {fileID: 260285518}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 260285518}
+        bulletCount: 3
+        spawn:
+          mode: 2
+          offset: {x: 0, y: 0}
+          circleRadius: 20
+          circleDistribution: 0
+        direction:
+          mode: 5
+          angle: 0
+          spread: 360
+          rotationPerRepeat: 0
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 160
+          speedTimeline:
+          - targetSpeed: 80
+            duration: 2
+            easing: 0
+          - targetSpeed: 40
+            duration: 1
+            easing: 0
+          - targetSpeed: 160
+            duration: 2
+            easing: 3
+          directionTimeline:
+          - mode: 1
+            relativeAngle: 90
+            duration: 4
+            easing: 3
+          - mode: 0
+            relativeAngle: -180
+            duration: 4
+            easing: 3
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            duration: 1
+            easing: 0
+            endBehavior: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 1
+            range: 160
+            scope: 2
+      bulletPrefab: {fileID: 0}
       bulletCount: 3
       spawn:
         mode: 2
         offset: {x: 0, y: 0}
         circleRadius: 20
+        circleDistribution: 0
       direction:
         mode: 5
         angle: 0
         spread: 360
         rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 1
         initialSpeed: 160
@@ -18931,7 +20998,19 @@ MonoBehaviour:
           relativeAngle: -180
           duration: 4
           easing: 3
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          duration: 1
+          easing: 0
+          endBehavior: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -19449,17 +21528,106 @@ MonoBehaviour:
       repeatCount: 2
       repeatInterval: 4
       delayAfter: 0.25
-      bulletPrefab: {fileID: 260285518}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 260285518}
+        bulletCount: 1
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 1
+          angle: -90
+          spread: 0
+          rotationPerRepeat: 0
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 0
+          initialSpeed: 0
+          speedTimeline:
+          - targetSpeed: 0
+            duration: 0.5
+            easing: 0
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline:
+          - name: Trigger 1
+            time: 0.5
+            pattern: {fileID: 1349492849}
+            destroySelfAfterFire: 0
+          - name: Trigger 2
+            time: 0.75
+            pattern: {fileID: 7108043}
+            destroySelfAfterFire: 0
+          - name: Trigger 3
+            time: 1.25
+            pattern: {fileID: 1847190318}
+            destroySelfAfterFire: 0
+          - name: Trigger 4
+            time: 1.75
+            pattern: {fileID: 1351172187}
+            destroySelfAfterFire: 0
+          - name: Trigger 5
+            time: 2
+            pattern: {fileID: 1193471535}
+            destroySelfAfterFire: 0
+          - name: Trigger 6
+            time: 2.75
+            pattern: {fileID: 7108043}
+            destroySelfAfterFire: 0
+          - name: Trigger 7
+            time: 3
+            pattern: {fileID: 1847190318}
+            destroySelfAfterFire: 0
+          - name: Trigger 8
+            time: 3.25
+            pattern: {fileID: 1351172187}
+            destroySelfAfterFire: 0
+          - name: Trigger 9
+            time: 3.5
+            pattern: {fileID: 1193471535}
+            destroySelfAfterFire: 0
+          - name: Trigger 10
+            time: 3.75
+            pattern: {fileID: 1349492849}
+            destroySelfAfterFire: 1
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            duration: 1
+            easing: 0
+            endBehavior: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 1
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 1
         angle: -90
         spread: 0
         rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 0
         initialSpeed: 0
@@ -19468,6 +21636,7 @@ MonoBehaviour:
           duration: 0.5
           easing: 0
         directionTimeline: []
+        syncDirectionTimelineToBurst: 0
         burstTimeline:
         - name: Trigger 1
           time: 0.5
@@ -19509,6 +21678,17 @@ MonoBehaviour:
           time: 3.75
           pattern: {fileID: 1349492849}
           destroySelfAfterFire: 1
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          duration: 1
+          easing: 0
+          endBehavior: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -20941,17 +23121,72 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.1
       delayAfter: 0.25
-      bulletPrefab: {fileID: 260285518}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 260285518}
+        bulletCount: 8
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 0
+          angle: -90
+          spread: 180
+          rotationPerRepeat: 0
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 600
+          speedTimeline:
+          - targetSpeed: 0
+            duration: 0.4
+            easing: 0
+          - targetSpeed: 0
+            duration: 2
+            easing: 0
+          - targetSpeed: 200
+            duration: 1
+            easing: 0
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            duration: 1
+            easing: 0
+            endBehavior: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 8
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 0
         angle: -90
         spread: 180
         rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 1
         initialSpeed: 600
@@ -20966,7 +23201,19 @@ MonoBehaviour:
           duration: 1
           easing: 0
         directionTimeline: []
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          duration: 1
+          easing: 0
+          endBehavior: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -21030,17 +23277,72 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.1
       delayAfter: 0.25
-      bulletPrefab: {fileID: 502557264}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 502557264}
+        bulletCount: 8
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 5
+          angle: -45
+          spread: 180
+          rotationPerRepeat: 0
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 800
+          speedTimeline:
+          - targetSpeed: 0
+            duration: 0.25
+            easing: 0
+          - targetSpeed: 0
+            duration: 2
+            easing: 0
+          - targetSpeed: 200
+            duration: 1
+            easing: 0
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            duration: 1
+            easing: 0
+            endBehavior: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 8
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 5
         angle: -45
         spread: 180
         rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 1
         initialSpeed: 800
@@ -21055,7 +23357,19 @@ MonoBehaviour:
           duration: 1
           easing: 0
         directionTimeline: []
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          duration: 1
+          easing: 0
+          endBehavior: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -21121,17 +23435,66 @@ MonoBehaviour:
       repeatCount: 12
       repeatInterval: 0.1
       delayAfter: 0.4
-      bulletPrefab: {fileID: 256699918}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 256699918}
+        bulletCount: 6
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 6
+          angle: 90
+          spread: 360
+          rotationPerRepeat: 4
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 300
+          speedTimeline:
+          - targetSpeed: 600
+            duration: 3
+            easing: 0
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            duration: 1
+            easing: 0
+            endBehavior: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 6
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 6
         angle: 90
         spread: 360
         rotationPerRepeat: 4
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 1
         initialSpeed: 300
@@ -21140,7 +23503,19 @@ MonoBehaviour:
           duration: 3
           easing: 0
         directionTimeline: []
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          duration: 1
+          easing: 0
+          endBehavior: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -21154,17 +23529,66 @@ MonoBehaviour:
       repeatCount: 12
       repeatInterval: 0.1
       delayAfter: 0.4
-      bulletPrefab: {fileID: 256699918}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 256699918}
+        bulletCount: 6
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 100}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 6
+          angle: 90
+          spread: 360
+          rotationPerRepeat: -4
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 400
+          speedTimeline:
+          - targetSpeed: 600
+            duration: 3
+            easing: 0
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            duration: 1
+            easing: 0
+            endBehavior: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 6
       spawn:
         mode: 0
         offset: {x: 0, y: 100}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 6
         angle: 90
         spread: 360
         rotationPerRepeat: -4
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 1
         initialSpeed: 400
@@ -21173,7 +23597,19 @@ MonoBehaviour:
           duration: 3
           easing: 0
         directionTimeline: []
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          duration: 1
+          easing: 0
+          endBehavior: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -21191,17 +23627,70 @@ MonoBehaviour:
       repeatCount: 10
       repeatInterval: 0.1
       delayAfter: 2
-      bulletPrefab: {fileID: 502557264}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 502557264}
+        bulletCount: 2
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 100}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 5
+          angle: 90
+          spread: 150
+          rotationPerRepeat: 1
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 200
+          speedTimeline:
+          - targetSpeed: 100
+            duration: 2
+            easing: 0
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline:
+          - name: Petal Going Up
+            time: 2
+            pattern: {fileID: 1187760708}
+            destroySelfAfterFire: 1
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            duration: 1
+            easing: 0
+            endBehavior: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 2
       spawn:
         mode: 0
         offset: {x: 0, y: 100}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 5
         angle: 90
         spread: 150
         rotationPerRepeat: 1
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 1
         initialSpeed: 200
@@ -21210,11 +23699,23 @@ MonoBehaviour:
           duration: 2
           easing: 0
         directionTimeline: []
+        syncDirectionTimelineToBurst: 0
         burstTimeline:
         - name: Petal Going Up
           time: 2
           pattern: {fileID: 1187760708}
           destroySelfAfterFire: 1
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          duration: 1
+          easing: 0
+          endBehavior: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -21766,17 +24267,66 @@ MonoBehaviour:
       repeatCount: 2
       repeatInterval: 0.1
       delayAfter: 0.5
-      bulletPrefab: {fileID: 475569691}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 475569691}
+        bulletCount: 1
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 0
+          angle: 0
+          spread: 0
+          rotationPerRepeat: 0
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 0
+          initialSpeed: 0
+          speedTimeline:
+          - targetSpeed: 200
+            duration: 1
+            easing: 2
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            duration: 1
+            easing: 0
+            endBehavior: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 1
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 0
         angle: 0
         spread: 0
         rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 0
         initialSpeed: 0
@@ -21785,7 +24335,19 @@ MonoBehaviour:
           duration: 1
           easing: 2
         directionTimeline: []
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          duration: 1
+          easing: 0
+          endBehavior: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -21862,8 +24424,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4292583778
-  m_fontColor: {r: 0.38470095, g: 0.63256854, b: 0.8584906, a: 1}
+    rgba: 4284014591
+  m_fontColor: {r: 1, g: 0.8758958, b: 0.3443396, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -21988,17 +24550,66 @@ MonoBehaviour:
       repeatCount: 24
       repeatInterval: 0.19
       delayAfter: 0.76
-      bulletPrefab: {fileID: 256699918}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 256699918}
+        bulletCount: 6
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 6
+          angle: 90
+          spread: 360
+          rotationPerRepeat: 5
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 100
+          speedTimeline:
+          - targetSpeed: 600
+            duration: 3
+            easing: 0
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            duration: 1
+            easing: 0
+            endBehavior: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 6
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 6
         angle: 90
         spread: 360
         rotationPerRepeat: 5
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 1
         initialSpeed: 100
@@ -22007,7 +24618,19 @@ MonoBehaviour:
           duration: 3
           easing: 0
         directionTimeline: []
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          duration: 1
+          easing: 0
+          endBehavior: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -22021,17 +24644,66 @@ MonoBehaviour:
       repeatCount: 16
       repeatInterval: 0.045
       delayAfter: 0.76
-      bulletPrefab: {fileID: 256699918}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 256699918}
+        bulletCount: 6
+        spawn:
+          mode: 1
+          offset: {x: 0, y: 100}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 5
+          angle: 90
+          spread: 360
+          rotationPerRepeat: 20
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 400
+          speedTimeline:
+          - targetSpeed: 600
+            duration: 3
+            easing: 0
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            duration: 1
+            easing: 0
+            endBehavior: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 6
       spawn:
         mode: 1
         offset: {x: 0, y: 100}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 5
         angle: 90
         spread: 360
         rotationPerRepeat: 20
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 1
         initialSpeed: 400
@@ -22040,7 +24712,19 @@ MonoBehaviour:
           duration: 3
           easing: 0
         directionTimeline: []
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          duration: 1
+          easing: 0
+          endBehavior: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -22058,23 +24742,81 @@ MonoBehaviour:
       repeatCount: 120
       repeatInterval: 0.02
       delayAfter: 2
-      bulletPrefab: {fileID: 502557264}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 502557264}
+        bulletCount: 1
+        spawn:
+          mode: 1
+          offset: {x: 0, y: 100}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 5
+          angle: 0
+          spread: 60
+          rotationPerRepeat: 0
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 0
+          initialSpeed: 0
+          speedTimeline: []
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            duration: 1
+            easing: 0
+            endBehavior: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 1
       spawn:
         mode: 1
         offset: {x: 0, y: 100}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 5
         angle: 0
         spread: 60
         rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 0
         initialSpeed: 0
         speedTimeline: []
         directionTimeline: []
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          duration: 1
+          easing: 0
+          endBehavior: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -26719,17 +29461,66 @@ MonoBehaviour:
       repeatCount: 7
       repeatInterval: 0.25
       delayAfter: 0.75
-      bulletPrefab: {fileID: 1014114918}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 1014114918}
+        bulletCount: 24
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 0
+          angle: -90
+          spread: 360
+          rotationPerRepeat: 0
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 0
+          initialSpeed: 0
+          speedTimeline:
+          - targetSpeed: 300
+            duration: 1
+            easing: 1
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            duration: 1
+            easing: 0
+            endBehavior: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 24
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 0
         angle: -90
         spread: 360
         rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 0
         initialSpeed: 0
@@ -26738,7 +29529,19 @@ MonoBehaviour:
           duration: 1
           easing: 1
         directionTimeline: []
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          duration: 1
+          easing: 0
+          endBehavior: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -26752,17 +29555,66 @@ MonoBehaviour:
       repeatCount: 5
       repeatInterval: 0.25
       delayAfter: 0.25
-      bulletPrefab: {fileID: 836019037}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 836019037}
+        bulletCount: 1
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 0
+          angle: -90
+          spread: 360
+          rotationPerRepeat: 0
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 0
+          initialSpeed: 0
+          speedTimeline:
+          - targetSpeed: 100
+            duration: 2
+            easing: 1
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            duration: 1
+            easing: 0
+            endBehavior: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 1
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 0
         angle: -90
         spread: 360
         rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 0
         initialSpeed: 0
@@ -26771,7 +29623,19 @@ MonoBehaviour:
           duration: 2
           easing: 1
         directionTimeline: []
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          duration: 1
+          easing: 0
+          endBehavior: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -26785,17 +29649,70 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.1
       delayAfter: 0.5
-      bulletPrefab: {fileID: 1014114918}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 1014114918}
+        bulletCount: 1
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 1
+          angle: 90
+          spread: 0
+          rotationPerRepeat: 0
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 0
+          initialSpeed: 400
+          speedTimeline:
+          - targetSpeed: 100
+            duration: 1.5
+            easing: 1
+          directionTimeline:
+          - mode: 1
+            relativeAngle: 180
+            duration: 1
+            easing: 0
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            duration: 1
+            easing: 0
+            endBehavior: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 1
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 1
         angle: 90
         spread: 0
         rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 0
         initialSpeed: 400
@@ -26808,7 +29725,19 @@ MonoBehaviour:
           relativeAngle: 180
           duration: 1
           easing: 0
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          duration: 1
+          easing: 0
+          endBehavior: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -28982,17 +31911,72 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.1
       delayAfter: 0.25
-      bulletPrefab: {fileID: 1014114918}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 1014114918}
+        bulletCount: 8
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 5
+          angle: -180
+          spread: 180
+          rotationPerRepeat: 0
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 800
+          speedTimeline:
+          - targetSpeed: 0
+            duration: 0.25
+            easing: 0
+          - targetSpeed: 0
+            duration: 2
+            easing: 0
+          - targetSpeed: 200
+            duration: 1
+            easing: 0
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            duration: 1
+            easing: 0
+            endBehavior: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 8
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 5
         angle: -180
         spread: 180
         rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 1
         initialSpeed: 800
@@ -29007,7 +31991,19 @@ MonoBehaviour:
           duration: 1
           easing: 0
         directionTimeline: []
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          duration: 1
+          easing: 0
+          endBehavior: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -31339,17 +34335,73 @@ MonoBehaviour:
       repeatCount: 200
       repeatInterval: 0.2
       delayAfter: 0.5
-      bulletPrefab: {fileID: 475569691}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 475569691}
+        bulletCount: 1
+        spawn:
+          mode: 2
+          offset: {x: 0, y: 0}
+          circleRadius: 20
+          circleDistribution: 0
+        direction:
+          mode: 5
+          angle: 0
+          spread: 0
+          rotationPerRepeat: 0
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 160
+          speedTimeline:
+          - targetSpeed: 80
+            duration: 2
+            easing: 0
+          - targetSpeed: 40
+            duration: 1
+            easing: 0
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline:
+          - name: Stardust Tier 2
+            time: 3
+            pattern: {fileID: 1214662920}
+            destroySelfAfterFire: 1
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            duration: 1
+            easing: 0
+            endBehavior: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 1
+            range: 160
+            scope: 2
+      bulletPrefab: {fileID: 0}
       bulletCount: 1
       spawn:
         mode: 2
         offset: {x: 0, y: 0}
         circleRadius: 20
+        circleDistribution: 0
       direction:
         mode: 5
         angle: 0
         spread: 0
         rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 1
         initialSpeed: 160
@@ -31361,11 +34413,23 @@ MonoBehaviour:
           duration: 1
           easing: 0
         directionTimeline: []
+        syncDirectionTimelineToBurst: 0
         burstTimeline:
         - name: Stardust Tier 2
           time: 3
           pattern: {fileID: 1214662920}
           destroySelfAfterFire: 1
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          duration: 1
+          easing: 0
+          endBehavior: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -31780,17 +34844,104 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.1
       delayAfter: 0.5
-      bulletPrefab: {fileID: 502557264}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 502557264}
+        bulletCount: 32
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 5
+          angle: 0
+          spread: 360
+          rotationPerRepeat: 80
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 0
+          initialSpeed: 0
+          speedTimeline:
+          - targetSpeed: 0
+            duration: 1
+            easing: 2
+          - targetSpeed: 0
+            duration: 0.4
+            easing: 0
+          - targetSpeed: 300
+            duration: 0.2
+            easing: 0
+          directionTimeline:
+          - mode: 0
+            relativeAngle: 0
+            duration: 1
+            easing: 0
+          - mode: 1
+            relativeAngle: 120
+            duration: 0.2
+            easing: 1
+          - mode: 0
+            relativeAngle: 0
+            duration: 0.4
+            easing: 0
+          - mode: 1
+            relativeAngle: 45
+            duration: 0.2
+            easing: 2
+          - mode: 0
+            relativeAngle: 0
+            duration: 0.4
+            easing: 0
+          - mode: 1
+            relativeAngle: 45
+            duration: 0.2
+            easing: 0
+          - mode: 0
+            relativeAngle: 0
+            duration: 0.4
+            easing: 0
+          - mode: 1
+            relativeAngle: 0
+            duration: 0.2
+            easing: 0
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            duration: 1
+            easing: 0
+            endBehavior: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 32
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 5
         angle: 0
         spread: 360
         rotationPerRepeat: 80
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 0
         initialSpeed: 0
@@ -31837,7 +34988,19 @@ MonoBehaviour:
           relativeAngle: 0
           duration: 0.2
           easing: 0
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          duration: 1
+          easing: 0
+          endBehavior: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -31851,17 +35014,104 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.1
       delayAfter: 0.5
-      bulletPrefab: {fileID: 502557264}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 502557264}
+        bulletCount: 40
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 5
+          angle: 0
+          spread: 360
+          rotationPerRepeat: 80
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 0
+          initialSpeed: 0
+          speedTimeline:
+          - targetSpeed: 0
+            duration: 1
+            easing: 2
+          - targetSpeed: 0
+            duration: 0.4
+            easing: 0
+          - targetSpeed: 300
+            duration: 0.2
+            easing: 0
+          directionTimeline:
+          - mode: 0
+            relativeAngle: 0
+            duration: 1
+            easing: 0
+          - mode: 1
+            relativeAngle: 120
+            duration: 0.2
+            easing: 1
+          - mode: 0
+            relativeAngle: 0
+            duration: 0.4
+            easing: 0
+          - mode: 1
+            relativeAngle: 45
+            duration: 0.2
+            easing: 2
+          - mode: 0
+            relativeAngle: 0
+            duration: 0.4
+            easing: 0
+          - mode: 1
+            relativeAngle: 45
+            duration: 0.2
+            easing: 0
+          - mode: 0
+            relativeAngle: 0
+            duration: 0.4
+            easing: 0
+          - mode: 1
+            relativeAngle: 0
+            duration: 0.2
+            easing: 0
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            duration: 1
+            easing: 0
+            endBehavior: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 40
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 5
         angle: 0
         spread: 360
         rotationPerRepeat: 80
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 0
         initialSpeed: 0
@@ -31908,7 +35158,19 @@ MonoBehaviour:
           relativeAngle: 0
           duration: 0.2
           easing: 0
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          duration: 1
+          easing: 0
+          endBehavior: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -31922,17 +35184,104 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.1
       delayAfter: 0.25
-      bulletPrefab: {fileID: 502557264}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 502557264}
+        bulletCount: 48
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 5
+          angle: 0
+          spread: 360
+          rotationPerRepeat: 80
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 0
+          initialSpeed: 0
+          speedTimeline:
+          - targetSpeed: 0
+            duration: 1
+            easing: 2
+          - targetSpeed: 0
+            duration: 0.4
+            easing: 0
+          - targetSpeed: 300
+            duration: 0.2
+            easing: 0
+          directionTimeline:
+          - mode: 0
+            relativeAngle: 0
+            duration: 1
+            easing: 0
+          - mode: 1
+            relativeAngle: 120
+            duration: 0.2
+            easing: 1
+          - mode: 0
+            relativeAngle: 0
+            duration: 0.4
+            easing: 0
+          - mode: 1
+            relativeAngle: 45
+            duration: 0.2
+            easing: 2
+          - mode: 0
+            relativeAngle: 0
+            duration: 0.4
+            easing: 0
+          - mode: 1
+            relativeAngle: 45
+            duration: 0.2
+            easing: 0
+          - mode: 0
+            relativeAngle: 0
+            duration: 0.4
+            easing: 0
+          - mode: 1
+            relativeAngle: 0
+            duration: 0.2
+            easing: 0
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            duration: 1
+            easing: 0
+            endBehavior: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 48
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 5
         angle: 0
         spread: 360
         rotationPerRepeat: 80
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 0
         initialSpeed: 0
@@ -31979,7 +35328,19 @@ MonoBehaviour:
           relativeAngle: 0
           duration: 0.2
           easing: 0
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          duration: 1
+          easing: 0
+          endBehavior: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -31993,17 +35354,104 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.1
       delayAfter: 0.5
-      bulletPrefab: {fileID: 256699918}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 256699918}
+        bulletCount: 64
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 5
+          angle: 0
+          spread: 360
+          rotationPerRepeat: 80
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 0
+          initialSpeed: 0
+          speedTimeline:
+          - targetSpeed: 0
+            duration: 1
+            easing: 2
+          - targetSpeed: 0
+            duration: 0.4
+            easing: 0
+          - targetSpeed: 300
+            duration: 0.2
+            easing: 0
+          directionTimeline:
+          - mode: 0
+            relativeAngle: 0
+            duration: 1
+            easing: 0
+          - mode: 1
+            relativeAngle: 120
+            duration: 0.2
+            easing: 1
+          - mode: 0
+            relativeAngle: 0
+            duration: 0.4
+            easing: 0
+          - mode: 1
+            relativeAngle: 45
+            duration: 0.2
+            easing: 2
+          - mode: 0
+            relativeAngle: 0
+            duration: 0.4
+            easing: 0
+          - mode: 1
+            relativeAngle: 45
+            duration: 0.2
+            easing: 0
+          - mode: 0
+            relativeAngle: 0
+            duration: 0.4
+            easing: 0
+          - mode: 1
+            relativeAngle: 0
+            duration: 0.2
+            easing: 0
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            duration: 1
+            easing: 0
+            endBehavior: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 64
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 5
         angle: 0
         spread: 360
         rotationPerRepeat: 80
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 0
         initialSpeed: 0
@@ -32050,7 +35498,19 @@ MonoBehaviour:
           relativeAngle: 0
           duration: 0.2
           easing: 0
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          duration: 1
+          easing: 0
+          endBehavior: 0
       modifiers:
         randomAngle:
           enabled: 0

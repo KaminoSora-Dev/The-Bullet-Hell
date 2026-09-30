@@ -35,6 +35,12 @@ namespace EnemySystem
         EaseInOut
     }
 
+    /// <summary>
+    /// PerPattern = สุ่มค่าเดียวใช้ตลอดอายุของ Pattern (Key คือตัว Modifier เอง ดังนั้นแต่ละ Element
+    ///              ในหนึ่ง Burst จะได้ค่าสุ่มอิสระจากกัน เพราะแต่ละ Element มี Modifier เป็นของตัวเอง)
+    /// PerBurst   = สุ่มใหม่ทุกครั้งที่ Element นี้ยิง (1 ค่าต่อ Element ต่อ Repeat ใช้ร่วมกันทุกกระสุนใน Element นั้น)
+    /// PerShot    = สุ่มใหม่ทุกนัดกระสุนแยกกัน
+    /// </summary>
     public enum RandomScope
     {
         PerPattern,
@@ -51,6 +57,59 @@ namespace EnemySystem
     {
         RelativeAngle,
         AimAtPlayer
+    }
+
+    /// <summary>
+    /// PerShot   = กระจาย Spread ระหว่างกระสุนที่ยิงพร้อมกันในนัดเดียว (ตาม bulletCount) - พฤติกรรมเดิม
+    /// PerRepeat = กระจาย Spread ข้าม Repeat ของ Burst แทน (แต่ละ Repeat ได้มุมคงที่ บาวด์อยู่ในช่วง Spread
+    ///             ตาม repeatCount ทั้งหมด - คนละแบบกับ Rotating ที่หมุนต่อเนื่องไม่มีขอบเขต)
+    /// </summary>
+    public enum SpreadDistribution
+    {
+        PerShot,
+        PerRepeat
+    }
+
+    /// <summary>
+    /// Even          = กระจายเท่าๆ กันทุกช่อง (ของเดิม)
+    /// Gaussian      = กระจายแบบ Bell Curve คงที่ (ไม่สุ่ม) - หนาแน่นตรงกลาง ห่างที่ขอบ ผลลัพธ์เหมือนเดิมทุกครั้งที่ยิง
+    /// RandomCluster = สุ่มมุมแบบ Normal Distribution ทุกครั้งที่ยิง (ไม่ซ้ำ) - เหมือนกระสุนลูกปราย/shotgun
+    /// RandomUniform = สุ่มมุมเท่าๆ กันทั่วช่วง Spread ทุกครั้งที่ยิง (ไม่กระจุกตรงกลาง)
+    ///                 เช่น Angle 120 / Spread 40 -> สุ่มได้ทุกมุมระหว่าง 100..140
+    ///                 ไม่ขึ้นกับจำนวนนัด ใช้ได้แม้ bulletCount/repeatCount = 1
+    ///
+    /// หมายเหตุ: RandomUniform ต่อท้ายสุดเพื่อไม่ให้ค่า enum ที่ Serialize ไว้เดิมเลื่อน
+    /// </summary>
+    public enum SpreadShape
+    {
+        Even,
+        Gaussian,
+        RandomCluster,
+        RandomUniform
+    }
+
+    /// <summary>
+    /// กำหนดว่าจุดจบ/จุดโค้งของ Path อ้างอิงแบบไหน
+    /// Offset    = Vector2 relative จากตำแหน่ง Spawn ของกระสุนแต่ละนัดเอง - ใช้ซ้ำข้าม Enemy/Boss ได้
+    /// Transform = ตำแหน่งตายตัวในซีน - เหมาะกับ Boss เฉพาะจุดที่ไม่ต้องใช้ซ้ำ
+    /// </summary>
+    public enum BulletPathPointMode
+    {
+        Offset,
+        Transform
+    }
+
+    /// <summary>
+    /// พฤติกรรมของกระสุนหลังวิ่งจบ Path
+    /// ContinueFlying = บินต่อด้วยทิศทาง (Tangent ปลาย Path) + ความเร็วปกติ กลับไปใช้ระบบ Direction/Speed เดิม
+    /// Destroy        = ทำลายกระสุนทันที
+    /// Stop           = หยุดนิ่งอยู่ตรงจุดจบ Path (ความเร็วเป็น 0)
+    /// </summary>
+    public enum PathEndBehavior
+    {
+        ContinueFlying,
+        Destroy,
+        Stop
     }
 
     [Serializable]
@@ -81,6 +140,65 @@ namespace EnemySystem
         public SpeedEasing easing = SpeedEasing.Linear;
     }
 
+    /// <summary>
+    /// กำหนด Path การเคลื่อนที่แบบกำหนดเองของกระสุน (เส้นตรง หรือเส้นโค้ง Quadratic Bezier)
+    /// จุดเริ่มคือตำแหน่ง Spawn ของกระสุนเองเสมอ (ไม่ต้องกำหนดเพิ่ม)
+    /// ระหว่างวิ่งตาม Path บนกระสุนจะไม่ใช้ Speed/Direction Timeline ปกติ (ระบบคนละแกนกัน)
+    /// แต่ Burst Timeline / Death Animation / ฟังก์ชันอื่นของกระสุนยังทำงานตามปกติทุกอย่าง
+    /// </summary>
+    [Serializable]
+    public class BulletPathSettings
+    {
+        [Tooltip("ติ๊กเพื่อเปิดใช้ Path Motion - ถ้าไม่ติ๊ก กระสุนใช้ระบบ Direction/Speed ปกติทุกอย่างเหมือนเดิม")]
+        public bool enabled = false;
+
+        [Tooltip(
+            "Offset = จุดจบ/จุดโค้งอ้างอิงจากตำแหน่ง Spawn ของกระสุนแต่ละนัดเอง (ใช้ซ้ำข้าม Enemy/Boss ได้)\n" +
+            "Transform = จุดจบ/จุดโค้งเป็นตำแหน่งตายตัวในซีน (เหมาะกับ Boss เฉพาะจุด ใช้ซ้ำข้าม Enemy ไม่ได้)"
+        )]
+        public BulletPathPointMode pointMode = BulletPathPointMode.Offset;
+
+        [Header("End Point")]
+        [Tooltip("ใช้เมื่อ Point Mode = Offset - ตำแหน่งจบ Path เทียบจากจุด Spawn ของกระสุนนัดนั้น")]
+        public Vector2 endOffset = new Vector2(0f, -5f);
+
+        [Tooltip("ใช้เมื่อ Point Mode = Transform - ลาก Transform ปลายทางในซีนมาใส่")]
+        public Transform endTransform;
+
+        [Header("Curve (Optional)")]
+        [Tooltip("ติ๊ก = ใช้เส้นโค้ง Quadratic Bezier ผ่านจุดกลางด้านล่าง | ไม่ติ๊ก = เส้นตรงจาก Spawn ไปจุดจบ")]
+        public bool useCurve = false;
+
+        [Tooltip("ใช้เมื่อ Point Mode = Offset และ Use Curve - จุดกลางของเส้นโค้ง เทียบจากจุด Spawn")]
+        public Vector2 controlOffset = Vector2.zero;
+
+        [Tooltip("ใช้เมื่อ Point Mode = Transform และ Use Curve - ลาก Transform จุดกลางเส้นโค้งในซีนมาใส่")]
+        public Transform controlTransform;
+
+        [Header("Timing")]
+        [Tooltip("เวลาที่ใช้วิ่งจบ Path ทั้งเส้น (วินาที) - คงที่ไม่ว่าเส้นจะยาวแค่ไหน")]
+        [Min(0.01f)]
+        public float duration = 1f;
+
+        public SpeedEasing easing = SpeedEasing.Linear;
+
+        [Header("After Path Completes")]
+        public PathEndBehavior endBehavior = PathEndBehavior.ContinueFlying;
+    }
+
+    /// <summary>
+    /// ค่า Path ที่ Executor คำนวณ (resolve Offset/Transform เป็นตำแหน่งโลกจริงแล้ว) ส่งให้ EnemyBulletV2 ใช้ตรงๆ
+    /// </summary>
+    public sealed class ResolvedPathMotion
+    {
+        public Vector3 endPosition;
+        public bool hasCurve;
+        public Vector3 controlPosition;
+        public float duration;
+        public SpeedEasing easing;
+        public PathEndBehavior endBehavior;
+    }
+
     [Serializable]
     public class BulletMotionSettings
     {
@@ -98,11 +216,26 @@ namespace EnemySystem
         public List<DirectionTransition> directionTimeline = new List<DirectionTransition>();
 
         [Tooltip(
+            "ติ๊ก = กระสุนทุกนัดจาก Burst นี้ (ทุก Repeat) จะ Redirect ตาม Direction Timeline ด้านบน " +
+            "พร้อมกันที่เวลาจริงเดียวกันทั้งหมด แทนที่จะนับเวลาแยกจากตอน Spawn ของตัวเอง\n" +
+            "ไม่ติ๊ก (ปกติ) = แต่ละนัดนับเวลา Redirect จากตอน Spawn ของตัวเอง (พฤติกรรมเดิม)\n" +
+            "DirectionRedirectMode (Relative Angle / Aim At Player) ในแต่ละจุดของ Direction Timeline " +
+            "ใช้งานได้ตามปกติไม่ว่าจะติ๊กนี้หรือไม่"
+        )]
+        public bool syncDirectionTimelineToBurst = false;
+
+        [Tooltip(
             "จุดเวลา (นับจากตอนกระสุนนี้ Spawn) ที่จะสั่งยิง Pattern ใหม่ออกจากตำแหน่งกระสุนตัวนี้เอง " +
             "(ไม่ใช่ตำแหน่ง Boss/Enemy) - แก้ปัญหาคาดเดาตำแหน่งกระสุนกลางอากาศไม่ได้\n" +
             "เป็นคนละระบบกับ Speed/Direction Timeline ด้านบน ใช้ร่วมกันได้"
         )]
         public List<BulletBurstTrigger> burstTimeline = new List<BulletBurstTrigger>();
+
+        [Tooltip(
+            "Path การเคลื่อนที่กำหนดเอง (เส้นตรง/เส้นโค้ง) - เปิดใช้ที่ Enabled ข้างใน\n" +
+            "ระหว่างวิ่งตาม Path จะไม่ใช้ Speed/Direction Timeline ด้านบน (คนละระบบ)"
+        )]
+        public BulletPathSettings path = new BulletPathSettings();
     }
 
     /// <summary>
@@ -153,6 +286,18 @@ namespace EnemySystem
         public bool loop = true;
     }
 
+    /// <summary>
+    /// Even       = วางกระสุนเท่าๆ กันรอบวง (เดิม) - ตำแหน่งคงที่ทุกครั้ง
+    /// RandomEdge = สุ่มมุมบนขอบวง รัศมีคงที่ = circleRadius เป๊ะ
+    /// RandomArea = สุ่มทั้งมุมและรัศมี (0..circleRadius) กระจายเท่ากันตามพื้นที่วงกลม ไม่กระจุกตรงกลาง
+    /// </summary>
+    public enum CircleSpawnDistribution
+    {
+        Even,
+        RandomEdge,
+        RandomArea
+    }
+
     [Serializable]
     public class BulletSpawnSettings
     {
@@ -163,6 +308,9 @@ namespace EnemySystem
 
         [Tooltip("ใช้เมื่อ Spawn Mode = Circle")]
         [Min(0f)] public float circleRadius = 0f;
+
+        [Tooltip("ใช้เมื่อ Spawn Mode = Circle - เลือกวิธีวางกระสุนรอบวง")]
+        public CircleSpawnDistribution circleDistribution = CircleSpawnDistribution.Even;
     }
 
     [Serializable]
@@ -176,8 +324,31 @@ namespace EnemySystem
         [Tooltip("มุมรวมของการกระจายกระสุน เช่น 45 = -22.5 ถึง +22.5")]
         public float spread = 0f;
 
-        [Tooltip("ใช้กับ Rotating: หมุนเพิ่มกี่องศาต่อ Repeat")]
+        [Tooltip(
+            "ใช้กับ Rotating: หมุนเพิ่มกี่องศาต่อ Repeat\n" +
+            "Repeat นับร่วมกันทั้ง Burst (ทุก Element ยิงพร้อมกันในจังหวะเดียวกัน) " +
+            "แต่ค่าที่หมุนเป็นของ Element นี้เอง - ใส่ + กับ - คนละเครื่องหมายในสอง Element " +
+            "เพื่อให้ยิง Clockwise/Counter Clockwise พร้อมกันได้"
+        )]
         public float rotationPerRepeat = 0f;
+
+        [Tooltip(
+            "PerShot (ปกติ) = Spread กระจายระหว่างกระสุนที่ยิงพร้อมกันในนัดเดียว (bulletCount) - " +
+            "เห็นผลก็ต่อเมื่อ bulletCount > 1\n" +
+            "PerRepeat = Spread กระจายข้าม Repeat ของ Burst นี้แทน - เห็นผลก็ต่อเมื่อ repeatCount > 1 " +
+            "แม้ bulletCount = 1 ก็ใช้ได้ (เช่น ยิงทีละนัด แต่ละนัดเบนมุมไปทีละนิดตามลำดับ)\n" +
+            "เลือกได้ทีละแบบ ไม่ทำงานพร้อมกันทั้งคู่"
+        )]
+        public SpreadDistribution spreadDistribution = SpreadDistribution.PerShot;
+
+        [Tooltip(
+            "Even (ปกติ) = กระจายเท่าๆ กัน\n" +
+            "Gaussian = กระจายแบบ Bell Curve คงที่ หนาตรงกลาง บางที่ขอบ (ไม่สุ่ม เหมือนเดิมทุกครั้ง)\n" +
+            "Random Cluster = สุ่มแบบ Normal Distribution ทุกครั้งที่ยิง (ไม่ซ้ำ เหมือนกระสุนลูกปราย) - กระจุกรอบมุมกลาง\n" +
+            "Random Uniform = สุ่มเท่าๆ กันทั่วช่วง Spread ทุกครั้งที่ยิง (ไม่กระจุก) - ใช้ได้แม้ยิงนัดเดียว/Repeat เดียว\n" +
+            "มีผลทั้งตอน Spread Distribution = PerShot และ PerRepeat"
+        )]
+        public SpreadShape spreadShape = SpreadShape.Even;
     }
 
     [Serializable]
@@ -207,8 +378,55 @@ namespace EnemySystem
             randomSpeed != null && randomSpeed.enabled;
     }
 
+    /// <summary>
+    /// 1 Pattern ย่อยภายใน Burst - ทุก Element ในหนึ่ง Burst ยิงพร้อมกันด้วย Timing เดียวกัน
+    /// (repeatCount / repeatInterval / delayAfter เป็นของ BulletBurstV2 ที่เป็นเจ้าของ ใช้ร่วมกันหมด)
+    /// แต่ละ Element มี Bullet Prefab / Spawn / Direction / Motion / Modifiers เป็นของตัวเอง
+    ///
+    /// ใช้เพื่อให้ Burst เดียวยิงได้หลายรูปแบบพร้อมกัน เช่น Element "CW" กับ "CCW"
+    /// ที่หมุนคนละทางแต่ยิงพร้อมกันทุก Repeat (ดู rotationPerRepeat ใน BulletDirectionSettings)
+    /// </summary>
     [Serializable]
-    public class BulletBurstV2
+    public class BulletBurstElement
+    {
+        [Tooltip("ชื่อ Element สำหรับอ่านง่ายใน Inspector เช่น \"CW\", \"CCW\"")]
+        public string elementName = "Element";
+
+        [Tooltip("กระสุนที่จะยิงใน Element นี้")]
+        public GameObject bulletPrefab;
+
+        [Min(1)]
+        public int bulletCount = 1;
+
+        public BulletSpawnSettings spawn = new BulletSpawnSettings();
+        public BulletDirectionSettings direction = new BulletDirectionSettings();
+        public BulletMotionSettings motion = new BulletMotionSettings();
+        public BulletPatternModifiers modifiers = new BulletPatternModifiers();
+
+        /// <summary>
+        /// Deep copy พอสำหรับใช้งานจริง - spawn/direction/motion/modifiers แชร์ Reference เดิมได้
+        /// เพราะ Executor ไม่เคยเขียนทับค่าพวกนี้ (เหมือน BulletBurstV2 เดิม)
+        ///
+        /// กัน null ไว้ด้วย (?? new ...()) เผื่อโดน Unity List-Add Inspector bug ที่ field
+        /// initializer ของสมาชิกใหม่ใน List ไม่ถูกเรียก (บั๊กเดียวกับที่เคยเจอกับ baseDirection เดิม)
+        /// </summary>
+        public BulletBurstElement Clone()
+        {
+            return new BulletBurstElement
+            {
+                elementName = elementName,
+                bulletPrefab = bulletPrefab,
+                bulletCount = bulletCount,
+                spawn = spawn ?? new BulletSpawnSettings(),
+                direction = direction ?? new BulletDirectionSettings(),
+                motion = motion ?? new BulletMotionSettings(),
+                modifiers = modifiers ?? new BulletPatternModifiers()
+            };
+        }
+    }
+
+    [Serializable]
+    public class BulletBurstV2 : ISerializationCallbackReceiver
     {
         public string name = "Burst";
 
@@ -221,21 +439,35 @@ namespace EnemySystem
         [Min(0f)]
         public float delayAfter = 0.5f;
 
-        [Tooltip("กระสุนที่จะยิงใน Burst นี้")]
-        public GameObject bulletPrefab;
+        [Tooltip(
+            "Pattern ย่อยที่ยิงพร้อมกันทุกครั้งใน Burst นี้ (Timing เดียวกันหมด)\n" +
+            "เพิ่มมากกว่า 1 Element เพื่อยิงหลาย Pattern พร้อมกัน " +
+            "เช่น Element ยิง Clockwise + Element ยิง Counter Clockwise"
+        )]
+        public List<BulletBurstElement> elements = new List<BulletBurstElement>();
 
-        [Min(1)]
-        public int bulletCount = 1;
-
-        public BulletSpawnSettings spawn = new BulletSpawnSettings();
-        public BulletDirectionSettings direction = new BulletDirectionSettings();
-        public BulletMotionSettings motion = new BulletMotionSettings();
-        public BulletPatternModifiers modifiers = new BulletPatternModifiers();
+        // ============================================================
+        // LEGACY (ก่อนมี Multi-Element)
+        // เก็บไว้เฉพาะให้ OnAfterDeserialize ใช้ Migrate ข้อมูลเดิมที่เคยตั้งค่าไว้
+        // ก่อนหน้านี้เข้า elements[0] อัตโนมัติ - ห้ามแก้ตรงนี้ตรงๆ อีกต่อไป ใช้ elements แทน
+        // ============================================================
+        [SerializeField, HideInInspector] private GameObject bulletPrefab;
+        [SerializeField, HideInInspector] private int bulletCount = 1;
+        [SerializeField, HideInInspector] private BulletSpawnSettings spawn;
+        [SerializeField, HideInInspector] private BulletDirectionSettings direction;
+        [SerializeField, HideInInspector] private BulletMotionSettings motion;
+        [SerializeField, HideInInspector] private BulletPatternModifiers modifiers;
 
         [NonSerialized] public int currentRepeat;
         [NonSerialized] public float repeatTimer;
         [NonSerialized] public float delayTimer;
         [NonSerialized] public bool fired;
+
+        [Tooltip(
+            "เวลาที่ผ่านไปตั้งแต่ Burst นี้ยิงนัดแรก (Runtime เท่านั้น) - ใช้เป็นตัวอ้างอิงเวลาให้ " +
+            "syncDirectionTimelineToBurst ของแต่ละ Element คำนวณ Catch-up Direction Timeline ให้ตรงกัน"
+        )]
+        [NonSerialized] public float burstClock;
 
         public void ResetRuntime()
         {
@@ -243,29 +475,79 @@ namespace EnemySystem
             repeatTimer = 0f;
             delayTimer = 0f;
             fired = false;
+            burstClock = 0f;
         }
 
         /// <summary>
         /// ใช้ตอนกระสุนตัวหนึ่งจะยิง Pattern จาก Burst Timeline ของตัวเอง (ดู EnemyBulletV2)
-        /// Config ทั้งหมด (spawn/direction/motion/modifiers) แชร์ Reference เดิมได้เลย เพราะ Executor
-        /// ไม่เคยเขียนทับค่าพวกนี้ - สิ่งเดียวที่ต้องแยกคือ Field ที่มี [NonSerialized] Runtime State ด้านบน
+        /// Config ของแต่ละ Element แชร์ Reference เดิมได้เลย เพราะ Executor ไม่เคยเขียนทับค่าพวกนี้
+        /// สิ่งเดียวที่ต้องแยกคือ Field ที่มี [NonSerialized] Runtime State ด้านบน
         /// เพื่อกันกระสุนหลายตัวที่ใช้ Pattern เดียวกัน มาแย่ง currentRepeat/timer กันเอง
         /// </summary>
         public BulletBurstV2 Clone()
         {
-            return new BulletBurstV2
+            var clone = new BulletBurstV2
             {
                 name = name,
                 repeatCount = repeatCount,
                 repeatInterval = repeatInterval,
                 delayAfter = delayAfter,
-                bulletPrefab = bulletPrefab,
-                bulletCount = bulletCount,
-                spawn = spawn,
-                direction = direction,
-                motion = motion,
-                modifiers = modifiers
+                elements = new List<BulletBurstElement>()
             };
+
+            if (elements != null)
+            {
+                for (int i = 0; i < elements.Count; i++)
+                    clone.elements.Add(elements[i]?.Clone());
+            }
+
+            return clone;
+        }
+
+        // ============================================================
+        // AUTO MIGRATION
+        //
+        // ทำงานทุกครั้งที่ Object นี้ถูก Deserialize (เปิด Scene, เข้า Play Mode,
+        // Domain Reload) - ถ้า elements ยังว่างอยู่แต่มีข้อมูล Legacy เดิม จะสร้าง
+        // Element แรกให้จากข้อมูลเดิมทันทีอัตโนมัติ ไม่ต้องกดปุ่ม Migrate เอง
+        //
+        // หมายเหตุ: การ Clear legacy field (bulletPrefab = null ท้ายฟังก์ชัน) มีผล
+        // จริงถาวรก็ต่อเมื่อมีการ Save Scene/Prefab หลังจากนี้ - ถ้ายังไม่ได้ Save
+        // รอบถัดไปที่โหลด Object นี้จะ Migrate ซ้ำอีกครั้งจากข้อมูลเดิมบนดิสก์
+        // (ให้ผลลัพธ์เหมือนเดิมทุกครั้ง ไม่กระทบ Gameplay แค่ Log ซ้ำจนกว่าจะ Save)
+        // ============================================================
+        void ISerializationCallbackReceiver.OnBeforeSerialize()
+        {
+        }
+
+        void ISerializationCallbackReceiver.OnAfterDeserialize()
+        {
+            if (elements == null)
+                elements = new List<BulletBurstElement>();
+
+            if (elements.Count > 0)
+                return;
+
+            if (ReferenceEquals(bulletPrefab, null))
+                return;
+
+            elements.Add(new BulletBurstElement
+            {
+                elementName = "Element 0",
+                bulletPrefab = bulletPrefab,
+                bulletCount = Mathf.Max(1, bulletCount),
+                spawn = spawn ?? new BulletSpawnSettings(),
+                direction = direction ?? new BulletDirectionSettings(),
+                motion = motion ?? new BulletMotionSettings(),
+                modifiers = modifiers ?? new BulletPatternModifiers()
+            });
+
+            Debug.LogWarning(
+                $"BulletPatternV2: Burst '{name}' migrated automatically to multi-element format " +
+                "(1 Element created from previous single-pattern data). Legacy fields are now unused - " +
+                "save the Scene/Prefab once to make this permanent.");
+
+            bulletPrefab = null;
         }
     }
 
@@ -417,6 +699,11 @@ namespace EnemySystem
                 return;
             }
 
+            // Sync Redirect: burstClock นับเวลาตั้งแต่ Burst นี้ยิงนัดแรก (ยังไม่นับในเฟรมที่ยิงนัดแรกพอดี
+            // เพราะ burst.fired ยังเป็น false ตอนเช็คบรรทัดนี้ - เพิ่มให้ตั้งแต่เฟรมถัดไป)
+            if (burst.fired)
+                burst.burstClock += dt;
+
             int repeatCount = Mathf.Max(1, burst.repeatCount);
 
             if (!burst.fired)
@@ -481,29 +768,61 @@ namespace EnemySystem
             }
         }
 
+        /// <summary>
+        /// ยิงทุก Element ของ Burst นี้พร้อมกัน ในจังหวะ Repeat เดียวกัน
+        /// (repeatIndex เดียวกันสำหรับทุก Element ใน Burst นี้)
+        /// </summary>
         private void FireBurst(BulletBurstV2 burst, int repeatIndex, Transform player)
         {
-            if (burst.bulletPrefab == null)
+            if (burst?.elements == null)
+                return;
+
+            for (int e = 0; e < burst.elements.Count; e++)
+            {
+                BulletBurstElement element = burst.elements[e];
+
+                if (element == null)
+                    continue;
+
+                FireElement(
+                    burst.name,
+                    element,
+                    repeatIndex,
+                    Mathf.Max(1, burst.repeatCount),
+                    burst.burstClock,
+                    player);
+            }
+        }
+
+        private void FireElement(
+            string burstName,
+            BulletBurstElement element,
+            int repeatIndex,
+            int repeatCount,
+            float burstClock,
+            Transform player)
+        {
+            if (element.bulletPrefab == null)
             {
                 Debug.LogWarning(
-                    $"BulletPatternV2: Burst '{burst.name}' ไม่มี Bullet Prefab - ข้ามการยิง");
+                    $"BulletPatternV2: Burst '{burstName}' > Element '{element.elementName}' ไม่มี Bullet Prefab - ข้ามการยิง");
                 return;
             }
 
-            int count = Mathf.Max(1, burst.bulletCount);
-            Vector3 baseSpawn = CalculateBaseSpawnPosition(burst.spawn);
+            int count = Mathf.Max(1, element.bulletCount);
+            Vector3 baseSpawn = CalculateBaseSpawnPosition(element.spawn);
 
-            float burstRandomAngle = 0f;
-            float burstRandomSpeed = 0f;
+            float elementRandomAngle = 0f;
+            float elementRandomSpeed = 0f;
 
-            if (burst.modifiers != null)
+            if (element.modifiers != null)
             {
-                if (burst.modifiers.randomAngle != null &&
-                    burst.modifiers.randomAngle.enabled)
+                if (element.modifiers.randomAngle != null &&
+                    element.modifiers.randomAngle.enabled)
                 {
-                    RandomAngleModifier modifier = burst.modifiers.randomAngle;
+                    RandomAngleModifier modifier = element.modifiers.randomAngle;
 
-                    burstRandomAngle =
+                    elementRandomAngle =
                         modifier.scope == RandomScope.PerPattern
                             ? GetPerPatternRandom(modifier, modifier.range)
                             : modifier.scope == RandomScope.PerBurst
@@ -511,12 +830,12 @@ namespace EnemySystem
                                 : 0f;
                 }
 
-                if (burst.modifiers.randomSpeed != null &&
-                    burst.modifiers.randomSpeed.enabled)
+                if (element.modifiers.randomSpeed != null &&
+                    element.modifiers.randomSpeed.enabled)
                 {
-                    RandomSpeedModifier modifier = burst.modifiers.randomSpeed;
+                    RandomSpeedModifier modifier = element.modifiers.randomSpeed;
 
-                    burstRandomSpeed =
+                    elementRandomSpeed =
                         modifier.scope == RandomScope.PerPattern
                             ? GetPerPatternRandom(modifier, modifier.range)
                             : modifier.scope == RandomScope.PerBurst
@@ -526,42 +845,68 @@ namespace EnemySystem
             }
 
             Vector2 centerDirection = CalculateCenterDirection(
-                burst.direction,
+                element.direction,
                 baseSpawn,
                 player,
-                repeatIndex);
+                repeatIndex,
+                repeatCount);
 
             for (int i = 0; i < count; i++)
             {
-                float angle = CalculateSpreadOffset(i, count, burst.direction.spread);
+                float perShotSpread =
+                    element.direction.spreadDistribution == SpreadDistribution.PerShot
+                        ? element.direction.spread
+                        : 0f;
 
-                if (burst.modifiers != null &&
-                    burst.modifiers.randomAngle != null &&
-                    burst.modifiers.randomAngle.enabled &&
-                    burst.modifiers.randomAngle.scope == RandomScope.PerShot)
+                float angle = CalculateSpreadOffset(i, count, perShotSpread, element.direction.spreadShape);
+
+                if (element.modifiers != null &&
+                    element.modifiers.randomAngle != null &&
+                    element.modifiers.randomAngle.enabled &&
+                    element.modifiers.randomAngle.scope == RandomScope.PerShot)
                 {
-                    angle += RandomRange(burst.modifiers.randomAngle.range);
+                    angle += RandomRange(element.modifiers.randomAngle.range);
                 }
 
-                angle += burstRandomAngle;
+                angle += elementRandomAngle;
 
                 Vector2 direction = Rotate(centerDirection, angle);
 
                 Vector3 spawnPosition = baseSpawn;
 
-                if (burst.spawn.mode == BulletSpawnMode.Circle)
+                if (element.spawn.mode == BulletSpawnMode.Circle)
                 {
-                    float circleAngle = count == 1 ? 0f : 360f * i / count;
+                    float circleAngle;
+                    float circleRadius = element.spawn.circleRadius;
+
+                    switch (element.spawn.circleDistribution)
+                    {
+                        case CircleSpawnDistribution.RandomEdge:
+                            circleAngle = RandomRange(180f) + 180f;
+                            break;
+
+                        case CircleSpawnDistribution.RandomArea:
+                            circleAngle = RandomRange(180f) + 180f;
+                            circleRadius =
+                                Mathf.Sqrt(RandomUnit01()) *
+                                element.spawn.circleRadius;
+                            break;
+
+                        default: // Even
+                            circleAngle = count == 1 ? 0f : 360f * i / count;
+                            break;
+                    }
+
                     Vector2 offset =
                         Rotate(Vector2.right, circleAngle) *
-                        burst.spawn.circleRadius;
+                        circleRadius;
 
                     spawnPosition += (Vector3)offset;
                 }
 
                 GameObject bulletObject =
                     PoolManager.Instance.Get(
-                        burst.bulletPrefab,
+                        element.bulletPrefab,
                         spawnPosition,
                         Quaternion.identity);
 
@@ -574,26 +919,26 @@ namespace EnemySystem
                 if (bullet == null)
                 {
                     Debug.LogError(
-                        $"BulletPatternV2: '{burst.bulletPrefab.name}' ไม่มี EnemyBulletV2",
-                        burst.bulletPrefab);
+                        $"BulletPatternV2: '{element.bulletPrefab.name}' ไม่มี EnemyBulletV2",
+                        element.bulletPrefab);
 
                     PoolManager.Instance.Return(bulletObject);
                     continue;
                 }
 
-                float speedOffset = burstRandomSpeed;
+                float speedOffset = elementRandomSpeed;
 
-                if (burst.modifiers != null &&
-                    burst.modifiers.randomSpeed != null &&
-                    burst.modifiers.randomSpeed.enabled &&
-                    burst.modifiers.randomSpeed.scope == RandomScope.PerShot)
+                if (element.modifiers != null &&
+                    element.modifiers.randomSpeed != null &&
+                    element.modifiers.randomSpeed.enabled &&
+                    element.modifiers.randomSpeed.scope == RandomScope.PerShot)
                 {
                     speedOffset +=
-                        RandomRange(burst.modifiers.randomSpeed.range);
+                        RandomRange(element.modifiers.randomSpeed.range);
                 }
 
-                bool usePatternSpeed = burst.motion.overrideInitialSpeed;
-                float initialSpeed = burst.motion.initialSpeed;
+                bool usePatternSpeed = element.motion.overrideInitialSpeed;
+                float initialSpeed = element.motion.initialSpeed;
 
                 // Random Speed must also work when the Pattern itself does not
                 // override the initial speed: use the bullet prefab's default.
@@ -610,13 +955,53 @@ namespace EnemySystem
 
                 bullet.SetDirection(direction);
 
+                ResolvedPathMotion resolvedPath = null;
+                BulletPathSettings pathCfg = element.motion.path;
+
+                if (pathCfg != null && pathCfg.enabled)
+                {
+                    Vector3 endPos =
+                        pathCfg.pointMode == BulletPathPointMode.Transform &&
+                        pathCfg.endTransform != null
+                            ? pathCfg.endTransform.position
+                            : spawnPosition + (Vector3)pathCfg.endOffset;
+
+                    Vector3 controlPos = spawnPosition;
+
+                    if (pathCfg.useCurve)
+                    {
+                        controlPos =
+                            pathCfg.pointMode == BulletPathPointMode.Transform &&
+                            pathCfg.controlTransform != null
+                                ? pathCfg.controlTransform.position
+                                : spawnPosition + (Vector3)pathCfg.controlOffset;
+                    }
+
+                    resolvedPath = new ResolvedPathMotion
+                    {
+                        endPosition = endPos,
+                        hasCurve = pathCfg.useCurve,
+                        controlPosition = controlPos,
+                        duration = Mathf.Max(0.01f, pathCfg.duration),
+                        easing = pathCfg.easing,
+                        endBehavior = pathCfg.endBehavior
+                    };
+                }
+
+                float directionCatchUp =
+                    element.motion.syncDirectionTimelineToBurst
+                        ? burstClock
+                        : 0f;
+
                 bullet.ConfigureMotion(
                     usePatternSpeed,
                     initialSpeed,
-                    burst.motion.speedTimeline,
-                    burst.motion.directionTimeline,
-                    burst.motion.burstTimeline,
-                    patternCallChain);
+                    element.motion.speedTimeline,
+                    element.motion.directionTimeline,
+                    element.motion.burstTimeline,
+                    patternCallChain,
+                    resolvedPath,
+                    directionCatchUp);
             }
         }
 
@@ -636,7 +1021,8 @@ namespace EnemySystem
             BulletDirectionSettings settings,
             Vector3 spawnPosition,
             Transform player,
-            int repeatIndex)
+            int repeatIndex,
+            int repeatCount)
         {
             Vector2 result;
 
@@ -668,6 +1054,14 @@ namespace EnemySystem
                     break;
             }
 
+            if (settings.spreadDistribution == SpreadDistribution.PerRepeat)
+            {
+                float repeatSpreadOffset =
+                    CalculateSpreadOffset(repeatIndex, repeatCount, settings.spread, settings.spreadShape);
+
+                result = Rotate(result, repeatSpreadOffset);
+            }
+
             if (result.sqrMagnitude < 0.000001f)
                 result = Vector2.down;
 
@@ -694,16 +1088,58 @@ namespace EnemySystem
         private float CalculateSpreadOffset(
             int index,
             int count,
-            float spread)
+            float spread,
+            SpreadShape shape)
         {
-            if (count <= 1 || Mathf.Abs(spread) <= 0.0001f)
+            if (Mathf.Abs(spread) <= 0.0001f)
                 return 0f;
 
-            if (Mathf.Abs(Mathf.Abs(spread) - 360f) < 0.0001f)
-                return (spread / count) * index;
+            // Shape แบบสุ่มไม่ขึ้นกับ index/count จึงต้องเช็คก่อน guard (count <= 1)
+            // ไม่งั้นยิงนัดเดียว/Repeat เดียวจะไม่สุ่มเลย
+            switch (shape)
+            {
+                case SpreadShape.RandomUniform:
+                    // RandomRange(r) = สุ่ม -r..+r เท่าๆ กัน
+                    return RandomRange(spread * 0.5f);
 
-            float step = spread / (count - 1);
-            return -spread * 0.5f + step * index;
+                case SpreadShape.RandomCluster:
+                {
+                    if (random == null) ResetRandom();
+
+                    double u1 = 1.0 - random.NextDouble();
+                    double u2 = random.NextDouble();
+
+                    // Box-Muller -> standard normal, clamp ที่ ±3 sigma กันหางยาวเกินขอบ
+                    double stdNormal =
+                        Math.Sqrt(-2.0 * Math.Log(u1)) *
+                        Math.Cos(2.0 * Math.PI * u2);
+
+                    float n = Mathf.Clamp((float)(stdNormal / 3.0), -1f, 1f);
+                    return n * spread * 0.5f;
+                }
+            }
+
+            if (count <= 1)
+                return 0f;
+
+            switch (shape)
+            {
+                case SpreadShape.Gaussian:
+                {
+                    // t: -1..1 กระจายเท่าๆ กัน แล้ววาร์ปด้วย power curve (sign(t)*t^2)
+                    // เพื่อให้ index ที่ห่างกันเท่าๆ กัน แมพไปเป็นมุมที่ "หนาแน่นตรงกลาง ห่างที่ขอบ"
+                    float t = (2f * index / (count - 1)) - 1f;
+                    float warped = Mathf.Sign(t) * t * t;
+                    return warped * spread * 0.5f;
+                }
+
+                default: // Even
+                    if (Mathf.Abs(Mathf.Abs(spread) - 360f) < 0.0001f)
+                        return (spread / count) * index;
+
+                    float step = spread / (count - 1);
+                    return -spread * 0.5f + step * index;
+            }
         }
 
         private float GetPerPatternRandom(object key, float range)
@@ -723,6 +1159,14 @@ namespace EnemySystem
 
             return (float)(random.NextDouble() * 2.0 - 1.0) *
                    Mathf.Abs(range);
+        }
+
+        private float RandomUnit01()
+        {
+            if (random == null)
+                ResetRandom();
+
+            return (float)random.NextDouble();
         }
 
         private static Vector2 AngleToVector(float degrees)

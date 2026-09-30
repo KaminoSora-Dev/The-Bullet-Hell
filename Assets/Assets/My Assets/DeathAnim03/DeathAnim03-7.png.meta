@@ -91,9 +91,9 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
@@ -500,7 +500,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -509,7 +509,23 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      DeathAnim03-7_0: -946949816836069085
+      DeathAnim03-7_1: -2350854109692960623
+      DeathAnim03-7_10: -8840821395003564024
+      DeathAnim03-7_11: -1120299941249409201
+      DeathAnim03-7_12: -72233036598146606
+      DeathAnim03-7_13: -377302076095582614
+      DeathAnim03-7_14: -1879389111729564669
+      DeathAnim03-7_15: -6595252324794983127
+      DeathAnim03-7_2: -4745610607606143225
+      DeathAnim03-7_3: 8174661472931788425
+      DeathAnim03-7_4: -7818965139389867535
+      DeathAnim03-7_5: 8474420776308140628
+      DeathAnim03-7_6: 499427384499451762
+      DeathAnim03-7_7: 7878848595924135400
+      DeathAnim03-7_8: 6605494348920727661
+      DeathAnim03-7_9: -231682678970317106
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

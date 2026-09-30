@@ -36,7 +36,7 @@ namespace EnemySystem
         [Header("Visual Rotation (Optional)")]
         [Tooltip(
             "ติ๊กถ้าอยากให้กระสุนหมุนหันไปตามทิศทางที่กำลังเคลื่อนที่อยู่ " +
-            "(อัปเดตทุกครั้งที่ทิศเปลี่ยน เช่นจาก Direction Timeline หรือ Redirect)\n" +
+            "(อัปเดตทุกครั้งที่ทิศเปลี่ยน เช่นจาก Direction Timeline, Redirect, หรือ Path Motion)\n" +
             "ไม่ติ๊ก = กระสุนไม่หมุน"
         )]
         [SerializeField] private bool rotateToFaceDirection = false;
@@ -93,6 +93,19 @@ namespace EnemySystem
         private readonly List<BulletPatternV2Executor> activeBurstExecutors =
             new List<BulletPatternV2Executor>();
 
+        // ============================================================
+        // PATH MOTION
+        // ============================================================
+        private bool usingPathMotion;
+        private Vector3 pathStart;
+        private Vector3 pathEnd;
+        private Vector3 pathControl;
+        private bool pathHasCurve;
+        private float pathDuration;
+        private SpeedEasing pathEasing;
+        private PathEndBehavior pathEndBehavior;
+        private float pathTimer;
+
         private Transform cachedPlayerTransform;
 
         public float CurrentSpeed => currentSpeed;
@@ -124,6 +137,12 @@ namespace EnemySystem
             if (isDying || returnedToPool)
                 return;
 
+            if (usingPathMotion)
+            {
+                UpdatePathMotion(Time.fixedDeltaTime);
+                return;
+            }
+
             UpdateSpeed();
             UpdateDirection();
 
@@ -150,6 +169,74 @@ namespace EnemySystem
                 return;
 
             TickActiveBurstExecutors(Time.deltaTime);
+        }
+
+        // ============================================================
+        // PATH MOTION UPDATE
+        // ============================================================
+
+        private void UpdatePathMotion(float dt)
+        {
+            pathTimer += dt;
+
+            float t = Mathf.Clamp01(pathTimer / Mathf.Max(0.0001f, pathDuration));
+            float eased = ApplyEase(t, pathEasing);
+
+            Vector3 newPos;
+            Vector3 tangent;
+
+            if (pathHasCurve)
+            {
+                newPos = QuadraticBezierPoint(pathStart, pathControl, pathEnd, eased);
+                tangent = QuadraticBezierTangent(pathStart, pathControl, pathEnd, eased);
+            }
+            else
+            {
+                newPos = Vector3.LerpUnclamped(pathStart, pathEnd, eased);
+                tangent = pathEnd - pathStart;
+            }
+
+            rb.MovePosition(newPos);
+
+            if (tangent.sqrMagnitude > 0.000001f)
+                direction = ((Vector2)tangent).normalized;
+
+            if (rotateToFaceDirection)
+                UpdateFacingRotation();
+
+            if (t >= 1f)
+            {
+                usingPathMotion = false;
+
+                switch (pathEndBehavior)
+                {
+                    case PathEndBehavior.Destroy:
+                        RequestDestroy();
+                        break;
+
+                    case PathEndBehavior.Stop:
+                        currentSpeed = 0f;
+                        useSpeedTimeline = false;
+                        break;
+
+                    // ContinueFlying: currentSpeed/direction ที่ตั้งไว้ตอน ConfigureMotion
+                    // (หรือค่าที่ Speed/Direction Timeline พักไว้ระหว่าง Path) ใช้ต่อได้เลย
+                    case PathEndBehavior.ContinueFlying:
+                    default:
+                        break;
+                }
+            }
+        }
+
+        private static Vector3 QuadraticBezierPoint(Vector3 p0, Vector3 p1, Vector3 p2, float t)
+        {
+            float u = 1f - t;
+            return u * u * p0 + 2f * u * t * p1 + t * t * p2;
+        }
+
+        private static Vector3 QuadraticBezierTangent(Vector3 p0, Vector3 p1, Vector3 p2, float t)
+        {
+            return 2f * (1f - t) * (p1 - p0) + 2f * t * (p2 - p1);
         }
 
         private void UpdateFacingRotation()
@@ -241,13 +328,23 @@ namespace EnemySystem
             speedTimelineActive = false;
         }
 
+        /// <summary>
+        /// pathMotion: ถ้าไม่ null และ enabled มา จะให้กระสุนวิ่งตาม Path (เส้นตรง/โค้ง) แทน Direction/Speed
+        /// ปกติชั่วคราว จนกว่าจะถึงปลาย Path แล้วค่อยตัดสินใจตาม endBehavior
+        ///
+        /// directionTimelineCatchUpSeconds: ใช้กับ Sync Redirect - ถ้า > 0 จะเรียก UpdateDirectionTimeline
+        /// ทันทีหนึ่งครั้งด้วย delta ก้อนนี้ เพื่อ "ไล่ตาม" ให้ Redirect ตรงกับกระสุนนัดอื่นที่ Spawn ก่อนหน้า
+        /// ในจังหวะเดียวกัน (ใช้ Logic เดิมของ UpdateDirectionTimeline ที่รองรับ delta ก้อนใหญ่อยู่แล้ว)
+        /// </summary>
         public void ConfigureMotion(
             bool overrideInitialSpeed,
             float initialSpeed,
             List<SpeedTransition> timeline,
             List<DirectionTransition> newDirectionTimeline = null,
             List<BulletBurstTrigger> newBurstTimeline = null,
-            IEnumerable<BulletCustomPattern> newPatternCallChain = null)
+            IEnumerable<BulletCustomPattern> newPatternCallChain = null,
+            ResolvedPathMotion pathMotion = null,
+            float directionTimelineCatchUpSeconds = 0f)
         {
             returnedToPool = false;
             isDying = false;
@@ -297,6 +394,25 @@ namespace EnemySystem
                 triggerCount > 0
                     ? new bool[triggerCount]
                     : null;
+
+            usingPathMotion = pathMotion != null;
+
+            if (usingPathMotion)
+            {
+                pathStart = rb.position;
+                pathEnd = pathMotion.endPosition;
+                pathHasCurve = pathMotion.hasCurve;
+                pathControl = pathMotion.controlPosition;
+                pathDuration = Mathf.Max(0.01f, pathMotion.duration);
+                pathEasing = pathMotion.easing;
+                pathEndBehavior = pathMotion.endBehavior;
+                pathTimer = 0f;
+            }
+
+            // Sync Redirect: ไล่ตาม Direction Timeline ทันทีหนึ่งครั้งด้วย delta ก้อนใหญ่
+            // (ปลอดภัยเพราะ UpdateDirectionTimeline มี safety loop รองรับ delta เกิน Segment เดียวอยู่แล้ว)
+            if (useDirectionTimeline && directionTimelineCatchUpSeconds > 0f)
+                UpdateDirectionTimeline(directionTimelineCatchUpSeconds);
         }
 
         private void UpdateSpeedTimeline(float deltaTime)
@@ -757,6 +873,9 @@ namespace EnemySystem
             burstTriggerFired = null;
             burstTimelineClock = 0f;
             activeBurstExecutors.Clear();
+
+            usingPathMotion = false;
+            pathTimer = 0f;
         }
 
         public void OnSpawnFromPool()
@@ -809,6 +928,8 @@ namespace EnemySystem
             patternCallChain = null;
             burstTriggerFired = null;
             activeBurstExecutors.Clear();
+
+            usingPathMotion = false;
 
             isDying = false;
         }

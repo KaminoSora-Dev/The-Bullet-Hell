@@ -213,8 +213,24 @@ namespace EnemySystem
                 burst.FindPropertyRelative("repeatCount").intValue = 1;
                 burst.FindPropertyRelative("repeatInterval").floatValue = 0.1f;
                 burst.FindPropertyRelative("delayAfter").floatValue = 0.5f;
-                burst.FindPropertyRelative("bulletPrefab").objectReferenceValue = null;
-                burst.FindPropertyRelative("bulletCount").intValue = 1;
+
+                // สร้าง Element แรกให้พร้อมใช้งานทันที (เหมือนพฤติกรรมเดิมก่อนมี Multi-Element)
+                SerializedProperty elements =
+                    burst.FindPropertyRelative("elements");
+
+                elements.arraySize = 0;
+                elements.InsertArrayElementAtIndex(0);
+
+                SerializedProperty firstElement =
+                    elements.GetArrayElementAtIndex(0);
+
+                firstElement.FindPropertyRelative("elementName").stringValue =
+                    "Element 1";
+
+                firstElement.FindPropertyRelative("bulletCount").intValue = 1;
+                firstElement.isExpanded = true;
+
+                burst.isExpanded = true;
 
                 serializedObject.ApplyModifiedProperties();
                 GUIUtility.ExitGUI();
@@ -230,7 +246,7 @@ namespace EnemySystem
             EditorGUILayout.Space(2);
 
             EditorGUILayout.LabelField(
-                "TIMING",
+                "TIMING (ใช้ร่วมกันทุก Element ข้างล่าง)",
                 EditorStyles.boldLabel);
 
             EditorGUILayout.PropertyField(
@@ -244,18 +260,107 @@ namespace EnemySystem
 
             EditorGUILayout.Space(4);
 
+            DrawElements(
+                burst.FindPropertyRelative("elements"));
+        }
+
+        private void DrawElements(
+            SerializedProperty elements)
+        {
+            EditorGUILayout.LabelField(
+                "ELEMENTS",
+                EditorStyles.boldLabel);
+
+            EditorGUILayout.HelpBox(
+                "1 Element = 1 กระสุน/ทิศทาง/ความเร็ว - ยิงพร้อมกันทุก Element ทุกครั้งที่ Burst นี้ทำงาน\n" +
+                "เพิ่มมากกว่า 1 Element เพื่อยิงหลาย Pattern พร้อมกัน เช่น Clockwise + Counter Clockwise",
+                MessageType.None);
+
+            for (int i = 0; i < elements.arraySize; i++)
+            {
+                SerializedProperty element =
+                    elements.GetArrayElementAtIndex(i);
+
+                SerializedProperty elementName =
+                    element.FindPropertyRelative("elementName");
+
+                string title =
+                    string.IsNullOrWhiteSpace(elementName.stringValue)
+                        ? $"Element {i + 1}"
+                        : elementName.stringValue;
+
+                EditorGUILayout.BeginVertical(
+                    EditorStyles.helpBox);
+
+                EditorGUILayout.BeginHorizontal();
+
+                element.isExpanded =
+                    EditorGUILayout.Foldout(
+                        element.isExpanded,
+                        title,
+                        true);
+
+                if (GUILayout.Button(
+                    "X",
+                    GUILayout.Width(24)))
+                {
+                    elements.DeleteArrayElementAtIndex(i);
+
+                    EditorGUILayout.EndHorizontal();
+                    EditorGUILayout.EndVertical();
+
+                    serializedObject.ApplyModifiedProperties();
+                    GUIUtility.ExitGUI();
+                }
+
+                EditorGUILayout.EndHorizontal();
+
+                if (element.isExpanded)
+                    DrawElement(element);
+
+                EditorGUILayout.EndVertical();
+            }
+
+            if (GUILayout.Button("+ Add Element"))
+            {
+                int index = elements.arraySize;
+
+                elements.InsertArrayElementAtIndex(index);
+
+                SerializedProperty element =
+                    elements.GetArrayElementAtIndex(index);
+
+                element.FindPropertyRelative("elementName").stringValue =
+                    $"Element {index + 1}";
+
+                element.FindPropertyRelative("bulletCount").intValue = 1;
+                element.isExpanded = true;
+
+                serializedObject.ApplyModifiedProperties();
+                GUIUtility.ExitGUI();
+            }
+        }
+
+        private void DrawElement(
+            SerializedProperty element)
+        {
+            EditorGUILayout.PropertyField(
+                element.FindPropertyRelative("elementName"));
+
+            EditorGUILayout.Space(2);
+
             EditorGUILayout.LabelField(
                 "SPAWN",
                 EditorStyles.boldLabel);
 
             EditorGUILayout.PropertyField(
-                burst.FindPropertyRelative("bulletPrefab"));
+                element.FindPropertyRelative("bulletPrefab"));
 
             EditorGUILayout.PropertyField(
-                burst.FindPropertyRelative("bulletCount"));
+                element.FindPropertyRelative("bulletCount"));
 
             SerializedProperty spawn =
-                burst.FindPropertyRelative("spawn");
+                element.FindPropertyRelative("spawn");
 
             SerializedProperty spawnMode =
                 spawn.FindPropertyRelative("mode");
@@ -274,19 +379,22 @@ namespace EnemySystem
             {
                 EditorGUILayout.PropertyField(
                     spawn.FindPropertyRelative("circleRadius"));
+
+                EditorGUILayout.PropertyField(
+                    spawn.FindPropertyRelative("circleDistribution"));
             }
 
             EditorGUILayout.Space(4);
             DrawDirection(
-                burst.FindPropertyRelative("direction"));
+                element.FindPropertyRelative("direction"));
 
             EditorGUILayout.Space(4);
             DrawMotion(
-                burst.FindPropertyRelative("motion"));
+                element.FindPropertyRelative("motion"));
 
             EditorGUILayout.Space(4);
             DrawModifiers(
-                burst.FindPropertyRelative("modifiers"));
+                element.FindPropertyRelative("modifiers"));
         }
 
         private void DrawDirection(
@@ -316,6 +424,12 @@ namespace EnemySystem
 
             EditorGUILayout.PropertyField(
                 direction.FindPropertyRelative("spread"));
+
+            EditorGUILayout.PropertyField(
+                direction.FindPropertyRelative("spreadDistribution"));
+
+            EditorGUILayout.PropertyField(
+                direction.FindPropertyRelative("spreadShape"));
 
             if (directionMode ==
                 BulletDirectionMode.Rotating)
@@ -364,9 +478,69 @@ namespace EnemySystem
                 motion.FindPropertyRelative(
                     "directionTimeline"));
 
+            EditorGUILayout.PropertyField(
+                motion.FindPropertyRelative("syncDirectionTimelineToBurst"),
+                new GUIContent(
+                    "Sync Direction Timeline To Burst",
+                    "ติ๊ก = ทุกนัดจาก Burst นี้ (ทุก Repeat) Redirect พร้อมกันที่เวลาจริงเดียวกัน"));
+
             DrawBurstTimeline(
                 motion.FindPropertyRelative(
                     "burstTimeline"));
+
+            EditorGUILayout.Space(4);
+            DrawPath(
+                motion.FindPropertyRelative("path"));
+        }
+
+        private void DrawPath(
+            SerializedProperty path)
+        {
+            EditorGUILayout.LabelField(
+                "PATH MOTION (Optional)",
+                EditorStyles.boldLabel);
+
+            SerializedProperty enabled =
+                path.FindPropertyRelative("enabled");
+
+            EditorGUILayout.PropertyField(enabled);
+
+            if (!enabled.boolValue)
+                return;
+
+            SerializedProperty pointMode =
+                path.FindPropertyRelative("pointMode");
+
+            EditorGUILayout.PropertyField(pointMode);
+
+            BulletPathPointMode mode =
+                (BulletPathPointMode)pointMode.enumValueIndex;
+
+            EditorGUILayout.LabelField("End Point");
+
+            if (mode == BulletPathPointMode.Offset)
+                EditorGUILayout.PropertyField(path.FindPropertyRelative("endOffset"));
+            else
+                EditorGUILayout.PropertyField(path.FindPropertyRelative("endTransform"));
+
+            SerializedProperty useCurve =
+                path.FindPropertyRelative("useCurve");
+
+            EditorGUILayout.PropertyField(useCurve);
+
+            if (useCurve.boolValue)
+            {
+                EditorGUILayout.LabelField("Control Point");
+
+                if (mode == BulletPathPointMode.Offset)
+                    EditorGUILayout.PropertyField(path.FindPropertyRelative("controlOffset"));
+                else
+                    EditorGUILayout.PropertyField(path.FindPropertyRelative("controlTransform"));
+            }
+
+            EditorGUILayout.PropertyField(path.FindPropertyRelative("duration"));
+            EditorGUILayout.PropertyField(path.FindPropertyRelative("easing"));
+            EditorGUILayout.PropertyField(path.FindPropertyRelative("endBehavior"));
         }
 
         private void DrawSpeedTimeline(
