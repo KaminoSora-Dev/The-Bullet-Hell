@@ -103,8 +103,61 @@ namespace EnemySystem
         private bool pathHasCurve;
         private float pathDuration;
         private SpeedEasing pathEasing;
+        private PathSpeedMode pathSpeedMode;
         private PathEndBehavior pathEndBehavior;
         private float pathTimer;
+        private float pathDistance;
+        private float pathLength;
+
+        // ============================================================
+        // WAYPOINT PATH (Path Stream แบบ Flow)
+        // วิ่งตามเส้นทางที่ Sample แล้วด้วยความเร็วคงที่ (ระยะทาง = ความเร็ว x เวลา)
+        // ============================================================
+        private bool usingWaypointPath;
+        private WaypointPath waypointPath;
+        private float waypointSpeed;
+        private PathSpeedMode waypointSpeedMode;
+        private float waypointDistance;
+        private PathEndBehavior waypointEnd;
+        private float waypointRotation;
+        private Vector3 waypointOffset;
+
+        // ============================================================
+        // HOMING
+        // ============================================================
+        private HomingSettings homing;
+        private float homingClock;
+        private float homingSpreadAngle;
+        private float homingKeepSpread;
+
+        // ============================================================
+        // ORBIT
+        // ============================================================
+        private bool orbiting;
+        private OrbitSettings orbitSettings;
+        private Transform orbitCenter;
+        private float orbitAngle;
+        private float orbitTimer;
+        private float orbitStartRadius;
+        private float orbitRadiusOffset;
+        private float orbitStartAngleOffset;
+
+        // ============================================================
+        // DANGER ZONE (Warning State)
+        // ระหว่าง Warning: ซ่อนภาพ ปิด Collider ไม่เคลื่อนที่ ไม่นับ Burst Timeline
+        // ============================================================
+        private const int TelegraphCurveSamples = 24;
+
+        // Buffer เส้นเตือน ใช้ร่วมกันทุกกระสุน (DangerLineV1.Show คัดลอกค่าทันที จึงปลอดภัย)
+        private static readonly Vector3[] telegraphBuffer =
+            new Vector3[TelegraphCurveSamples + 1];
+
+        private bool isWarning;
+        private float warningTimer;
+        private DangerLineV1 dangerLine;
+
+        private Renderer[] renderers;
+        private bool[] rendererDefaultEnabled;
 
         private Transform cachedPlayerTransform;
 
@@ -128,23 +181,54 @@ namespace EnemySystem
                     $"EnemyBulletV2 บน '{gameObject.name}' ไม่มี Collider2D ติดอยู่ - กระสุนจะไม่ชนอะไรเลย",
                     gameObject);
 
+            // จำสถานะ enabled ดั้งเดิมของ Renderer ทุกตัว (รวมลูก) ไว้ใช้ซ่อน/คืนค่าตอน Warning
+            renderers = GetComponentsInChildren<Renderer>(true);
+            rendererDefaultEnabled = new bool[renderers.Length];
+
+            for (int i = 0; i < renderers.Length; i++)
+                rendererDefaultEnabled[i] = renderers[i].enabled;
+
             ResetMotionToPrefabDefaults();
             CachePlayer();
         }
 
         private void FixedUpdate()
         {
-            if (isDying || returnedToPool)
+            if (isDying || returnedToPool || isWarning)
                 return;
 
             if (usingPathMotion)
             {
+                // Path Timing ใช้ระบบเดิม จึงไม่จำเป็นต้องอัปเดต Speed Timeline
+                // แต่ Speed Timeline mode ต้องอัปเดต currentSpeed ก่อนนำไปขยับตาม Path
+                if (pathSpeedMode == PathSpeedMode.SpeedTimeline)
+                    UpdateSpeed();
+
                 UpdatePathMotion(Time.fixedDeltaTime);
                 return;
             }
 
+            if (usingWaypointPath)
+            {
+                // Flow Path สามารถใช้ Speed Timeline ของ Element เดียวกันเป็นความเร็วจริงได้
+                if (waypointSpeedMode == PathSpeedMode.SpeedTimeline)
+                    UpdateSpeed();
+
+                UpdateWaypointMotion(Time.fixedDeltaTime);
+                return;
+            }
+
+            if (orbiting)
+            {
+                UpdateOrbit(Time.fixedDeltaTime);
+                return;
+            }
+
             UpdateSpeed();
-            UpdateDirection();
+
+            // Homing ที่กำลังทำงานจะคุมทิศแทน Direction Timeline (Timeline หยุดชั่วคราวแล้วเดินต่อหลังจบ)
+            if (!UpdateHoming(Time.fixedDeltaTime))
+                UpdateDirection();
 
             Vector2 targetPosition =
                 rb.position +
@@ -163,6 +247,12 @@ namespace EnemySystem
             if (isDying || returnedToPool)
                 return;
 
+            if (isWarning)
+            {
+                TickWarning(Time.deltaTime);
+                return;
+            }
+
             UpdateBurstTimeline(Time.deltaTime);
 
             if (isDying || returnedToPool)
@@ -172,39 +262,183 @@ namespace EnemySystem
         }
 
         // ============================================================
+        // DANGER ZONE
+        // ============================================================
+
+        private void BeginWarning(TelegraphSettings telegraph)
+        {
+            isWarning = true;
+            warningTimer = Mathf.Max(0.01f, telegraph.duration);
+
+            SetVisible(false);
+
+            if (col != null)
+                col.enabled = false;
+
+            int count = BuildTelegraphPoints(telegraph, out Vector3[] points);
+
+            dangerLine =
+                DangerLineV1.Show(
+                    points,
+                    count,
+                    telegraph.lineWidth,
+                    telegraph.color,
+                    telegraph.sortingOrder);
+        }
+
+        private void TickWarning(float dt)
+        {
+            warningTimer -= dt;
+
+            if (warningTimer <= 0f)
+                EndWarning();
+        }
+
+        private void EndWarning()
+        {
+            isWarning = false;
+
+            ReleaseDangerLine();
+            SetVisible(true);
+
+            if (col != null && !isDying)
+                col.enabled = true;
+        }
+
+        private void ReleaseDangerLine()
+        {
+            if (dangerLine != null)
+                dangerLine.Release();
+
+            dangerLine = null;
+        }
+
+        private void SetVisible(bool visible)
+        {
+            if (renderers == null)
+                return;
+
+            for (int i = 0; i < renderers.Length; i++)
+            {
+                if (renderers[i] == null)
+                    continue;
+
+                renderers[i].enabled =
+                    visible && rendererDefaultEnabled[i];
+            }
+        }
+
+        /// <summary>
+        /// จุดของเส้นเตือน: Waypoint Path -> ตามเส้นจริง | Path Motion -> Sample ตามเส้น (ตรง/โค้ง) |
+        /// ไม่มี Path -> เส้นตรงตามทิศเริ่มต้น (กลับด้านถ้าความเร็วเริ่มต้นติดลบ)
+        /// </summary>
+        private int BuildTelegraphPoints(
+            TelegraphSettings telegraph,
+            out Vector3[] points)
+        {
+            if (usingWaypointPath && waypointPath != null)
+            {
+                points = waypointPath.Points;
+                return waypointPath.Count;
+            }
+
+            points = telegraphBuffer;
+
+            if (usingPathMotion)
+            {
+                if (!pathHasCurve)
+                {
+                    telegraphBuffer[0] = pathStart;
+                    telegraphBuffer[1] = pathEnd;
+                    return 2;
+                }
+
+                for (int i = 0; i <= TelegraphCurveSamples; i++)
+                {
+                    float t = (float)i / TelegraphCurveSamples;
+
+                    telegraphBuffer[i] =
+                        QuadraticBezierPoint(pathStart, pathControl, pathEnd, t);
+                }
+
+                return TelegraphCurveSamples + 1;
+            }
+
+            Vector3 start = rb.position;
+            Vector2 lineDirection = currentSpeed < 0f ? -direction : direction;
+
+            telegraphBuffer[0] = start;
+            telegraphBuffer[1] = start + (Vector3)(lineDirection * telegraph.lineLength);
+            return 2;
+        }
+
+        // ============================================================
         // PATH MOTION UPDATE
         // ============================================================
 
         private void UpdatePathMotion(float dt)
         {
-            pathTimer += dt;
-
-            float t = Mathf.Clamp01(pathTimer / Mathf.Max(0.0001f, pathDuration));
-            float eased = ApplyEase(t, pathEasing);
-
             Vector3 newPos;
             Vector3 tangent;
+            float t;
 
-            if (pathHasCurve)
+            if (pathSpeedMode == PathSpeedMode.SpeedTimeline)
             {
-                newPos = QuadraticBezierPoint(pathStart, pathControl, pathEnd, eased);
-                tangent = QuadraticBezierTangent(pathStart, pathControl, pathEnd, eased);
+                // Speed Timeline เป็น "ความเร็วจริง" ของการเดินตาม Path (หน่วย/วินาที)
+                // Path Length ถูกคำนวณตอน ConfigureMotion แล้ว จึงไม่ต้องสร้าง allocation ทุก frame
+                float signedSpeed = currentSpeed;
+                pathDistance += signedSpeed * dt;
+
+                if (pathLength <= 0.0001f)
+                {
+                    t = 1f;
+                }
+                else
+                {
+                    // Path Motion ใช้ Bezier ที่ยังเป็น parameterized curve อยู่
+                    // จึงแปลงระยะทางเป็น t แบบประมาณค่า เพื่อให้ Target Speed มีความหมายเป็นหน่วย/วินาที
+                    t = Mathf.Clamp01(pathDistance / pathLength);
+                }
             }
             else
             {
-                newPos = Vector3.LerpUnclamped(pathStart, pathEnd, eased);
+                pathTimer += dt;
+                t = Mathf.Clamp01(pathTimer / Mathf.Max(0.0001f, pathDuration));
+                t = ApplyEase(t, pathEasing);
+            }
+
+            if (pathHasCurve)
+            {
+                newPos = QuadraticBezierPoint(pathStart, pathControl, pathEnd, t);
+                tangent = QuadraticBezierTangent(pathStart, pathControl, pathEnd, t);
+            }
+            else
+            {
+                newPos = Vector3.LerpUnclamped(pathStart, pathEnd, t);
                 tangent = pathEnd - pathStart;
             }
 
             rb.MovePosition(newPos);
 
             if (tangent.sqrMagnitude > 0.000001f)
-                direction = ((Vector2)tangent).normalized;
+            {
+                Vector2 pathDirection = ((Vector2)tangent).normalized;
+
+                if (pathSpeedMode == PathSpeedMode.SpeedTimeline && currentSpeed < 0f)
+                    pathDirection = -pathDirection;
+
+                direction = pathDirection;
+            }
 
             if (rotateToFaceDirection)
                 UpdateFacingRotation();
 
-            if (t >= 1f)
+            bool reachedEnd =
+                pathSpeedMode == PathSpeedMode.SpeedTimeline
+                    ? pathDistance >= pathLength
+                    : t >= 1f;
+
+            if (reachedEnd)
             {
                 usingPathMotion = false;
 
@@ -220,12 +454,34 @@ namespace EnemySystem
                         break;
 
                     // ContinueFlying: currentSpeed/direction ที่ตั้งไว้ตอน ConfigureMotion
-                    // (หรือค่าที่ Speed/Direction Timeline พักไว้ระหว่าง Path) ใช้ต่อได้เลย
+                    // (หรือค่าที่ Speed Timeline พักไว้หลังจบ Path) ใช้ต่อได้เลย
                     case PathEndBehavior.ContinueFlying:
                     default:
                         break;
                 }
             }
+        }
+
+        private static float EstimateQuadraticPathLength(
+            Vector3 p0,
+            Vector3 p1,
+            Vector3 p2,
+            int samples = 24)
+        {
+            samples = Mathf.Max(4, samples);
+
+            Vector3 previous = p0;
+            float length = 0f;
+
+            for (int i = 1; i <= samples; i++)
+            {
+                float t = (float)i / samples;
+                Vector3 current = QuadraticBezierPoint(p0, p1, p2, t);
+                length += (current - previous).magnitude;
+                previous = current;
+            }
+
+            return length;
         }
 
         private static Vector3 QuadraticBezierPoint(Vector3 p0, Vector3 p1, Vector3 p2, float t)
@@ -237,6 +493,209 @@ namespace EnemySystem
         private static Vector3 QuadraticBezierTangent(Vector3 p0, Vector3 p1, Vector3 p2, float t)
         {
             return 2f * (1f - t) * (p1 - p0) + 2f * t * (p2 - p1);
+        }
+
+        // ============================================================
+        // WAYPOINT PATH UPDATE (Path Stream แบบ Flow)
+        // ============================================================
+
+        private void UpdateWaypointMotion(float dt)
+        {
+            float speed =
+                waypointSpeedMode == PathSpeedMode.SpeedTimeline
+                    ? currentSpeed
+                    : waypointSpeed;
+
+            waypointDistance += speed * dt;
+
+            Vector3 tangent;
+            Vector3 newPos = waypointPath.Evaluate(waypointDistance, out tangent);
+
+            // Spread-compatible Flow: หมุน Path รอบจุดเริ่ม แล้วเลื่อนทั้งเส้นด้านข้าง
+            if (Mathf.Abs(waypointRotation) > 0.0001f)
+            {
+                Vector3 origin = waypointPath.Start;
+                newPos = origin + RotateVector3(newPos - origin, waypointRotation);
+                tangent = RotateVector3(tangent, waypointRotation);
+            }
+
+            newPos += waypointOffset;
+
+            rb.MovePosition(newPos);
+
+            if (tangent.sqrMagnitude > 0.000001f)
+                direction = ((Vector2)tangent).normalized;
+
+            if (rotateToFaceDirection)
+                UpdateFacingRotation();
+
+            if (waypointDistance >= waypointPath.TotalLength)
+            {
+                usingWaypointPath = false;
+
+                switch (waypointEnd)
+                {
+                    case PathEndBehavior.Destroy:
+                        RequestDestroy();
+                        break;
+
+                    case PathEndBehavior.Stop:
+                        currentSpeed = 0f;
+                        useSpeedTimeline = false;
+                        break;
+
+                    // ContinueFlying: direction = แทนเจนต์ปลาย Path, ความเร็ว = currentSpeed ของกระสุน
+                    case PathEndBehavior.ContinueFlying:
+                    default:
+                        break;
+                }
+            }
+        }
+
+        // ============================================================
+        // HOMING
+        // ============================================================
+
+        /// <summary>
+        /// คืน true ถ้า Homing กำลังคุมทิศอยู่เฟรมนี้ (ไม่ต้องอัปเดต Direction Timeline)
+        /// </summary>
+        private bool UpdateHoming(float dt)
+        {
+            if (homing == null)
+                return false;
+
+            homingClock += dt;
+
+            if (homingClock < homing.startDelay)
+                return false;
+
+            if (homingClock > homing.startDelay + homing.duration)
+            {
+                homing = null;
+                return false;
+            }
+
+            if (cachedPlayerTransform == null)
+                return false;
+
+            Vector2 toPlayer =
+                (Vector2)cachedPlayerTransform.position -
+                rb.position;
+
+            if (toPlayer.sqrMagnitude < 0.000001f)
+                return true;
+
+            float currentAngle = VectorToAngle(direction);
+            float targetAngle = VectorToAngle(toPlayer);
+
+            // Keep Spread = 0 -> ทุกนัด converge ไปทิศเดียวกันเหมือนเดิม
+            // Keep Spread = 1 -> target ของแต่ละนัดถูกหมุนกลับด้วย Spread Offset เดิม
+            targetAngle += homingSpreadAngle * homingKeepSpread;
+
+            float delta = Mathf.DeltaAngle(currentAngle, targetAngle);
+
+            // turnSpeed = 0 -> ล็อกเป้าทันที
+            float maxStep =
+                homing.turnSpeed <= 0f
+                    ? 360f
+                    : homing.turnSpeed * dt;
+
+            delta = Mathf.Clamp(delta, -maxStep, maxStep);
+
+            direction = AngleToVector(currentAngle + delta);
+
+            return true;
+        }
+
+        // ============================================================
+        // ORBIT
+        // ============================================================
+
+        private void BeginOrbit(OrbitSettings settings, Transform center)
+        {
+            orbiting = true;
+            orbitSettings = settings;
+            orbitCenter = center;
+            orbitTimer = 0f;
+
+            Vector2 offset = rb.position - (Vector2)center.position;
+            float distance = offset.magnitude;
+
+            // Spawn ที่กลางศัตรูพอดี (ไม่มีมุมอ้างอิง) -> ใช้มุมทิศยิงเป็นมุมเริ่ม
+            // เพื่อให้กระสุนจาก Spread/Ring กระจายออกเป็นคนละมุมบนวงโคจร
+            orbitAngle =
+                (distance > 0.001f
+                    ? VectorToAngle(offset)
+                    : VectorToAngle(direction)) +
+                orbitStartAngleOffset;
+
+            orbitStartRadius = Mathf.Max(0f, distance + orbitRadiusOffset);
+        }
+
+        private void UpdateOrbit(float dt)
+        {
+            // ศูนย์กลางถูกทำลาย/คืน Pool ระหว่างวน -> ปล่อยตัวทันที
+            if (orbitCenter == null || !orbitCenter.gameObject.activeInHierarchy)
+            {
+                EndOrbit();
+                return;
+            }
+
+            orbitTimer += dt;
+            orbitAngle += orbitSettings.angularSpeed * dt;
+
+            float blend =
+                orbitSettings.radiusBlendTime <= 0f
+                    ? 1f
+                    : Mathf.Clamp01(orbitTimer / orbitSettings.radiusBlendTime);
+
+            float radius =
+                Mathf.Lerp(orbitStartRadius, orbitSettings.radius, blend);
+
+            Vector2 center = (Vector2)orbitCenter.position;
+
+            rb.MovePosition(center + AngleToVector(orbitAngle) * radius);
+
+            // direction ตาม "ทิศที่กำลังวิ่ง" (เส้นสัมผัส) เพื่อให้ rotateToFaceDirection หันถูก
+            // และให้โหมด Release = Tangent ใช้ต่อได้เลย
+            direction = AngleToVector(orbitAngle + OrbitTangentOffset());
+
+            if (rotateToFaceDirection)
+                UpdateFacingRotation();
+
+            if (orbitTimer >= orbitSettings.duration)
+                EndOrbit();
+        }
+
+        private float OrbitTangentOffset()
+        {
+            return orbitSettings.angularSpeed >= 0f ? 90f : -90f;
+        }
+
+        private void EndOrbit()
+        {
+            orbiting = false;
+
+            switch (orbitSettings.releaseMode)
+            {
+                case OrbitReleaseMode.Outward:
+                    direction = AngleToVector(orbitAngle);
+                    break;
+
+                case OrbitReleaseMode.Stop:
+                    currentSpeed = 0f;
+                    useSpeedTimeline = false;
+                    break;
+
+                // Tangent: direction ถูกตั้งเป็นเส้นสัมผัสไว้แล้วใน UpdateOrbit
+                case OrbitReleaseMode.Tangent:
+                default:
+                    direction = AngleToVector(orbitAngle + OrbitTangentOffset());
+                    break;
+            }
+
+            orbitSettings = null;
+            orbitCenter = null;
         }
 
         private void UpdateFacingRotation()
@@ -335,6 +794,8 @@ namespace EnemySystem
         /// directionTimelineCatchUpSeconds: ใช้กับ Sync Redirect - ถ้า > 0 จะเรียก UpdateDirectionTimeline
         /// ทันทีหนึ่งครั้งด้วย delta ก้อนนี้ เพื่อ "ไล่ตาม" ให้ Redirect ตรงกับกระสุนนัดอื่นที่ Spawn ก่อนหน้า
         /// ในจังหวะเดียวกัน (ใช้ Logic เดิมของ UpdateDirectionTimeline ที่รองรับ delta ก้อนใหญ่อยู่แล้ว)
+        ///
+        /// advanced: ตัวเลือกขั้นสูง (Danger Zone / Homing / Orbit / Waypoint Path Flow) - ไม่ใส่ = ไม่ใช้ฟีเจอร์ใดเลย
         /// </summary>
         public void ConfigureMotion(
             bool overrideInitialSpeed,
@@ -344,10 +805,20 @@ namespace EnemySystem
             List<BulletBurstTrigger> newBurstTimeline = null,
             IEnumerable<BulletCustomPattern> newPatternCallChain = null,
             ResolvedPathMotion pathMotion = null,
-            float directionTimelineCatchUpSeconds = 0f)
+            float directionTimelineCatchUpSeconds = 0f,
+            BulletAdvancedConfig advanced = default(BulletAdvancedConfig))
         {
             returnedToPool = false;
             isDying = false;
+
+            // เผื่อถูก Configure ซ้ำ - ล้างสถานะ Advanced ของรอบก่อนให้หมด
+            ReleaseDangerLine();
+            isWarning = false;
+            SetVisible(true);
+
+            orbiting = false;
+            orbitSettings = null;
+            orbitCenter = null;
 
             currentSpeed =
                 overrideInitialSpeed
@@ -405,14 +876,83 @@ namespace EnemySystem
                 pathControl = pathMotion.controlPosition;
                 pathDuration = Mathf.Max(0.01f, pathMotion.duration);
                 pathEasing = pathMotion.easing;
+                pathSpeedMode = pathMotion.speedMode;
                 pathEndBehavior = pathMotion.endBehavior;
                 pathTimer = 0f;
+                pathDistance = 0f;
+
+                pathLength = pathHasCurve
+                    ? EstimateQuadraticPathLength(pathStart, pathControl, pathEnd)
+                    : Vector3.Distance(pathStart, pathEnd);
             }
+
+            else
+            {
+                pathSpeedMode = PathSpeedMode.PathTiming;
+                pathDistance = 0f;
+                pathLength = 0f;
+            }
+
+            // Path Flow (Path Stream): ชนะ Path Motion ปกติ
+            usingWaypointPath =
+                advanced.waypointPath != null &&
+                advanced.waypointPath.Count >= 2;
+
+            if (usingWaypointPath)
+            {
+                usingPathMotion = false;
+
+                waypointPath = advanced.waypointPath;
+                waypointSpeed = Mathf.Max(0f, advanced.waypointSpeed);
+                waypointSpeedMode = advanced.waypointSpeedMode;
+                waypointEnd = advanced.waypointEnd;
+                waypointRotation = advanced.waypointRotation;
+                waypointOffset = advanced.waypointOffset;
+                waypointDistance = 0f;
+            }
+            else
+            {
+                waypointPath = null;
+                waypointSpeedMode = PathSpeedMode.PathTiming;
+                waypointRotation = 0f;
+                waypointOffset = Vector3.zero;
+            }
+
+            // Homing
+            homing =
+                advanced.homing != null && advanced.homing.enabled
+                    ? advanced.homing
+                    : null;
+
+            homingClock = 0f;
+            homingSpreadAngle = advanced.homingSpreadAngle;
+            homingKeepSpread = Mathf.Clamp01(advanced.homingKeepSpread);
+
+            orbitRadiusOffset = advanced.orbitRadiusOffset;
+            orbitStartAngleOffset = advanced.orbitStartAngleOffset;
 
             // Sync Redirect: ไล่ตาม Direction Timeline ทันทีหนึ่งครั้งด้วย delta ก้อนใหญ่
             // (ปลอดภัยเพราะ UpdateDirectionTimeline มี safety loop รองรับ delta เกิน Segment เดียวอยู่แล้ว)
             if (useDirectionTimeline && directionTimelineCatchUpSeconds > 0f)
                 UpdateDirectionTimeline(directionTimelineCatchUpSeconds);
+
+            // Orbit: ใช้ร่วมกับ Path ไม่ได้ (Path ชนะ) / ไม่ใช้ร่วมกับ Danger Zone (ไม่เตือน ไม่รอ)
+            bool canOrbit =
+                !usingPathMotion &&
+                !usingWaypointPath &&
+                advanced.orbit != null &&
+                advanced.orbit.enabled &&
+                advanced.orbitCenter != null;
+
+            if (canOrbit)
+            {
+                BeginOrbit(advanced.orbit, advanced.orbitCenter);
+                return;
+            }
+
+            // Danger Zone: ต้องเริ่มท้ายสุด (หลังรู้ทิศ/Path ทั้งหมดแล้ว) เพื่อให้เส้นตรงกับทางที่จะไปจริง
+            if (advanced.telegraph != null && advanced.telegraph.enabled)
+                BeginWarning(advanced.telegraph);
         }
 
         private void UpdateSpeedTimeline(float deltaTime)
@@ -643,6 +1183,17 @@ namespace EnemySystem
                 Mathf.Cos(radians),
                 Mathf.Sin(radians)
             );
+        }
+
+        private static Vector3 RotateVector3(Vector3 value, float degrees)
+        {
+            float radians = degrees * Mathf.Deg2Rad;
+            float sin = Mathf.Sin(radians);
+            float cos = Mathf.Cos(radians);
+            return new Vector3(
+                value.x * cos - value.y * sin,
+                value.x * sin + value.y * cos,
+                value.z);
         }
 
         private static float ApplyEase(
@@ -876,6 +1427,26 @@ namespace EnemySystem
 
             usingPathMotion = false;
             pathTimer = 0f;
+            pathDistance = 0f;
+            pathLength = 0f;
+            pathSpeedMode = PathSpeedMode.PathTiming;
+
+            usingWaypointPath = false;
+            waypointPath = null;
+            waypointSpeedMode = PathSpeedMode.PathTiming;
+            waypointDistance = 0f;
+
+            homing = null;
+            homingClock = 0f;
+
+            orbiting = false;
+            orbitSettings = null;
+            orbitCenter = null;
+            orbitTimer = 0f;
+
+            ReleaseDangerLine();
+            isWarning = false;
+            SetVisible(true);
         }
 
         public void OnSpawnFromPool()
@@ -930,6 +1501,25 @@ namespace EnemySystem
             activeBurstExecutors.Clear();
 
             usingPathMotion = false;
+            pathSpeedMode = PathSpeedMode.PathTiming;
+            pathDistance = 0f;
+            pathLength = 0f;
+
+            usingWaypointPath = false;
+            waypointPath = null;
+            waypointSpeedMode = PathSpeedMode.PathTiming;
+
+            homing = null;
+
+            orbiting = false;
+            orbitSettings = null;
+            orbitCenter = null;
+
+            // ถ้าถูกคืนระหว่าง Warning: ต้องคืนเส้นเตือนและคืนภาพ Renderer ด้วย
+            // ไม่งั้นกระสุนตัวถัดไปจาก Pool จะล่องหนหรือเส้นแดงค้างจอ
+            ReleaseDangerLine();
+            isWarning = false;
+            SetVisible(true);
 
             isDying = false;
         }
@@ -939,7 +1529,8 @@ namespace EnemySystem
             if (isDying || returnedToPool)
                 return;
 
-            if (deathAnimator == null)
+            // กระสุนที่ยังอยู่ในช่วง Warning ไม่เคยปรากฏบนจอ - คืน Pool ทันที ไม่ต้องเล่น Death Animation
+            if (isWarning || deathAnimator == null)
             {
                 ReturnToPoolNow();
                 return;
@@ -971,13 +1562,14 @@ namespace EnemySystem
             else
             {
                 returnedToPool = true;
+                ReleaseDangerLine();
                 gameObject.SetActive(false);
             }
         }
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (isDying || returnedToPool)
+            if (isDying || returnedToPool || isWarning)
                 return;
 
             if (other.CompareTag("HiddenBorder"))

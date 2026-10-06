@@ -1866,7 +1866,7 @@ MonoBehaviour:
     easeType: 0
     allowShoot: 0
   - target: {fileID: 115442365}
-    duration: 12
+    duration: 2
     easeType: 0
     allowShoot: 1
   - target: {fileID: 1968281919}
@@ -2237,17 +2237,115 @@ MonoBehaviour:
       repeatCount: 8
       repeatInterval: 0.4
       delayAfter: 1.2
-      bulletPrefab: {fileID: 1156615127}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 1156615127}
+        bulletCount: 4
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 20
+          circleDistribution: 0
+        direction:
+          mode: 6
+          angle: 0
+          spread: 45
+          rotationPerRepeat: -20
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 400
+          speedTimeline:
+          - targetSpeed: 100
+            duration: 2
+            easing: 0
+          - targetSpeed: 400
+            duration: 3
+            easing: 0
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            rotateWithSpread: 0
+            varyMode: 0
+            varyAmount: 0
+            varyScope: 2
+            speedMode: 0
+            duration: 1
+            easing: 0
+            endBehavior: 0
+          homing:
+            enabled: 0
+            startDelay: 0
+            duration: 2
+            turnSpeed: 90
+            keepSpread: 0
+          orbit:
+            enabled: 0
+            radius: 1.5
+            angularSpeed: 180
+            duration: 2
+            radiusBlendTime: 0.25
+            radiusVary: 0
+            radiusVaryScope: 2
+            startAngleVary: 0
+            startAngleVaryScope: 2
+            releaseMode: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+        telegraph:
+          enabled: 0
+          duration: 0.6
+          lineWidth: 0.08
+          color: {r: 1, g: 0.1, b: 0.1, a: 0.8}
+          lineLength: 12
+          sortingOrder: 100
+          showOncePerPattern: 0
+        stream:
+          enabled: 0
+          mode: 0
+          startMode: 1
+          startTransform: {fileID: 0}
+          waypoints: []
+          useCurve: 0
+          streamDuration: 2
+          spawnInterval: 0.05
+          pathSpeed: 8
+          speedMode: 0
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          endBehavior: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 4
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 20
+        circleDistribution: 0
       direction:
         mode: 6
         angle: 0
         spread: 45
         rotationPerRepeat: -20
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 1
         initialSpeed: 400
@@ -2259,7 +2357,41 @@ MonoBehaviour:
           duration: 3
           easing: 0
         directionTimeline: []
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          speedMode: 0
+          duration: 1
+          easing: 0
+          endBehavior: 0
+        homing:
+          enabled: 0
+          startDelay: 0
+          duration: 2
+          turnSpeed: 90
+          keepSpread: 0
+        orbit:
+          enabled: 0
+          radius: 1.5
+          angularSpeed: 180
+          duration: 2
+          radiusBlendTime: 0.25
+          radiusVary: 0
+          radiusVaryScope: 2
+          startAngleVary: 0
+          startAngleVaryScope: 2
+          releaseMode: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -2559,17 +2691,126 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.1
       delayAfter: 2
-      bulletPrefab: {fileID: 1670586318}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 1670586318}
+        bulletCount: 4
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 20
+          circleDistribution: 0
+        direction:
+          mode: 0
+          angle: -160
+          spread: 360
+          rotationPerRepeat: 20
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 200
+          speedTimeline:
+          - targetSpeed: 0
+            duration: 1
+            easing: 3
+          - targetSpeed: 0
+            duration: 1.5
+            easing: 0
+          - targetSpeed: 300
+            duration: 2
+            easing: 3
+          directionTimeline:
+          - mode: 1
+            relativeAngle: 45
+            duration: 2
+            easing: 3
+          syncDirectionTimelineToBurst: 0
+          burstTimeline:
+          - name: Trigger 1
+            time: 0.5
+            pattern: {fileID: 1833409828}
+            destroySelfAfterFire: 1
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            rotateWithSpread: 0
+            varyMode: 0
+            varyAmount: 0
+            varyScope: 2
+            speedMode: 0
+            duration: 1
+            easing: 0
+            endBehavior: 0
+          homing:
+            enabled: 0
+            startDelay: 0
+            duration: 2
+            turnSpeed: 90
+            keepSpread: 0
+          orbit:
+            enabled: 0
+            radius: 1.5
+            angularSpeed: 180
+            duration: 2
+            radiusBlendTime: 0.25
+            radiusVary: 0
+            radiusVaryScope: 2
+            startAngleVary: 0
+            startAngleVaryScope: 2
+            releaseMode: 0
+        modifiers:
+          randomAngle:
+            enabled: 1
+            range: 30
+            scope: 1
+          randomSpeed:
+            enabled: 1
+            range: 50
+            scope: 1
+        telegraph:
+          enabled: 0
+          duration: 0.6
+          lineWidth: 0.08
+          color: {r: 1, g: 0.1, b: 0.1, a: 0.8}
+          lineLength: 12
+          sortingOrder: 100
+          showOncePerPattern: 0
+        stream:
+          enabled: 0
+          mode: 0
+          startMode: 1
+          startTransform: {fileID: 0}
+          waypoints: []
+          useCurve: 0
+          streamDuration: 2
+          spawnInterval: 0.05
+          pathSpeed: 8
+          speedMode: 0
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          endBehavior: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 4
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 20
+        circleDistribution: 0
       direction:
         mode: 0
         angle: -160
         spread: 360
         rotationPerRepeat: 20
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 1
         initialSpeed: 200
@@ -2588,11 +2829,45 @@ MonoBehaviour:
           relativeAngle: 45
           duration: 2
           easing: 3
+        syncDirectionTimelineToBurst: 0
         burstTimeline:
         - name: Trigger 1
           time: 0.5
           pattern: {fileID: 1833409828}
           destroySelfAfterFire: 1
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          speedMode: 0
+          duration: 1
+          easing: 0
+          endBehavior: 0
+        homing:
+          enabled: 0
+          startDelay: 0
+          duration: 2
+          turnSpeed: 90
+          keepSpread: 0
+        orbit:
+          enabled: 0
+          radius: 1.5
+          angularSpeed: 180
+          duration: 2
+          radiusBlendTime: 0.25
+          radiusVary: 0
+          radiusVaryScope: 2
+          startAngleVary: 0
+          startAngleVaryScope: 2
+          releaseMode: 0
       modifiers:
         randomAngle:
           enabled: 1
@@ -6578,17 +6853,134 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.1
       delayAfter: 2
-      bulletPrefab: {fileID: 1532030632}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 1532030632}
+        bulletCount: 4
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 20
+          circleDistribution: 0
+        direction:
+          mode: 0
+          angle: -160
+          spread: 360
+          rotationPerRepeat: 20
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 200
+          speedTimeline:
+          - targetSpeed: 0
+            duration: 1
+            easing: 3
+          - targetSpeed: 0
+            duration: 1.5
+            easing: 0
+          - targetSpeed: 300
+            duration: 2
+            easing: 3
+          directionTimeline:
+          - mode: 1
+            relativeAngle: 45
+            duration: 1
+            easing: 3
+          - mode: 1
+            relativeAngle: 45
+            duration: 1
+            easing: 0
+          - mode: 1
+            relativeAngle: 45
+            duration: 1
+            easing: 0
+          syncDirectionTimelineToBurst: 0
+          burstTimeline:
+          - name: Trigger 1
+            time: 0.5
+            pattern: {fileID: 203493215}
+            destroySelfAfterFire: 1
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            rotateWithSpread: 0
+            varyMode: 0
+            varyAmount: 0
+            varyScope: 2
+            speedMode: 0
+            duration: 1
+            easing: 0
+            endBehavior: 0
+          homing:
+            enabled: 0
+            startDelay: 0
+            duration: 2
+            turnSpeed: 90
+            keepSpread: 0
+          orbit:
+            enabled: 0
+            radius: 1.5
+            angularSpeed: 180
+            duration: 2
+            radiusBlendTime: 0.25
+            radiusVary: 0
+            radiusVaryScope: 2
+            startAngleVary: 0
+            startAngleVaryScope: 2
+            releaseMode: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 10
+            scope: 1
+          randomSpeed:
+            enabled: 1
+            range: 50
+            scope: 1
+        telegraph:
+          enabled: 0
+          duration: 0.6
+          lineWidth: 0.08
+          color: {r: 1, g: 0.1, b: 0.1, a: 0.8}
+          lineLength: 12
+          sortingOrder: 100
+          showOncePerPattern: 0
+        stream:
+          enabled: 0
+          mode: 0
+          startMode: 1
+          startTransform: {fileID: 0}
+          waypoints: []
+          useCurve: 0
+          streamDuration: 2
+          spawnInterval: 0.05
+          pathSpeed: 8
+          speedMode: 0
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          endBehavior: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 4
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 20
+        circleDistribution: 0
       direction:
         mode: 0
         angle: -160
         spread: 360
         rotationPerRepeat: 20
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 1
         initialSpeed: 200
@@ -6615,11 +7007,45 @@ MonoBehaviour:
           relativeAngle: 45
           duration: 1
           easing: 0
+        syncDirectionTimelineToBurst: 0
         burstTimeline:
         - name: Trigger 1
           time: 0.5
           pattern: {fileID: 203493215}
           destroySelfAfterFire: 1
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          speedMode: 0
+          duration: 1
+          easing: 0
+          endBehavior: 0
+        homing:
+          enabled: 0
+          startDelay: 0
+          duration: 2
+          turnSpeed: 90
+          keepSpread: 0
+        orbit:
+          enabled: 0
+          radius: 1.5
+          angularSpeed: 180
+          duration: 2
+          radiusBlendTime: 0.25
+          radiusVary: 0
+          radiusVaryScope: 2
+          startAngleVary: 0
+          startAngleVaryScope: 2
+          releaseMode: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -6683,17 +7109,117 @@ MonoBehaviour:
       repeatCount: 8
       repeatInterval: 0.1
       delayAfter: 2
-      bulletPrefab: {fileID: 1289619177}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 1289619177}
+        bulletCount: 8
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 3
+          angle: 0
+          spread: 80
+          rotationPerRepeat: 0
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 320
+          speedTimeline: []
+          directionTimeline:
+          - mode: 0
+            relativeAngle: 0
+            duration: 1
+            easing: 0
+          - mode: 1
+            relativeAngle: 45
+            duration: 0.1
+            easing: 3
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            rotateWithSpread: 0
+            varyMode: 0
+            varyAmount: 0
+            varyScope: 2
+            speedMode: 0
+            duration: 1
+            easing: 0
+            endBehavior: 0
+          homing:
+            enabled: 0
+            startDelay: 0
+            duration: 2
+            turnSpeed: 90
+            keepSpread: 0
+          orbit:
+            enabled: 0
+            radius: 1.5
+            angularSpeed: 180
+            duration: 2
+            radiusBlendTime: 0.25
+            radiusVary: 0
+            radiusVaryScope: 2
+            startAngleVary: 0
+            startAngleVaryScope: 2
+            releaseMode: 0
+        modifiers:
+          randomAngle:
+            enabled: 1
+            range: 2
+            scope: 1
+          randomSpeed:
+            enabled: 1
+            range: 20
+            scope: 1
+        telegraph:
+          enabled: 0
+          duration: 0.6
+          lineWidth: 0.08
+          color: {r: 1, g: 0.1, b: 0.1, a: 0.8}
+          lineLength: 12
+          sortingOrder: 100
+          showOncePerPattern: 0
+        stream:
+          enabled: 0
+          mode: 0
+          startMode: 1
+          startTransform: {fileID: 0}
+          waypoints: []
+          useCurve: 0
+          streamDuration: 2
+          spawnInterval: 0.05
+          pathSpeed: 8
+          speedMode: 0
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          endBehavior: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 8
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 3
         angle: 0
         spread: 80
         rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 1
         initialSpeed: 320
@@ -6707,7 +7233,41 @@ MonoBehaviour:
           relativeAngle: 45
           duration: 0.1
           easing: 3
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          speedMode: 0
+          duration: 1
+          easing: 0
+          endBehavior: 0
+        homing:
+          enabled: 0
+          startDelay: 0
+          duration: 2
+          turnSpeed: 90
+          keepSpread: 0
+        orbit:
+          enabled: 0
+          radius: 1.5
+          angularSpeed: 180
+          duration: 2
+          radiusBlendTime: 0.25
+          radiusVary: 0
+          radiusVaryScope: 2
+          startAngleVary: 0
+          startAngleVaryScope: 2
+          releaseMode: 0
       modifiers:
         randomAngle:
           enabled: 1
@@ -6849,17 +7409,115 @@ MonoBehaviour:
       repeatCount: 8
       repeatInterval: 0.1
       delayAfter: 0.1
-      bulletPrefab: {fileID: 1619466907}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 1619466907}
+        bulletCount: 4
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 20
+          circleDistribution: 0
+        direction:
+          mode: 6
+          angle: -160
+          spread: 45
+          rotationPerRepeat: 20
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 400
+          speedTimeline:
+          - targetSpeed: 100
+            duration: 2
+            easing: 0
+          - targetSpeed: 400
+            duration: 3
+            easing: 0
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            rotateWithSpread: 0
+            varyMode: 0
+            varyAmount: 0
+            varyScope: 2
+            speedMode: 0
+            duration: 1
+            easing: 0
+            endBehavior: 0
+          homing:
+            enabled: 0
+            startDelay: 0
+            duration: 2
+            turnSpeed: 90
+            keepSpread: 0
+          orbit:
+            enabled: 0
+            radius: 1.5
+            angularSpeed: 180
+            duration: 2
+            radiusBlendTime: 0.25
+            radiusVary: 0
+            radiusVaryScope: 2
+            startAngleVary: 0
+            startAngleVaryScope: 2
+            releaseMode: 0
+        modifiers:
+          randomAngle:
+            enabled: 1
+            range: 10
+            scope: 1
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+        telegraph:
+          enabled: 0
+          duration: 0.6
+          lineWidth: 0.08
+          color: {r: 1, g: 0.1, b: 0.1, a: 0.8}
+          lineLength: 12
+          sortingOrder: 100
+          showOncePerPattern: 0
+        stream:
+          enabled: 0
+          mode: 0
+          startMode: 1
+          startTransform: {fileID: 0}
+          waypoints: []
+          useCurve: 0
+          streamDuration: 2
+          spawnInterval: 0.05
+          pathSpeed: 8
+          speedMode: 0
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          endBehavior: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 4
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 20
+        circleDistribution: 0
       direction:
         mode: 6
         angle: -160
         spread: 45
         rotationPerRepeat: 20
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 1
         initialSpeed: 400
@@ -6871,7 +7529,41 @@ MonoBehaviour:
           duration: 3
           easing: 0
         directionTimeline: []
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          speedMode: 0
+          duration: 1
+          easing: 0
+          endBehavior: 0
+        homing:
+          enabled: 0
+          startDelay: 0
+          duration: 2
+          turnSpeed: 90
+          keepSpread: 0
+        orbit:
+          enabled: 0
+          radius: 1.5
+          angularSpeed: 180
+          duration: 2
+          radiusBlendTime: 0.25
+          radiusVary: 0
+          radiusVaryScope: 2
+          startAngleVary: 0
+          startAngleVaryScope: 2
+          releaseMode: 0
       modifiers:
         randomAngle:
           enabled: 1
@@ -6885,17 +7577,115 @@ MonoBehaviour:
       repeatCount: 8
       repeatInterval: 0.1
       delayAfter: 0.1
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 0}
+        bulletCount: 4
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 20
+          circleDistribution: 0
+        direction:
+          mode: 6
+          angle: 0
+          spread: 45
+          rotationPerRepeat: -20
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 400
+          speedTimeline:
+          - targetSpeed: 100
+            duration: 2
+            easing: 0
+          - targetSpeed: 400
+            duration: 3
+            easing: 0
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            rotateWithSpread: 0
+            varyMode: 0
+            varyAmount: 0
+            varyScope: 2
+            speedMode: 0
+            duration: 1
+            easing: 0
+            endBehavior: 0
+          homing:
+            enabled: 0
+            startDelay: 0
+            duration: 2
+            turnSpeed: 90
+            keepSpread: 0
+          orbit:
+            enabled: 0
+            radius: 1.5
+            angularSpeed: 180
+            duration: 2
+            radiusBlendTime: 0.25
+            radiusVary: 0
+            radiusVaryScope: 2
+            startAngleVary: 0
+            startAngleVaryScope: 2
+            releaseMode: 0
+        modifiers:
+          randomAngle:
+            enabled: 1
+            range: 10
+            scope: 1
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+        telegraph:
+          enabled: 0
+          duration: 0.6
+          lineWidth: 0.08
+          color: {r: 1, g: 0.1, b: 0.1, a: 0.8}
+          lineLength: 12
+          sortingOrder: 100
+          showOncePerPattern: 0
+        stream:
+          enabled: 0
+          mode: 0
+          startMode: 1
+          startTransform: {fileID: 0}
+          waypoints: []
+          useCurve: 0
+          streamDuration: 2
+          spawnInterval: 0.05
+          pathSpeed: 8
+          speedMode: 0
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          endBehavior: 0
       bulletPrefab: {fileID: 0}
       bulletCount: 4
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 20
+        circleDistribution: 0
       direction:
         mode: 6
         angle: 0
         spread: 45
         rotationPerRepeat: -20
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 1
         initialSpeed: 400
@@ -6907,7 +7697,41 @@ MonoBehaviour:
           duration: 3
           easing: 0
         directionTimeline: []
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          speedMode: 0
+          duration: 1
+          easing: 0
+          endBehavior: 0
+        homing:
+          enabled: 0
+          startDelay: 0
+          duration: 2
+          turnSpeed: 90
+          keepSpread: 0
+        orbit:
+          enabled: 0
+          radius: 1.5
+          angularSpeed: 180
+          duration: 2
+          radiusBlendTime: 0.25
+          radiusVary: 0
+          radiusVaryScope: 2
+          startAngleVary: 0
+          startAngleVaryScope: 2
+          releaseMode: 0
       modifiers:
         randomAngle:
           enabled: 1
@@ -9735,17 +10559,142 @@ MonoBehaviour:
       repeatCount: 288
       repeatInterval: 0.01
       delayAfter: 0.5
-      bulletPrefab: {fileID: 1289619177}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 1289619177}
+        bulletCount: 1
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 6
+          angle: 0
+          spread: 0
+          rotationPerRepeat: 20
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 200
+          speedTimeline:
+          - targetSpeed: 0
+            duration: 1
+            easing: 3
+          - targetSpeed: 0
+            duration: 2
+            easing: 0
+          - targetSpeed: 300
+            duration: 1
+            easing: 3
+          directionTimeline:
+          - mode: 0
+            relativeAngle: 0
+            duration: 3
+            easing: 0
+          - mode: 0
+            relativeAngle: 90
+            duration: 0.5
+            easing: 0
+          - mode: 0
+            relativeAngle: -90
+            duration: 0.5
+            easing: 0
+          - mode: 0
+            relativeAngle: 90
+            duration: 0.5
+            easing: 0
+          - mode: 0
+            relativeAngle: -45
+            duration: 2
+            easing: 3
+          - mode: 0
+            relativeAngle: 45
+            duration: 2
+            easing: 3
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            rotateWithSpread: 0
+            varyMode: 0
+            varyAmount: 0
+            varyScope: 2
+            speedMode: 0
+            duration: 1
+            easing: 0
+            endBehavior: 0
+          homing:
+            enabled: 0
+            startDelay: 0
+            duration: 2
+            turnSpeed: 90
+            keepSpread: 0
+          orbit:
+            enabled: 0
+            radius: 1.5
+            angularSpeed: 180
+            duration: 2
+            radiusBlendTime: 0.25
+            radiusVary: 0
+            radiusVaryScope: 2
+            startAngleVary: 0
+            startAngleVaryScope: 2
+            releaseMode: 0
+        modifiers:
+          randomAngle:
+            enabled: 1
+            range: 5
+            scope: 1
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+        telegraph:
+          enabled: 0
+          duration: 0.6
+          lineWidth: 0.08
+          color: {r: 1, g: 0.1, b: 0.1, a: 0.8}
+          lineLength: 12
+          sortingOrder: 100
+          showOncePerPattern: 0
+        stream:
+          enabled: 0
+          mode: 0
+          startMode: 1
+          startTransform: {fileID: 0}
+          waypoints: []
+          useCurve: 0
+          streamDuration: 2
+          spawnInterval: 0.05
+          pathSpeed: 8
+          speedMode: 0
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          endBehavior: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 1
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 6
         angle: 0
         spread: 0
         rotationPerRepeat: 20
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 1
         initialSpeed: 200
@@ -9784,7 +10733,41 @@ MonoBehaviour:
           relativeAngle: 45
           duration: 2
           easing: 3
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          speedMode: 0
+          duration: 1
+          easing: 0
+          endBehavior: 0
+        homing:
+          enabled: 0
+          startDelay: 0
+          duration: 2
+          turnSpeed: 90
+          keepSpread: 0
+        orbit:
+          enabled: 0
+          radius: 1.5
+          angularSpeed: 180
+          duration: 2
+          radiusBlendTime: 0.25
+          radiusVary: 0
+          radiusVaryScope: 2
+          startAngleVary: 0
+          startAngleVaryScope: 2
+          releaseMode: 0
       modifiers:
         randomAngle:
           enabled: 1
@@ -9798,17 +10781,142 @@ MonoBehaviour:
       repeatCount: 288
       repeatInterval: 0.01
       delayAfter: 2
-      bulletPrefab: {fileID: 1289619177}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 1289619177}
+        bulletCount: 1
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 6
+          angle: 180
+          spread: 0
+          rotationPerRepeat: -20
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 200
+          speedTimeline:
+          - targetSpeed: 0
+            duration: 1
+            easing: 3
+          - targetSpeed: 0
+            duration: 2
+            easing: 0
+          - targetSpeed: 300
+            duration: 1
+            easing: 3
+          directionTimeline:
+          - mode: 0
+            relativeAngle: 0
+            duration: 3
+            easing: 0
+          - mode: 0
+            relativeAngle: -90
+            duration: 0.5
+            easing: 0
+          - mode: 0
+            relativeAngle: 90
+            duration: 0.5
+            easing: 0
+          - mode: 0
+            relativeAngle: -90
+            duration: 0.5
+            easing: 0
+          - mode: 0
+            relativeAngle: 45
+            duration: 2
+            easing: 0
+          - mode: 0
+            relativeAngle: -45
+            duration: 2
+            easing: 0
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            rotateWithSpread: 0
+            varyMode: 0
+            varyAmount: 0
+            varyScope: 2
+            speedMode: 0
+            duration: 1
+            easing: 0
+            endBehavior: 0
+          homing:
+            enabled: 0
+            startDelay: 0
+            duration: 2
+            turnSpeed: 90
+            keepSpread: 0
+          orbit:
+            enabled: 0
+            radius: 1.5
+            angularSpeed: 180
+            duration: 2
+            radiusBlendTime: 0.25
+            radiusVary: 0
+            radiusVaryScope: 2
+            startAngleVary: 0
+            startAngleVaryScope: 2
+            releaseMode: 0
+        modifiers:
+          randomAngle:
+            enabled: 1
+            range: 5
+            scope: 1
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+        telegraph:
+          enabled: 0
+          duration: 0.6
+          lineWidth: 0.08
+          color: {r: 1, g: 0.1, b: 0.1, a: 0.8}
+          lineLength: 12
+          sortingOrder: 100
+          showOncePerPattern: 0
+        stream:
+          enabled: 0
+          mode: 0
+          startMode: 1
+          startTransform: {fileID: 0}
+          waypoints: []
+          useCurve: 0
+          streamDuration: 2
+          spawnInterval: 0.05
+          pathSpeed: 8
+          speedMode: 0
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          endBehavior: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 1
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 6
         angle: 180
         spread: 0
         rotationPerRepeat: -20
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 1
         initialSpeed: 200
@@ -9847,7 +10955,41 @@ MonoBehaviour:
           relativeAngle: -45
           duration: 2
           easing: 0
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          speedMode: 0
+          duration: 1
+          easing: 0
+          endBehavior: 0
+        homing:
+          enabled: 0
+          startDelay: 0
+          duration: 2
+          turnSpeed: 90
+          keepSpread: 0
+        orbit:
+          enabled: 0
+          radius: 1.5
+          angularSpeed: 180
+          duration: 2
+          radiusBlendTime: 0.25
+          radiusVary: 0
+          radiusVaryScope: 2
+          startAngleVary: 0
+          startAngleVaryScope: 2
+          releaseMode: 0
       modifiers:
         randomAngle:
           enabled: 1
@@ -10044,23 +11186,149 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.1
       delayAfter: 1.2
-      bulletPrefab: {fileID: 1289619177}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 1289619177}
+        bulletCount: 1
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 0
+          angle: 0
+          spread: 0
+          rotationPerRepeat: 0
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 0
+          initialSpeed: 0
+          speedTimeline: []
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            rotateWithSpread: 0
+            varyMode: 0
+            varyAmount: 0
+            varyScope: 2
+            speedMode: 0
+            duration: 1
+            easing: 0
+            endBehavior: 0
+          homing:
+            enabled: 0
+            startDelay: 0
+            duration: 2
+            turnSpeed: 90
+            keepSpread: 0
+          orbit:
+            enabled: 0
+            radius: 1.5
+            angularSpeed: 180
+            duration: 2
+            radiusBlendTime: 0.25
+            radiusVary: 0
+            radiusVaryScope: 2
+            startAngleVary: 0
+            startAngleVaryScope: 2
+            releaseMode: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+        telegraph:
+          enabled: 0
+          duration: 0.6
+          lineWidth: 0.08
+          color: {r: 1, g: 0.1, b: 0.1, a: 0.8}
+          lineLength: 12
+          sortingOrder: 100
+          showOncePerPattern: 0
+        stream:
+          enabled: 0
+          mode: 0
+          startMode: 1
+          startTransform: {fileID: 0}
+          waypoints: []
+          useCurve: 0
+          streamDuration: 2
+          spawnInterval: 0.05
+          pathSpeed: 8
+          speedMode: 0
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          endBehavior: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 1
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 0
         angle: 0
         spread: 0
         rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 0
         initialSpeed: 0
         speedTimeline: []
         directionTimeline: []
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          speedMode: 0
+          duration: 1
+          easing: 0
+          endBehavior: 0
+        homing:
+          enabled: 0
+          startDelay: 0
+          duration: 2
+          turnSpeed: 90
+          keepSpread: 0
+        orbit:
+          enabled: 0
+          radius: 1.5
+          angularSpeed: 180
+          duration: 2
+          radiusBlendTime: 0.25
+          radiusVary: 0
+          radiusVaryScope: 2
+          startAngleVary: 0
+          startAngleVaryScope: 2
+          releaseMode: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -10124,17 +11392,115 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.2
       delayAfter: 0.2
-      bulletPrefab: {fileID: 1289619177}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 1289619177}
+        bulletCount: 10
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 5
+          angle: 0
+          spread: 360
+          rotationPerRepeat: 0
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 200
+          speedTimeline:
+          - targetSpeed: 0
+            duration: 1
+            easing: 0
+          - targetSpeed: 300
+            duration: 1
+            easing: 3
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            rotateWithSpread: 0
+            varyMode: 0
+            varyAmount: 0
+            varyScope: 2
+            speedMode: 0
+            duration: 1
+            easing: 0
+            endBehavior: 0
+          homing:
+            enabled: 0
+            startDelay: 0
+            duration: 2
+            turnSpeed: 90
+            keepSpread: 0
+          orbit:
+            enabled: 0
+            radius: 1.5
+            angularSpeed: 180
+            duration: 2
+            radiusBlendTime: 0.25
+            radiusVary: 0
+            radiusVaryScope: 2
+            startAngleVary: 0
+            startAngleVaryScope: 2
+            releaseMode: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+        telegraph:
+          enabled: 0
+          duration: 0.6
+          lineWidth: 0.08
+          color: {r: 1, g: 0.1, b: 0.1, a: 0.8}
+          lineLength: 12
+          sortingOrder: 100
+          showOncePerPattern: 0
+        stream:
+          enabled: 0
+          mode: 0
+          startMode: 1
+          startTransform: {fileID: 0}
+          waypoints: []
+          useCurve: 0
+          streamDuration: 2
+          spawnInterval: 0.05
+          pathSpeed: 8
+          speedMode: 0
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          endBehavior: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 10
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 5
         angle: 0
         spread: 360
         rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 1
         initialSpeed: 200
@@ -10146,7 +11512,41 @@ MonoBehaviour:
           duration: 1
           easing: 3
         directionTimeline: []
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          speedMode: 0
+          duration: 1
+          easing: 0
+          endBehavior: 0
+        homing:
+          enabled: 0
+          startDelay: 0
+          duration: 2
+          turnSpeed: 90
+          keepSpread: 0
+        orbit:
+          enabled: 0
+          radius: 1.5
+          angularSpeed: 180
+          duration: 2
+          radiusBlendTime: 0.25
+          radiusVary: 0
+          radiusVaryScope: 2
+          startAngleVary: 0
+          startAngleVaryScope: 2
+          releaseMode: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -10160,17 +11560,115 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.2
       delayAfter: 0.2
-      bulletPrefab: {fileID: 1532030632}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 1532030632}
+        bulletCount: 20
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 5
+          angle: 0
+          spread: 360
+          rotationPerRepeat: 0
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 200
+          speedTimeline:
+          - targetSpeed: 0
+            duration: 1
+            easing: 0
+          - targetSpeed: 300
+            duration: 1
+            easing: 3
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            rotateWithSpread: 0
+            varyMode: 0
+            varyAmount: 0
+            varyScope: 2
+            speedMode: 0
+            duration: 1
+            easing: 0
+            endBehavior: 0
+          homing:
+            enabled: 0
+            startDelay: 0
+            duration: 2
+            turnSpeed: 90
+            keepSpread: 0
+          orbit:
+            enabled: 0
+            radius: 1.5
+            angularSpeed: 180
+            duration: 2
+            radiusBlendTime: 0.25
+            radiusVary: 0
+            radiusVaryScope: 2
+            startAngleVary: 0
+            startAngleVaryScope: 2
+            releaseMode: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+        telegraph:
+          enabled: 0
+          duration: 0.6
+          lineWidth: 0.08
+          color: {r: 1, g: 0.1, b: 0.1, a: 0.8}
+          lineLength: 12
+          sortingOrder: 100
+          showOncePerPattern: 0
+        stream:
+          enabled: 0
+          mode: 0
+          startMode: 1
+          startTransform: {fileID: 0}
+          waypoints: []
+          useCurve: 0
+          streamDuration: 2
+          spawnInterval: 0.05
+          pathSpeed: 8
+          speedMode: 0
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          endBehavior: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 20
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 5
         angle: 0
         spread: 360
         rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 1
         initialSpeed: 200
@@ -10182,7 +11680,41 @@ MonoBehaviour:
           duration: 1
           easing: 3
         directionTimeline: []
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          speedMode: 0
+          duration: 1
+          easing: 0
+          endBehavior: 0
+        homing:
+          enabled: 0
+          startDelay: 0
+          duration: 2
+          turnSpeed: 90
+          keepSpread: 0
+        orbit:
+          enabled: 0
+          radius: 1.5
+          angularSpeed: 180
+          duration: 2
+          radiusBlendTime: 0.25
+          radiusVary: 0
+          radiusVaryScope: 2
+          startAngleVary: 0
+          startAngleVaryScope: 2
+          releaseMode: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -10196,17 +11728,115 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.2
       delayAfter: 0.2
-      bulletPrefab: {fileID: 1156615127}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 1156615127}
+        bulletCount: 30
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 5
+          angle: 0
+          spread: 360
+          rotationPerRepeat: 0
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 200
+          speedTimeline:
+          - targetSpeed: 0
+            duration: 1
+            easing: 0
+          - targetSpeed: 300
+            duration: 1
+            easing: 3
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            rotateWithSpread: 0
+            varyMode: 0
+            varyAmount: 0
+            varyScope: 2
+            speedMode: 0
+            duration: 1
+            easing: 0
+            endBehavior: 0
+          homing:
+            enabled: 0
+            startDelay: 0
+            duration: 2
+            turnSpeed: 90
+            keepSpread: 0
+          orbit:
+            enabled: 0
+            radius: 1.5
+            angularSpeed: 180
+            duration: 2
+            radiusBlendTime: 0.25
+            radiusVary: 0
+            radiusVaryScope: 2
+            startAngleVary: 0
+            startAngleVaryScope: 2
+            releaseMode: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+        telegraph:
+          enabled: 0
+          duration: 0.6
+          lineWidth: 0.08
+          color: {r: 1, g: 0.1, b: 0.1, a: 0.8}
+          lineLength: 12
+          sortingOrder: 100
+          showOncePerPattern: 0
+        stream:
+          enabled: 0
+          mode: 0
+          startMode: 1
+          startTransform: {fileID: 0}
+          waypoints: []
+          useCurve: 0
+          streamDuration: 2
+          spawnInterval: 0.05
+          pathSpeed: 8
+          speedMode: 0
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          endBehavior: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 30
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 5
         angle: 0
         spread: 360
         rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 1
         initialSpeed: 200
@@ -10218,7 +11848,41 @@ MonoBehaviour:
           duration: 1
           easing: 3
         directionTimeline: []
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          speedMode: 0
+          duration: 1
+          easing: 0
+          endBehavior: 0
+        homing:
+          enabled: 0
+          startDelay: 0
+          duration: 2
+          turnSpeed: 90
+          keepSpread: 0
+        orbit:
+          enabled: 0
+          radius: 1.5
+          angularSpeed: 180
+          duration: 2
+          radiusBlendTime: 0.25
+          radiusVary: 0
+          radiusVaryScope: 2
+          startAngleVary: 0
+          startAngleVaryScope: 2
+          releaseMode: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -10232,17 +11896,115 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.2
       delayAfter: 0.2
-      bulletPrefab: {fileID: 1670586318}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 1670586318}
+        bulletCount: 40
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 5
+          angle: 0
+          spread: 360
+          rotationPerRepeat: 0
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 200
+          speedTimeline:
+          - targetSpeed: 0
+            duration: 1
+            easing: 0
+          - targetSpeed: 300
+            duration: 1
+            easing: 3
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            rotateWithSpread: 0
+            varyMode: 0
+            varyAmount: 0
+            varyScope: 2
+            speedMode: 0
+            duration: 1
+            easing: 0
+            endBehavior: 0
+          homing:
+            enabled: 0
+            startDelay: 0
+            duration: 2
+            turnSpeed: 90
+            keepSpread: 0
+          orbit:
+            enabled: 0
+            radius: 1.5
+            angularSpeed: 180
+            duration: 2
+            radiusBlendTime: 0.25
+            radiusVary: 0
+            radiusVaryScope: 2
+            startAngleVary: 0
+            startAngleVaryScope: 2
+            releaseMode: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+        telegraph:
+          enabled: 0
+          duration: 0.6
+          lineWidth: 0.08
+          color: {r: 1, g: 0.1, b: 0.1, a: 0.8}
+          lineLength: 12
+          sortingOrder: 100
+          showOncePerPattern: 0
+        stream:
+          enabled: 0
+          mode: 0
+          startMode: 1
+          startTransform: {fileID: 0}
+          waypoints: []
+          useCurve: 0
+          streamDuration: 2
+          spawnInterval: 0.05
+          pathSpeed: 8
+          speedMode: 0
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          endBehavior: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 40
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 5
         angle: 0
         spread: 360
         rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 1
         initialSpeed: 200
@@ -10254,7 +12016,41 @@ MonoBehaviour:
           duration: 1
           easing: 3
         directionTimeline: []
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          speedMode: 0
+          duration: 1
+          easing: 0
+          endBehavior: 0
+        homing:
+          enabled: 0
+          startDelay: 0
+          duration: 2
+          turnSpeed: 90
+          keepSpread: 0
+        orbit:
+          enabled: 0
+          radius: 1.5
+          angularSpeed: 180
+          duration: 2
+          radiusBlendTime: 0.25
+          radiusVary: 0
+          radiusVaryScope: 2
+          startAngleVary: 0
+          startAngleVaryScope: 2
+          releaseMode: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -11325,17 +13121,117 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 2
       delayAfter: 2
-      bulletPrefab: {fileID: 1289619177}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 1289619177}
+        bulletCount: 20
+        spawn:
+          mode: 2
+          offset: {x: 0, y: 0}
+          circleRadius: 40
+          circleDistribution: 0
+        direction:
+          mode: 5
+          angle: 0
+          spread: 360
+          rotationPerRepeat: 0
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 240
+          speedTimeline: []
+          directionTimeline:
+          - mode: 0
+            relativeAngle: 45
+            duration: 2
+            easing: 3
+          - mode: 0
+            relativeAngle: -90
+            duration: 2
+            easing: 3
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            rotateWithSpread: 0
+            varyMode: 0
+            varyAmount: 0
+            varyScope: 2
+            speedMode: 0
+            duration: 1
+            easing: 0
+            endBehavior: 0
+          homing:
+            enabled: 0
+            startDelay: 0
+            duration: 2
+            turnSpeed: 90
+            keepSpread: 0
+          orbit:
+            enabled: 0
+            radius: 1.5
+            angularSpeed: 180
+            duration: 2
+            radiusBlendTime: 0.25
+            radiusVary: 0
+            radiusVaryScope: 2
+            startAngleVary: 0
+            startAngleVaryScope: 2
+            releaseMode: 0
+        modifiers:
+          randomAngle:
+            enabled: 1
+            range: 10
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+        telegraph:
+          enabled: 0
+          duration: 0.6
+          lineWidth: 0.08
+          color: {r: 1, g: 0.1, b: 0.1, a: 0.8}
+          lineLength: 12
+          sortingOrder: 100
+          showOncePerPattern: 0
+        stream:
+          enabled: 0
+          mode: 0
+          startMode: 1
+          startTransform: {fileID: 0}
+          waypoints: []
+          useCurve: 0
+          streamDuration: 2
+          spawnInterval: 0.05
+          pathSpeed: 8
+          speedMode: 0
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          endBehavior: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 20
       spawn:
         mode: 2
         offset: {x: 0, y: 0}
         circleRadius: 40
+        circleDistribution: 0
       direction:
         mode: 5
         angle: 0
         spread: 360
         rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 1
         initialSpeed: 240
@@ -11349,7 +13245,41 @@ MonoBehaviour:
           relativeAngle: -90
           duration: 2
           easing: 3
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          speedMode: 0
+          duration: 1
+          easing: 0
+          endBehavior: 0
+        homing:
+          enabled: 0
+          startDelay: 0
+          duration: 2
+          turnSpeed: 90
+          keepSpread: 0
+        orbit:
+          enabled: 0
+          radius: 1.5
+          angularSpeed: 180
+          duration: 2
+          radiusBlendTime: 0.25
+          radiusVary: 0
+          radiusVaryScope: 2
+          startAngleVary: 0
+          startAngleVaryScope: 2
+          releaseMode: 0
       modifiers:
         randomAngle:
           enabled: 1
@@ -12147,17 +14077,128 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.1
       delayAfter: 4
-      bulletPrefab: {fileID: 1289619177}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 1289619177}
+        bulletCount: 1
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 20
+          circleDistribution: 0
+        direction:
+          mode: 0
+          angle: -160
+          spread: 0
+          rotationPerRepeat: 20
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 200
+          speedTimeline:
+          - targetSpeed: 0
+            duration: 0.5
+            easing: 3
+          - targetSpeed: 200
+            duration: 0.5
+            easing: 3
+          - targetSpeed: 0
+            duration: 0.5
+            easing: 3
+          - targetSpeed: 200
+            duration: 0.5
+            easing: 3
+          - targetSpeed: 400
+            duration: 1
+            easing: 3
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline:
+          - name: Trigger 1
+            time: 0.5
+            pattern: {fileID: 1867464936}
+            destroySelfAfterFire: 1
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            rotateWithSpread: 0
+            varyMode: 0
+            varyAmount: 0
+            varyScope: 2
+            speedMode: 0
+            duration: 1
+            easing: 0
+            endBehavior: 0
+          homing:
+            enabled: 0
+            startDelay: 0
+            duration: 2
+            turnSpeed: 90
+            keepSpread: 0
+          orbit:
+            enabled: 0
+            radius: 1.5
+            angularSpeed: 180
+            duration: 2
+            radiusBlendTime: 0.25
+            radiusVary: 0
+            radiusVaryScope: 2
+            startAngleVary: 0
+            startAngleVaryScope: 2
+            releaseMode: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 10
+            scope: 1
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+        telegraph:
+          enabled: 0
+          duration: 0.6
+          lineWidth: 0.08
+          color: {r: 1, g: 0.1, b: 0.1, a: 0.8}
+          lineLength: 12
+          sortingOrder: 100
+          showOncePerPattern: 0
+        stream:
+          enabled: 0
+          mode: 0
+          startMode: 1
+          startTransform: {fileID: 0}
+          waypoints: []
+          useCurve: 0
+          streamDuration: 2
+          spawnInterval: 0.05
+          pathSpeed: 8
+          speedMode: 0
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          endBehavior: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 1
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 20
+        circleDistribution: 0
       direction:
         mode: 0
         angle: -160
         spread: 0
         rotationPerRepeat: 20
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 1
         initialSpeed: 200
@@ -12178,11 +14219,45 @@ MonoBehaviour:
           duration: 1
           easing: 3
         directionTimeline: []
+        syncDirectionTimelineToBurst: 0
         burstTimeline:
         - name: Trigger 1
           time: 0.5
           pattern: {fileID: 1867464936}
           destroySelfAfterFire: 1
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          speedMode: 0
+          duration: 1
+          easing: 0
+          endBehavior: 0
+        homing:
+          enabled: 0
+          startDelay: 0
+          duration: 2
+          turnSpeed: 90
+          keepSpread: 0
+        orbit:
+          enabled: 0
+          radius: 1.5
+          angularSpeed: 180
+          duration: 2
+          radiusBlendTime: 0.25
+          radiusVary: 0
+          radiusVaryScope: 2
+          startAngleVary: 0
+          startAngleVaryScope: 2
+          releaseMode: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -12970,23 +15045,149 @@ MonoBehaviour:
       repeatCount: 4
       repeatInterval: 0.1
       delayAfter: 0.4
-      bulletPrefab: {fileID: 1289619177}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 1289619177}
+        bulletCount: 1
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 0
+          angle: 0
+          spread: 0
+          rotationPerRepeat: 0
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 0
+          initialSpeed: 200
+          speedTimeline: []
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            rotateWithSpread: 0
+            varyMode: 0
+            varyAmount: 0
+            varyScope: 2
+            speedMode: 0
+            duration: 1
+            easing: 0
+            endBehavior: 0
+          homing:
+            enabled: 0
+            startDelay: 0
+            duration: 2
+            turnSpeed: 90
+            keepSpread: 0
+          orbit:
+            enabled: 0
+            radius: 1.5
+            angularSpeed: 180
+            duration: 2
+            radiusBlendTime: 0.25
+            radiusVary: 0
+            radiusVaryScope: 2
+            startAngleVary: 0
+            startAngleVaryScope: 2
+            releaseMode: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+        telegraph:
+          enabled: 0
+          duration: 0.6
+          lineWidth: 0.08
+          color: {r: 1, g: 0.1, b: 0.1, a: 0.8}
+          lineLength: 12
+          sortingOrder: 100
+          showOncePerPattern: 0
+        stream:
+          enabled: 0
+          mode: 0
+          startMode: 1
+          startTransform: {fileID: 0}
+          waypoints: []
+          useCurve: 0
+          streamDuration: 2
+          spawnInterval: 0.05
+          pathSpeed: 8
+          speedMode: 0
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          endBehavior: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 1
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 0
         angle: 0
         spread: 0
         rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 0
         initialSpeed: 200
         speedTimeline: []
         directionTimeline: []
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          speedMode: 0
+          duration: 1
+          easing: 0
+          endBehavior: 0
+        homing:
+          enabled: 0
+          startDelay: 0
+          duration: 2
+          turnSpeed: 90
+          keepSpread: 0
+        orbit:
+          enabled: 0
+          radius: 1.5
+          angularSpeed: 180
+          duration: 2
+          radiusBlendTime: 0.25
+          radiusVary: 0
+          radiusVaryScope: 2
+          startAngleVary: 0
+          startAngleVaryScope: 2
+          releaseMode: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -13000,23 +15201,149 @@ MonoBehaviour:
       repeatCount: 4
       repeatInterval: 0.1
       delayAfter: 0.4
-      bulletPrefab: {fileID: 1156615127}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 1156615127}
+        bulletCount: 2
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 0
+          angle: 0
+          spread: 10
+          rotationPerRepeat: 0
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 0
+          initialSpeed: 200
+          speedTimeline: []
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            rotateWithSpread: 0
+            varyMode: 0
+            varyAmount: 0
+            varyScope: 2
+            speedMode: 0
+            duration: 1
+            easing: 0
+            endBehavior: 0
+          homing:
+            enabled: 0
+            startDelay: 0
+            duration: 2
+            turnSpeed: 90
+            keepSpread: 0
+          orbit:
+            enabled: 0
+            radius: 1.5
+            angularSpeed: 180
+            duration: 2
+            radiusBlendTime: 0.25
+            radiusVary: 0
+            radiusVaryScope: 2
+            startAngleVary: 0
+            startAngleVaryScope: 2
+            releaseMode: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+        telegraph:
+          enabled: 0
+          duration: 0.6
+          lineWidth: 0.08
+          color: {r: 1, g: 0.1, b: 0.1, a: 0.8}
+          lineLength: 12
+          sortingOrder: 100
+          showOncePerPattern: 0
+        stream:
+          enabled: 0
+          mode: 0
+          startMode: 1
+          startTransform: {fileID: 0}
+          waypoints: []
+          useCurve: 0
+          streamDuration: 2
+          spawnInterval: 0.05
+          pathSpeed: 8
+          speedMode: 0
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          endBehavior: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 2
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 0
         angle: 0
         spread: 10
         rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 0
         initialSpeed: 200
         speedTimeline: []
         directionTimeline: []
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          speedMode: 0
+          duration: 1
+          easing: 0
+          endBehavior: 0
+        homing:
+          enabled: 0
+          startDelay: 0
+          duration: 2
+          turnSpeed: 90
+          keepSpread: 0
+        orbit:
+          enabled: 0
+          radius: 1.5
+          angularSpeed: 180
+          duration: 2
+          radiusBlendTime: 0.25
+          radiusVary: 0
+          radiusVaryScope: 2
+          startAngleVary: 0
+          startAngleVaryScope: 2
+          releaseMode: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -13030,23 +15357,149 @@ MonoBehaviour:
       repeatCount: 4
       repeatInterval: 0.1
       delayAfter: 0.4
-      bulletPrefab: {fileID: 1532030632}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 1532030632}
+        bulletCount: 3
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 0
+          angle: 0
+          spread: 20
+          rotationPerRepeat: 0
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 0
+          initialSpeed: 200
+          speedTimeline: []
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            rotateWithSpread: 0
+            varyMode: 0
+            varyAmount: 0
+            varyScope: 2
+            speedMode: 0
+            duration: 1
+            easing: 0
+            endBehavior: 0
+          homing:
+            enabled: 0
+            startDelay: 0
+            duration: 2
+            turnSpeed: 90
+            keepSpread: 0
+          orbit:
+            enabled: 0
+            radius: 1.5
+            angularSpeed: 180
+            duration: 2
+            radiusBlendTime: 0.25
+            radiusVary: 0
+            radiusVaryScope: 2
+            startAngleVary: 0
+            startAngleVaryScope: 2
+            releaseMode: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+        telegraph:
+          enabled: 0
+          duration: 0.6
+          lineWidth: 0.08
+          color: {r: 1, g: 0.1, b: 0.1, a: 0.8}
+          lineLength: 12
+          sortingOrder: 100
+          showOncePerPattern: 0
+        stream:
+          enabled: 0
+          mode: 0
+          startMode: 1
+          startTransform: {fileID: 0}
+          waypoints: []
+          useCurve: 0
+          streamDuration: 2
+          spawnInterval: 0.05
+          pathSpeed: 8
+          speedMode: 0
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          endBehavior: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 3
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 0
         angle: 0
         spread: 20
         rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 0
         initialSpeed: 200
         speedTimeline: []
         directionTimeline: []
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          speedMode: 0
+          duration: 1
+          easing: 0
+          endBehavior: 0
+        homing:
+          enabled: 0
+          startDelay: 0
+          duration: 2
+          turnSpeed: 90
+          keepSpread: 0
+        orbit:
+          enabled: 0
+          radius: 1.5
+          angularSpeed: 180
+          duration: 2
+          radiusBlendTime: 0.25
+          radiusVary: 0
+          radiusVaryScope: 2
+          startAngleVary: 0
+          startAngleVaryScope: 2
+          releaseMode: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -13060,23 +15513,149 @@ MonoBehaviour:
       repeatCount: 4
       repeatInterval: 0.1
       delayAfter: 0.4
-      bulletPrefab: {fileID: 1619466907}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 1619466907}
+        bulletCount: 4
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 0
+          angle: 0
+          spread: 30
+          rotationPerRepeat: 0
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 0
+          initialSpeed: 200
+          speedTimeline: []
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            rotateWithSpread: 0
+            varyMode: 0
+            varyAmount: 0
+            varyScope: 2
+            speedMode: 0
+            duration: 1
+            easing: 0
+            endBehavior: 0
+          homing:
+            enabled: 0
+            startDelay: 0
+            duration: 2
+            turnSpeed: 90
+            keepSpread: 0
+          orbit:
+            enabled: 0
+            radius: 1.5
+            angularSpeed: 180
+            duration: 2
+            radiusBlendTime: 0.25
+            radiusVary: 0
+            radiusVaryScope: 2
+            startAngleVary: 0
+            startAngleVaryScope: 2
+            releaseMode: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+        telegraph:
+          enabled: 0
+          duration: 0.6
+          lineWidth: 0.08
+          color: {r: 1, g: 0.1, b: 0.1, a: 0.8}
+          lineLength: 12
+          sortingOrder: 100
+          showOncePerPattern: 0
+        stream:
+          enabled: 0
+          mode: 0
+          startMode: 1
+          startTransform: {fileID: 0}
+          waypoints: []
+          useCurve: 0
+          streamDuration: 2
+          spawnInterval: 0.05
+          pathSpeed: 8
+          speedMode: 0
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          endBehavior: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 4
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 0
         angle: 0
         spread: 30
         rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 0
         initialSpeed: 200
         speedTimeline: []
         directionTimeline: []
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          speedMode: 0
+          duration: 1
+          easing: 0
+          endBehavior: 0
+        homing:
+          enabled: 0
+          startDelay: 0
+          duration: 2
+          turnSpeed: 90
+          keepSpread: 0
+        orbit:
+          enabled: 0
+          radius: 1.5
+          angularSpeed: 180
+          duration: 2
+          radiusBlendTime: 0.25
+          radiusVary: 0
+          radiusVaryScope: 2
+          startAngleVary: 0
+          startAngleVaryScope: 2
+          releaseMode: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -13090,23 +15669,149 @@ MonoBehaviour:
       repeatCount: 4
       repeatInterval: 0.1
       delayAfter: 0.4
-      bulletPrefab: {fileID: 454101848}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 454101848}
+        bulletCount: 5
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 0
+          angle: 0
+          spread: 40
+          rotationPerRepeat: 0
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 0
+          initialSpeed: 200
+          speedTimeline: []
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            rotateWithSpread: 0
+            varyMode: 0
+            varyAmount: 0
+            varyScope: 2
+            speedMode: 0
+            duration: 1
+            easing: 0
+            endBehavior: 0
+          homing:
+            enabled: 0
+            startDelay: 0
+            duration: 2
+            turnSpeed: 90
+            keepSpread: 0
+          orbit:
+            enabled: 0
+            radius: 1.5
+            angularSpeed: 180
+            duration: 2
+            radiusBlendTime: 0.25
+            radiusVary: 0
+            radiusVaryScope: 2
+            startAngleVary: 0
+            startAngleVaryScope: 2
+            releaseMode: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+        telegraph:
+          enabled: 0
+          duration: 0.6
+          lineWidth: 0.08
+          color: {r: 1, g: 0.1, b: 0.1, a: 0.8}
+          lineLength: 12
+          sortingOrder: 100
+          showOncePerPattern: 0
+        stream:
+          enabled: 0
+          mode: 0
+          startMode: 1
+          startTransform: {fileID: 0}
+          waypoints: []
+          useCurve: 0
+          streamDuration: 2
+          spawnInterval: 0.05
+          pathSpeed: 8
+          speedMode: 0
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          endBehavior: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 5
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 0
         angle: 0
         spread: 40
         rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 0
         initialSpeed: 200
         speedTimeline: []
         directionTimeline: []
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          speedMode: 0
+          duration: 1
+          easing: 0
+          endBehavior: 0
+        homing:
+          enabled: 0
+          startDelay: 0
+          duration: 2
+          turnSpeed: 90
+          keepSpread: 0
+        orbit:
+          enabled: 0
+          radius: 1.5
+          angularSpeed: 180
+          duration: 2
+          radiusBlendTime: 0.25
+          radiusVary: 0
+          radiusVaryScope: 2
+          startAngleVary: 0
+          startAngleVaryScope: 2
+          releaseMode: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -13120,23 +15825,149 @@ MonoBehaviour:
       repeatCount: 4
       repeatInterval: 0.1
       delayAfter: 0.4
-      bulletPrefab: {fileID: 1206421667}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 1206421667}
+        bulletCount: 6
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 0
+          angle: 0
+          spread: 50
+          rotationPerRepeat: 0
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 0
+          initialSpeed: 200
+          speedTimeline: []
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            rotateWithSpread: 0
+            varyMode: 0
+            varyAmount: 0
+            varyScope: 2
+            speedMode: 0
+            duration: 1
+            easing: 0
+            endBehavior: 0
+          homing:
+            enabled: 0
+            startDelay: 0
+            duration: 2
+            turnSpeed: 90
+            keepSpread: 0
+          orbit:
+            enabled: 0
+            radius: 1.5
+            angularSpeed: 180
+            duration: 2
+            radiusBlendTime: 0.25
+            radiusVary: 0
+            radiusVaryScope: 2
+            startAngleVary: 0
+            startAngleVaryScope: 2
+            releaseMode: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+        telegraph:
+          enabled: 0
+          duration: 0.6
+          lineWidth: 0.08
+          color: {r: 1, g: 0.1, b: 0.1, a: 0.8}
+          lineLength: 12
+          sortingOrder: 100
+          showOncePerPattern: 0
+        stream:
+          enabled: 0
+          mode: 0
+          startMode: 1
+          startTransform: {fileID: 0}
+          waypoints: []
+          useCurve: 0
+          streamDuration: 2
+          spawnInterval: 0.05
+          pathSpeed: 8
+          speedMode: 0
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          endBehavior: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 6
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 0
         angle: 0
         spread: 50
         rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 0
         initialSpeed: 200
         speedTimeline: []
         directionTimeline: []
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          speedMode: 0
+          duration: 1
+          easing: 0
+          endBehavior: 0
+        homing:
+          enabled: 0
+          startDelay: 0
+          duration: 2
+          turnSpeed: 90
+          keepSpread: 0
+        orbit:
+          enabled: 0
+          radius: 1.5
+          angularSpeed: 180
+          duration: 2
+          radiusBlendTime: 0.25
+          radiusVary: 0
+          radiusVaryScope: 2
+          startAngleVary: 0
+          startAngleVaryScope: 2
+          releaseMode: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -13150,23 +15981,149 @@ MonoBehaviour:
       repeatCount: 4
       repeatInterval: 0.1
       delayAfter: 0.8
-      bulletPrefab: {fileID: 1670586318}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 1670586318}
+        bulletCount: 7
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 0
+          angle: 0
+          spread: 60
+          rotationPerRepeat: 0
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 0
+          initialSpeed: 200
+          speedTimeline: []
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            rotateWithSpread: 0
+            varyMode: 0
+            varyAmount: 0
+            varyScope: 2
+            speedMode: 0
+            duration: 1
+            easing: 0
+            endBehavior: 0
+          homing:
+            enabled: 0
+            startDelay: 0
+            duration: 2
+            turnSpeed: 90
+            keepSpread: 0
+          orbit:
+            enabled: 0
+            radius: 1.5
+            angularSpeed: 180
+            duration: 2
+            radiusBlendTime: 0.25
+            radiusVary: 0
+            radiusVaryScope: 2
+            startAngleVary: 0
+            startAngleVaryScope: 2
+            releaseMode: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+        telegraph:
+          enabled: 0
+          duration: 0.6
+          lineWidth: 0.08
+          color: {r: 1, g: 0.1, b: 0.1, a: 0.8}
+          lineLength: 12
+          sortingOrder: 100
+          showOncePerPattern: 0
+        stream:
+          enabled: 0
+          mode: 0
+          startMode: 1
+          startTransform: {fileID: 0}
+          waypoints: []
+          useCurve: 0
+          streamDuration: 2
+          spawnInterval: 0.05
+          pathSpeed: 8
+          speedMode: 0
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          endBehavior: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 7
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 0
         angle: 0
         spread: 60
         rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 0
         initialSpeed: 200
         speedTimeline: []
         directionTimeline: []
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          speedMode: 0
+          duration: 1
+          easing: 0
+          endBehavior: 0
+        homing:
+          enabled: 0
+          startDelay: 0
+          duration: 2
+          turnSpeed: 90
+          keepSpread: 0
+        orbit:
+          enabled: 0
+          radius: 1.5
+          angularSpeed: 180
+          duration: 2
+          radiusBlendTime: 0.25
+          radiusVary: 0
+          radiusVaryScope: 2
+          startAngleVary: 0
+          startAngleVaryScope: 2
+          releaseMode: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -15043,23 +18000,149 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.1
       delayAfter: 2
-      bulletPrefab: {fileID: 1289619177}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 1289619177}
+        bulletCount: 4
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 20
+          circleDistribution: 0
+        direction:
+          mode: 0
+          angle: -160
+          spread: 360
+          rotationPerRepeat: 20
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 0
+          initialSpeed: 400
+          speedTimeline: []
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            rotateWithSpread: 0
+            varyMode: 0
+            varyAmount: 0
+            varyScope: 2
+            speedMode: 0
+            duration: 1
+            easing: 0
+            endBehavior: 0
+          homing:
+            enabled: 0
+            startDelay: 0
+            duration: 2
+            turnSpeed: 90
+            keepSpread: 0
+          orbit:
+            enabled: 0
+            radius: 1.5
+            angularSpeed: 180
+            duration: 2
+            radiusBlendTime: 0.25
+            radiusVary: 0
+            radiusVaryScope: 2
+            startAngleVary: 0
+            startAngleVaryScope: 2
+            releaseMode: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 10
+            scope: 1
+          randomSpeed:
+            enabled: 1
+            range: 50
+            scope: 1
+        telegraph:
+          enabled: 0
+          duration: 0.6
+          lineWidth: 0.08
+          color: {r: 1, g: 0.1, b: 0.1, a: 0.8}
+          lineLength: 12
+          sortingOrder: 100
+          showOncePerPattern: 0
+        stream:
+          enabled: 0
+          mode: 0
+          startMode: 1
+          startTransform: {fileID: 0}
+          waypoints: []
+          useCurve: 0
+          streamDuration: 2
+          spawnInterval: 0.05
+          pathSpeed: 8
+          speedMode: 0
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          endBehavior: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 4
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 20
+        circleDistribution: 0
       direction:
         mode: 0
         angle: -160
         spread: 360
         rotationPerRepeat: 20
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 0
         initialSpeed: 400
         speedTimeline: []
         directionTimeline: []
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          speedMode: 0
+          duration: 1
+          easing: 0
+          endBehavior: 0
+        homing:
+          enabled: 0
+          startDelay: 0
+          duration: 2
+          turnSpeed: 90
+          keepSpread: 0
+        orbit:
+          enabled: 0
+          radius: 1.5
+          angularSpeed: 180
+          duration: 2
+          radiusBlendTime: 0.25
+          radiusVary: 0
+          radiusVaryScope: 2
+          startAngleVary: 0
+          startAngleVaryScope: 2
+          releaseMode: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -17926,27 +21009,157 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.1
       delayAfter: 2
-      bulletPrefab: {fileID: 1206421667}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 1206421667}
+        bulletCount: 4
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 20
+          circleDistribution: 0
+        direction:
+          mode: 0
+          angle: -160
+          spread: 360
+          rotationPerRepeat: 20
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 0
+          initialSpeed: 400
+          speedTimeline: []
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline:
+          - name: Trigger 1
+            time: 0.5
+            pattern: {fileID: 1289535175}
+            destroySelfAfterFire: 1
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            rotateWithSpread: 0
+            varyMode: 0
+            varyAmount: 0
+            varyScope: 2
+            speedMode: 0
+            duration: 1
+            easing: 0
+            endBehavior: 0
+          homing:
+            enabled: 0
+            startDelay: 0
+            duration: 2
+            turnSpeed: 90
+            keepSpread: 0
+          orbit:
+            enabled: 0
+            radius: 1.5
+            angularSpeed: 180
+            duration: 2
+            radiusBlendTime: 0.25
+            radiusVary: 0
+            radiusVaryScope: 2
+            startAngleVary: 0
+            startAngleVaryScope: 2
+            releaseMode: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 10
+            scope: 1
+          randomSpeed:
+            enabled: 1
+            range: 50
+            scope: 1
+        telegraph:
+          enabled: 0
+          duration: 0.6
+          lineWidth: 0.08
+          color: {r: 1, g: 0.1, b: 0.1, a: 0.8}
+          lineLength: 12
+          sortingOrder: 100
+          showOncePerPattern: 0
+        stream:
+          enabled: 0
+          mode: 0
+          startMode: 1
+          startTransform: {fileID: 0}
+          waypoints: []
+          useCurve: 0
+          streamDuration: 2
+          spawnInterval: 0.05
+          pathSpeed: 8
+          speedMode: 0
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          endBehavior: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 4
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 20
+        circleDistribution: 0
       direction:
         mode: 0
         angle: -160
         spread: 360
         rotationPerRepeat: 20
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 0
         initialSpeed: 400
         speedTimeline: []
         directionTimeline: []
+        syncDirectionTimelineToBurst: 0
         burstTimeline:
         - name: Trigger 1
           time: 0.5
           pattern: {fileID: 1289535175}
           destroySelfAfterFire: 1
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          speedMode: 0
+          duration: 1
+          easing: 0
+          endBehavior: 0
+        homing:
+          enabled: 0
+          startDelay: 0
+          duration: 2
+          turnSpeed: 90
+          keepSpread: 0
+        orbit:
+          enabled: 0
+          radius: 1.5
+          angularSpeed: 180
+          duration: 2
+          radiusBlendTime: 0.25
+          radiusVary: 0
+          radiusVaryScope: 2
+          startAngleVary: 0
+          startAngleVaryScope: 2
+          releaseMode: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -18808,17 +22021,115 @@ MonoBehaviour:
       repeatCount: 8
       repeatInterval: 0.4
       delayAfter: 1.2
-      bulletPrefab: {fileID: 1289619177}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 1289619177}
+        bulletCount: 4
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 20
+          circleDistribution: 0
+        direction:
+          mode: 6
+          angle: -160
+          spread: 45
+          rotationPerRepeat: 20
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 400
+          speedTimeline:
+          - targetSpeed: 100
+            duration: 2
+            easing: 0
+          - targetSpeed: 400
+            duration: 3
+            easing: 0
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            rotateWithSpread: 0
+            varyMode: 0
+            varyAmount: 0
+            varyScope: 2
+            speedMode: 0
+            duration: 1
+            easing: 0
+            endBehavior: 0
+          homing:
+            enabled: 0
+            startDelay: 0
+            duration: 2
+            turnSpeed: 90
+            keepSpread: 0
+          orbit:
+            enabled: 0
+            radius: 1.5
+            angularSpeed: 180
+            duration: 2
+            radiusBlendTime: 0.25
+            radiusVary: 0
+            radiusVaryScope: 2
+            startAngleVary: 0
+            startAngleVaryScope: 2
+            releaseMode: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+        telegraph:
+          enabled: 0
+          duration: 0.6
+          lineWidth: 0.08
+          color: {r: 1, g: 0.1, b: 0.1, a: 0.8}
+          lineLength: 12
+          sortingOrder: 100
+          showOncePerPattern: 0
+        stream:
+          enabled: 0
+          mode: 0
+          startMode: 1
+          startTransform: {fileID: 0}
+          waypoints: []
+          useCurve: 0
+          streamDuration: 2
+          spawnInterval: 0.05
+          pathSpeed: 8
+          speedMode: 0
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          endBehavior: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 4
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 20
+        circleDistribution: 0
       direction:
         mode: 6
         angle: -160
         spread: 45
         rotationPerRepeat: 20
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 1
         initialSpeed: 400
@@ -18830,7 +22141,41 @@ MonoBehaviour:
           duration: 3
           easing: 0
         directionTimeline: []
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          speedMode: 0
+          duration: 1
+          easing: 0
+          endBehavior: 0
+        homing:
+          enabled: 0
+          startDelay: 0
+          duration: 2
+          turnSpeed: 90
+          keepSpread: 0
+        orbit:
+          enabled: 0
+          radius: 1.5
+          angularSpeed: 180
+          duration: 2
+          radiusBlendTime: 0.25
+          radiusVary: 0
+          radiusVaryScope: 2
+          startAngleVary: 0
+          startAngleVaryScope: 2
+          releaseMode: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -20606,27 +23951,157 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.1
       delayAfter: 2
-      bulletPrefab: {fileID: 1619466907}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 1619466907}
+        bulletCount: 1
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 20
+          circleDistribution: 0
+        direction:
+          mode: 0
+          angle: -160
+          spread: 0
+          rotationPerRepeat: 20
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 400
+          speedTimeline: []
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline:
+          - name: Trigger 1
+            time: 0.5
+            pattern: {fileID: 1493274570}
+            destroySelfAfterFire: 1
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            rotateWithSpread: 0
+            varyMode: 0
+            varyAmount: 0
+            varyScope: 2
+            speedMode: 0
+            duration: 1
+            easing: 0
+            endBehavior: 0
+          homing:
+            enabled: 0
+            startDelay: 0
+            duration: 2
+            turnSpeed: 90
+            keepSpread: 0
+          orbit:
+            enabled: 0
+            radius: 1.5
+            angularSpeed: 180
+            duration: 2
+            radiusBlendTime: 0.25
+            radiusVary: 0
+            radiusVaryScope: 2
+            startAngleVary: 0
+            startAngleVaryScope: 2
+            releaseMode: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 10
+            scope: 1
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+        telegraph:
+          enabled: 0
+          duration: 0.6
+          lineWidth: 0.08
+          color: {r: 1, g: 0.1, b: 0.1, a: 0.8}
+          lineLength: 12
+          sortingOrder: 100
+          showOncePerPattern: 0
+        stream:
+          enabled: 0
+          mode: 0
+          startMode: 1
+          startTransform: {fileID: 0}
+          waypoints: []
+          useCurve: 0
+          streamDuration: 2
+          spawnInterval: 0.05
+          pathSpeed: 8
+          speedMode: 0
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          endBehavior: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 1
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 20
+        circleDistribution: 0
       direction:
         mode: 0
         angle: -160
         spread: 0
         rotationPerRepeat: 20
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 1
         initialSpeed: 400
         speedTimeline: []
         directionTimeline: []
+        syncDirectionTimelineToBurst: 0
         burstTimeline:
         - name: Trigger 1
           time: 0.5
           pattern: {fileID: 1493274570}
           destroySelfAfterFire: 1
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          speedMode: 0
+          duration: 1
+          easing: 0
+          endBehavior: 0
+        homing:
+          enabled: 0
+          startDelay: 0
+          duration: 2
+          turnSpeed: 90
+          keepSpread: 0
+        orbit:
+          enabled: 0
+          radius: 1.5
+          angularSpeed: 180
+          duration: 2
+          radiusBlendTime: 0.25
+          radiusVary: 0
+          radiusVaryScope: 2
+          startAngleVary: 0
+          startAngleVaryScope: 2
+          releaseMode: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -22607,17 +26082,130 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.1
       delayAfter: 2
-      bulletPrefab: {fileID: 454101848}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 454101848}
+        bulletCount: 4
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 20
+          circleDistribution: 0
+        direction:
+          mode: 0
+          angle: -160
+          spread: 360
+          rotationPerRepeat: 20
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 200
+          speedTimeline:
+          - targetSpeed: 0
+            duration: 0.5
+            easing: 3
+          - targetSpeed: 0
+            duration: 0.5
+            easing: 0
+          - targetSpeed: 300
+            duration: 2
+            easing: 3
+          directionTimeline:
+          - mode: 1
+            relativeAngle: -90
+            duration: 2
+            easing: 3
+          - mode: 1
+            relativeAngle: 45
+            duration: 2
+            easing: 3
+          - mode: 1
+            relativeAngle: 45
+            duration: 2
+            easing: 0
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            rotateWithSpread: 0
+            varyMode: 0
+            varyAmount: 0
+            varyScope: 2
+            speedMode: 0
+            duration: 1
+            easing: 0
+            endBehavior: 0
+          homing:
+            enabled: 0
+            startDelay: 0
+            duration: 2
+            turnSpeed: 90
+            keepSpread: 0
+          orbit:
+            enabled: 0
+            radius: 1.5
+            angularSpeed: 180
+            duration: 2
+            radiusBlendTime: 0.25
+            radiusVary: 0
+            radiusVaryScope: 2
+            startAngleVary: 0
+            startAngleVaryScope: 2
+            releaseMode: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 1
+          randomSpeed:
+            enabled: 1
+            range: 50
+            scope: 1
+        telegraph:
+          enabled: 0
+          duration: 0.6
+          lineWidth: 0.08
+          color: {r: 1, g: 0.1, b: 0.1, a: 0.8}
+          lineLength: 12
+          sortingOrder: 100
+          showOncePerPattern: 0
+        stream:
+          enabled: 0
+          mode: 0
+          startMode: 1
+          startTransform: {fileID: 0}
+          waypoints: []
+          useCurve: 0
+          streamDuration: 2
+          spawnInterval: 0.05
+          pathSpeed: 8
+          speedMode: 0
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          endBehavior: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 4
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 20
+        circleDistribution: 0
       direction:
         mode: 0
         angle: -160
         spread: 360
         rotationPerRepeat: 20
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 1
         initialSpeed: 200
@@ -22644,7 +26232,41 @@ MonoBehaviour:
           relativeAngle: 45
           duration: 2
           easing: 0
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          speedMode: 0
+          duration: 1
+          easing: 0
+          endBehavior: 0
+        homing:
+          enabled: 0
+          startDelay: 0
+          duration: 2
+          turnSpeed: 90
+          keepSpread: 0
+        orbit:
+          enabled: 0
+          radius: 1.5
+          angularSpeed: 180
+          duration: 2
+          radiusBlendTime: 0.25
+          radiusVary: 0
+          radiusVaryScope: 2
+          startAngleVary: 0
+          startAngleVaryScope: 2
+          releaseMode: 0
       modifiers:
         randomAngle:
           enabled: 0
@@ -22936,17 +26558,122 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 0.1
       delayAfter: 2
-      bulletPrefab: {fileID: 1156615127}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 1156615127}
+        bulletCount: 4
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 20
+          circleDistribution: 0
+        direction:
+          mode: 0
+          angle: -160
+          spread: 360
+          rotationPerRepeat: 20
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 200
+          speedTimeline:
+          - targetSpeed: 0
+            duration: 1
+            easing: 3
+          - targetSpeed: 0
+            duration: 1.5
+            easing: 0
+          - targetSpeed: 300
+            duration: 2
+            easing: 3
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline:
+          - name: Trigger 1
+            time: 0.5
+            pattern: {fileID: 550158831}
+            destroySelfAfterFire: 1
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            rotateWithSpread: 0
+            varyMode: 0
+            varyAmount: 0
+            varyScope: 2
+            speedMode: 0
+            duration: 1
+            easing: 0
+            endBehavior: 0
+          homing:
+            enabled: 0
+            startDelay: 0
+            duration: 2
+            turnSpeed: 90
+            keepSpread: 0
+          orbit:
+            enabled: 0
+            radius: 1.5
+            angularSpeed: 180
+            duration: 2
+            radiusBlendTime: 0.25
+            radiusVary: 0
+            radiusVaryScope: 2
+            startAngleVary: 0
+            startAngleVaryScope: 2
+            releaseMode: 0
+        modifiers:
+          randomAngle:
+            enabled: 1
+            range: 20
+            scope: 1
+          randomSpeed:
+            enabled: 1
+            range: 50
+            scope: 1
+        telegraph:
+          enabled: 0
+          duration: 0.6
+          lineWidth: 0.08
+          color: {r: 1, g: 0.1, b: 0.1, a: 0.8}
+          lineLength: 12
+          sortingOrder: 100
+          showOncePerPattern: 0
+        stream:
+          enabled: 0
+          mode: 0
+          startMode: 1
+          startTransform: {fileID: 0}
+          waypoints: []
+          useCurve: 0
+          streamDuration: 2
+          spawnInterval: 0.05
+          pathSpeed: 8
+          speedMode: 0
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          endBehavior: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 4
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 20
+        circleDistribution: 0
       direction:
         mode: 0
         angle: -160
         spread: 360
         rotationPerRepeat: 20
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 1
         initialSpeed: 200
@@ -22961,11 +26688,45 @@ MonoBehaviour:
           duration: 2
           easing: 3
         directionTimeline: []
+        syncDirectionTimelineToBurst: 0
         burstTimeline:
         - name: Trigger 1
           time: 0.5
           pattern: {fileID: 550158831}
           destroySelfAfterFire: 1
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          speedMode: 0
+          duration: 1
+          easing: 0
+          endBehavior: 0
+        homing:
+          enabled: 0
+          startDelay: 0
+          duration: 2
+          turnSpeed: 90
+          keepSpread: 0
+        orbit:
+          enabled: 0
+          radius: 1.5
+          angularSpeed: 180
+          duration: 2
+          radiusBlendTime: 0.25
+          radiusVary: 0
+          radiusVaryScope: 2
+          startAngleVary: 0
+          startAngleVaryScope: 2
+          releaseMode: 0
       modifiers:
         randomAngle:
           enabled: 1
@@ -23921,23 +27682,149 @@ MonoBehaviour:
       repeatCount: 1
       repeatInterval: 1
       delayAfter: 8
-      bulletPrefab: {fileID: 1156615127}
+      elements:
+      - elementName: Element 0
+        bulletPrefab: {fileID: 1156615127}
+        bulletCount: 3
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 0
+          angle: 0
+          spread: 45
+          rotationPerRepeat: 0
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 0
+          initialSpeed: 0
+          speedTimeline: []
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            rotateWithSpread: 0
+            varyMode: 0
+            varyAmount: 0
+            varyScope: 2
+            speedMode: 0
+            duration: 1
+            easing: 0
+            endBehavior: 0
+          homing:
+            enabled: 0
+            startDelay: 0
+            duration: 2
+            turnSpeed: 90
+            keepSpread: 0
+          orbit:
+            enabled: 0
+            radius: 1.5
+            angularSpeed: 180
+            duration: 2
+            radiusBlendTime: 0.25
+            radiusVary: 0
+            radiusVaryScope: 2
+            startAngleVary: 0
+            startAngleVaryScope: 2
+            releaseMode: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+        telegraph:
+          enabled: 0
+          duration: 0.6
+          lineWidth: 0.08
+          color: {r: 1, g: 0.1, b: 0.1, a: 0.8}
+          lineLength: 12
+          sortingOrder: 100
+          showOncePerPattern: 0
+        stream:
+          enabled: 0
+          mode: 0
+          startMode: 1
+          startTransform: {fileID: 0}
+          waypoints: []
+          useCurve: 0
+          streamDuration: 2
+          spawnInterval: 0.05
+          pathSpeed: 8
+          speedMode: 0
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          endBehavior: 0
+      bulletPrefab: {fileID: 0}
       bulletCount: 3
       spawn:
         mode: 0
         offset: {x: 0, y: 0}
         circleRadius: 0
+        circleDistribution: 0
       direction:
         mode: 0
         angle: 0
         spread: 45
         rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
       motion:
         overrideInitialSpeed: 0
         initialSpeed: 0
         speedTimeline: []
         directionTimeline: []
+        syncDirectionTimelineToBurst: 0
         burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          speedMode: 0
+          duration: 1
+          easing: 0
+          endBehavior: 0
+        homing:
+          enabled: 0
+          startDelay: 0
+          duration: 2
+          turnSpeed: 90
+          keepSpread: 0
+        orbit:
+          enabled: 0
+          radius: 1.5
+          angularSpeed: 180
+          duration: 2
+          radiusBlendTime: 0.25
+          radiusVary: 0
+          radiusVaryScope: 2
+          startAngleVary: 0
+          startAngleVaryScope: 2
+          releaseMode: 0
       modifiers:
         randomAngle:
           enabled: 0

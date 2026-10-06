@@ -36,6 +36,17 @@ namespace EnemySystem
     }
 
     /// <summary>
+    /// แหล่งควบคุมความเร็วระหว่างการเคลื่อนที่ตาม Path
+    /// PathTiming = ใช้ Duration + Easing ของ Path แบบเดิม
+    /// SpeedTimeline = ใช้ Speed Timeline ของ Element เดียวกันเป็นตัวกำหนดความเร็วจริง
+    /// </summary>
+    public enum PathSpeedMode
+    {
+        PathTiming,
+        SpeedTimeline
+    }
+
+    /// <summary>
     /// PerPattern = สุ่มค่าเดียวใช้ตลอดอายุของ Pattern (Key คือตัว Modifier เอง ดังนั้นแต่ละ Element
     ///              ในหนึ่ง Burst จะได้ค่าสุ่มอิสระจากกัน เพราะแต่ละ Element มี Modifier เป็นของตัวเอง)
     /// PerBurst   = สุ่มใหม่ทุกครั้งที่ Element นี้ยิง (1 ค่าต่อ Element ต่อ Repeat ใช้ร่วมกันทุกกระสุนใน Element นั้น)
@@ -112,6 +123,17 @@ namespace EnemySystem
         Stop
     }
 
+
+    /// <summary>
+    /// วิธีแยก Path เมื่อใช้ร่วมกับ Spread
+    /// None = พฤติกรรมเดิม | Random = สุ่ม Lane Offset | FollowSpread = Offset ตาม Spread แบบ deterministic
+    /// </summary>
+    public enum PathVaryMode
+    {
+        None,
+        Random,
+        FollowSpread
+    }
     [Serializable]
     public class SpeedTransition
     {
@@ -175,8 +197,24 @@ namespace EnemySystem
         [Tooltip("ใช้เมื่อ Point Mode = Transform และ Use Curve - ลาก Transform จุดกลางเส้นโค้งในซีนมาใส่")]
         public Transform controlTransform;
 
-        [Header("Timing")]
-        [Tooltip("เวลาที่ใช้วิ่งจบ Path ทั้งเส้น (วินาที) - คงที่ไม่ว่าเส้นจะยาวแค่ไหน")]
+        [Header("Spread Compatibility")]
+        [Tooltip("ติ๊ก = หมุนทั้ง Path รอบจุด Spawn ตามมุม Spread ของกระสุนนัดนั้น | ปิด = แกนโลกเดิม (พฤติกรรมเดิม)")]
+        public bool rotateWithSpread = false;
+
+        [Tooltip("None = ไม่แยก Path | Random = สุ่ม Lane Offset | FollowSpread = คำนวณ Lane Offset จากมุม Spread แบบแน่นอน")]
+        public PathVaryMode varyMode = PathVaryMode.None;
+
+        [Tooltip("ระยะ Offset สูงสุดด้านข้าง Path (หน่วยโลก) - 0 = ไม่แยก")]
+        [Min(0f)] public float varyAmount = 0f;
+
+        [Tooltip("Scope ของ Random Vary: PerPattern = คงที่ทั้ง Pattern | PerBurst = ใหม่ทุก Repeat | PerShot = ใหม่ทุกนัด")]
+        public RandomScope varyScope = RandomScope.PerShot;
+
+        [Header("Timing / Speed") ]
+        [Tooltip("Path Timing = ใช้ Duration + Easing ของ Path แบบเดิม | Speed Timeline = ใช้ Speed Timeline ของ Element นี้ควบคุมความเร็วจริงระหว่างวิ่ง Path")]
+        public PathSpeedMode speedMode = PathSpeedMode.PathTiming;
+
+        [Tooltip("เวลาที่ใช้วิ่งจบ Path ทั้งเส้น (วินาที) เมื่อ Speed Mode = Path Timing - คงที่ไม่ว่าเส้นจะยาวแค่ไหน")]
         [Min(0.01f)]
         public float duration = 1f;
 
@@ -196,6 +234,7 @@ namespace EnemySystem
         public Vector3 controlPosition;
         public float duration;
         public SpeedEasing easing;
+        public PathSpeedMode speedMode;
         public PathEndBehavior endBehavior;
     }
 
@@ -236,6 +275,12 @@ namespace EnemySystem
             "ระหว่างวิ่งตาม Path จะไม่ใช้ Speed/Direction Timeline ด้านบน (คนละระบบ)"
         )]
         public BulletPathSettings path = new BulletPathSettings();
+
+        [Tooltip("Homing - เลี้ยวเข้าหาผู้เล่นต่อเนื่องในช่วงเวลาที่กำหนด (ดู HomingSettings)")]
+        public HomingSettings homing = new HomingSettings();
+
+        [Tooltip("Orbit - วนรอบตัวที่ยิง Pattern นี้ก่อนปล่อยตัว (ดู OrbitSettings)")]
+        public OrbitSettings orbit = new OrbitSettings();
     }
 
     /// <summary>
@@ -403,6 +448,12 @@ namespace EnemySystem
         public BulletMotionSettings motion = new BulletMotionSettings();
         public BulletPatternModifiers modifiers = new BulletPatternModifiers();
 
+        [Tooltip("Danger Zone - เส้นเตือนสีแดงก่อนกระสุนเริ่มวิ่ง (ดู TelegraphSettings)")]
+        public TelegraphSettings telegraph = new TelegraphSettings();
+
+        [Tooltip("Path Stream - Spawn กระสุนต่อเนื่องตามเส้นทางจาก Transform หลายตัว (ดู PathStreamSettings)")]
+        public PathStreamSettings stream = new PathStreamSettings();
+
         /// <summary>
         /// Deep copy พอสำหรับใช้งานจริง - spawn/direction/motion/modifiers แชร์ Reference เดิมได้
         /// เพราะ Executor ไม่เคยเขียนทับค่าพวกนี้ (เหมือน BulletBurstV2 เดิม)
@@ -420,7 +471,9 @@ namespace EnemySystem
                 spawn = spawn ?? new BulletSpawnSettings(),
                 direction = direction ?? new BulletDirectionSettings(),
                 motion = motion ?? new BulletMotionSettings(),
-                modifiers = modifiers ?? new BulletPatternModifiers()
+                modifiers = modifiers ?? new BulletPatternModifiers(),
+                telegraph = telegraph ?? new TelegraphSettings(),
+                stream = stream ?? new PathStreamSettings()
             };
         }
     }
@@ -624,6 +677,45 @@ namespace EnemySystem
         private readonly Dictionary<object, float> perPatternRandomValues =
             new Dictionary<object, float>();
 
+        private readonly Dictionary<object, float> perPatternPathVaryValues =
+            new Dictionary<object, float>();
+        private readonly Dictionary<object, float> perPatternOrbitRadiusValues =
+            new Dictionary<object, float>();
+        private readonly Dictionary<object, float> perPatternOrbitAngleValues =
+            new Dictionary<object, float>();
+
+        // เมื่อเปิด Telegraph.showOncePerPattern จะวาดเฉพาะเส้นหลักครั้งแรกของ BCP นี้
+        private bool dangerLineShown;
+
+        // ------------------------------------------------------------
+        // PATH STREAM runtime
+        // 1 Session = Stream 1 สายที่กำลังทำงานอยู่ (เริ่มทุกครั้งที่ Burst ยิง Element ที่เปิด Path Stream)
+        // ------------------------------------------------------------
+        private sealed class StreamSession
+        {
+            public string burstName;
+            public BulletBurstElement element;
+            public PathStreamSettings settings;
+
+            public float burstClockAtStart;
+            public float delay;          // เวลารอเส้นเตือน (Danger Zone) ก่อนเริ่ม Spawn
+            public float spawnTimer;
+            public float elapsed;
+
+            public float sweepDistance;  // ระยะที่จุด Spawn เดินไปบน Path (โหมด Sweep)
+            public float sweepSpeed;
+
+            public int tick;
+            public int maxTicks;
+        }
+
+        private readonly List<StreamSession> streamSessions =
+            new List<StreamSession>();
+
+        // Buffer ใช้ซ้ำเพื่อเลี่ยง GC ตอนรวบรวมจุดควบคุมของ Path Stream
+        private readonly List<Vector3> controlPointBuffer =
+            new List<Vector3>();
+
         public BulletPatternV2Executor(
             List<BulletPatternGroup> groups,
             Transform owner,
@@ -648,6 +740,9 @@ namespace EnemySystem
             for (int i = 0; i < groups.Count; i++)
                 groups[i]?.ResetRuntime();
 
+            streamSessions.Clear();
+            dangerLineShown = false;
+
             ResetRandom();
         }
 
@@ -655,6 +750,9 @@ namespace EnemySystem
         {
             random = new System.Random(Environment.TickCount);
             perPatternRandomValues.Clear();
+            perPatternPathVaryValues.Clear();
+            perPatternOrbitRadiusValues.Clear();
+            perPatternOrbitAngleValues.Clear();
         }
 
         public void SetSeed(int seed)
@@ -672,6 +770,9 @@ namespace EnemySystem
 
             for (int i = 0; i < groups.Count; i++)
                 TickGroup(groups[i], deltaTime, player);
+
+            if (streamSessions.Count > 0)
+                TickStreams(deltaTime, player);
         }
 
         private void TickGroup(BulletPatternGroup group, float dt, Transform player)
@@ -771,6 +872,7 @@ namespace EnemySystem
         /// <summary>
         /// ยิงทุก Element ของ Burst นี้พร้อมกัน ในจังหวะ Repeat เดียวกัน
         /// (repeatIndex เดียวกันสำหรับทุก Element ใน Burst นี้)
+        /// Element ที่เปิด Path Stream จะเริ่ม Stream สายใหม่แทนการยิงปกติ
         /// </summary>
         private void FireBurst(BulletBurstV2 burst, int repeatIndex, Transform player)
         {
@@ -784,6 +886,12 @@ namespace EnemySystem
                 if (element == null)
                     continue;
 
+                if (element.stream != null && element.stream.enabled)
+                {
+                    StartStream(burst.name, element, repeatIndex, burst.burstClock);
+                    continue;
+                }
+
                 FireElement(
                     burst.name,
                     element,
@@ -794,13 +902,238 @@ namespace EnemySystem
             }
         }
 
+        // ============================================================
+        // PATH STREAM
+        // ============================================================
+
+        private WaypointPath BuildStreamPath(
+            PathStreamSettings settings,
+            Vector3 elementSpawn,
+            bool warn,
+            string burstName,
+            BulletBurstElement element)
+        {
+            int count = settings.CollectPoints(elementSpawn, controlPointBuffer);
+
+            if (count < 2)
+            {
+                if (warn)
+                {
+                    Debug.LogWarning(
+                        $"BulletPatternV2: Burst '{burstName}' > Element '{element.elementName}' Path Stream " +
+                        "มีจุดไม่ถึง 2 จุด (ตรวจ Start Mode / Start Transform / Waypoints) - ข้ามการยิง");
+                }
+
+                return null;
+            }
+
+            WaypointPath path = WaypointPath.Build(controlPointBuffer, settings.useCurve);
+
+            if (path == null || path.Count < 2 || path.TotalLength < 0.01f)
+            {
+                if (warn)
+                {
+                    Debug.LogWarning(
+                        $"BulletPatternV2: Burst '{burstName}' > Element '{element.elementName}' Path Stream " +
+                        "สั้นเกินไป (จุดซ้อนทับกัน) - ข้ามการยิง");
+                }
+
+                return null;
+            }
+
+            return path;
+        }
+
+        private void StartStream(
+            string burstName,
+            BulletBurstElement element,
+            int repeatIndex,
+            float burstClock)
+        {
+            if (element.bulletPrefab == null)
+            {
+                Debug.LogWarning(
+                    $"BulletPatternV2: Burst '{burstName}' > Element '{element.elementName}' ไม่มี Bullet Prefab - ข้ามการยิง");
+                return;
+            }
+
+            PathStreamSettings settings = element.stream;
+
+            Vector3 elementSpawn = CalculateBaseSpawnPosition(element.spawn);
+
+            WaypointPath path =
+                BuildStreamPath(settings, elementSpawn, true, burstName, element);
+
+            if (path == null)
+                return;
+
+            float interval = Mathf.Max(0.01f, settings.spawnInterval);
+            float duration = Mathf.Max(0f, settings.streamDuration);
+
+            StreamSession session = new StreamSession
+            {
+                burstName = burstName,
+                element = element,
+                settings = settings,
+                burstClockAtStart = burstClock,
+                spawnTimer = interval,   // Spawn ครั้งแรกทันทีในเฟรมแรกที่เริ่ม (หลังเส้นเตือนจบ)
+                maxTicks = Mathf.Max(1, Mathf.FloorToInt(duration / interval) + 1),
+                sweepSpeed =
+                    settings.pathSpeed > 0f
+                        ? settings.pathSpeed
+                        : path.TotalLength / Mathf.Max(0.01f, duration)
+            };
+
+            TelegraphSettings telegraph = element.telegraph;
+
+            bool allowTelegraph =
+                telegraph != null &&
+                telegraph.enabled &&
+                (!telegraph.showOncePerPattern || (!dangerLineShown && repeatIndex == 0));
+
+            if (allowTelegraph)
+            {
+                float warnTime = Mathf.Max(0.05f, telegraph.duration);
+
+                DangerLineV1.Show(
+                    path.Points,
+                    path.Count,
+                    telegraph.lineWidth,
+                    telegraph.color,
+                    telegraph.sortingOrder,
+                    warnTime);
+
+                session.delay = warnTime;
+                if (telegraph.showOncePerPattern)
+                    dangerLineShown = true;
+            }
+
+            streamSessions.Add(session);
+        }
+
+        private void TickStreams(float dt, Transform player)
+        {
+            for (int i = streamSessions.Count - 1; i >= 0; i--)
+            {
+                StreamSession session = streamSessions[i];
+
+                if (session.delay > 0f)
+                {
+                    session.delay -= dt;
+
+                    if (session.delay > 0f)
+                        continue;
+                }
+
+                float interval = Mathf.Max(0.01f, session.settings.spawnInterval);
+
+                session.elapsed += dt;
+                session.spawnTimer += dt;
+
+                bool finished = false;
+
+                while (!finished && session.spawnTimer >= interval)
+                {
+                    session.spawnTimer -= interval;
+                    finished = !SpawnStreamTick(session, interval, player);
+                }
+
+                if (finished)
+                    streamSessions.RemoveAt(i);
+            }
+        }
+
+        /// <summary>
+        /// Spawn 1 ครั้งของ Stream - คืน false เมื่อ Stream จบแล้ว (ครบจำนวนครั้ง / Sweep ถึงปลาย Path / Path หายไป)
+        /// อ่านตำแหน่ง Transform สดทุกครั้ง และ Rebuild Path ใหม่ (Array เล็กๆ ต่อครั้ง ไม่ใช่ต่อกระสุน)
+        /// </summary>
+        private bool SpawnStreamTick(
+            StreamSession session,
+            float interval,
+            Transform player)
+        {
+            BulletBurstElement element = session.element;
+            PathStreamSettings settings = session.settings;
+
+            Vector3 elementSpawn = CalculateBaseSpawnPosition(element.spawn);
+
+            WaypointPath path =
+                BuildStreamPath(settings, elementSpawn, false, session.burstName, element);
+
+            // Transform บางตัวถูกทำลายระหว่างทางจน Path เหลือไม่ถึง 2 จุด -> จบ Stream
+            if (path == null)
+                return false;
+
+            float clock = session.burstClockAtStart + session.elapsed;
+            bool reachedEnd = false;
+
+            if (settings.mode == PathStreamMode.FlowAlongPath)
+            {
+                FireElement(
+                    session.burstName,
+                    element,
+                    session.tick,
+                    session.maxTicks,
+                    clock,
+                    player,
+                    path.Start,
+                    path,
+                    settings.pathSpeed,
+                    settings.endBehavior,
+                    true);
+            }
+            else
+            {
+                float distance =
+                    Mathf.Min(session.sweepDistance, path.TotalLength);
+
+                Vector3 tangent;
+                Vector3 position = path.Evaluate(distance, out tangent);
+
+                FireElement(
+                    session.burstName,
+                    element,
+                    session.tick,
+                    session.maxTicks,
+                    clock,
+                    player,
+                    position,
+                    null,
+                    0f,
+                    PathEndBehavior.ContinueFlying,
+                    true);
+
+                reachedEnd = session.sweepDistance >= path.TotalLength;
+                session.sweepDistance += session.sweepSpeed * interval;
+            }
+
+            session.tick++;
+
+            return session.tick < session.maxTicks && !reachedEnd;
+        }
+
+        // ============================================================
+        // FIRE ELEMENT
+        // ============================================================
+
+        /// <summary>
+        /// spawnOverride / flowPath / flowSpeedSetting / flowEnd / fromStream ใช้เฉพาะตอนถูกเรียกจาก Path Stream
+        /// - spawnOverride: ตำแหน่ง Spawn แทนตำแหน่งปกติของ Element
+        /// - flowPath: ถ้าไม่ null กระสุนจะไหลตาม Path นี้ (โหมด Flow)
+        /// - fromStream: Danger Zone ของ Stream เป็นระดับ Session จึงไม่ส่งต่อให้กระสุนแต่ละนัด
+        /// </summary>
         private void FireElement(
             string burstName,
             BulletBurstElement element,
             int repeatIndex,
             int repeatCount,
             float burstClock,
-            Transform player)
+            Transform player,
+            Vector3? spawnOverride = null,
+            WaypointPath flowPath = null,
+            float flowSpeedSetting = 0f,
+            PathEndBehavior flowEnd = PathEndBehavior.ContinueFlying,
+            bool fromStream = false)
         {
             if (element.bulletPrefab == null)
             {
@@ -810,10 +1143,19 @@ namespace EnemySystem
             }
 
             int count = Mathf.Max(1, element.bulletCount);
-            Vector3 baseSpawn = CalculateBaseSpawnPosition(element.spawn);
+
+            Vector3 baseSpawn =
+                spawnOverride.HasValue
+                    ? spawnOverride.Value
+                    : CalculateBaseSpawnPosition(element.spawn);
+
+            bool hasWaypointFlow = flowPath != null;
 
             float elementRandomAngle = 0f;
             float elementRandomSpeed = 0f;
+            float pathVaryPerBurst = 0f;
+            float orbitRadiusPerBurst = 0f;
+            float orbitAnglePerBurst = 0f;
 
             if (element.modifiers != null)
             {
@@ -844,12 +1186,103 @@ namespace EnemySystem
                 }
             }
 
+            PathVaryMode pathVaryMode = PathVaryMode.None;
+            float pathVaryAmount = 0f;
+            RandomScope pathVaryScope = RandomScope.PerShot;
+
+            if (element.motion != null && element.motion.path != null)
+            {
+                pathVaryMode = element.motion.path.varyMode;
+                pathVaryAmount = Mathf.Max(0f, element.motion.path.varyAmount);
+                pathVaryScope = element.motion.path.varyScope;
+
+                if (pathVaryMode == PathVaryMode.Random &&
+                    pathVaryAmount > 0f &&
+                    pathVaryScope == RandomScope.PerPattern)
+                    pathVaryPerBurst = GetPerPatternRandom(element.motion.path, pathVaryAmount);
+                else if (pathVaryMode == PathVaryMode.Random &&
+                         pathVaryAmount > 0f &&
+                         pathVaryScope == RandomScope.PerBurst)
+                    pathVaryPerBurst = RandomRange(pathVaryAmount);
+            }
+
+            if (hasWaypointFlow && element.stream != null)
+            {
+                pathVaryMode = element.stream.varyMode;
+                pathVaryAmount = Mathf.Max(0f, element.stream.varyAmount);
+                pathVaryScope = element.stream.varyScope;
+                pathVaryPerBurst = 0f;
+
+                if (pathVaryMode == PathVaryMode.Random &&
+                    pathVaryAmount > 0f &&
+                    pathVaryScope == RandomScope.PerPattern)
+                    pathVaryPerBurst = GetPerPatternRandom(element.stream, pathVaryAmount);
+                else if (pathVaryMode == PathVaryMode.Random &&
+                         pathVaryAmount > 0f &&
+                         pathVaryScope == RandomScope.PerBurst)
+                    pathVaryPerBurst = RandomRange(pathVaryAmount);
+            }
+
+
             Vector2 centerDirection = CalculateCenterDirection(
                 element.direction,
                 baseSpawn,
                 player,
                 repeatIndex,
                 repeatCount);
+
+            // ตัวเลือกขั้นสูงที่เหมือนกันทุกนัดใน Element นี้ (Reference ของ Config เดิม ไม่สร้างของใหม่)
+            BulletPathSettings pathCfg = element.motion.path;
+            bool pathCfgEnabled = pathCfg != null && pathCfg.enabled;
+
+            HomingSettings homingCfg =
+                element.motion.homing != null && element.motion.homing.enabled
+                    ? element.motion.homing
+                    : null;
+
+            // Orbit ใช้ร่วมกับ Path Motion / Path Flow ไม่ได้ (Path ชนะ)
+            OrbitSettings orbitCfg =
+                !hasWaypointFlow &&
+                !pathCfgEnabled &&
+                element.motion.orbit != null &&
+                element.motion.orbit.enabled
+                    ? element.motion.orbit
+                    : null;
+
+            if (orbitCfg != null)
+            {
+                OrbitSettings orbitSettings = orbitCfg;
+
+                if (orbitSettings.radiusVary > 0f)
+                {
+                    if (orbitSettings.radiusVaryScope == RandomScope.PerPattern)
+                        orbitRadiusPerBurst = GetPerPatternRandom(
+                            orbitSettings, orbitSettings.radiusVary);
+                    else if (orbitSettings.radiusVaryScope == RandomScope.PerBurst)
+                        orbitRadiusPerBurst = RandomRange(orbitSettings.radiusVary);
+                }
+
+                if (orbitSettings.startAngleVary > 0f)
+                {
+                    if (orbitSettings.startAngleVaryScope == RandomScope.PerPattern)
+                        orbitAnglePerBurst = GetPerPatternOrbitAngleRandom(
+                            orbitSettings, orbitSettings.startAngleVary);
+                    else if (orbitSettings.startAngleVaryScope == RandomScope.PerBurst)
+                        orbitAnglePerBurst = RandomRange(orbitSettings.startAngleVary);
+                }
+            }
+
+
+            // Danger Zone ระดับกระสุน: ไม่ใช้กับ Stream (Session จัดการเอง) และไม่ใช้กับ Orbit
+            TelegraphSettings telegraphCfg =
+                !fromStream &&
+                orbitCfg == null &&
+                element.telegraph != null &&
+                element.telegraph.enabled &&
+                (!element.telegraph.showOncePerPattern ||
+                 (!dangerLineShown && repeatIndex == 0))
+                    ? element.telegraph
+                    : null;
 
             for (int i = 0; i < count; i++)
             {
@@ -858,7 +1291,13 @@ namespace EnemySystem
                         ? element.direction.spread
                         : 0f;
 
-                float angle = CalculateSpreadOffset(i, count, perShotSpread, element.direction.spreadShape);
+                float spreadAngle = CalculateSpreadOffset(i, count, perShotSpread, element.direction.spreadShape);
+                float repeatSpreadAngle =
+                    element.direction.spreadDistribution == SpreadDistribution.PerRepeat
+                        ? CalculateSpreadOffset(repeatIndex, repeatCount, element.direction.spread, element.direction.spreadShape)
+                        : 0f;
+                float spreadCompatibilityAngle = spreadAngle + repeatSpreadAngle;
+                float angle = spreadAngle;
 
                 if (element.modifiers != null &&
                     element.modifiers.randomAngle != null &&
@@ -874,7 +1313,41 @@ namespace EnemySystem
 
                 Vector3 spawnPosition = baseSpawn;
 
-                if (element.spawn.mode == BulletSpawnMode.Circle)
+                // Path Flow: แต่ละนัดสามารถรับ Rotation/Offset ของตัวเองได้
+                // ทำให้ Spread ไม่ถูกเขียนทับเป็นเส้นเดียวกัน
+                WaypointPath bulletFlowPath = flowPath;
+                float waypointRotation = 0f;
+                Vector3 waypointOffset = Vector3.zero;
+
+                if (hasWaypointFlow)
+                {
+                    float flowVary = pathVaryMode == PathVaryMode.Random
+                        ? (pathVaryScope == RandomScope.PerShot
+                            ? RandomRange(pathVaryAmount)
+                            : pathVaryPerBurst)
+                        : pathVaryMode == PathVaryMode.FollowSpread
+                            ? FollowSpreadOffset(spreadCompatibilityAngle, element.direction.spread) * pathVaryAmount
+                            : 0f;
+
+                    Vector3 tangent = flowPath.Points.Length > 1
+                        ? flowPath.Points[1] - flowPath.Points[0]
+                        : Vector3.right;
+
+                    if (tangent.sqrMagnitude < 0.000001f)
+                        tangent = Vector3.right;
+
+                    waypointRotation =
+                        element.stream != null && element.stream.rotateWithSpread
+                            ? spreadCompatibilityAngle
+                            : 0f;
+
+                    tangent = RotateVector(tangent, waypointRotation).normalized;
+                    waypointOffset = new Vector3(-tangent.y, tangent.x, 0f) * flowVary;
+                    spawnPosition = flowPath.Start + waypointOffset;
+                }
+
+                // Path Flow: กระสุนต้องเกิดที่จุดเริ่ม Path เป๊ะๆ จึงไม่ใช้ Circle Spawn
+                if (!hasWaypointFlow && element.spawn.mode == BulletSpawnMode.Circle)
                 {
                     float circleAngle;
                     float circleRadius = element.spawn.circleRadius;
@@ -956,9 +1429,9 @@ namespace EnemySystem
                 bullet.SetDirection(direction);
 
                 ResolvedPathMotion resolvedPath = null;
-                BulletPathSettings pathCfg = element.motion.path;
 
-                if (pathCfg != null && pathCfg.enabled)
+                // Path Flow (Stream) ชนะ Path Motion ปกติ
+                if (pathCfgEnabled && !hasWaypointFlow)
                 {
                     Vector3 endPos =
                         pathCfg.pointMode == BulletPathPointMode.Transform &&
@@ -977,6 +1450,30 @@ namespace EnemySystem
                                 : spawnPosition + (Vector3)pathCfg.controlOffset;
                     }
 
+                    float pathVary = pathVaryMode == PathVaryMode.Random
+                        ? (pathVaryScope == RandomScope.PerShot
+                            ? RandomRange(pathVaryAmount)
+                            : pathVaryPerBurst)
+                        : pathVaryMode == PathVaryMode.FollowSpread
+                            ? FollowSpreadOffset(spreadCompatibilityAngle, element.direction.spread) * pathVaryAmount
+                            : 0f;
+
+                    float pathRotation = pathCfg.rotateWithSpread ? spreadCompatibilityAngle : 0f;
+                    Vector3 pathTangent = pathHasInitialTangent(spawnPosition, controlPos, endPos);
+                    pathTangent = RotateVector(pathTangent, pathRotation).normalized;
+                    Vector3 lateralOffset = new Vector3(-pathTangent.y, pathTangent.x, 0f) * pathVary;
+
+                    if (Mathf.Abs(pathRotation) > 0.0001f)
+                    {
+                        endPos = spawnPosition + RotateVector(endPos - spawnPosition, pathRotation);
+                        if (pathCfg.useCurve)
+                            controlPos = spawnPosition + RotateVector(controlPos - spawnPosition, pathRotation);
+                    }
+
+                    endPos += lateralOffset;
+                    if (pathCfg.useCurve)
+                        controlPos += lateralOffset;
+
                     resolvedPath = new ResolvedPathMotion
                     {
                         endPosition = endPos,
@@ -984,6 +1481,7 @@ namespace EnemySystem
                         controlPosition = controlPos,
                         duration = Mathf.Max(0.01f, pathCfg.duration),
                         easing = pathCfg.easing,
+                        speedMode = pathCfg.speedMode,
                         endBehavior = pathCfg.endBehavior
                     };
                 }
@@ -993,6 +1491,57 @@ namespace EnemySystem
                         ? burstClock
                         : 0f;
 
+                float orbitRadiusOffset = 0f;
+                float orbitStartAngleOffset = 0f;
+
+                if (orbitCfg != null)
+                {
+                    orbitRadiusOffset =
+                        orbitCfg.radiusVary <= 0f
+                            ? 0f
+                            : orbitCfg.radiusVaryScope == RandomScope.PerShot
+                                ? RandomRange(orbitCfg.radiusVary)
+                                : orbitRadiusPerBurst;
+
+                    orbitStartAngleOffset =
+                        orbitCfg.startAngleVary <= 0f
+                            ? 0f
+                            : orbitCfg.startAngleVaryScope == RandomScope.PerShot
+                                ? RandomRange(orbitCfg.startAngleVary)
+                                : orbitAnglePerBurst;
+                }
+
+                BulletAdvancedConfig advanced = new BulletAdvancedConfig
+                {
+                    telegraph = telegraphCfg,
+                    homing = homingCfg,
+                    orbit = orbitCfg,
+                    orbitCenter = orbitCfg != null ? owner : null,
+                    orbitRadiusOffset = orbitRadiusOffset,
+                    orbitStartAngleOffset = orbitStartAngleOffset,
+                    homingSpreadAngle = spreadCompatibilityAngle,
+                    homingKeepSpread = homingCfg != null ? Mathf.Clamp01(homingCfg.keepSpread) : 0f,
+                    waypointRotation = waypointRotation,
+                    waypointOffset = waypointOffset
+                };
+
+                if (hasWaypointFlow)
+                {
+                    // flowSpeedSetting = 0 -> ใช้ความเร็วของกระสุนเอง (Initial Speed / Base Speed)
+                    advanced.waypointPath = bulletFlowPath;
+                    advanced.waypointEnd = flowEnd;
+                    advanced.waypointSpeed =
+                        flowSpeedSetting > 0f
+                            ? flowSpeedSetting
+                            : (usePatternSpeed
+                                ? initialSpeed
+                                : bullet.DefaultSpeed);
+                    advanced.waypointSpeedMode =
+                        element.stream != null
+                            ? element.stream.speedMode
+                            : PathSpeedMode.PathTiming;
+                }
+
                 bullet.ConfigureMotion(
                     usePatternSpeed,
                     initialSpeed,
@@ -1001,8 +1550,48 @@ namespace EnemySystem
                     element.motion.burstTimeline,
                     patternCallChain,
                     resolvedPath,
-                    directionCatchUp);
+                    directionCatchUp,
+                    advanced);
+
+                if (telegraphCfg != null && telegraphCfg.showOncePerPattern)
+                    dangerLineShown = true;
             }
+        }
+
+        private static Vector3 pathTangentFallback(Vector3 value)
+        {
+            if (value.sqrMagnitude > 0.000001f)
+                return value.normalized;
+            return Vector3.right;
+        }
+
+        private static Vector3 pathHasInitialTangent(Vector3 start, Vector3 control, Vector3 end)
+        {
+            Vector3 tangent = control - start;
+            if (tangent.sqrMagnitude < 0.000001f)
+                tangent = end - start;
+            return pathTangentFallback(tangent);
+        }
+
+        private static Vector3 RotateVector(Vector3 value, float degrees)
+        {
+            float radians = degrees * Mathf.Deg2Rad;
+            float sin = Mathf.Sin(radians);
+            float cos = Mathf.Cos(radians);
+            return new Vector3(
+                value.x * cos - value.y * sin,
+                value.x * sin + value.y * cos,
+                value.z);
+        }
+
+        private static float FollowSpreadOffset(float spreadAngle, float totalSpread)
+        {
+            if (Mathf.Abs(totalSpread) <= 0.0001f)
+                return 0f;
+
+            float wrapped = Mathf.DeltaAngle(0f, spreadAngle);
+            float half = Mathf.Max(0.0001f, Mathf.Abs(totalSpread) * 0.5f);
+            return Mathf.Clamp(wrapped / half, -1f, 1f);
         }
 
         private Vector3 CalculateBaseSpawnPosition(BulletSpawnSettings spawn)
@@ -1140,6 +1729,16 @@ namespace EnemySystem
                     float step = spread / (count - 1);
                     return -spread * 0.5f + step * index;
             }
+        }
+
+        private float GetPerPatternOrbitAngleRandom(OrbitSettings key, float range)
+        {
+            if (perPatternOrbitAngleValues.TryGetValue(key, out float value))
+                return value;
+
+            value = RandomRange(range);
+            perPatternOrbitAngleValues[key] = value;
+            return value;
         }
 
         private float GetPerPatternRandom(object key, float range)
