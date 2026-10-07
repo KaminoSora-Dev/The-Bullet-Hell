@@ -26,6 +26,27 @@ namespace AudioSystem
     /// วิธีแก้: รอ LoadingScreenManager.OnSceneExit (จุดเดียวกับที่
     /// timeScale กลับเป็น 1 จริง) ก่อนค่อยเริ่มเล่นเพลง แทนที่จะเล่น
     /// ทันทีใน Start()
+    ///
+    /// ============================================================
+    /// FIX 2: Stage Clock - นาฬิกาเพลง (เพิ่มใหม่)
+    /// ============================================================
+    /// ปัญหาที่เหลือ: การรอ OnSceneExit ยังทำให้ "จุดที่เรียก Play()"
+    /// ตรงกับ StageTimer แต่ไม่รับประกันว่า "เสียงออกจริง" ตรงกัน
+    /// (เสียงอาจเริ่มช้ากว่าตอนเรียก Play() เช่น clip ยังไม่ preload /
+    /// Streaming / DSP buffer และรอบ Restart ที่ clip ถูก cache แล้ว
+    /// จะเริ่มเร็วกว่ารอบแรก) รวมถึงเฟรมสะดุดระหว่างเล่นที่ทำให้
+    /// StageTimer (นับด้วย Time.deltaTime ที่ถูก clamp) ตามเสียงไม่ทัน
+    ///
+    /// วิธีแก้: MusicManager มี "Stage Clock" = เวลาที่เพลงฉากปกติ
+    /// เล่นมาแล้วจริง ๆ โดยอิง AudioSettings.dspTime (นาฬิกาเสียงของ Unity)
+    /// - จุดเริ่มคำนวณจาก AudioSource.timeSamples ตอนที่เสียงออกจริง
+    ///   (ไม่ใช่ตอนเรียก Play()) จึงหักค่า latency ออกให้อัตโนมัติ
+    /// - หยุดเดินตอน PauseMusic() และเดินต่อตอน ResumeMusic()
+    /// - ไม่ถูก Reset ตอนสลับเป็นเพลงบอส/กลับเพลงปกติ (เดินต่อเนื่อง)
+    /// - ถูกล้างตอน StopMusic() (เช่น Restart/เปลี่ยน Scene)
+    ///
+    /// StageSpawnerV1 อ่านค่านี้ผ่าน TryGetStageClock() เพื่อปรับ StageTimer
+    /// ให้ตรงกับเพลงเสมอ
     /// </summary>
     public class MusicManager : MonoBehaviour
     {
@@ -48,6 +69,17 @@ namespace AudioSystem
 
         [Tooltip("เล่นเพลงฉากปกติทันทีตอน Start() หรือไม่ - ปิดถ้าอยากให้ระบบอื่นสั่ง PlayNormalStageMusic() เอง")]
         [SerializeField] private bool playNormalMusicOnStart = true;
+
+        // ============================================================
+        // STAGE CLOCK (เพิ่มใหม่)
+        // ============================================================
+        [Header("Stage Clock (ให้ StageSpawnerV1 ซิงก์ตามเพลง)")]
+        [Tooltip(
+            "ถ้ารอเสียงออกจริงนานเกินค่านี้ (วินาที) แล้วยังไม่ออก\n" +
+            "จะเริ่มนาฬิกาจากเวลาที่เรียก Play() แทน (กันนาฬิกาไม่เริ่มเลย)"
+        )]
+        [Min(0.1f)]
+        [SerializeField] private float stageClockCalibrateTimeout = 1f;
 
         // ============================================================
         // DEBUG (ชั่วคราว - ไล่บัคซิงก์ระหว่างเพลงกับ StageTimer)
@@ -83,6 +115,54 @@ namespace AudioSystem
         // Resume ซ้ำซ้อนกันตอน timeScale กลับมา
         //
         private bool autoPausedByTimeScale;
+
+        // ============================================================
+        // STAGE CLOCK RUNTIME (เพิ่มใหม่)
+        // ============================================================
+
+        // true = นาฬิกาพร้อมใช้งานแล้ว (เสียงออกจริงและคำนวณจุดเริ่มเสร็จ)
+        private bool stageClockReady;
+
+        // true = เรียก Play() เพลงฉากปกติไปแล้ว กำลังรอให้เสียงออกจริง
+        private bool stageClockWaitingForPlayback;
+
+        // AudioSource ที่เล่นเพลงฉากปกติตัวแรก (ใช้อ่าน timeSamples ตอน calibrate)
+        private AudioSource stageClockSource;
+
+        // เวลา dsp ตอนเรียก Play() (ใช้เป็น fallback ตอน timeout)
+        private double stageClockPlayCallDsp;
+
+        // เวลา dsp ที่ "sample 0" ของเพลงถูกเล่นจริง
+        private double stageClockOriginDsp;
+
+        // เวลา dsp รวมที่เพลงถูก Pause ไป (หักออกจากนาฬิกา)
+        private double pausedDspTotal;
+
+        // เวลา dsp ตอนเริ่ม Pause ล่าสุด
+        private double pauseStartDsp;
+
+        /// <summary>
+        /// true เมื่อ Stage Clock พร้อมใช้งาน (เพลงฉากปกติเล่นออกเสียงจริงแล้ว)
+        /// </summary>
+        public bool HasStageClock => stageClockReady;
+
+        /// <summary>
+        /// อ่านเวลา (วินาที) ที่เพลงฉากปกติเล่นมาแล้วจริง
+        /// คืน false ถ้านาฬิกายังไม่พร้อม (เช่น เพลงยังไม่เริ่ม หรือถูก StopMusic)
+        /// ค่าจะหยุดนิ่งระหว่าง PauseMusic() และไม่ถูก Reset ตอนสลับเพลงบอส
+        /// </summary>
+        public bool TryGetStageClock(out float seconds)
+        {
+            if (!stageClockReady)
+            {
+                seconds = 0f;
+                return false;
+            }
+
+            double nowDsp = isPaused ? pauseStartDsp : AudioSettings.dspTime;
+            seconds = (float)(nowDsp - stageClockOriginDsp - pausedDspTotal);
+            return true;
+        }
 
         private void Awake()
         {
@@ -124,6 +204,12 @@ namespace AudioSystem
 
             if (LoadingScreenManager.Instance != null)
                 LoadingScreenManager.Instance.OnSceneExit -= HandleLoadingSceneExit;
+        }
+
+        private void OnDestroy()
+        {
+            if (Instance == this)
+                Instance = null;
         }
 
         private void Start()
@@ -228,6 +314,11 @@ namespace AudioSystem
                 ResumeMusic();
             }
 
+            // ----------------------------------------------------------
+            // FIX 2: รอให้เสียงออกจริง แล้วคำนวณจุดเริ่มของ Stage Clock
+            // ----------------------------------------------------------
+            UpdateStageClockCalibration();
+
             if (!isCrossfading) return;
 
             crossfadeTimer += Time.deltaTime;
@@ -241,6 +332,67 @@ namespace AudioSystem
                 isCrossfading = false;
                 inactiveSource.Stop();
                 inactiveSource.volume = 0f;
+            }
+        }
+
+        // ============================================================
+        // STAGE CLOCK CALIBRATION (เพิ่มใหม่)
+        // ============================================================
+        //
+        // เรียกทุกเฟรมจาก Update() - ทำงานเฉพาะช่วงที่เรียก Play() เพลงฉากปกติ
+        // ไปแล้วแต่ยังไม่รู้ว่าเสียงออกจริงตอนไหน
+        //
+        // หลักการ: เมื่อ AudioSource.timeSamples > 0 แปลว่าเสียงเริ่มเดินแล้ว
+        // ตำแหน่งปัจจุบันของเพลง = timeSamples / frequency วินาที
+        // ดังนั้น "เวลา dsp ที่ sample 0 ถูกเล่น" = dspTime ตอนนี้ - ตำแหน่งนั้น
+        // วิธีนี้หัก latency ของการเริ่มเสียงออกให้เองโดยไม่ต้องเดาค่า
+        //
+        private void UpdateStageClockCalibration()
+        {
+            if (!stageClockWaitingForPlayback || isPaused)
+                return;
+
+            if (stageClockSource == null || stageClockSource.clip == null)
+            {
+                stageClockWaitingForPlayback = false;
+                return;
+            }
+
+            double nowDsp = AudioSettings.dspTime;
+
+            if (stageClockSource.isPlaying && stageClockSource.timeSamples > 0)
+            {
+                double playbackPosition =
+                    (double)stageClockSource.timeSamples / stageClockSource.clip.frequency;
+
+                CompleteStageClockCalibration(nowDsp - playbackPosition, "timeSamples");
+                return;
+            }
+
+            // Fallback: รอนานเกินไปแล้วเสียงยังไม่ขยับ - ใช้เวลาตอนเรียก Play() แทน
+            if (nowDsp - stageClockPlayCallDsp >= stageClockCalibrateTimeout)
+            {
+                CompleteStageClockCalibration(stageClockPlayCallDsp, "timeout-fallback");
+            }
+        }
+
+        private void CompleteStageClockCalibration(double originDsp, string method)
+        {
+            stageClockOriginDsp = originDsp;
+            pausedDspTotal = 0.0;
+            stageClockReady = true;
+            stageClockWaitingForPlayback = false;
+
+            if (debugTimingLogs)
+            {
+                float clockNow;
+                TryGetStageClock(out clockNow);
+
+                Debug.Log(
+                    $"[TimingDebug][Music] StageClock พร้อมแล้ว (วิธี: {method}) ที่ " +
+                    $"realtime={Time.realtimeSinceStartup:F3}s, stageClock={clockNow:F3}s " +
+                    $"(ค่านี้คือ latency ระหว่างเรียก Play() กับเสียงออกจริง)"
+                );
             }
         }
 
@@ -271,6 +423,17 @@ namespace AudioSystem
             newSource.volume = 0f;
             newSource.Play();
 
+            // --------------------------------------------------------
+            // FIX 2: เริ่มจับนาฬิกาเพลงตอนเล่น "เพลงฉากปกติ" ครั้งแรกของ Scene
+            // (ครั้งต่อ ๆ ไป เช่น กลับจากเพลงบอส ไม่ Reset นาฬิกา)
+            // --------------------------------------------------------
+            if (clip == normalStageMusic && !stageClockReady && !stageClockWaitingForPlayback)
+            {
+                stageClockWaitingForPlayback = true;
+                stageClockSource = newSource;
+                stageClockPlayCallDsp = AudioSettings.dspTime;
+            }
+
             if (debugTimingLogs)
             {
                 Debug.Log(
@@ -299,6 +462,9 @@ namespace AudioSystem
 
             isPaused = true;
 
+            // Stage Clock: จดเวลาที่เริ่ม Pause เพื่อหักออกตอน Resume
+            pauseStartDsp = AudioSettings.dspTime;
+
             if (sourceA != null && sourceA.isPlaying)
                 sourceA.Pause();
 
@@ -320,6 +486,9 @@ namespace AudioSystem
                 return;
 
             isPaused = false;
+
+            // Stage Clock: บวกช่วงที่ Pause ไปเข้า pausedDspTotal เพื่อให้นาฬิกาเดินต่อจากเดิม
+            pausedDspTotal += AudioSettings.dspTime - pauseStartDsp;
 
             if (sourceA != null)
                 sourceA.UnPause();
@@ -351,6 +520,12 @@ namespace AudioSystem
             isPaused = false;
             autoPausedByTimeScale = false;
             pendingAutoPlayOnLoadFinished = false;
+
+            // Stage Clock: ล้างทั้งหมด - เพลงรอบถัดไปจะเริ่มนาฬิกาใหม่จาก 0
+            stageClockReady = false;
+            stageClockWaitingForPlayback = false;
+            stageClockSource = null;
+            pausedDspTotal = 0.0;
         }
     }
 }

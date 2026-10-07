@@ -455,6 +455,109 @@ MonoBehaviour:
   maxBombs: 5
   maxPower: 5
   powerStageThresholds: 0100000002000000030000000400000005000000
+--- !u!1 &5189697
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5189698}
+  - component: {fileID: 5189700}
+  - component: {fileID: 5189699}
+  m_Layer: 0
+  m_Name: Decor10
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5189698
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5189697}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 500, y: -500, z: 0}
+  m_LocalScale: {x: 12, y: 12, z: 12}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 568458141}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5189699
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5189697}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d04a307becff2134aa0f98d3dca2edf2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseSpeed: 100
+  baseScale: 12
+  maxLifetime: 20
+--- !u!212 &5189700
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5189697}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: -1124493267
+  m_SortingLayer: 1
+  m_SortingOrder: 5
+  m_Sprite: {fileID: 5604101472165828097, guid: 4dc5a301aecefc845bb33481320654c3, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.039215688}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
 --- !u!1 &5826954
 GameObject:
   m_ObjectHideFlags: 0
@@ -1665,6 +1768,37 @@ MonoBehaviour:
           range: 0
           scope: 0
     loopPattern: 1
+--- !u!1 &94495005
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 94495006}
+  m_Layer: 0
+  m_Name: MovePos02
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &94495006
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 94495005}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 500, y: 700, z: 0}
+  m_LocalScale: {x: 20, y: 20, z: 20}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 580986440}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &94843697
 GameObject:
   m_ObjectHideFlags: 0
@@ -1787,7 +1921,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: The Tornado
+  m_text: The Little Kraken
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2cdcc108c44a5004e8bc58886e0c6a29, type: 2}
   m_sharedMaterial: {fileID: -4789741334967106009, guid: 2cdcc108c44a5004e8bc58886e0c6a29, type: 2}
@@ -2153,6 +2287,350 @@ SpriteRenderer:
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 19.2, y: 10.8}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!1 &111439538
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 111439539}
+  - component: {fileID: 111439545}
+  - component: {fileID: 111439544}
+  - component: {fileID: 111439543}
+  - component: {fileID: 111439542}
+  - component: {fileID: 111439541}
+  - component: {fileID: 111439540}
+  m_Layer: 0
+  m_Name: Stage04TheLittleKraken
+  m_TagString: Enemy
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &111439539
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 111439538}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 800, y: 1200, z: 0}
+  m_LocalScale: {x: 24, y: 24, z: 24}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 2106394554}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &111439540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 111439538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffb6c9935750ae64bbb233d80e5f9994, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 111439542}
+  deathTrigger: Death
+  playWithBlink: 1
+  deathAnimDuration: 1.5
+  movingLeftParam: IsMovingLeft
+  movingRightParam: IsMovingRight
+  moveThreshold: 0.001
+--- !u!114 &111439541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 111439538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e07e46517dae0243851c1fc767756ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bossName: Boss
+  entryTargetPoint: {fileID: 1804644030}
+  entryDuration: 1
+  entryEase: 2
+  phases:
+  - phaseName: Kraken - Split Power
+    phaseHealth: 800
+    isSpellCard: 0
+    spellCardName: Kraken - Split Power
+    spellCardTimeLimit: 10
+    transitionTargetPoint: {fileID: 1443606222}
+    transitionDuration: 1
+    transitionEase: 3
+    movementPath:
+    - target: {fileID: 1443606222}
+      duration: 0.4
+      easeType: 3
+      allowShoot: 0
+    - target: {fileID: 1443606222}
+      duration: 2
+      easeType: 0
+      allowShoot: 1
+    - target: {fileID: 94495006}
+      duration: 0.4
+      easeType: 3
+      allowShoot: 0
+    - target: {fileID: 94495006}
+      duration: 2
+      easeType: 0
+      allowShoot: 1
+    - target: {fileID: 966976849}
+      duration: 0.4
+      easeType: 3
+      allowShoot: 0
+    - target: {fileID: 966976849}
+      duration: 2
+      easeType: 0
+      allowShoot: 1
+    - target: {fileID: 125727752}
+      duration: 0.4
+      easeType: 3
+      allowShoot: 0
+    - target: {fileID: 125727752}
+      duration: 2
+      easeType: 0
+      allowShoot: 1
+    loopMovement: 1
+    bulletPattern:
+      pattern: {fileID: 580986441}
+      startDelay: 0
+      loop: 1
+  - phaseName: Kraken - Raining Storm
+    phaseHealth: 1600
+    isSpellCard: 0
+    spellCardName: Kraken - Raining Storm
+    spellCardTimeLimit: 23
+    transitionTargetPoint: {fileID: 329852065}
+    transitionDuration: 1
+    transitionEase: 3
+    movementPath:
+    - target: {fileID: 329852065}
+      duration: 0.4
+      easeType: 0
+      allowShoot: 1
+    - target: {fileID: 1329370696}
+      duration: 0.4
+      easeType: 0
+      allowShoot: 1
+    - target: {fileID: 1301318869}
+      duration: 0.4
+      easeType: 0
+      allowShoot: 1
+    - target: {fileID: 1088203517}
+      duration: 0.4
+      easeType: 0
+      allowShoot: 1
+    - target: {fileID: 198894195}
+      duration: 0.4
+      easeType: 0
+      allowShoot: 1
+    - target: {fileID: 809913613}
+      duration: 0.4
+      easeType: 0
+      allowShoot: 1
+    loopMovement: 1
+    bulletPattern:
+      pattern: {fileID: 239838804}
+      startDelay: 0
+      loop: 1
+  - phaseName: Kraken - Orbital Line
+    phaseHealth: 6000
+    isSpellCard: 1
+    spellCardName: Kraken - Orbital Line
+    spellCardTimeLimit: 59
+    transitionTargetPoint: {fileID: 464133346}
+    transitionDuration: 1
+    transitionEase: 3
+    movementPath:
+    - target: {fileID: 464133346}
+      duration: 1
+      easeType: 0
+      allowShoot: 1
+    loopMovement: 1
+    bulletPattern:
+      pattern: {fileID: 1438326606}
+      startDelay: 0
+      loop: 1
+  - phaseName: Kraken - Spatial Mass
+    phaseHealth: 3200
+    isSpellCard: 1
+    spellCardName: Kraken - Spatial Mass
+    spellCardTimeLimit: 32
+    transitionTargetPoint: {fileID: 718923816}
+    transitionDuration: 1
+    transitionEase: 3
+    movementPath:
+    - target: {fileID: 718923816}
+      duration: 1
+      easeType: 0
+      allowShoot: 1
+    loopMovement: 1
+    bulletPattern:
+      pattern: {fileID: 424959594}
+      startDelay: 0
+      loop: 1
+  phaseTransitionDuration: 1
+  clearBulletsOnPhaseTransition: 1
+  blinkCount: 6
+  blinkInterval: 0.08
+  blinkColor: {r: 1, g: 1, b: 1, a: 1}
+  scoreValueOnDefeat: 240000
+  itemDrop:
+    itemPrefab: {fileID: 1501471569}
+    count: 1
+  bodySprite: {fileID: 111439545}
+  hitCollider: {fileID: 111439543}
+--- !u!95 &111439542
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 111439538}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: dcd966aebfebaa945bf7f1c6cb7e00df, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!58 &111439543
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 111439538}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 4.2
+--- !u!50 &111439544
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 111439538}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!212 &111439545
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 111439538}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: -372255461
+  m_SortingLayer: 2
+  m_SortingOrder: 5
+  m_Sprite: {fileID: 8961046758033588176, guid: 8a74f49ecd0befb4288e51665aa63352, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 5.12, y: 5.12}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -2661,6 +3139,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &125727751
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 125727752}
+  m_Layer: 0
+  m_Name: MovePos04
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &125727752
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 125727751}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1100, y: 700, z: 0}
+  m_LocalScale: {x: 20, y: 20, z: 20}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 580986440}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &126620609
 GameObject:
   m_ObjectHideFlags: 0
@@ -2728,7 +3237,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -142.5, y: -351.5}
+  m_AnchoredPosition: {x: -142.5, y: -351.50003}
   m_SizeDelta: {x: -925, y: -797}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &137425687
@@ -3149,6 +3658,109 @@ Transform:
   m_Children: []
   m_Father: {fileID: 320884203}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &176950128
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 176950129}
+  - component: {fileID: 176950131}
+  - component: {fileID: 176950130}
+  m_Layer: 0
+  m_Name: Decor09
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &176950129
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 176950128}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 400, y: -500, z: 0}
+  m_LocalScale: {x: 12, y: 12, z: 12}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 568458141}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &176950130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 176950128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d04a307becff2134aa0f98d3dca2edf2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseSpeed: 100
+  baseScale: 12
+  maxLifetime: 20
+--- !u!212 &176950131
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 176950128}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: -1124493267
+  m_SortingLayer: 1
+  m_SortingOrder: 5
+  m_Sprite: {fileID: 2300177237333335231, guid: 3151b0ec104985d47b933f356c231577, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.039215688}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
 --- !u!1 &179707002
 GameObject:
   m_ObjectHideFlags: 0
@@ -3779,6 +4391,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 190943123}
   m_CullTransparentMesh: 1
+--- !u!1 &198894194
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 198894195}
+  m_Layer: 0
+  m_Name: MovePos05
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &198894195
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 198894194}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 900, y: 600, z: 0}
+  m_LocalScale: {x: 20, y: 20, z: 20}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 239838803}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &198970556
 GameObject:
   m_ObjectHideFlags: 0
@@ -3809,6 +4452,41 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1901129650}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &201842470
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 201842471}
+  m_Layer: 0
+  m_Name: BCP_Set04_Boss
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &201842471
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 201842470}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 580986440}
+  - {fileID: 239838803}
+  - {fileID: 1438326605}
+  - {fileID: 424959593}
+  m_Father: {fileID: 1438725495}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &204278528
 GameObject:
@@ -4135,6 +4813,223 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &239838802
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 239838803}
+  - component: {fileID: 239838804}
+  m_Layer: 0
+  m_Name: Kraken - RainingStorm
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &239838803
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 239838802}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1419580486}
+  - {fileID: 329852065}
+  - {fileID: 1329370696}
+  - {fileID: 1301318869}
+  - {fileID: 1088203517}
+  - {fileID: 198894195}
+  - {fileID: 809913613}
+  m_Father: {fileID: 201842471}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &239838804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 239838802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a473479aaeb14114a8b29abad600ba3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patternName: Kraken - RainingStorm
+  groups:
+  - groupName: RainingStormSet1
+    initialDelay: 0
+    bursts:
+    - name: Burst 1
+      repeatCount: 6
+      repeatInterval: 0.14
+      delayAfter: 0.8
+      elements:
+      - elementName: LightCircleBullet_Scale60
+        bulletPrefab: {fileID: 475569691}
+        bulletCount: 1
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 0
+          angle: 0
+          spread: 0
+          rotationPerRepeat: 0
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 0
+          speedTimeline: []
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline:
+          - name: Trigger 1
+            time: 2
+            pattern: {fileID: 1419580487}
+            destroySelfAfterFire: 1
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: 0}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            rotateWithSpread: 0
+            varyMode: 0
+            varyAmount: 0
+            varyScope: 0
+            speedMode: 0
+            duration: 0
+            easing: 0
+            endBehavior: 0
+          homing:
+            enabled: 0
+            startDelay: 0
+            duration: 0
+            turnSpeed: 0
+            keepSpread: 0
+          orbit:
+            enabled: 0
+            radius: 0
+            angularSpeed: 0
+            duration: 0
+            radiusBlendTime: 0
+            radiusVary: 0
+            radiusVaryScope: 0
+            startAngleVary: 0
+            startAngleVaryScope: 0
+            releaseMode: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+        telegraph:
+          enabled: 0
+          duration: 0
+          lineWidth: 0
+          color: {r: 0, g: 0, b: 0, a: 0}
+          lineLength: 0
+          sortingOrder: 0
+          showOncePerPattern: 0
+        stream:
+          enabled: 0
+          mode: 0
+          startMode: 0
+          startTransform: {fileID: 0}
+          waypoints: []
+          useCurve: 0
+          streamDuration: 0
+          spawnInterval: 0
+          pathSpeed: 0
+          speedMode: 0
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 0
+          endBehavior: 0
+      bulletPrefab: {fileID: 0}
+      bulletCount: 0
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+        circleDistribution: 0
+      direction:
+        mode: 0
+        angle: 0
+        spread: 0
+        rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
+      motion:
+        overrideInitialSpeed: 0
+        initialSpeed: 0
+        speedTimeline: []
+        directionTimeline: []
+        syncDirectionTimelineToBurst: 0
+        burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: 0}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 0
+          speedMode: 0
+          duration: 0
+          easing: 0
+          endBehavior: 0
+        homing:
+          enabled: 0
+          startDelay: 0
+          duration: 0
+          turnSpeed: 0
+          keepSpread: 0
+        orbit:
+          enabled: 0
+          radius: 0
+          angularSpeed: 0
+          duration: 0
+          radiusBlendTime: 0
+          radiusVary: 0
+          radiusVaryScope: 0
+          startAngleVary: 0
+          startAngleVaryScope: 0
+          releaseMode: 0
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    loopPattern: 1
 --- !u!1 &240298476
 GameObject:
   m_ObjectHideFlags: 0
@@ -5065,6 +5960,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 560884656}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &329852064
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 329852065}
+  m_Layer: 0
+  m_Name: MovePos01
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &329852065
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 329852064}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 500, y: 700, z: 0}
+  m_LocalScale: {x: 20, y: 20, z: 20}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 239838803}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &345684367
 GameObject:
   m_ObjectHideFlags: 0
@@ -5524,7 +6450,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bca1d42a49f2334ea387e5cea2e788a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speakerId: TheStar
+  speakerId: TheLittleKraken
   dialogueText: {fileID: 1404736365}
   boxSprite: {fileID: 0}
   charsPerSecond: 24
@@ -5667,6 +6593,109 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1901129650}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &386298570
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 386298571}
+  - component: {fileID: 386298573}
+  - component: {fileID: 386298572}
+  m_Layer: 0
+  m_Name: Decor11
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &386298571
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 386298570}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 600, y: -500, z: 0}
+  m_LocalScale: {x: 12, y: 12, z: 12}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 568458141}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &386298572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 386298570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d04a307becff2134aa0f98d3dca2edf2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseSpeed: 100
+  baseScale: 12
+  maxLifetime: 20
+--- !u!212 &386298573
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 386298570}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: -1124493267
+  m_SortingLayer: 1
+  m_SortingOrder: 5
+  m_Sprite: {fileID: 1525856785779915491, guid: f1b6d19498bdcbd438f016826211de6f, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.039215688}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
 --- !u!1 &393740433
 GameObject:
   m_ObjectHideFlags: 0
@@ -6275,6 +7304,907 @@ MonoBehaviour:
           range: 0
           scope: 0
     loopPattern: 0
+--- !u!1 &424959592
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 424959593}
+  - component: {fileID: 424959594}
+  m_Layer: 0
+  m_Name: Kraken - Spatial Mass
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &424959593
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 424959592}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 718923816}
+  m_Father: {fileID: 201842471}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &424959594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 424959592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a473479aaeb14114a8b29abad600ba3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patternName: Kraken - Orbital Line
+  groups:
+  - groupName: FishGroup
+    initialDelay: 0
+    bursts:
+    - name: Burst 1
+      repeatCount: 20
+      repeatInterval: 0.075
+      delayAfter: 1.5
+      elements:
+      - elementName: FishBullet_Scale60
+        bulletPrefab: {fileID: 207101258}
+        bulletCount: 7
+        spawn:
+          mode: 2
+          offset: {x: 0, y: 0}
+          circleRadius: 80
+          circleDistribution: 0
+        direction:
+          mode: 5
+          angle: -135
+          spread: 360
+          rotationPerRepeat: 1.1111112
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 800
+          speedTimeline:
+          - targetSpeed: 0
+            duration: 1
+            easing: 0
+          - targetSpeed: 0
+            duration: 1
+            easing: 0
+          - targetSpeed: 160
+            duration: 1
+            easing: 0
+          directionTimeline:
+          - mode: 0
+            relativeAngle: 90
+            duration: 8
+            easing: 0
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: 0}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            rotateWithSpread: 0
+            varyMode: 0
+            varyAmount: 0
+            varyScope: 0
+            speedMode: 0
+            duration: 0
+            easing: 0
+            endBehavior: 0
+          homing:
+            enabled: 0
+            startDelay: 0
+            duration: 0
+            turnSpeed: 0
+            keepSpread: 0
+          orbit:
+            enabled: 0
+            radius: 0
+            angularSpeed: 0
+            duration: 0
+            radiusBlendTime: 0
+            radiusVary: 0
+            radiusVaryScope: 0
+            startAngleVary: 0
+            startAngleVaryScope: 0
+            releaseMode: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+        telegraph:
+          enabled: 0
+          duration: 0
+          lineWidth: 0
+          color: {r: 0, g: 0, b: 0, a: 0}
+          lineLength: 0
+          sortingOrder: 0
+          showOncePerPattern: 0
+        stream:
+          enabled: 0
+          mode: 0
+          startMode: 0
+          startTransform: {fileID: 0}
+          waypoints: []
+          useCurve: 0
+          streamDuration: 0
+          spawnInterval: 0
+          pathSpeed: 0
+          speedMode: 0
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 0
+          endBehavior: 0
+      bulletPrefab: {fileID: 0}
+      bulletCount: 0
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+        circleDistribution: 0
+      direction:
+        mode: 0
+        angle: 0
+        spread: 0
+        rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
+      motion:
+        overrideInitialSpeed: 0
+        initialSpeed: 0
+        speedTimeline: []
+        directionTimeline: []
+        syncDirectionTimelineToBurst: 0
+        burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: 0}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 0
+          speedMode: 0
+          duration: 0
+          easing: 0
+          endBehavior: 0
+        homing:
+          enabled: 0
+          startDelay: 0
+          duration: 0
+          turnSpeed: 0
+          keepSpread: 0
+        orbit:
+          enabled: 0
+          radius: 0
+          angularSpeed: 0
+          duration: 0
+          radiusBlendTime: 0
+          radiusVary: 0
+          radiusVaryScope: 0
+          startAngleVary: 0
+          startAngleVaryScope: 0
+          releaseMode: 0
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    - name: Burst 2
+      repeatCount: 20
+      repeatInterval: 0.075
+      delayAfter: 1.5
+      elements:
+      - elementName: FishBullet_Scale60
+        bulletPrefab: {fileID: 207101258}
+        bulletCount: 7
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 5
+          angle: -45
+          spread: -360
+          rotationPerRepeat: -1.1111112
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 800
+          speedTimeline:
+          - targetSpeed: 0
+            duration: 1
+            easing: 0
+          - targetSpeed: 0
+            duration: 1
+            easing: 0
+          - targetSpeed: 160
+            duration: 1
+            easing: 0
+          directionTimeline:
+          - mode: 0
+            relativeAngle: -90
+            duration: 8
+            easing: 0
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: 0}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            rotateWithSpread: 0
+            varyMode: 0
+            varyAmount: 0
+            varyScope: 0
+            speedMode: 0
+            duration: 0
+            easing: 0
+            endBehavior: 0
+          homing:
+            enabled: 0
+            startDelay: 0
+            duration: 0
+            turnSpeed: 0
+            keepSpread: 0
+          orbit:
+            enabled: 0
+            radius: 0
+            angularSpeed: 0
+            duration: 0
+            radiusBlendTime: 0
+            radiusVary: 0
+            radiusVaryScope: 0
+            startAngleVary: 0
+            startAngleVaryScope: 0
+            releaseMode: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+        telegraph:
+          enabled: 0
+          duration: 0
+          lineWidth: 0
+          color: {r: 0, g: 0, b: 0, a: 0}
+          lineLength: 0
+          sortingOrder: 0
+          showOncePerPattern: 0
+        stream:
+          enabled: 0
+          mode: 0
+          startMode: 0
+          startTransform: {fileID: 0}
+          waypoints: []
+          useCurve: 0
+          streamDuration: 0
+          spawnInterval: 0
+          pathSpeed: 0
+          speedMode: 0
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 0
+          endBehavior: 0
+      bulletPrefab: {fileID: 0}
+      bulletCount: 0
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+        circleDistribution: 0
+      direction:
+        mode: 0
+        angle: 0
+        spread: 0
+        rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
+      motion:
+        overrideInitialSpeed: 0
+        initialSpeed: 0
+        speedTimeline: []
+        directionTimeline: []
+        syncDirectionTimelineToBurst: 0
+        burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: 0}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 0
+          speedMode: 0
+          duration: 0
+          easing: 0
+          endBehavior: 0
+        homing:
+          enabled: 0
+          startDelay: 0
+          duration: 0
+          turnSpeed: 0
+          keepSpread: 0
+        orbit:
+          enabled: 0
+          radius: 0
+          angularSpeed: 0
+          duration: 0
+          radiusBlendTime: 0
+          radiusVary: 0
+          radiusVaryScope: 0
+          startAngleVary: 0
+          startAngleVaryScope: 0
+          releaseMode: 0
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    loopPattern: 1
+  - groupName: 1 3 5
+    initialDelay: 1.7687
+    bursts:
+    - name: Burst 1
+      repeatCount: 3
+      repeatInterval: 0.374
+      delayAfter: 2.2
+      elements:
+      - elementName: BreadBullet_Scale60
+        bulletPrefab: {fileID: 1479434809}
+        bulletCount: 20
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 1
+          angle: -90
+          spread: 360
+          rotationPerRepeat: 0
+          spreadDistribution: 0
+          spreadShape: 2
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 400
+          speedTimeline:
+          - targetSpeed: 0
+            duration: 1
+            easing: 0
+          - targetSpeed: 0
+            duration: 1
+            easing: 0
+          - targetSpeed: 160
+            duration: 1
+            easing: 0
+          directionTimeline:
+          - mode: 0
+            relativeAngle: 180
+            duration: 8
+            easing: 0
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: 0}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            rotateWithSpread: 0
+            varyMode: 0
+            varyAmount: 0
+            varyScope: 0
+            speedMode: 0
+            duration: 0
+            easing: 0
+            endBehavior: 0
+          homing:
+            enabled: 0
+            startDelay: 0
+            duration: 0
+            turnSpeed: 0
+            keepSpread: 0
+          orbit:
+            enabled: 0
+            radius: 0
+            angularSpeed: 0
+            duration: 0
+            radiusBlendTime: 0
+            radiusVary: 0
+            radiusVaryScope: 0
+            startAngleVary: 0
+            startAngleVaryScope: 0
+            releaseMode: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+        telegraph:
+          enabled: 0
+          duration: 0
+          lineWidth: 0
+          color: {r: 0, g: 0, b: 0, a: 0}
+          lineLength: 0
+          sortingOrder: 0
+          showOncePerPattern: 0
+        stream:
+          enabled: 0
+          mode: 0
+          startMode: 0
+          startTransform: {fileID: 0}
+          waypoints: []
+          useCurve: 0
+          streamDuration: 0
+          spawnInterval: 0
+          pathSpeed: 0
+          speedMode: 0
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 0
+          endBehavior: 0
+      bulletPrefab: {fileID: 0}
+      bulletCount: 0
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+        circleDistribution: 0
+      direction:
+        mode: 0
+        angle: 0
+        spread: 0
+        rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
+      motion:
+        overrideInitialSpeed: 0
+        initialSpeed: 0
+        speedTimeline: []
+        directionTimeline: []
+        syncDirectionTimelineToBurst: 0
+        burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: 0}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 0
+          speedMode: 0
+          duration: 0
+          easing: 0
+          endBehavior: 0
+        homing:
+          enabled: 0
+          startDelay: 0
+          duration: 0
+          turnSpeed: 0
+          keepSpread: 0
+        orbit:
+          enabled: 0
+          radius: 0
+          angularSpeed: 0
+          duration: 0
+          radiusBlendTime: 0
+          radiusVary: 0
+          radiusVaryScope: 0
+          startAngleVary: 0
+          startAngleVaryScope: 0
+          releaseMode: 0
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    loopPattern: 1
+  - groupName: 2 4 6
+    initialDelay: 1.7875
+    bursts:
+    - name: Burst 1
+      repeatCount: 3
+      repeatInterval: 0.374
+      delayAfter: 2.2
+      elements:
+      - elementName: BreadBullet_Scale60
+        bulletPrefab: {fileID: 1479434809}
+        bulletCount: 20
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 1
+          angle: -90
+          spread: 360
+          rotationPerRepeat: 0
+          spreadDistribution: 0
+          spreadShape: 2
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 400
+          speedTimeline:
+          - targetSpeed: 0
+            duration: 1
+            easing: 0
+          - targetSpeed: 0
+            duration: 1
+            easing: 0
+          - targetSpeed: 160
+            duration: 1
+            easing: 0
+          directionTimeline:
+          - mode: 0
+            relativeAngle: -180
+            duration: 8
+            easing: 0
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: 0}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            rotateWithSpread: 0
+            varyMode: 0
+            varyAmount: 0
+            varyScope: 0
+            speedMode: 0
+            duration: 0
+            easing: 0
+            endBehavior: 0
+          homing:
+            enabled: 0
+            startDelay: 0
+            duration: 0
+            turnSpeed: 0
+            keepSpread: 0
+          orbit:
+            enabled: 0
+            radius: 0
+            angularSpeed: 0
+            duration: 0
+            radiusBlendTime: 0
+            radiusVary: 0
+            radiusVaryScope: 0
+            startAngleVary: 0
+            startAngleVaryScope: 0
+            releaseMode: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+        telegraph:
+          enabled: 0
+          duration: 0
+          lineWidth: 0
+          color: {r: 0, g: 0, b: 0, a: 0}
+          lineLength: 0
+          sortingOrder: 0
+          showOncePerPattern: 0
+        stream:
+          enabled: 0
+          mode: 0
+          startMode: 0
+          startTransform: {fileID: 0}
+          waypoints: []
+          useCurve: 0
+          streamDuration: 0
+          spawnInterval: 0
+          pathSpeed: 0
+          speedMode: 0
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 0
+          endBehavior: 0
+      bulletPrefab: {fileID: 0}
+      bulletCount: 0
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+        circleDistribution: 0
+      direction:
+        mode: 0
+        angle: 0
+        spread: 0
+        rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
+      motion:
+        overrideInitialSpeed: 0
+        initialSpeed: 0
+        speedTimeline: []
+        directionTimeline: []
+        syncDirectionTimelineToBurst: 0
+        burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: 0}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 0
+          speedMode: 0
+          duration: 0
+          easing: 0
+          endBehavior: 0
+        homing:
+          enabled: 0
+          startDelay: 0
+          duration: 0
+          turnSpeed: 0
+          keepSpread: 0
+        orbit:
+          enabled: 0
+          radius: 0
+          angularSpeed: 0
+          duration: 0
+          radiusBlendTime: 0
+          radiusVary: 0
+          radiusVaryScope: 0
+          startAngleVary: 0
+          startAngleVaryScope: 0
+          releaseMode: 0
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    loopPattern: 1
+  - groupName: CircleSpread
+    initialDelay: 0
+    bursts:
+    - name: Burst 1
+      repeatCount: 150
+      repeatInterval: 0.01
+      delayAfter: 1.5
+      elements:
+      - elementName: CircleBullet05
+        bulletPrefab: {fileID: 1289619177}
+        bulletCount: 1
+        spawn:
+          mode: 2
+          offset: {x: 0, y: 0}
+          circleRadius: 80
+          circleDistribution: 2
+        direction:
+          mode: 5
+          angle: 0
+          spread: 360
+          rotationPerRepeat: 0
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 0
+          speedTimeline:
+          - targetSpeed: 400
+            duration: 1
+            easing: 0
+          - targetSpeed: 160
+            duration: 1
+            easing: 0
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: 0}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            rotateWithSpread: 0
+            varyMode: 0
+            varyAmount: 0
+            varyScope: 0
+            speedMode: 0
+            duration: 0
+            easing: 0
+            endBehavior: 0
+          homing:
+            enabled: 0
+            startDelay: 0
+            duration: 0
+            turnSpeed: 0
+            keepSpread: 0
+          orbit:
+            enabled: 0
+            radius: 0
+            angularSpeed: 0
+            duration: 0
+            radiusBlendTime: 0
+            radiusVary: 0
+            radiusVaryScope: 0
+            startAngleVary: 0
+            startAngleVaryScope: 0
+            releaseMode: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+        telegraph:
+          enabled: 0
+          duration: 0
+          lineWidth: 0
+          color: {r: 0, g: 0, b: 0, a: 0}
+          lineLength: 0
+          sortingOrder: 0
+          showOncePerPattern: 0
+        stream:
+          enabled: 0
+          mode: 0
+          startMode: 0
+          startTransform: {fileID: 0}
+          waypoints: []
+          useCurve: 0
+          streamDuration: 0
+          spawnInterval: 0
+          pathSpeed: 0
+          speedMode: 0
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 0
+          endBehavior: 0
+      bulletPrefab: {fileID: 0}
+      bulletCount: 0
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+        circleDistribution: 0
+      direction:
+        mode: 0
+        angle: 0
+        spread: 0
+        rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
+      motion:
+        overrideInitialSpeed: 0
+        initialSpeed: 0
+        speedTimeline: []
+        directionTimeline: []
+        syncDirectionTimelineToBurst: 0
+        burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: 0}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 0
+          speedMode: 0
+          duration: 0
+          easing: 0
+          endBehavior: 0
+        homing:
+          enabled: 0
+          startDelay: 0
+          duration: 0
+          turnSpeed: 0
+          keepSpread: 0
+        orbit:
+          enabled: 0
+          radius: 0
+          angularSpeed: 0
+          duration: 0
+          radiusBlendTime: 0
+          radiusVary: 0
+          radiusVaryScope: 0
+          startAngleVary: 0
+          startAngleVaryScope: 0
+          releaseMode: 0
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    loopPattern: 1
 --- !u!1 &437782792
 GameObject:
   m_ObjectHideFlags: 0
@@ -6602,7 +8532,89 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cc977de85d3a9f4a9874af42ab73c88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sequences: []
+  sequences:
+  - sequenceName: Little Kraken
+    startTime: 87
+    lines:
+    - speaker: 1
+      speakerName: TheLittleKraken
+      text: 'Your powers are overflowing.
+
+        I''m concerned that will be harmful
+        for us.'
+      showLeftPortrait: 0
+      showRightPortrait: 1
+      portraitSprite: {fileID: 8961046758033588176, guid: 8a74f49ecd0befb4288e51665aa63352, type: 3}
+      useAnimatorPortrait: 0
+      animatorTriggerName: 
+      typeSfxOverride: {fileID: 0}
+    - speaker: 0
+      speakerName: Lukari
+      text: 'No, I don''t mean to do that.
+
+        I just want to go back to where
+        I left...'
+      showLeftPortrait: 1
+      showRightPortrait: 0
+      portraitSprite: {fileID: 7497447210740581395, guid: 7a0b5885d12f85f499d4c7b75de0fdc3, type: 3}
+      useAnimatorPortrait: 0
+      animatorTriggerName: 
+      typeSfxOverride: {fileID: 0}
+    - speaker: 1
+      speakerName: TheLittleKraken
+      text: 'I don''t believe that word.
+
+        At lease look at your current power
+        level.'
+      showLeftPortrait: 0
+      showRightPortrait: 1
+      portraitSprite: {fileID: 8961046758033588176, guid: 8a74f49ecd0befb4288e51665aa63352, type: 3}
+      useAnimatorPortrait: 0
+      animatorTriggerName: 
+      typeSfxOverride: {fileID: 0}
+    - speaker: 1
+      speakerName: TheLittleKraken
+      text: Are you sure that your power won't cause any problem to those innocents?
+      showLeftPortrait: 0
+      showRightPortrait: 1
+      portraitSprite: {fileID: 8961046758033588176, guid: 8a74f49ecd0befb4288e51665aa63352, type: 3}
+      useAnimatorPortrait: 0
+      animatorTriggerName: 
+      typeSfxOverride: {fileID: 0}
+    - speaker: 0
+      speakerName: Lukari
+      text: '...
+
+        Someone I know told me that my power can be control.'
+      showLeftPortrait: 1
+      showRightPortrait: 0
+      portraitSprite: {fileID: 7497447210740581395, guid: 7a0b5885d12f85f499d4c7b75de0fdc3, type: 3}
+      useAnimatorPortrait: 0
+      animatorTriggerName: 
+      typeSfxOverride: {fileID: 0}
+    - speaker: 0
+      speakerName: Lukari
+      text: At lease I have to go there.
+      showLeftPortrait: 1
+      showRightPortrait: 0
+      portraitSprite: {fileID: 7497447210740581395, guid: 7a0b5885d12f85f499d4c7b75de0fdc3, type: 3}
+      useAnimatorPortrait: 0
+      animatorTriggerName: 
+      typeSfxOverride: {fileID: 0}
+    - speaker: 1
+      speakerName: TheLittleKraken
+      text: 'No. I am not allowed.
+
+        You threatened the world of sea.
+
+        It
+        is my duty to protect the sea.'
+      showLeftPortrait: 0
+      showRightPortrait: 1
+      portraitSprite: {fileID: 8961046758033588176, guid: 8a74f49ecd0befb4288e51665aa63352, type: 3}
+      useAnimatorPortrait: 0
+      animatorTriggerName: 
+      typeSfxOverride: {fileID: 0}
   dialoguePanelRoot: {fileID: 1323036813}
   dialoguePanelCanvasGroup: {fileID: 1323036815}
   nameText: {fileID: 828248154}
@@ -6642,6 +8654,37 @@ Transform:
   - {fileID: 914488012}
   - {fileID: 1323036814}
   m_Father: {fileID: 1495925527}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &464133345
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 464133346}
+  m_Layer: 0
+  m_Name: MovePos01
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &464133346
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 464133345}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 800, y: 600, z: 0}
+  m_LocalScale: {x: 20, y: 20, z: 20}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1438326605}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &468944774
 GameObject:
@@ -7146,7 +9189,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bca1d42a49f2334ea387e5cea2e788a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speakerId: Player
+  speakerId: Lukari
   dialogueText: {fileID: 1946905154}
   boxSprite: {fileID: 0}
   charsPerSecond: 24
@@ -9342,6 +11385,10 @@ Transform:
   - {fileID: 2027533814}
   - {fileID: 531097799}
   - {fileID: 1164852440}
+  - {fileID: 176950129}
+  - {fileID: 5189698}
+  - {fileID: 386298571}
+  - {fileID: 678875305}
   m_Father: {fileID: 1410550133}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &573278968
@@ -9533,6 +11580,495 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &580986439
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 580986440}
+  - component: {fileID: 580986441}
+  m_Layer: 0
+  m_Name: Kraken - SplitPower
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &580986440
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 580986439}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1443606222}
+  - {fileID: 94495006}
+  - {fileID: 966976849}
+  - {fileID: 125727752}
+  m_Father: {fileID: 201842471}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &580986441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 580986439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a473479aaeb14114a8b29abad600ba3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patternName: Kraken - SplitPower
+  groups:
+  - groupName: SplitPowerSet1
+    initialDelay: 0
+    bursts:
+    - name: LotofDrops
+      repeatCount: 300
+      repeatInterval: 0.1
+      delayAfter: 0.05
+      elements:
+      - elementName: WaterDropBullet_Scale40
+        bulletPrefab: {fileID: 179707002}
+        bulletCount: 1
+        spawn:
+          mode: 2
+          offset: {x: 0, y: 0}
+          circleRadius: 40
+          circleDistribution: 1
+        direction:
+          mode: 5
+          angle: 90
+          spread: 360
+          rotationPerRepeat: 5
+          spreadDistribution: 0
+          spreadShape: 3
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 600
+          speedTimeline:
+          - targetSpeed: 160
+            duration: 1.2
+            easing: 1
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            rotateWithSpread: 0
+            varyMode: 0
+            varyAmount: 0
+            varyScope: 2
+            speedMode: 0
+            duration: 1
+            easing: 0
+            endBehavior: 0
+          homing:
+            enabled: 1
+            startDelay: 0
+            duration: 0.8
+            turnSpeed: 80
+            keepSpread: 0.6
+          orbit:
+            enabled: 0
+            radius: 1.5
+            angularSpeed: 180
+            duration: 2
+            radiusBlendTime: 0.25
+            radiusVary: 0
+            radiusVaryScope: 2
+            startAngleVary: 0
+            startAngleVaryScope: 2
+            releaseMode: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+        telegraph:
+          enabled: 0
+          duration: 0.6
+          lineWidth: 0.08
+          color: {r: 1, g: 0.1, b: 0.1, a: 0.8}
+          lineLength: 12
+          sortingOrder: 100
+          showOncePerPattern: 0
+        stream:
+          enabled: 0
+          mode: 0
+          startMode: 1
+          startTransform: {fileID: 0}
+          waypoints: []
+          useCurve: 0
+          streamDuration: 2
+          spawnInterval: 0.05
+          pathSpeed: 8
+          speedMode: 0
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          endBehavior: 0
+      - elementName: FishBullet_Scale60
+        bulletPrefab: {fileID: 207101258}
+        bulletCount: 1
+        spawn:
+          mode: 2
+          offset: {x: 0, y: 0}
+          circleRadius: 40
+          circleDistribution: 1
+        direction:
+          mode: 5
+          angle: 90
+          spread: 360
+          rotationPerRepeat: 5
+          spreadDistribution: 0
+          spreadShape: 3
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 480
+          speedTimeline:
+          - targetSpeed: 160
+            duration: 1.2
+            easing: 1
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            rotateWithSpread: 0
+            varyMode: 0
+            varyAmount: 0
+            varyScope: 2
+            speedMode: 0
+            duration: 1
+            easing: 0
+            endBehavior: 0
+          homing:
+            enabled: 1
+            startDelay: 0
+            duration: 0.8
+            turnSpeed: 80
+            keepSpread: 0.6
+          orbit:
+            enabled: 0
+            radius: 1.5
+            angularSpeed: 180
+            duration: 2
+            radiusBlendTime: 0.25
+            radiusVary: 0
+            radiusVaryScope: 2
+            startAngleVary: 0
+            startAngleVaryScope: 2
+            releaseMode: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+        telegraph:
+          enabled: 0
+          duration: 0.6
+          lineWidth: 0.08
+          color: {r: 1, g: 0.1, b: 0.1, a: 0.8}
+          lineLength: 12
+          sortingOrder: 100
+          showOncePerPattern: 0
+        stream:
+          enabled: 0
+          mode: 0
+          startMode: 1
+          startTransform: {fileID: 0}
+          waypoints: []
+          useCurve: 0
+          streamDuration: 2
+          spawnInterval: 0.05
+          pathSpeed: 8
+          speedMode: 0
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          endBehavior: 0
+      - elementName: BreadBullet_Scale60
+        bulletPrefab: {fileID: 1479434809}
+        bulletCount: 1
+        spawn:
+          mode: 2
+          offset: {x: 0, y: 0}
+          circleRadius: 40
+          circleDistribution: 1
+        direction:
+          mode: 5
+          angle: 90
+          spread: 360
+          rotationPerRepeat: 5
+          spreadDistribution: 0
+          spreadShape: 3
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 500
+          speedTimeline:
+          - targetSpeed: 160
+            duration: 1.2
+            easing: 1
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            rotateWithSpread: 0
+            varyMode: 0
+            varyAmount: 0
+            varyScope: 2
+            speedMode: 0
+            duration: 1
+            easing: 0
+            endBehavior: 0
+          homing:
+            enabled: 1
+            startDelay: 0
+            duration: 0.8
+            turnSpeed: 80
+            keepSpread: 0.6
+          orbit:
+            enabled: 0
+            radius: 1.5
+            angularSpeed: 180
+            duration: 2
+            radiusBlendTime: 0.25
+            radiusVary: 0
+            radiusVaryScope: 2
+            startAngleVary: 0
+            startAngleVaryScope: 2
+            releaseMode: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+        telegraph:
+          enabled: 0
+          duration: 0.6
+          lineWidth: 0.08
+          color: {r: 1, g: 0.1, b: 0.1, a: 0.8}
+          lineLength: 12
+          sortingOrder: 100
+          showOncePerPattern: 0
+        stream:
+          enabled: 0
+          mode: 0
+          startMode: 1
+          startTransform: {fileID: 0}
+          waypoints: []
+          useCurve: 0
+          streamDuration: 2
+          spawnInterval: 0.05
+          pathSpeed: 8
+          speedMode: 0
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          endBehavior: 0
+      - elementName: CircleBullet45
+        bulletPrefab: {fileID: 1289619177}
+        bulletCount: 1
+        spawn:
+          mode: 2
+          offset: {x: 0, y: 0}
+          circleRadius: 40
+          circleDistribution: 1
+        direction:
+          mode: 5
+          angle: 90
+          spread: 360
+          rotationPerRepeat: 5
+          spreadDistribution: 0
+          spreadShape: 3
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 400
+          speedTimeline:
+          - targetSpeed: 160
+            duration: 1.2
+            easing: 1
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: -5}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            rotateWithSpread: 0
+            varyMode: 0
+            varyAmount: 0
+            varyScope: 2
+            speedMode: 0
+            duration: 1
+            easing: 0
+            endBehavior: 0
+          homing:
+            enabled: 1
+            startDelay: 0
+            duration: 0.8
+            turnSpeed: 80
+            keepSpread: 0.6
+          orbit:
+            enabled: 0
+            radius: 1.5
+            angularSpeed: 180
+            duration: 2
+            radiusBlendTime: 0.25
+            radiusVary: 0
+            radiusVaryScope: 2
+            startAngleVary: 0
+            startAngleVaryScope: 2
+            releaseMode: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+        telegraph:
+          enabled: 0
+          duration: 0.6
+          lineWidth: 0.08
+          color: {r: 1, g: 0.1, b: 0.1, a: 0.8}
+          lineLength: 12
+          sortingOrder: 100
+          showOncePerPattern: 0
+        stream:
+          enabled: 0
+          mode: 0
+          startMode: 1
+          startTransform: {fileID: 0}
+          waypoints: []
+          useCurve: 0
+          streamDuration: 2
+          spawnInterval: 0.05
+          pathSpeed: 8
+          speedMode: 0
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          endBehavior: 0
+      bulletPrefab: {fileID: 0}
+      bulletCount: 6
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+        circleDistribution: 0
+      direction:
+        mode: 6
+        angle: 90
+        spread: 360
+        rotationPerRepeat: 5
+        spreadDistribution: 0
+        spreadShape: 0
+      motion:
+        overrideInitialSpeed: 1
+        initialSpeed: 100
+        speedTimeline:
+        - targetSpeed: 600
+          duration: 3
+          easing: 0
+        directionTimeline: []
+        syncDirectionTimelineToBurst: 0
+        burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: -5}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 2
+          speedMode: 0
+          duration: 1
+          easing: 0
+          endBehavior: 0
+        homing:
+          enabled: 0
+          startDelay: 0
+          duration: 2
+          turnSpeed: 90
+          keepSpread: 0
+        orbit:
+          enabled: 0
+          radius: 1.5
+          angularSpeed: 180
+          duration: 2
+          radiusBlendTime: 0.25
+          radiusVary: 0
+          radiusVaryScope: 2
+          startAngleVary: 0
+          startAngleVaryScope: 2
+          releaseMode: 0
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    loopPattern: 1
 --- !u!1 &582066410
 GameObject:
   m_ObjectHideFlags: 0
@@ -10515,7 +13051,7 @@ GameObject:
   - component: {fileID: 677725625}
   - component: {fileID: 677725624}
   m_Layer: 0
-  m_Name: BreadBullet_Scale100
+  m_Name: BreadBullet_Scale80
   m_TagString: EnemyBullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10556,7 +13092,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 0.2
+  m_Radius: 0.16
 --- !u!114 &677725625
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10670,11 +13206,114 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -600, y: -700, z: 0}
-  m_LocalScale: {x: 100, y: 100, z: 100}
+  m_LocalScale: {x: 80, y: 80, z: 80}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 244496780}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &678875304
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 678875305}
+  - component: {fileID: 678875307}
+  - component: {fileID: 678875306}
+  m_Layer: 0
+  m_Name: Decor12
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &678875305
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 678875304}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 700, y: -500, z: 0}
+  m_LocalScale: {x: 12, y: 12, z: 12}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 568458141}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &678875306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 678875304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d04a307becff2134aa0f98d3dca2edf2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseSpeed: 100
+  baseScale: 12
+  maxLifetime: 20
+--- !u!212 &678875307
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 678875304}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: -1124493267
+  m_SortingLayer: 1
+  m_SortingOrder: 5
+  m_Sprite: {fileID: -5177919405150317040, guid: eab77060e7a257f47850bff9fa52695e, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.039215688}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
 --- !u!1 &680349709
 GameObject:
   m_ObjectHideFlags: 0
@@ -11441,6 +14080,37 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1611351916}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &718923815
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 718923816}
+  m_Layer: 0
+  m_Name: MovePos01
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &718923816
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 718923815}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 800, y: 900, z: 0}
+  m_LocalScale: {x: 20, y: 20, z: 20}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 424959593}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &719311047
 GameObject:
@@ -12285,6 +14955,37 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!1 &809913612
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 809913613}
+  m_Layer: 0
+  m_Name: MovePos06
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &809913613
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 809913612}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 700, y: 600, z: 0}
+  m_LocalScale: {x: 20, y: 20, z: 20}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 239838803}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &814944323
 GameObject:
   m_ObjectHideFlags: 0
@@ -13763,6 +16464,229 @@ Transform:
   m_Children: []
   m_Father: {fileID: 560884656}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &906487651
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 906487652}
+  - component: {fileID: 906487653}
+  m_Layer: 0
+  m_Name: FishSplitterx4
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &906487652
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 906487651}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2142780252}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &906487653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 906487651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a473479aaeb14114a8b29abad600ba3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patternName: Kraken - RainingStorm
+  groups:
+  - groupName: FishSplitter
+    initialDelay: 0
+    bursts:
+    - name: FishDrop
+      repeatCount: 2
+      repeatInterval: 0.1
+      delayAfter: 1.6
+      elements:
+      - elementName: FishGoesDown_60
+        bulletPrefab: {fileID: 260285518}
+        bulletCount: 1
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 5
+          angle: -90
+          spread: 90
+          rotationPerRepeat: 6
+          spreadDistribution: 1
+          spreadShape: 1
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 160
+          speedTimeline:
+          - targetSpeed: 0
+            duration: 0.8
+            easing: 0
+          - targetSpeed: 0
+            duration: 0.8
+            easing: 0
+          - targetSpeed: 800
+            duration: 1
+            easing: 3
+          directionTimeline:
+          - mode: 0
+            relativeAngle: 0
+            duration: 1.6
+            easing: 0
+          - mode: 1
+            relativeAngle: 45
+            duration: 0.01
+            easing: 0
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: 0}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            rotateWithSpread: 0
+            varyMode: 0
+            varyAmount: 0
+            varyScope: 0
+            speedMode: 0
+            duration: 0
+            easing: 0
+            endBehavior: 0
+          homing:
+            enabled: 0
+            startDelay: 1
+            duration: 0.8
+            turnSpeed: 80
+            keepSpread: 0.8
+          orbit:
+            enabled: 0
+            radius: 0
+            angularSpeed: 0
+            duration: 0
+            radiusBlendTime: 0
+            radiusVary: 0
+            radiusVaryScope: 0
+            startAngleVary: 0
+            startAngleVaryScope: 0
+            releaseMode: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+        telegraph:
+          enabled: 0
+          duration: 0
+          lineWidth: 0
+          color: {r: 0, g: 0, b: 0, a: 0}
+          lineLength: 0
+          sortingOrder: 0
+          showOncePerPattern: 0
+        stream:
+          enabled: 0
+          mode: 0
+          startMode: 0
+          startTransform: {fileID: 0}
+          waypoints: []
+          useCurve: 0
+          streamDuration: 0
+          spawnInterval: 0
+          pathSpeed: 0
+          speedMode: 0
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 0
+          endBehavior: 0
+      bulletPrefab: {fileID: 0}
+      bulletCount: 0
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+        circleDistribution: 0
+      direction:
+        mode: 0
+        angle: 0
+        spread: 0
+        rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
+      motion:
+        overrideInitialSpeed: 0
+        initialSpeed: 0
+        speedTimeline: []
+        directionTimeline: []
+        syncDirectionTimelineToBurst: 0
+        burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: 0}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 0
+          speedMode: 0
+          duration: 0
+          easing: 0
+          endBehavior: 0
+        homing:
+          enabled: 0
+          startDelay: 0
+          duration: 0
+          turnSpeed: 0
+          keepSpread: 0
+        orbit:
+          enabled: 0
+          radius: 0
+          angularSpeed: 0
+          duration: 0
+          radiusBlendTime: 0
+          radiusVary: 0
+          radiusVaryScope: 0
+          startAngleVary: 0
+          startAngleVaryScope: 0
+          releaseMode: 0
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    loopPattern: 0
 --- !u!1 &907057764
 GameObject:
   m_ObjectHideFlags: 0
@@ -14059,424 +16983,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &938652483
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 938652484}
-  - component: {fileID: 938652490}
-  - component: {fileID: 938652489}
-  - component: {fileID: 938652488}
-  - component: {fileID: 938652487}
-  - component: {fileID: 938652486}
-  - component: {fileID: 938652485}
-  m_Layer: 0
-  m_Name: Stage03TheTornado
-  m_TagString: Enemy
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &938652484
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 938652483}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 800, y: 1200, z: 0}
-  m_LocalScale: {x: 32, y: 32, z: 32}
-  m_ConstrainProportionsScale: 1
-  m_Children: []
-  m_Father: {fileID: 2106394554}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &938652485
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 938652483}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ffb6c9935750ae64bbb233d80e5f9994, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 938652487}
-  deathTrigger: Death
-  playWithBlink: 1
-  deathAnimDuration: 1.5
-  movingLeftParam: IsMovingLeft
-  movingRightParam: IsMovingRight
-  moveThreshold: 0.001
---- !u!114 &938652486
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 938652483}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e07e46517dae0243851c1fc767756ad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bossName: Boss
-  entryTargetPoint: {fileID: 938652484}
-  entryDuration: 2
-  entryEase: 2
-  phases:
-  - phaseName: Tornado - Whirlwind
-    phaseHealth: 900
-    isSpellCard: 0
-    spellCardName: Tornado - Whirlwind Bulet
-    spellCardTimeLimit: 14
-    transitionTargetPoint: {fileID: 0}
-    transitionDuration: 1
-    transitionEase: 3
-    movementPath:
-    - target: {fileID: 0}
-      duration: 2
-      easeType: 0
-      allowShoot: 1
-    - target: {fileID: 0}
-      duration: 2
-      easeType: 0
-      allowShoot: 1
-    - target: {fileID: 0}
-      duration: 2
-      easeType: 0
-      allowShoot: 1
-    - target: {fileID: 0}
-      duration: 2
-      easeType: 0
-      allowShoot: 1
-    loopMovement: 1
-    bulletPattern:
-      pattern: {fileID: 0}
-      startDelay: 0
-      loop: 1
-  - phaseName: Tornado - Tornado Dance
-    phaseHealth: 2000
-    isSpellCard: 1
-    spellCardName: Tornado - Tornado Dance
-    spellCardTimeLimit: 32
-    transitionTargetPoint: {fileID: 0}
-    transitionDuration: 1
-    transitionEase: 3
-    movementPath:
-    - target: {fileID: 0}
-      duration: 0.5
-      easeType: 3
-      allowShoot: 1
-    - target: {fileID: 0}
-      duration: 0.5
-      easeType: 3
-      allowShoot: 1
-    - target: {fileID: 0}
-      duration: 0.5
-      easeType: 3
-      allowShoot: 1
-    - target: {fileID: 0}
-      duration: 0.5
-      easeType: 3
-      allowShoot: 1
-    - target: {fileID: 0}
-      duration: 0.5
-      easeType: 3
-      allowShoot: 1
-    - target: {fileID: 0}
-      duration: 0.5
-      easeType: 3
-      allowShoot: 1
-    - target: {fileID: 0}
-      duration: 0.5
-      easeType: 3
-      allowShoot: 1
-    - target: {fileID: 0}
-      duration: 0.5
-      easeType: 3
-      allowShoot: 1
-    - target: {fileID: 0}
-      duration: 0.5
-      easeType: 3
-      allowShoot: 1
-    - target: {fileID: 0}
-      duration: 0.5
-      easeType: 3
-      allowShoot: 1
-    - target: {fileID: 0}
-      duration: 0.5
-      easeType: 3
-      allowShoot: 1
-    - target: {fileID: 0}
-      duration: 0.5
-      easeType: 3
-      allowShoot: 1
-    - target: {fileID: 0}
-      duration: 0.5
-      easeType: 3
-      allowShoot: 1
-    - target: {fileID: 0}
-      duration: 0.5
-      easeType: 3
-      allowShoot: 1
-    loopMovement: 1
-    bulletPattern:
-      pattern: {fileID: 0}
-      startDelay: 0
-      loop: 1
-  - phaseName: Tornado - Wind Splitter
-    phaseHealth: 2000
-    isSpellCard: 0
-    spellCardName: Tornado - Wind Splitter
-    spellCardTimeLimit: 30
-    transitionTargetPoint: {fileID: 0}
-    transitionDuration: 1
-    transitionEase: 3
-    movementPath:
-    - target: {fileID: 0}
-      duration: 0.4
-      easeType: 0
-      allowShoot: 1
-    - target: {fileID: 0}
-      duration: 1.6
-      easeType: 0
-      allowShoot: 1
-    - target: {fileID: 0}
-      duration: 0.4
-      easeType: 0
-      allowShoot: 1
-    - target: {fileID: 0}
-      duration: 1.6
-      easeType: 0
-      allowShoot: 1
-    - target: {fileID: 0}
-      duration: 0.4
-      easeType: 0
-      allowShoot: 1
-    - target: {fileID: 0}
-      duration: 1.6
-      easeType: 0
-      allowShoot: 1
-    - target: {fileID: 0}
-      duration: 0.4
-      easeType: 0
-      allowShoot: 1
-    - target: {fileID: 0}
-      duration: 1.6
-      easeType: 0
-      allowShoot: 1
-    loopMovement: 1
-    bulletPattern:
-      pattern: {fileID: 0}
-      startDelay: 1
-      loop: 1
-  - phaseName: Tornado - Windy From The Center
-    phaseHealth: 1000
-    isSpellCard: 1
-    spellCardName: Tornado - Windy From The Center
-    spellCardTimeLimit: 15
-    transitionTargetPoint: {fileID: 0}
-    transitionDuration: 1
-    transitionEase: 3
-    movementPath:
-    - target: {fileID: 0}
-      duration: 1
-      easeType: 0
-      allowShoot: 1
-    loopMovement: 0
-    bulletPattern:
-      pattern: {fileID: 0}
-      startDelay: 1
-      loop: 1
-  - phaseName: Tornado - Random Tornado Objects
-    phaseHealth: 4000
-    isSpellCard: 1
-    spellCardName: Tornado - Random Tornado Objects
-    spellCardTimeLimit: 60
-    transitionTargetPoint: {fileID: 0}
-    transitionDuration: 1
-    transitionEase: 3
-    movementPath:
-    - target: {fileID: 0}
-      duration: 1
-      easeType: 0
-      allowShoot: 1
-    - target: {fileID: 0}
-      duration: 1
-      easeType: 0
-      allowShoot: 1
-    - target: {fileID: 0}
-      duration: 1
-      easeType: 0
-      allowShoot: 1
-    - target: {fileID: 0}
-      duration: 1
-      easeType: 0
-      allowShoot: 1
-    loopMovement: 1
-    bulletPattern:
-      pattern: {fileID: 0}
-      startDelay: 0
-      loop: 1
-  phaseTransitionDuration: 1
-  clearBulletsOnPhaseTransition: 1
-  blinkCount: 6
-  blinkInterval: 0.08
-  blinkColor: {r: 1, g: 1, b: 1, a: 1}
-  scoreValueOnDefeat: 60000
-  itemDrop:
-    itemPrefab: {fileID: 0}
-    count: 1
-  bodySprite: {fileID: 938652490}
-  hitCollider: {fileID: 938652488}
---- !u!95 &938652487
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 938652483}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: ee99226a33a530e49bc0d6741b915c5a, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
---- !u!58 &938652488
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 938652483}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Radius: 4.2
---- !u!50 &938652489
-Rigidbody2D:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 938652483}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
---- !u!212 &938652490
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 938652483}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -372255461
-  m_SortingLayer: 2
-  m_SortingOrder: 5
-  m_Sprite: {fileID: 2105541467464965510, guid: 5ea6037f9129bc94ea82294636dae894, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 5.12, y: 5.12}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
 --- !u!1 &945612240
 GameObject:
   m_ObjectHideFlags: 0
@@ -14538,6 +17044,37 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 645237195}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &966976848
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 966976849}
+  m_Layer: 0
+  m_Name: MovePos03
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &966976849
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 966976848}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 800, y: 800, z: 0}
+  m_LocalScale: {x: 20, y: 20, z: 20}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 580986440}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &971139530
 GameObject:
@@ -16728,6 +19265,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1080164414}
   m_CullTransparentMesh: 1
+--- !u!1 &1088203516
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1088203517}
+  m_Layer: 0
+  m_Name: MovePos04
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1088203517
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1088203516}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1100, y: 700, z: 0}
+  m_LocalScale: {x: 20, y: 20, z: 20}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 239838803}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1096192474
 GameObject:
   m_ObjectHideFlags: 0
@@ -19587,7 +22155,7 @@ SpriteRenderer:
   m_SortingLayer: 2
   m_SortingOrder: 1
   m_Sprite: {fileID: -5283552944110282159, guid: a652115579a73094d89baf9e7e085eeb, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.7514937, g: 1, b: 0.48584908, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -20444,7 +23012,7 @@ MonoBehaviour:
   baseMaxSpeed: 50
   deathAnimator: {fileID: 0}
   deathTrigger: Death
-  spawnSfx: {fileID: 1739166237}
+  spawnSfx: {fileID: 0}
   rotateToFaceDirection: 1
   spriteAngleOffset: -90
 --- !u!58 &1289619180
@@ -20565,6 +23133,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1301318868
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1301318869}
+  m_Layer: 0
+  m_Name: MovePos03
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1301318869
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1301318868}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 900, y: 800, z: 0}
+  m_LocalScale: {x: 20, y: 20, z: 20}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 239838803}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1304703166
 GameObject:
   m_ObjectHideFlags: 0
@@ -21159,6 +23758,37 @@ Canvas:
   m_SortingLayerID: -1086789499
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!1 &1329370695
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1329370696}
+  m_Layer: 0
+  m_Name: MovePos02
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1329370696
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1329370695}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 700, y: 800, z: 0}
+  m_LocalScale: {x: 20, y: 20, z: 20}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 239838803}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1331920486
 GameObject:
   m_ObjectHideFlags: 0
@@ -22584,7 +25214,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: The Tornado
+  m_text: The Little Kraken
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9112756dd87f5d4488b1865fa459132b, type: 2}
   m_sharedMaterial: {fileID: 3936757230910573163, guid: 9112756dd87f5d4488b1865fa459132b, type: 2}
@@ -22593,8 +25223,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4291809231
-  m_fontColor: {r: 0.8113208, g: 0.8113208, b: 0.8113208, a: 1}
+    rgba: 4286365439
+  m_fontColor: {r: 1, g: 0.74596447, b: 0.48584908, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -23020,6 +25650,10 @@ MonoBehaviour:
     - {fileID: 2027533813}
     - {fileID: 531097798}
     - {fileID: 1164852439}
+    - {fileID: 176950128}
+    - {fileID: 5189697}
+    - {fileID: 386298570}
+    - {fileID: 678875304}
     spawnInterval:
       min: 0.15
       max: 0.3
@@ -23314,6 +25948,223 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1419580485
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1419580486}
+  - component: {fileID: 1419580487}
+  m_Layer: 0
+  m_Name: FishSplit
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1419580486
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1419580485}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2142780252}
+  m_Father: {fileID: 239838803}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1419580487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1419580485}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a473479aaeb14114a8b29abad600ba3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patternName: Kraken - RainingStorm
+  groups:
+  - groupName: RainingStormSet1
+    initialDelay: 0
+    bursts:
+    - name: FishDrop
+      repeatCount: 1
+      repeatInterval: 0.1
+      delayAfter: 0.1
+      elements:
+      - elementName: FishGoesUp
+        bulletPrefab: {fileID: 573278968}
+        bulletCount: 3
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 1
+          angle: 90
+          spread: 60
+          rotationPerRepeat: 0
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 400
+          speedTimeline:
+          - targetSpeed: 80
+            duration: 1
+            easing: 0
+          - targetSpeed: 160
+            duration: 0.8
+            easing: 0
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline:
+          - name: Trigger 1
+            time: 2
+            pattern: {fileID: 2142780253}
+            destroySelfAfterFire: 1
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: 0}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            rotateWithSpread: 0
+            varyMode: 0
+            varyAmount: 0
+            varyScope: 0
+            speedMode: 0
+            duration: 0
+            easing: 0
+            endBehavior: 0
+          homing:
+            enabled: 1
+            startDelay: 1
+            duration: 0.8
+            turnSpeed: 240
+            keepSpread: 0.8
+          orbit:
+            enabled: 0
+            radius: 0
+            angularSpeed: 0
+            duration: 0
+            radiusBlendTime: 0
+            radiusVary: 0
+            radiusVaryScope: 0
+            startAngleVary: 0
+            startAngleVaryScope: 0
+            releaseMode: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+        telegraph:
+          enabled: 0
+          duration: 0
+          lineWidth: 0
+          color: {r: 0, g: 0, b: 0, a: 0}
+          lineLength: 0
+          sortingOrder: 0
+          showOncePerPattern: 0
+        stream:
+          enabled: 0
+          mode: 0
+          startMode: 0
+          startTransform: {fileID: 0}
+          waypoints: []
+          useCurve: 0
+          streamDuration: 0
+          spawnInterval: 0
+          pathSpeed: 0
+          speedMode: 0
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 0
+          endBehavior: 0
+      bulletPrefab: {fileID: 0}
+      bulletCount: 0
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+        circleDistribution: 0
+      direction:
+        mode: 0
+        angle: 0
+        spread: 0
+        rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
+      motion:
+        overrideInitialSpeed: 0
+        initialSpeed: 0
+        speedTimeline: []
+        directionTimeline: []
+        syncDirectionTimelineToBurst: 0
+        burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: 0}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 0
+          speedMode: 0
+          duration: 0
+          easing: 0
+          endBehavior: 0
+        homing:
+          enabled: 0
+          startDelay: 0
+          duration: 0
+          turnSpeed: 0
+          keepSpread: 0
+        orbit:
+          enabled: 0
+          radius: 0
+          angularSpeed: 0
+          duration: 0
+          radiusBlendTime: 0
+          radiusVary: 0
+          radiusVaryScope: 0
+          startAngleVary: 0
+          startAngleVaryScope: 0
+          releaseMode: 0
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    loopPattern: 0
 --- !u!1 &1423556480
 GameObject:
   m_ObjectHideFlags: 0
@@ -23555,6 +26406,2296 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7aeb6607888164e4495807949e9726d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1438326604
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1438326605}
+  - component: {fileID: 1438326606}
+  m_Layer: 0
+  m_Name: Kraken - Orbital Line
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1438326605
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1438326604}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 464133346}
+  m_Father: {fileID: 201842471}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1438326606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1438326604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a473479aaeb14114a8b29abad600ba3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patternName: Kraken - Orbital Line
+  groups:
+  - groupName: Orbit1
+    initialDelay: 0
+    bursts:
+    - name: Burst 1
+      repeatCount: 20
+      repeatInterval: 0.01
+      delayAfter: 11.8
+      elements:
+      - elementName: FluffyCloudBullet_Scale40
+        bulletPrefab: {fileID: 1007197798}
+        bulletCount: 1
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 6
+          angle: 360
+          spread: 0
+          rotationPerRepeat: 18
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 160
+          speedTimeline: []
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: 0}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            rotateWithSpread: 0
+            varyMode: 0
+            varyAmount: 0
+            varyScope: 0
+            speedMode: 0
+            duration: 0
+            easing: 0
+            endBehavior: 0
+          homing:
+            enabled: 0
+            startDelay: 0
+            duration: 0
+            turnSpeed: 0
+            keepSpread: 0
+          orbit:
+            enabled: 1
+            radius: 360
+            angularSpeed: 20
+            duration: 9
+            radiusBlendTime: 0.4
+            radiusVary: 0
+            radiusVaryScope: 0
+            startAngleVary: 0
+            startAngleVaryScope: 0
+            releaseMode: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+        telegraph:
+          enabled: 0
+          duration: 0
+          lineWidth: 0
+          color: {r: 0, g: 0, b: 0, a: 0}
+          lineLength: 0
+          sortingOrder: 0
+          showOncePerPattern: 0
+        stream:
+          enabled: 0
+          mode: 0
+          startMode: 0
+          startTransform: {fileID: 0}
+          waypoints: []
+          useCurve: 0
+          streamDuration: 0
+          spawnInterval: 0
+          pathSpeed: 0
+          speedMode: 0
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 0
+          endBehavior: 0
+      bulletPrefab: {fileID: 0}
+      bulletCount: 0
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+        circleDistribution: 0
+      direction:
+        mode: 0
+        angle: 0
+        spread: 0
+        rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
+      motion:
+        overrideInitialSpeed: 0
+        initialSpeed: 0
+        speedTimeline: []
+        directionTimeline: []
+        syncDirectionTimelineToBurst: 0
+        burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: 0}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 0
+          speedMode: 0
+          duration: 0
+          easing: 0
+          endBehavior: 0
+        homing:
+          enabled: 0
+          startDelay: 0
+          duration: 0
+          turnSpeed: 0
+          keepSpread: 0
+        orbit:
+          enabled: 0
+          radius: 0
+          angularSpeed: 0
+          duration: 0
+          radiusBlendTime: 0
+          radiusVary: 0
+          radiusVaryScope: 0
+          startAngleVary: 0
+          startAngleVaryScope: 0
+          releaseMode: 0
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    loopPattern: 1
+  - groupName: Orbit2
+    initialDelay: 0.57
+    bursts:
+    - name: Burst 1
+      repeatCount: 18
+      repeatInterval: 0.01
+      delayAfter: 11.82
+      elements:
+      - elementName: FluffyCloudBullet_Scale40
+        bulletPrefab: {fileID: 1007197798}
+        bulletCount: 1
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 6
+          angle: 0
+          spread: 360
+          rotationPerRepeat: 20
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 160
+          speedTimeline: []
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: 0}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            rotateWithSpread: 0
+            varyMode: 0
+            varyAmount: 0
+            varyScope: 0
+            speedMode: 0
+            duration: 0
+            easing: 0
+            endBehavior: 0
+          homing:
+            enabled: 0
+            startDelay: 0
+            duration: 0
+            turnSpeed: 0
+            keepSpread: 0
+          orbit:
+            enabled: 1
+            radius: 330
+            angularSpeed: -20
+            duration: 8.43
+            radiusBlendTime: 0.4
+            radiusVary: 0
+            radiusVaryScope: 0
+            startAngleVary: 0
+            startAngleVaryScope: 0
+            releaseMode: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+        telegraph:
+          enabled: 0
+          duration: 0
+          lineWidth: 0
+          color: {r: 0, g: 0, b: 0, a: 0}
+          lineLength: 0
+          sortingOrder: 0
+          showOncePerPattern: 0
+        stream:
+          enabled: 0
+          mode: 0
+          startMode: 0
+          startTransform: {fileID: 0}
+          waypoints: []
+          useCurve: 0
+          streamDuration: 0
+          spawnInterval: 0
+          pathSpeed: 0
+          speedMode: 0
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 0
+          endBehavior: 0
+      bulletPrefab: {fileID: 0}
+      bulletCount: 0
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+        circleDistribution: 0
+      direction:
+        mode: 0
+        angle: 0
+        spread: 0
+        rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
+      motion:
+        overrideInitialSpeed: 0
+        initialSpeed: 0
+        speedTimeline: []
+        directionTimeline: []
+        syncDirectionTimelineToBurst: 0
+        burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: 0}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 0
+          speedMode: 0
+          duration: 0
+          easing: 0
+          endBehavior: 0
+        homing:
+          enabled: 0
+          startDelay: 0
+          duration: 0
+          turnSpeed: 0
+          keepSpread: 0
+        orbit:
+          enabled: 0
+          radius: 0
+          angularSpeed: 0
+          duration: 0
+          radiusBlendTime: 0
+          radiusVary: 0
+          radiusVaryScope: 0
+          startAngleVary: 0
+          startAngleVaryScope: 0
+          releaseMode: 0
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    loopPattern: 1
+  - groupName: Orbit3
+    initialDelay: 1.14
+    bursts:
+    - name: Burst 1
+      repeatCount: 18
+      repeatInterval: 0.01
+      delayAfter: 11.82
+      elements:
+      - elementName: FluffyCloudBullet_Scale40
+        bulletPrefab: {fileID: 1007197798}
+        bulletCount: 1
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 6
+          angle: 0
+          spread: 360
+          rotationPerRepeat: 20
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 160
+          speedTimeline: []
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: 0}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            rotateWithSpread: 0
+            varyMode: 0
+            varyAmount: 0
+            varyScope: 0
+            speedMode: 0
+            duration: 0
+            easing: 0
+            endBehavior: 0
+          homing:
+            enabled: 0
+            startDelay: 0
+            duration: 0
+            turnSpeed: 0
+            keepSpread: 0
+          orbit:
+            enabled: 1
+            radius: 300
+            angularSpeed: 20
+            duration: 7.86
+            radiusBlendTime: 0.4
+            radiusVary: 0
+            radiusVaryScope: 0
+            startAngleVary: 0
+            startAngleVaryScope: 0
+            releaseMode: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+        telegraph:
+          enabled: 0
+          duration: 0
+          lineWidth: 0
+          color: {r: 0, g: 0, b: 0, a: 0}
+          lineLength: 0
+          sortingOrder: 0
+          showOncePerPattern: 0
+        stream:
+          enabled: 0
+          mode: 0
+          startMode: 0
+          startTransform: {fileID: 0}
+          waypoints: []
+          useCurve: 0
+          streamDuration: 0
+          spawnInterval: 0
+          pathSpeed: 0
+          speedMode: 0
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 0
+          endBehavior: 0
+      bulletPrefab: {fileID: 0}
+      bulletCount: 0
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+        circleDistribution: 0
+      direction:
+        mode: 0
+        angle: 0
+        spread: 0
+        rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
+      motion:
+        overrideInitialSpeed: 0
+        initialSpeed: 0
+        speedTimeline: []
+        directionTimeline: []
+        syncDirectionTimelineToBurst: 0
+        burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: 0}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 0
+          speedMode: 0
+          duration: 0
+          easing: 0
+          endBehavior: 0
+        homing:
+          enabled: 0
+          startDelay: 0
+          duration: 0
+          turnSpeed: 0
+          keepSpread: 0
+        orbit:
+          enabled: 0
+          radius: 0
+          angularSpeed: 0
+          duration: 0
+          radiusBlendTime: 0
+          radiusVary: 0
+          radiusVaryScope: 0
+          startAngleVary: 0
+          startAngleVaryScope: 0
+          releaseMode: 0
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    loopPattern: 1
+  - groupName: Orbit4
+    initialDelay: 3
+    bursts:
+    - name: Burst 1
+      repeatCount: 20
+      repeatInterval: 0.01
+      delayAfter: 11.8
+      elements:
+      - elementName: FishBullet_Scale60
+        bulletPrefab: {fileID: 207101258}
+        bulletCount: 1
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 6
+          angle: 180
+          spread: 360
+          rotationPerRepeat: 18
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 160
+          speedTimeline: []
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: 0}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            rotateWithSpread: 0
+            varyMode: 0
+            varyAmount: 0
+            varyScope: 0
+            speedMode: 0
+            duration: 0
+            easing: 0
+            endBehavior: 0
+          homing:
+            enabled: 0
+            startDelay: 0
+            duration: 0
+            turnSpeed: 0
+            keepSpread: 0
+          orbit:
+            enabled: 1
+            radius: 270
+            angularSpeed: -20
+            duration: 6.57
+            radiusBlendTime: 0.4
+            radiusVary: 0
+            radiusVaryScope: 0
+            startAngleVary: 0
+            startAngleVaryScope: 0
+            releaseMode: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+        telegraph:
+          enabled: 0
+          duration: 0
+          lineWidth: 0
+          color: {r: 0, g: 0, b: 0, a: 0}
+          lineLength: 0
+          sortingOrder: 0
+          showOncePerPattern: 0
+        stream:
+          enabled: 0
+          mode: 0
+          startMode: 0
+          startTransform: {fileID: 0}
+          waypoints: []
+          useCurve: 0
+          streamDuration: 0
+          spawnInterval: 0
+          pathSpeed: 0
+          speedMode: 0
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 0
+          endBehavior: 0
+      bulletPrefab: {fileID: 0}
+      bulletCount: 0
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+        circleDistribution: 0
+      direction:
+        mode: 0
+        angle: 0
+        spread: 0
+        rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
+      motion:
+        overrideInitialSpeed: 0
+        initialSpeed: 0
+        speedTimeline: []
+        directionTimeline: []
+        syncDirectionTimelineToBurst: 0
+        burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: 0}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 0
+          speedMode: 0
+          duration: 0
+          easing: 0
+          endBehavior: 0
+        homing:
+          enabled: 0
+          startDelay: 0
+          duration: 0
+          turnSpeed: 0
+          keepSpread: 0
+        orbit:
+          enabled: 0
+          radius: 0
+          angularSpeed: 0
+          duration: 0
+          radiusBlendTime: 0
+          radiusVary: 0
+          radiusVaryScope: 0
+          startAngleVary: 0
+          startAngleVaryScope: 0
+          releaseMode: 0
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    loopPattern: 1
+  - groupName: Orbit5
+    initialDelay: 3.57
+    bursts:
+    - name: Burst 1
+      repeatCount: 16
+      repeatInterval: 0.01
+      delayAfter: 11.84
+      elements:
+      - elementName: FishBullet_Scale60
+        bulletPrefab: {fileID: 207101258}
+        bulletCount: 1
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 6
+          angle: 180
+          spread: 360
+          rotationPerRepeat: 22.5
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 160
+          speedTimeline: []
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: 0}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            rotateWithSpread: 0
+            varyMode: 0
+            varyAmount: 0
+            varyScope: 0
+            speedMode: 0
+            duration: 0
+            easing: 0
+            endBehavior: 0
+          homing:
+            enabled: 0
+            startDelay: 0
+            duration: 0
+            turnSpeed: 0
+            keepSpread: 0
+          orbit:
+            enabled: 1
+            radius: 240
+            angularSpeed: 20
+            duration: 6
+            radiusBlendTime: 0.4
+            radiusVary: 0
+            radiusVaryScope: 0
+            startAngleVary: 0
+            startAngleVaryScope: 0
+            releaseMode: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+        telegraph:
+          enabled: 0
+          duration: 0
+          lineWidth: 0
+          color: {r: 0, g: 0, b: 0, a: 0}
+          lineLength: 0
+          sortingOrder: 0
+          showOncePerPattern: 0
+        stream:
+          enabled: 0
+          mode: 0
+          startMode: 0
+          startTransform: {fileID: 0}
+          waypoints: []
+          useCurve: 0
+          streamDuration: 0
+          spawnInterval: 0
+          pathSpeed: 0
+          speedMode: 0
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 0
+          endBehavior: 0
+      bulletPrefab: {fileID: 0}
+      bulletCount: 0
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+        circleDistribution: 0
+      direction:
+        mode: 0
+        angle: 0
+        spread: 0
+        rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
+      motion:
+        overrideInitialSpeed: 0
+        initialSpeed: 0
+        speedTimeline: []
+        directionTimeline: []
+        syncDirectionTimelineToBurst: 0
+        burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: 0}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 0
+          speedMode: 0
+          duration: 0
+          easing: 0
+          endBehavior: 0
+        homing:
+          enabled: 0
+          startDelay: 0
+          duration: 0
+          turnSpeed: 0
+          keepSpread: 0
+        orbit:
+          enabled: 0
+          radius: 0
+          angularSpeed: 0
+          duration: 0
+          radiusBlendTime: 0
+          radiusVary: 0
+          radiusVaryScope: 0
+          startAngleVary: 0
+          startAngleVaryScope: 0
+          releaseMode: 0
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    loopPattern: 1
+  - groupName: Orbit6
+    initialDelay: 4.14
+    bursts:
+    - name: Burst 1
+      repeatCount: 16
+      repeatInterval: 0.01
+      delayAfter: 11.84
+      elements:
+      - elementName: FishBullet_Scale60
+        bulletPrefab: {fileID: 207101258}
+        bulletCount: 1
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 6
+          angle: 180
+          spread: 360
+          rotationPerRepeat: 22.5
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 160
+          speedTimeline: []
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: 0}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            rotateWithSpread: 0
+            varyMode: 0
+            varyAmount: 0
+            varyScope: 0
+            speedMode: 0
+            duration: 0
+            easing: 0
+            endBehavior: 0
+          homing:
+            enabled: 0
+            startDelay: 0
+            duration: 0
+            turnSpeed: 0
+            keepSpread: 0
+          orbit:
+            enabled: 1
+            radius: 210
+            angularSpeed: -20
+            duration: 5.43
+            radiusBlendTime: 0.4
+            radiusVary: 0
+            radiusVaryScope: 0
+            startAngleVary: 0
+            startAngleVaryScope: 0
+            releaseMode: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+        telegraph:
+          enabled: 0
+          duration: 0
+          lineWidth: 0
+          color: {r: 0, g: 0, b: 0, a: 0}
+          lineLength: 0
+          sortingOrder: 0
+          showOncePerPattern: 0
+        stream:
+          enabled: 0
+          mode: 0
+          startMode: 0
+          startTransform: {fileID: 0}
+          waypoints: []
+          useCurve: 0
+          streamDuration: 0
+          spawnInterval: 0
+          pathSpeed: 0
+          speedMode: 0
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 0
+          endBehavior: 0
+      bulletPrefab: {fileID: 0}
+      bulletCount: 0
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+        circleDistribution: 0
+      direction:
+        mode: 0
+        angle: 0
+        spread: 0
+        rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
+      motion:
+        overrideInitialSpeed: 0
+        initialSpeed: 0
+        speedTimeline: []
+        directionTimeline: []
+        syncDirectionTimelineToBurst: 0
+        burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: 0}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 0
+          speedMode: 0
+          duration: 0
+          easing: 0
+          endBehavior: 0
+        homing:
+          enabled: 0
+          startDelay: 0
+          duration: 0
+          turnSpeed: 0
+          keepSpread: 0
+        orbit:
+          enabled: 0
+          radius: 0
+          angularSpeed: 0
+          duration: 0
+          radiusBlendTime: 0
+          radiusVary: 0
+          radiusVaryScope: 0
+          startAngleVary: 0
+          startAngleVaryScope: 0
+          releaseMode: 0
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    loopPattern: 1
+  - groupName: Orbit7
+    initialDelay: 6
+    bursts:
+    - name: Burst 1
+      repeatCount: 16
+      repeatInterval: 0.01
+      delayAfter: 11.84
+      elements:
+      - elementName: BreadBullet_Scale60
+        bulletPrefab: {fileID: 1479434809}
+        bulletCount: 1
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 6
+          angle: 0
+          spread: 360
+          rotationPerRepeat: 22.5
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 160
+          speedTimeline: []
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: 0}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            rotateWithSpread: 0
+            varyMode: 0
+            varyAmount: 0
+            varyScope: 0
+            speedMode: 0
+            duration: 0
+            easing: 0
+            endBehavior: 0
+          homing:
+            enabled: 0
+            startDelay: 0
+            duration: 0
+            turnSpeed: 0
+            keepSpread: 0
+          orbit:
+            enabled: 1
+            radius: 180
+            angularSpeed: 16
+            duration: 4.1
+            radiusBlendTime: 0.4
+            radiusVary: 0
+            radiusVaryScope: 0
+            startAngleVary: 0
+            startAngleVaryScope: 0
+            releaseMode: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+        telegraph:
+          enabled: 0
+          duration: 0
+          lineWidth: 0
+          color: {r: 0, g: 0, b: 0, a: 0}
+          lineLength: 0
+          sortingOrder: 0
+          showOncePerPattern: 0
+        stream:
+          enabled: 0
+          mode: 0
+          startMode: 0
+          startTransform: {fileID: 0}
+          waypoints: []
+          useCurve: 0
+          streamDuration: 0
+          spawnInterval: 0
+          pathSpeed: 0
+          speedMode: 0
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 0
+          endBehavior: 0
+      bulletPrefab: {fileID: 0}
+      bulletCount: 0
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+        circleDistribution: 0
+      direction:
+        mode: 0
+        angle: 0
+        spread: 0
+        rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
+      motion:
+        overrideInitialSpeed: 0
+        initialSpeed: 0
+        speedTimeline: []
+        directionTimeline: []
+        syncDirectionTimelineToBurst: 0
+        burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: 0}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 0
+          speedMode: 0
+          duration: 0
+          easing: 0
+          endBehavior: 0
+        homing:
+          enabled: 0
+          startDelay: 0
+          duration: 0
+          turnSpeed: 0
+          keepSpread: 0
+        orbit:
+          enabled: 0
+          radius: 0
+          angularSpeed: 0
+          duration: 0
+          radiusBlendTime: 0
+          radiusVary: 0
+          radiusVaryScope: 0
+          startAngleVary: 0
+          startAngleVaryScope: 0
+          releaseMode: 0
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    loopPattern: 1
+  - groupName: Orbit8
+    initialDelay: 6.57
+    bursts:
+    - name: Burst 1
+      repeatCount: 16
+      repeatInterval: 0.01
+      delayAfter: 11.84
+      elements:
+      - elementName: BreadBullet_Scale60
+        bulletPrefab: {fileID: 1479434809}
+        bulletCount: 1
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 6
+          angle: 0
+          spread: 360
+          rotationPerRepeat: 22.5
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 160
+          speedTimeline: []
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: 0}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            rotateWithSpread: 0
+            varyMode: 0
+            varyAmount: 0
+            varyScope: 0
+            speedMode: 0
+            duration: 0
+            easing: 0
+            endBehavior: 0
+          homing:
+            enabled: 0
+            startDelay: 0
+            duration: 0
+            turnSpeed: 0
+            keepSpread: 0
+          orbit:
+            enabled: 1
+            radius: 150
+            angularSpeed: -16
+            duration: 3.55
+            radiusBlendTime: 0.4
+            radiusVary: 0
+            radiusVaryScope: 0
+            startAngleVary: 0
+            startAngleVaryScope: 0
+            releaseMode: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+        telegraph:
+          enabled: 0
+          duration: 0
+          lineWidth: 0
+          color: {r: 0, g: 0, b: 0, a: 0}
+          lineLength: 0
+          sortingOrder: 0
+          showOncePerPattern: 0
+        stream:
+          enabled: 0
+          mode: 0
+          startMode: 0
+          startTransform: {fileID: 0}
+          waypoints: []
+          useCurve: 0
+          streamDuration: 0
+          spawnInterval: 0
+          pathSpeed: 0
+          speedMode: 0
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 0
+          endBehavior: 0
+      bulletPrefab: {fileID: 0}
+      bulletCount: 0
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+        circleDistribution: 0
+      direction:
+        mode: 0
+        angle: 0
+        spread: 0
+        rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
+      motion:
+        overrideInitialSpeed: 0
+        initialSpeed: 0
+        speedTimeline: []
+        directionTimeline: []
+        syncDirectionTimelineToBurst: 0
+        burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: 0}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 0
+          speedMode: 0
+          duration: 0
+          easing: 0
+          endBehavior: 0
+        homing:
+          enabled: 0
+          startDelay: 0
+          duration: 0
+          turnSpeed: 0
+          keepSpread: 0
+        orbit:
+          enabled: 0
+          radius: 0
+          angularSpeed: 0
+          duration: 0
+          radiusBlendTime: 0
+          radiusVary: 0
+          radiusVaryScope: 0
+          startAngleVary: 0
+          startAngleVaryScope: 0
+          releaseMode: 0
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    loopPattern: 0
+  - groupName: Orbit9
+    initialDelay: 7.14
+    bursts:
+    - name: Burst 1
+      repeatCount: 16
+      repeatInterval: 0.01
+      delayAfter: 11.84
+      elements:
+      - elementName: BreadBullet_Scale60
+        bulletPrefab: {fileID: 1479434809}
+        bulletCount: 1
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 6
+          angle: 0
+          spread: 360
+          rotationPerRepeat: 22.5
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 160
+          speedTimeline: []
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: 0}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            rotateWithSpread: 0
+            varyMode: 0
+            varyAmount: 0
+            varyScope: 0
+            speedMode: 0
+            duration: 0
+            easing: 0
+            endBehavior: 0
+          homing:
+            enabled: 0
+            startDelay: 0
+            duration: 0
+            turnSpeed: 0
+            keepSpread: 0
+          orbit:
+            enabled: 1
+            radius: 120
+            angularSpeed: 16
+            duration: 3
+            radiusBlendTime: 0.4
+            radiusVary: 0
+            radiusVaryScope: 0
+            startAngleVary: 0
+            startAngleVaryScope: 0
+            releaseMode: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+        telegraph:
+          enabled: 0
+          duration: 0
+          lineWidth: 0
+          color: {r: 0, g: 0, b: 0, a: 0}
+          lineLength: 0
+          sortingOrder: 0
+          showOncePerPattern: 0
+        stream:
+          enabled: 0
+          mode: 0
+          startMode: 0
+          startTransform: {fileID: 0}
+          waypoints: []
+          useCurve: 0
+          streamDuration: 0
+          spawnInterval: 0
+          pathSpeed: 0
+          speedMode: 0
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 0
+          endBehavior: 0
+      bulletPrefab: {fileID: 0}
+      bulletCount: 0
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+        circleDistribution: 0
+      direction:
+        mode: 0
+        angle: 0
+        spread: 0
+        rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
+      motion:
+        overrideInitialSpeed: 0
+        initialSpeed: 0
+        speedTimeline: []
+        directionTimeline: []
+        syncDirectionTimelineToBurst: 0
+        burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: 0}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 0
+          speedMode: 0
+          duration: 0
+          easing: 0
+          endBehavior: 0
+        homing:
+          enabled: 0
+          startDelay: 0
+          duration: 0
+          turnSpeed: 0
+          keepSpread: 0
+        orbit:
+          enabled: 0
+          radius: 0
+          angularSpeed: 0
+          duration: 0
+          radiusBlendTime: 0
+          radiusVary: 0
+          radiusVaryScope: 0
+          startAngleVary: 0
+          startAngleVaryScope: 0
+          releaseMode: 0
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    loopPattern: 0
+  - groupName: Middle of the Path
+    initialDelay: 12
+    bursts:
+    - name: Burst 1
+      repeatCount: 10
+      repeatInterval: 0.05
+      delayAfter: 0.07
+      elements:
+      - elementName: TriangleTornadoBullet_Scale60
+        bulletPrefab: {fileID: 1253121746}
+        bulletCount: 6
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 6
+          angle: -90
+          spread: 360
+          rotationPerRepeat: 40
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 640
+          speedTimeline:
+          - targetSpeed: 160
+            duration: 2
+            easing: 3
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: 0}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            rotateWithSpread: 0
+            varyMode: 0
+            varyAmount: 0
+            varyScope: 0
+            speedMode: 0
+            duration: 0
+            easing: 0
+            endBehavior: 0
+          homing:
+            enabled: 0
+            startDelay: 0
+            duration: 0
+            turnSpeed: 0
+            keepSpread: 0
+          orbit:
+            enabled: 0
+            radius: 0
+            angularSpeed: 0
+            duration: 0
+            radiusBlendTime: 0
+            radiusVary: 0
+            radiusVaryScope: 0
+            startAngleVary: 0
+            startAngleVaryScope: 0
+            releaseMode: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+        telegraph:
+          enabled: 0
+          duration: 0
+          lineWidth: 0
+          color: {r: 0, g: 0, b: 0, a: 0}
+          lineLength: 0
+          sortingOrder: 0
+          showOncePerPattern: 0
+        stream:
+          enabled: 0
+          mode: 0
+          startMode: 0
+          startTransform: {fileID: 0}
+          waypoints: []
+          useCurve: 0
+          streamDuration: 0
+          spawnInterval: 0
+          pathSpeed: 0
+          speedMode: 0
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 0
+          endBehavior: 0
+      bulletPrefab: {fileID: 0}
+      bulletCount: 0
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+        circleDistribution: 0
+      direction:
+        mode: 0
+        angle: 0
+        spread: 0
+        rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
+      motion:
+        overrideInitialSpeed: 0
+        initialSpeed: 0
+        speedTimeline: []
+        directionTimeline: []
+        syncDirectionTimelineToBurst: 0
+        burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: 0}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 0
+          speedMode: 0
+          duration: 0
+          easing: 0
+          endBehavior: 0
+        homing:
+          enabled: 0
+          startDelay: 0
+          duration: 0
+          turnSpeed: 0
+          keepSpread: 0
+        orbit:
+          enabled: 0
+          radius: 0
+          angularSpeed: 0
+          duration: 0
+          radiusBlendTime: 0
+          radiusVary: 0
+          radiusVaryScope: 0
+          startAngleVary: 0
+          startAngleVaryScope: 0
+          releaseMode: 0
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    - name: Burst 2
+      repeatCount: 10
+      repeatInterval: 0.05
+      delayAfter: 0.07
+      elements:
+      - elementName: TriangleTornadoBullet_Scale60
+        bulletPrefab: {fileID: 1253121746}
+        bulletCount: 6
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 6
+          angle: -90
+          spread: -360
+          rotationPerRepeat: -40
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 400
+          speedTimeline:
+          - targetSpeed: 160
+            duration: 2
+            easing: 3
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: 0}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            rotateWithSpread: 0
+            varyMode: 0
+            varyAmount: 0
+            varyScope: 0
+            speedMode: 0
+            duration: 0
+            easing: 0
+            endBehavior: 0
+          homing:
+            enabled: 0
+            startDelay: 0
+            duration: 0
+            turnSpeed: 0
+            keepSpread: 0
+          orbit:
+            enabled: 0
+            radius: 0
+            angularSpeed: 0
+            duration: 0
+            radiusBlendTime: 0
+            radiusVary: 0
+            radiusVaryScope: 0
+            startAngleVary: 0
+            startAngleVaryScope: 0
+            releaseMode: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+        telegraph:
+          enabled: 0
+          duration: 0
+          lineWidth: 0
+          color: {r: 0, g: 0, b: 0, a: 0}
+          lineLength: 0
+          sortingOrder: 0
+          showOncePerPattern: 0
+        stream:
+          enabled: 0
+          mode: 0
+          startMode: 0
+          startTransform: {fileID: 0}
+          waypoints: []
+          useCurve: 0
+          streamDuration: 0
+          spawnInterval: 0
+          pathSpeed: 0
+          speedMode: 0
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 0
+          endBehavior: 0
+      bulletPrefab: {fileID: 0}
+      bulletCount: 0
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+        circleDistribution: 0
+      direction:
+        mode: 0
+        angle: 0
+        spread: 0
+        rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
+      motion:
+        overrideInitialSpeed: 0
+        initialSpeed: 0
+        speedTimeline: []
+        directionTimeline: []
+        syncDirectionTimelineToBurst: 0
+        burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: 0}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 0
+          speedMode: 0
+          duration: 0
+          easing: 0
+          endBehavior: 0
+        homing:
+          enabled: 0
+          startDelay: 0
+          duration: 0
+          turnSpeed: 0
+          keepSpread: 0
+        orbit:
+          enabled: 0
+          radius: 0
+          angularSpeed: 0
+          duration: 0
+          radiusBlendTime: 0
+          radiusVary: 0
+          radiusVaryScope: 0
+          startAngleVary: 0
+          startAngleVaryScope: 0
+          releaseMode: 0
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    - name: Burst 3
+      repeatCount: 10
+      repeatInterval: 0.05
+      delayAfter: 0.07
+      elements:
+      - elementName: TriangleTornadoBullet_Scale60
+        bulletPrefab: {fileID: 1253121746}
+        bulletCount: 6
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 6
+          angle: -90
+          spread: 360
+          rotationPerRepeat: 40
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 640
+          speedTimeline:
+          - targetSpeed: 160
+            duration: 2
+            easing: 3
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: 0}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            rotateWithSpread: 0
+            varyMode: 0
+            varyAmount: 0
+            varyScope: 0
+            speedMode: 0
+            duration: 0
+            easing: 0
+            endBehavior: 0
+          homing:
+            enabled: 0
+            startDelay: 0
+            duration: 0
+            turnSpeed: 0
+            keepSpread: 0
+          orbit:
+            enabled: 0
+            radius: 0
+            angularSpeed: 0
+            duration: 0
+            radiusBlendTime: 0
+            radiusVary: 0
+            radiusVaryScope: 0
+            startAngleVary: 0
+            startAngleVaryScope: 0
+            releaseMode: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+        telegraph:
+          enabled: 0
+          duration: 0
+          lineWidth: 0
+          color: {r: 0, g: 0, b: 0, a: 0}
+          lineLength: 0
+          sortingOrder: 0
+          showOncePerPattern: 0
+        stream:
+          enabled: 0
+          mode: 0
+          startMode: 0
+          startTransform: {fileID: 0}
+          waypoints: []
+          useCurve: 0
+          streamDuration: 0
+          spawnInterval: 0
+          pathSpeed: 0
+          speedMode: 0
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 0
+          endBehavior: 0
+      bulletPrefab: {fileID: 0}
+      bulletCount: 0
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+        circleDistribution: 0
+      direction:
+        mode: 0
+        angle: 0
+        spread: 0
+        rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
+      motion:
+        overrideInitialSpeed: 0
+        initialSpeed: 0
+        speedTimeline: []
+        directionTimeline: []
+        syncDirectionTimelineToBurst: 0
+        burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: 0}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 0
+          speedMode: 0
+          duration: 0
+          easing: 0
+          endBehavior: 0
+        homing:
+          enabled: 0
+          startDelay: 0
+          duration: 0
+          turnSpeed: 0
+          keepSpread: 0
+        orbit:
+          enabled: 0
+          radius: 0
+          angularSpeed: 0
+          duration: 0
+          radiusBlendTime: 0
+          radiusVary: 0
+          radiusVaryScope: 0
+          startAngleVary: 0
+          startAngleVaryScope: 0
+          releaseMode: 0
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    - name: 12345
+      repeatCount: 5
+      repeatInterval: 0.187
+      delayAfter: 0.375
+      elements:
+      - elementName: CircleBullet05
+        bulletPrefab: {fileID: 1289619177}
+        bulletCount: 18
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 0
+          angle: 0
+          spread: 360
+          rotationPerRepeat: 0
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 400
+          speedTimeline:
+          - targetSpeed: 160
+            duration: 2.4
+            easing: 0
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: 0}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            rotateWithSpread: 0
+            varyMode: 0
+            varyAmount: 0
+            varyScope: 0
+            speedMode: 0
+            duration: 0
+            easing: 0
+            endBehavior: 0
+          homing:
+            enabled: 0
+            startDelay: 0
+            duration: 0
+            turnSpeed: 0
+            keepSpread: 0
+          orbit:
+            enabled: 0
+            radius: 0
+            angularSpeed: 0
+            duration: 0
+            radiusBlendTime: 0
+            radiusVary: 0
+            radiusVaryScope: 0
+            startAngleVary: 0
+            startAngleVaryScope: 0
+            releaseMode: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 1
+            range: 40
+            scope: 2
+        telegraph:
+          enabled: 0
+          duration: 0
+          lineWidth: 0
+          color: {r: 0, g: 0, b: 0, a: 0}
+          lineLength: 0
+          sortingOrder: 0
+          showOncePerPattern: 0
+        stream:
+          enabled: 0
+          mode: 0
+          startMode: 0
+          startTransform: {fileID: 0}
+          waypoints: []
+          useCurve: 0
+          streamDuration: 0
+          spawnInterval: 0
+          pathSpeed: 0
+          speedMode: 0
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 0
+          endBehavior: 0
+      bulletPrefab: {fileID: 0}
+      bulletCount: 0
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+        circleDistribution: 0
+      direction:
+        mode: 0
+        angle: 0
+        spread: 0
+        rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
+      motion:
+        overrideInitialSpeed: 0
+        initialSpeed: 0
+        speedTimeline: []
+        directionTimeline: []
+        syncDirectionTimelineToBurst: 0
+        burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: 0}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 0
+          speedMode: 0
+          duration: 0
+          easing: 0
+          endBehavior: 0
+        homing:
+          enabled: 0
+          startDelay: 0
+          duration: 0
+          turnSpeed: 0
+          keepSpread: 0
+        orbit:
+          enabled: 0
+          radius: 0
+          angularSpeed: 0
+          duration: 0
+          radiusBlendTime: 0
+          radiusVary: 0
+          radiusVaryScope: 0
+          startAngleVary: 0
+          startAngleVaryScope: 0
+          releaseMode: 0
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    loopPattern: 1
+  - groupName: Splitter at 24
+    initialDelay: 24
+    bursts:
+    - name: Burst 1
+      repeatCount: 75
+      repeatInterval: 0.02
+      delayAfter: 1.5
+      elements:
+      - elementName: LightCircleBullet_Scale30
+        bulletPrefab: {fileID: 260285518}
+        bulletCount: 1
+        spawn:
+          mode: 2
+          offset: {x: 0, y: 0}
+          circleRadius: 40
+          circleDistribution: 1
+        direction:
+          mode: 5
+          angle: 0
+          spread: 360
+          rotationPerRepeat: 0
+          spreadDistribution: 0
+          spreadShape: 0
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 80
+          speedTimeline:
+          - targetSpeed: 320
+            duration: 2
+            easing: 3
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline: []
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: 0}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            rotateWithSpread: 0
+            varyMode: 0
+            varyAmount: 0
+            varyScope: 0
+            speedMode: 0
+            duration: 0
+            easing: 0
+            endBehavior: 0
+          homing:
+            enabled: 0
+            startDelay: 0
+            duration: 0
+            turnSpeed: 0
+            keepSpread: 0
+          orbit:
+            enabled: 0
+            radius: 0
+            angularSpeed: 0
+            duration: 0
+            radiusBlendTime: 0
+            radiusVary: 0
+            radiusVaryScope: 0
+            startAngleVary: 0
+            startAngleVaryScope: 0
+            releaseMode: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 0
+            scope: 0
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+        telegraph:
+          enabled: 0
+          duration: 0
+          lineWidth: 0
+          color: {r: 0, g: 0, b: 0, a: 0}
+          lineLength: 0
+          sortingOrder: 0
+          showOncePerPattern: 0
+        stream:
+          enabled: 0
+          mode: 0
+          startMode: 0
+          startTransform: {fileID: 0}
+          waypoints: []
+          useCurve: 0
+          streamDuration: 0
+          spawnInterval: 0
+          pathSpeed: 0
+          speedMode: 0
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 0
+          endBehavior: 0
+      bulletPrefab: {fileID: 0}
+      bulletCount: 0
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+        circleDistribution: 0
+      direction:
+        mode: 0
+        angle: 0
+        spread: 0
+        rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
+      motion:
+        overrideInitialSpeed: 0
+        initialSpeed: 0
+        speedTimeline: []
+        directionTimeline: []
+        syncDirectionTimelineToBurst: 0
+        burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: 0}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 0
+          speedMode: 0
+          duration: 0
+          easing: 0
+          endBehavior: 0
+        homing:
+          enabled: 0
+          startDelay: 0
+          duration: 0
+          turnSpeed: 0
+          keepSpread: 0
+        orbit:
+          enabled: 0
+          radius: 0
+          angularSpeed: 0
+          duration: 0
+          radiusBlendTime: 0
+          radiusVary: 0
+          radiusVaryScope: 0
+          startAngleVary: 0
+          startAngleVaryScope: 0
+          releaseMode: 0
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    loopPattern: 1
 --- !u!1 &1438725494
 GameObject:
   m_ObjectHideFlags: 0
@@ -23585,7 +28726,39 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1596827162}
+  - {fileID: 201842471}
   m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1443606221
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1443606222}
+  m_Layer: 0
+  m_Name: MovePos01
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1443606222
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1443606221}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 800, y: 900, z: 0}
+  m_LocalScale: {x: 20, y: 20, z: 20}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 580986440}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1447761448
 GameObject:
@@ -25862,8 +31035,8 @@ MonoBehaviour:
   sourceB: {fileID: 1342872608}
   normalStageMusic: {fileID: 8300000, guid: ae496c009ee72cb4fa82db18e958fbea, type: 3}
   bossMusic: {fileID: 8300000, guid: 54cffa76964583447ba72663d1395601, type: 3}
-  crossfadeDuration: 0
-  musicVolume: 0.7
+  crossfadeDuration: 1
+  musicVolume: 0.5
   playNormalMusicOnStart: 1
   debugTimingLogs: 1
 --- !u!1 &1620023857
@@ -26396,7 +31569,7 @@ MonoBehaviour:
     initialDelay: 0
     bursts:
     - name: x4
-      repeatCount: 4
+      repeatCount: 1
       repeatInterval: 0.08
       delayAfter: 1
       elements:
@@ -26410,7 +31583,7 @@ MonoBehaviour:
           circleDistribution: 0
         direction:
           mode: 0
-          angle: 0
+          angle: -90
           spread: 120
           rotationPerRepeat: 0
           spreadDistribution: 0
@@ -26442,7 +31615,7 @@ MonoBehaviour:
             easing: 0
             endBehavior: 0
           homing:
-            enabled: 1
+            enabled: 0
             startDelay: 1
             duration: 0.4
             turnSpeed: 160
@@ -31378,25 +36551,25 @@ MonoBehaviour:
     liveTime: 2
     endStyle: 1
     nextTextDelay: 3
-  - speakerId: Player
+  - speakerId: Lukari
     text: I... don't think I want to stay near water.
     startTime: 1
     liveTime: 2
     endStyle: 0
     nextTextDelay: 2
-  - speakerId: Player
+  - speakerId: Lukari
     text: Fishy a lot...
     startTime: 1
     liveTime: 2
     endStyle: 0
     nextTextDelay: 2
-  - speakerId: Player
+  - speakerId: Lukari
     text: I'm afraid my fire will got-
     startTime: 1
     liveTime: 1
     endStyle: 0
     nextTextDelay: 2
-  - speakerId: Player
+  - speakerId: Lukari
     text: ...extinguished from these little fish...
     startTime: 1
     liveTime: 2
@@ -31407,13 +36580,13 @@ MonoBehaviour:
     targetBoss: {fileID: 0}
     condition: 0
     entries:
-    - speakerId: Player
+    - speakerId: Lukari
       text: Maybe Not.
       startTime: 0
       liveTime: 2
       endStyle: 0
       nextTextDelay: 2
-    - speakerId: Player
+    - speakerId: Lukari
       text: What is that tornado???
       startTime: 0
       liveTime: 2
@@ -35195,7 +40368,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 938652484}
+  - {fileID: 111439539}
   - {fileID: 1804644030}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -35650,6 +40823,217 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1735954465}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2142780251
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2142780252}
+  - component: {fileID: 2142780253}
+  m_Layer: 0
+  m_Name: MiniFishSplit
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2142780252
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2142780251}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 906487652}
+  m_Father: {fileID: 1419580486}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2142780253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2142780251}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a473479aaeb14114a8b29abad600ba3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patternName: Kraken - RainingStorm
+  groups:
+  - groupName: MiniFishSplit
+    initialDelay: 0
+    bursts:
+    - name: FishDrop
+      repeatCount: 1
+      repeatInterval: 0.1
+      delayAfter: 0.1
+      elements:
+      - elementName: FishGoesDown_60
+        bulletPrefab: {fileID: 207101258}
+        bulletCount: 3
+        spawn:
+          mode: 0
+          offset: {x: 0, y: 0}
+          circleRadius: 0
+          circleDistribution: 0
+        direction:
+          mode: 0
+          angle: -90
+          spread: 90
+          rotationPerRepeat: 0
+          spreadDistribution: 0
+          spreadShape: 1
+        motion:
+          overrideInitialSpeed: 1
+          initialSpeed: 640
+          speedTimeline: []
+          directionTimeline: []
+          syncDirectionTimelineToBurst: 0
+          burstTimeline:
+          - name: Trigger 1
+            time: 0
+            pattern: {fileID: 906487653}
+            destroySelfAfterFire: 0
+          path:
+            enabled: 0
+            pointMode: 0
+            endOffset: {x: 0, y: 0}
+            endTransform: {fileID: 0}
+            useCurve: 0
+            controlOffset: {x: 0, y: 0}
+            controlTransform: {fileID: 0}
+            rotateWithSpread: 0
+            varyMode: 0
+            varyAmount: 0
+            varyScope: 0
+            speedMode: 0
+            duration: 0
+            easing: 0
+            endBehavior: 0
+          homing:
+            enabled: 0
+            startDelay: 1
+            duration: 0.8
+            turnSpeed: 80
+            keepSpread: 0.8
+          orbit:
+            enabled: 0
+            radius: 0
+            angularSpeed: 0
+            duration: 0
+            radiusBlendTime: 0
+            radiusVary: 0
+            radiusVaryScope: 0
+            startAngleVary: 0
+            startAngleVaryScope: 0
+            releaseMode: 0
+        modifiers:
+          randomAngle:
+            enabled: 0
+            range: 5
+            scope: 2
+          randomSpeed:
+            enabled: 0
+            range: 0
+            scope: 0
+        telegraph:
+          enabled: 0
+          duration: 0
+          lineWidth: 0
+          color: {r: 0, g: 0, b: 0, a: 0}
+          lineLength: 0
+          sortingOrder: 0
+          showOncePerPattern: 0
+        stream:
+          enabled: 0
+          mode: 0
+          startMode: 0
+          startTransform: {fileID: 0}
+          waypoints: []
+          useCurve: 0
+          streamDuration: 0
+          spawnInterval: 0
+          pathSpeed: 0
+          speedMode: 0
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 0
+          endBehavior: 0
+      bulletPrefab: {fileID: 0}
+      bulletCount: 0
+      spawn:
+        mode: 0
+        offset: {x: 0, y: 0}
+        circleRadius: 0
+        circleDistribution: 0
+      direction:
+        mode: 0
+        angle: 0
+        spread: 0
+        rotationPerRepeat: 0
+        spreadDistribution: 0
+        spreadShape: 0
+      motion:
+        overrideInitialSpeed: 0
+        initialSpeed: 0
+        speedTimeline: []
+        directionTimeline: []
+        syncDirectionTimelineToBurst: 0
+        burstTimeline: []
+        path:
+          enabled: 0
+          pointMode: 0
+          endOffset: {x: 0, y: 0}
+          endTransform: {fileID: 0}
+          useCurve: 0
+          controlOffset: {x: 0, y: 0}
+          controlTransform: {fileID: 0}
+          rotateWithSpread: 0
+          varyMode: 0
+          varyAmount: 0
+          varyScope: 0
+          speedMode: 0
+          duration: 0
+          easing: 0
+          endBehavior: 0
+        homing:
+          enabled: 0
+          startDelay: 0
+          duration: 0
+          turnSpeed: 0
+          keepSpread: 0
+        orbit:
+          enabled: 0
+          radius: 0
+          angularSpeed: 0
+          duration: 0
+          radiusBlendTime: 0
+          radiusVary: 0
+          radiusVaryScope: 0
+          startAngleVary: 0
+          startAngleVaryScope: 0
+          releaseMode: 0
+      modifiers:
+        randomAngle:
+          enabled: 0
+          range: 0
+          scope: 0
+        randomSpeed:
+          enabled: 0
+          range: 0
+          scope: 0
+    loopPattern: 0
 --- !u!1 &2147344892
 GameObject:
   m_ObjectHideFlags: 0
@@ -35881,6 +41265,15 @@ MonoBehaviour:
       movementOverride: []
       spawnAmount: 3
       spawnInterval: 5.4
+  - groupName: Boss
+    groupStartTime: 90
+    entries:
+    - spawnTime: 0
+      enemyPrefab: {fileID: 111439538}
+      spawnPoint: {fileID: 111439539}
+      movementOverride: []
+      spawnAmount: 1
+      spawnInterval: 0
   stageTimer: 0
   isTimerPaused: 0
 --- !u!4 &2147344895

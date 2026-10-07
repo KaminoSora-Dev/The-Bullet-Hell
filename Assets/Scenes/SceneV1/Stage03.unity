@@ -2105,7 +2105,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -142.5, y: -351.5}
+  m_AnchoredPosition: {x: -142.5, y: -351.50003}
   m_SizeDelta: {x: -925, y: -797}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &137425687
@@ -13320,7 +13320,7 @@ MonoBehaviour:
   blinkColor: {r: 1, g: 1, b: 1, a: 1}
   scoreValueOnDefeat: 60000
   itemDrop:
-    itemPrefab: {fileID: 0}
+    itemPrefab: {fileID: 1501471569}
     count: 1
   bodySprite: {fileID: 938652490}
   hitCollider: {fileID: 938652488}

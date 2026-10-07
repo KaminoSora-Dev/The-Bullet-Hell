@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using PoolingSystem;
 using EnemySystem;
+using AudioSystem;
 
 namespace StageSystem
 {
@@ -81,6 +82,16 @@ namespace StageSystem
     /// - หยุดอัตโนมัติเมื่อ Time.timeScale = 0
     /// - ระบบอื่นสามารถอ่านค่าได้ผ่าน StageTimer property
     /// - เมื่อขึ้น Scene/Stage ใหม่ ตัวใหม่จะเริ่มจาก 0
+    ///
+    /// MUSIC SYNC (เพิ่มใหม่):
+    /// - ถ้า MusicManager มี Stage Clock (นาฬิกาเพลงจาก dspTime) พร้อมใช้งาน
+    ///   StageTimer จะถูกปรับให้ตรงกับเพลงเสมอ - กระสุน/ศัตรูจึงตรงกับเพลง
+    ///   ไม่ว่าเสียงจะเริ่มช้า/เร็วแค่ไหน หรือเฟรมจะสะดุดหรือไม่
+    /// - ถ้ายังไม่มีนาฬิกาเพลง (หรือปิด syncToMusic) จะนับด้วย Time.deltaTime
+    ///   แบบเดิมทุกประการ
+    /// - StageTimer ไม่เคยเดินถอยหลัง (ถ้าเดินนำเพลง จะหยุดรอเพลงตามทัน)
+    /// - PauseTimer()/ResumeTimer() (เช่น ระหว่าง Dialogue) ยังทำงานเหมือนเดิม
+    ///   แม้เพลงจะเล่นต่อ: เวลาที่ Pause จะถูกหักออกจากนาฬิกาเพลงให้อัตโนมัติ
     /// </summary>
     public class StageSpawnerV1 : MonoBehaviour
     {
@@ -131,6 +142,58 @@ namespace StageSystem
 
 
         // ============================================================
+        // MUSIC SYNC (เพิ่มใหม่)
+        // ============================================================
+        //
+        // ซิงก์ StageTimer ตามนาฬิกาเพลงของ MusicManager (Stage Clock)
+        //
+        [Header("Music Sync (ซิงก์ StageTimer ตามเพลง)")]
+        [Tooltip(
+            "เปิด = StageTimer ตามเวลาเพลงของ MusicManager (แนะนำ)\n" +
+            "ปิด = นับด้วย Time.deltaTime แบบเดิมอย่างเดียว"
+        )]
+        [SerializeField]
+        private bool syncToMusic = true;
+
+        [Tooltip(
+            "ถ้า StageTimer คลาดจากเพลงเกินค่านี้ (วินาที) จะปรับให้ตรงทันที\n" +
+            "ถ้าน้อยกว่านี้จะค่อย ๆ ปรับแบบนุ่มนวล (กันเวลากระตุกจากความละเอียดของ dspTime)"
+        )]
+        [Min(0.01f)]
+        [SerializeField]
+        private float snapThreshold = 0.1f;
+
+        [Tooltip(
+            "ความเร็วในการปรับ drift เล็ก ๆ (ครั้ง/วินาที) ยิ่งมากยิ่งตามเพลงเร็ว"
+        )]
+        [Min(0f)]
+        [SerializeField]
+        private float correctionRate = 8f;
+
+        [Tooltip(
+            "ถ้า StageTimer กับเพลงต่างกันเกินค่านี้ (วินาที) ถือว่านาฬิกาเพลง\n" +
+            "ไม่เกี่ยวกับ Timeline นี้ (เช่น เพลงถูกสั่งเริ่มทีหลังมาก) -> ไม่ซิงก์\n" +
+            "และใช้ Time.deltaTime ต่อ พร้อมแจ้งเตือนใน Console 1 ครั้ง"
+        )]
+        [Min(0.5f)]
+        [SerializeField]
+        private float maxTrustedDrift = 3f;
+
+        [Tooltip("เปิด Log เมื่อมีการ Snap ปรับเวลาให้ตรงเพลง (ใช้ไล่บัค)")]
+        [SerializeField]
+        private bool debugSyncLogs = false;
+
+        // ค่าที่หักออกจากนาฬิกาเพลง เพื่อให้ได้ StageTimer
+        // (เพิ่มขึ้นเมื่อ Pause Timer ขณะเพลงเล่นต่อ หรือตอน ResetStageTimer)
+        private float musicClockOffset = 0f;
+
+        // เวลาของนาฬิกาเพลงตอนเรียก PauseTimer() (-1 = ไม่มีนาฬิกาตอนนั้น)
+        private float pauseStartMusicClock = -1f;
+
+        private bool syncRejectedLogged = false;
+
+
+        // ============================================================
         // TIMER PAUSE (เพิ่มใหม่)
         // ============================================================
         //
@@ -147,11 +210,29 @@ namespace StageSystem
 
         public void PauseTimer()
         {
+            // จดเวลาเพลง ณ จุดที่เริ่ม Pause (ถ้าเพลงเล่นต่อระหว่าง Pause
+            // จะได้รู้ว่าต้องหักออกเท่าไหร่ตอน Resume)
+            if (!isTimerPaused)
+            {
+                float clock;
+                pauseStartMusicClock = TryGetMusicClock(out clock) ? clock : -1f;
+            }
+
             isTimerPaused = true;
         }
 
         public void ResumeTimer()
         {
+            // หักช่วงเวลาที่ Pause ออกจากนาฬิกาเพลง เพื่อให้ StageTimer
+            // เดินต่อจากจุดเดิมพอดี ไม่ถูกดึงข้ามไปตามเพลงที่เล่นต่อ
+            if (isTimerPaused && pauseStartMusicClock >= 0f)
+            {
+                float clock;
+                if (TryGetMusicClock(out clock))
+                    musicClockOffset += clock - pauseStartMusicClock;
+            }
+
+            pauseStartMusicClock = -1f;
             isTimerPaused = false;
         }
 
@@ -176,6 +257,10 @@ namespace StageSystem
             // Timer ของ Stage นี้เริ่มจาก 0
             stageTimer = 0f;
             isTimerPaused = false;
+
+            musicClockOffset = 0f;
+            pauseStartMusicClock = -1f;
+            syncRejectedLogged = false;
 
             ResetSpawnStates();
         }
@@ -209,7 +294,9 @@ namespace StageSystem
             //
             // ซึ่งเหมาะกับ Loading / Pause / Cutscene
             //
-            stageTimer += Time.deltaTime;
+            // (เพิ่มใหม่) ถ้ามีนาฬิกาเพลง จะปรับให้ตรงกับเพลงด้วย
+            //
+            AdvanceStageTimer();
 
 
             // --------------------------------------------------------
@@ -289,6 +376,97 @@ namespace StageSystem
 
 
         // ============================================================
+        // STAGE TIMER ADVANCE + MUSIC SYNC (เพิ่มใหม่)
+        // ============================================================
+        //
+        // เดิน StageTimer ด้วย Time.deltaTime แล้วเทียบกับนาฬิกาเพลง:
+        //
+        //   target = นาฬิกาเพลง - musicClockOffset
+        //   drift  = target - (เวลาที่ควรจะเป็นถ้าเดินด้วย deltaTime ล้วน ๆ)
+        //
+        // - |drift| >= snapThreshold  -> ปรับให้ตรง target ทันที
+        //   (ถ้า target ต่ำกว่าเวลาปัจจุบัน = Timer นำเพลง -> หยุดรอเพลงตามทัน
+        //    เพราะ Timer ห้ามเดินถอยหลัง)
+        // - |drift| < snapThreshold   -> ค่อย ๆ ปรับตาม correctionRate
+        // - |drift| > maxTrustedDrift -> ไม่ซิงก์ (นาฬิกาเพลงน่าจะไม่เกี่ยวกับ
+        //   Timeline นี้) ใช้ deltaTime ล้วน ๆ
+        //
+        private void AdvanceStageTimer()
+        {
+            float dt = Time.deltaTime;
+
+            // timeScale = 0 (Loading / Pause) - ไม่ต้องทำอะไร
+            // (นาฬิกาเพลงก็ถูก Pause พร้อมกันอยู่แล้ว)
+            if (dt <= 0f)
+                return;
+
+            float previous = stageTimer;
+            float next = previous + dt;
+
+            float musicClock;
+            if (TryGetMusicClock(out musicClock))
+            {
+                float target = musicClock - musicClockOffset;
+                float drift = target - next;
+                float absDrift = Mathf.Abs(drift);
+
+                if (absDrift > maxTrustedDrift)
+                {
+                    if (!syncRejectedLogged)
+                    {
+                        syncRejectedLogged = true;
+
+                        Debug.LogWarning(
+                            $"StageSpawnerV1: StageTimer ({next:F2}s) ต่างจากนาฬิกาเพลง " +
+                            $"({target:F2}s) เกิน maxTrustedDrift ({maxTrustedDrift:F1}s) " +
+                            "- ปิดการซิงก์ชั่วคราวและใช้ Time.deltaTime ต่อ " +
+                            "(เช็คว่าเพลงฉากปกติถูกสั่งเล่นช้ากว่าที่ควรหรือไม่)"
+                        );
+                    }
+                }
+                else if (absDrift >= snapThreshold)
+                {
+                    if (debugSyncLogs)
+                    {
+                        Debug.Log(
+                            $"[StageSpawner] Sync snap: StageTimer {next:F3}s → {target:F3}s " +
+                            $"(drift {drift:+0.000;-0.000}s)"
+                        );
+                    }
+
+                    next = target;
+                }
+                else
+                {
+                    next += drift * Mathf.Clamp01(correctionRate * dt);
+                }
+            }
+
+            // Timer ห้ามเดินถอยหลัง
+            stageTimer = Mathf.Max(next, previous);
+        }
+
+
+        /// <summary>
+        /// อ่านนาฬิกาเพลงจาก MusicManager (ถ้าเปิด syncToMusic และนาฬิกาพร้อมแล้ว)
+        /// </summary>
+        private bool TryGetMusicClock(out float clock)
+        {
+            clock = 0f;
+
+            if (!syncToMusic)
+                return false;
+
+            MusicManager music = MusicManager.Instance;
+
+            if (music == null)
+                return false;
+
+            return music.TryGetStageClock(out clock);
+        }
+
+
+        // ============================================================
         // STAGE TIMER CONTROL
         // ============================================================
 
@@ -296,11 +474,21 @@ namespace StageSystem
         /// รีเซ็ต Timer ของ Stage กลับเป็น 0
         ///
         /// ใช้กรณี Restart Stage โดยไม่โหลด Scene ใหม่
+        ///
+        /// (เพิ่มใหม่) ถ้านาฬิกาเพลงกำลังเดินอยู่ จะถือว่า "เวลาเพลง ณ ตอนนี้"
+        /// คือ StageTimer = 0 - ถ้าต้องการให้เริ่มใหม่พร้อมเพลง ให้สั่ง
+        /// MusicManager.StopMusic() แล้วเล่นเพลงใหม่ ซึ่งจะเริ่มนาฬิกาเพลงจาก 0 เอง
         /// </summary>
         public void ResetStageTimer()
         {
             stageTimer = 0f;
             isTimerPaused = false;
+
+            pauseStartMusicClock = -1f;
+            syncRejectedLogged = false;
+
+            float clock;
+            musicClockOffset = TryGetMusicClock(out clock) ? clock : 0f;
 
             ResetSpawnStates();
         }
